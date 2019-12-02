@@ -39,4 +39,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/yearTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Beginning Year of Production"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/yearText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/modelTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Model Number"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/modelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

@@ -21,7 +21,7 @@ import java.io.OutputStream;
  * MacIndexer Android application and Specs database
  * University of Illinois, CS125 FA19 Final Project
  *
- *
+ * https://github.com/paizhangpi/MacIndex/
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
             final String thisName = cursor.getString(cursor.getColumnIndex("name"));
             final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
             final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
+            final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
+            final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
             machineName.setText(thisName);
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("name", thisName);
                     intent.putExtra("processor", thisProcessor);
                     intent.putExtra("maxram", thisMaxRAM);
+                    intent.putExtra("year", thisYear);
+                    intent.putExtra("model", thisModel);
                     startActivity(intent);
                 }
             });
