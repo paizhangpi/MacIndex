@@ -27,6 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Classic Macintosh"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -41,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="eMac"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -55,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="iMac"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -69,6 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Mac mini"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -83,6 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Performa"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -97,6 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Power Macintosh"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -111,6 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Power Mac G3/G4/G5"
+                    android:textColor="#F44336"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -125,6 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="iBook"
+                    android:textColor="#00BCD4"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -139,6 +147,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PowerBook"
+                    android:textColor="#00BCD4"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -153,6 +162,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PowerBook G3/G4"
+                    android:textColor="#00BCD4"
                     android:textStyle="bold" />
             </LinearLayout>
 

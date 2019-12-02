@@ -18,13 +18,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * MacIndexer Android application and Specs database
+ * MacIndex Android application and Specs database
  * University of Illinois, CS125 FA19 Final Project
  *
+ * For additional Database Design Information, please refer to:
  * https://github.com/paizhangpi/MacIndex/
  */
 public class MainActivity extends AppCompatActivity {
-
 
     private SQLiteDatabase database;
 
@@ -60,12 +60,20 @@ public class MainActivity extends AppCompatActivity {
         database = dbHelper.getReadableDatabase();
     }
 
+    /**
+     * If new category, or data category was added, database structure was changed.
+     * Thus, code update is necessary to handle new data. Please refer to:
+     * https://github.com/paizhangpi/MacIndex/
+     *
+     * Not necessary if only new machine was added.
+     */
     private void initInterface() {
-        for (int i = 0; i < 1; i++) {
-            // to be dynamic with CategoryHelper
-            LinearLayout currentLayout = findViewById(R.id.category0Layout);
+        // Change the number below.
+        for (int i = 0; i <= 9; i++) {
+            LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
             initCategory(currentLayout, i);
         }
+        // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }
 
     private void initCategory(LinearLayout currentLayout, int category) {
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
             View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
             TextView machineName = mainChunk.findViewById(R.id.machineName);
             Button viewButton = mainChunk.findViewById(R.id.viewButton);
+            // Create a String for each data category. Update here.
             final String thisName = cursor.getString(cursor.getColumnIndex("name"));
             final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
             final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
@@ -85,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View unused) {
                     Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
+                    // Put each String to Specs Intent. Update here.
                     intent.putExtra("name", thisName);
                     intent.putExtra("processor", thisProcessor);
                     intent.putExtra("maxram", thisMaxRAM);
