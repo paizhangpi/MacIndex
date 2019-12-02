@@ -3,4 +3,40 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/nameTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Machine Name"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/processorTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Processor Type"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/processorText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/maxramTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Maximum RAM"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/maxramText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

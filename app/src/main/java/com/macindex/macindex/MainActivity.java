@@ -2,6 +2,7 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -60,17 +61,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
-        View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
-        TextView machineName = mainChunk.findViewById(R.id.machineName);
-        Button viewButton = mainChunk.findViewById(R.id.viewButton);
         for (int i = 0; i < 1; i++) {
+            // to be dynamic with CategoryHelper
             LinearLayout currentLayout = findViewById(R.id.category0Layout);
-            Cursor cursor = database.query("category" + String.valueOf(i), new String[]{"name"},
-                    null, null, null, null, null);
-            while (cursor.moveToNext()) {
-                machineName.setText(cursor.getString(cursor.getColumnIndex("name")));
-                currentLayout.addView(mainChunk);
-            }
+            initCategory(currentLayout, i);
+        }
+    }
+
+    private void initCategory(LinearLayout currentLayout, int category) {
+        Cursor cursor = database.query("category" + String.valueOf(category), null,
+                null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
+            TextView machineName = mainChunk.findViewById(R.id.machineName);
+            Button viewButton = mainChunk.findViewById(R.id.viewButton);
+            final String thisName = cursor.getString(cursor.getColumnIndex("name"));
+            final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
+            final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
+            machineName.setText(thisName);
+            viewButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View unused) {
+                    Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
+                    intent.putExtra("name", thisName);
+                    intent.putExtra("processor", thisProcessor);
+                    intent.putExtra("maxram", thisMaxRAM);
+                    startActivity(intent);
+                }
+            });
+            currentLayout.addView(mainChunk);
         }
     }
 }
