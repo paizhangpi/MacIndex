@@ -1,13 +1,7 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
@@ -19,15 +13,15 @@ import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SQLiteDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initDatabase();
-        DatabaseHelper db = new DatabaseHelper(this);
-        db.open();
-        db.close();
+        database.query("category0", null, null, null, null, null, null, null);
     }
 
     private void initDatabase() {
@@ -40,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
             OutputStream outputStream = new FileOutputStream(dbFilePath);
             byte[] buffer = new byte[1024];
             int length;
-            while ((length = inputStream.read(buffer))>0)
+            while ((length = inputStream.read(buffer)) > 0)
             {
                 outputStream.write(buffer, 0, length);
             }
@@ -50,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e){
             // To catch
         }
+        DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
+        database = dbHelper.getReadableDatabase();
     }
-
 }
