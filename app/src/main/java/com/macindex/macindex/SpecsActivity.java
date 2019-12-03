@@ -13,6 +13,7 @@ public class SpecsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specs);
         Intent intent = getIntent();
+        this.setTitle(intent.getStringExtra("name"));
         // Initialize TextView for each data category. Update necessary.
         TextView name = findViewById(R.id.nameText);
         TextView processor = findViewById(R.id.processorText);
