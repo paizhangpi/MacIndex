@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">Specs</string>
+    <string name="information">Final project for CS 125. Project credit to Paizhang Pi and Victor
+        Jiao. Visit https://github.com/paizhangpi/MacIndex for more information.</string>
+
 </resources>

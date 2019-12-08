@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SpecsActivity extends AppCompatActivity {
@@ -20,6 +21,8 @@ public class SpecsActivity extends AppCompatActivity {
         TextView maxram = findViewById(R.id.maxramText);
         TextView year = findViewById(R.id.yearText);
         TextView model = findViewById(R.id.modelText);
+        ImageView image = findViewById(R.id.pic);
+
         name.setText(intent.getStringExtra("name"));
         processor.setText(intent.getStringExtra("processor"));
         maxram.setText(intent.getStringExtra("maxram"));
