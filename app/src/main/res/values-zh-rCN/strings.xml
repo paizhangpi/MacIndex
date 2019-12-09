@@ -5,6 +5,7 @@
     <string name="information">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex\n\n这是 UIUC CS125 FA19 的 Final Project 之一。\n创建者为 paizhangpi 与 Victor
         Jiao。\n由 paizhangpi 完成中文翻译。\n\n若欲获知更多信息与版权说明，请访问上方的 GitHub 链接。</string>
     <string name="information_short">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex</string>
+    <string name="version">版本 1.191209 中文版</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>

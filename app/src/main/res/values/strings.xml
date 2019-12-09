@@ -4,6 +4,7 @@
     <string name="information">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex\n\nThis is part of University of Illinois, CS125 FA19 Final Project.\nProject credit to paizhangpi and Victor
         Jiao.\n\nFor more information, copyright acknowledgement, please visit GitHub link above.</string>
     <string name="information_short">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex</string>
+    <string name="version">Version 1.191209</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
