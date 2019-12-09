@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         };
-        time.schedule(task, 1500);
+        time.schedule(task, 2000);
     }
 }

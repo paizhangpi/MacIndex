@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:text="@string/version"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,7 +33,6 @@
             android:layout_height="wrap_content"
             android:text="@string/information"
             android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>
