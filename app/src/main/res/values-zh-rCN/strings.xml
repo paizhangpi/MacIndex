@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MacIndex</string>
+    <string name="btn_spec">查看参数</string>
+    <string name="category0">经典 Macintosh</string>
+    <string name="category1">eMac</string>
+    <string name="category2">iMac</string>
+    <string name="category3">Mac mini</string>
+    <string name="category4">Performa</string>
+    <string name="category5">Power Macintosh</string>
+    <string name="category6">Power Mac G3/G4/G5</string>
+    <string name="category7">iBook</string>
+    <string name="category8">PowerBook</string>
+    <string name="category9">PowerBook G3/G4</string>
+    <string name="information">\nMacIndex Android 应用程序与其数据库 \ngithub.com/paizhangpi/MacIndex\n\n这是伊利诺伊大学 CS125 2019 秋季的 Final Project 之一。\n制作者为 paizhangpi 与 Victor
+        Jiao。</string>
+    <string name="information_short">\nMacIndex Android 应用程序与其数据库 \ngithub.com/paizhangpi/MacIndex</string>
+    <string name="maxram">最大内存</string>
+    <string name="model">型号</string>
+    <string name="name">名字</string>
+    <string name="processor">处理器类型</string>
+    <string name="title_activity_specs">参数</string>
+    <string name="year">制造年期</string>
+</resources>

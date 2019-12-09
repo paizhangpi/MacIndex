@@ -19,4 +19,5 @@
     <string name="maxram">Maximum RAM</string>
     <string name="year">Production Year</string>
     <string name="model">Model Number</string>
+    <string name="btn_spec">View Spec</string>
 </resources>
