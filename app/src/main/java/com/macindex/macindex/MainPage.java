@@ -64,12 +64,11 @@ public class MainPage extends AppCompatActivity {
             inputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this).setMessage("Database initialization failed.\n\n" +
-                    "For additional information, please refer to GitHub readme.")
-                    .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            finish();
-                        }}).setTitle("Fatal Error").setCancelable(false).show();
+            new AlertDialog.Builder(this)
+                    .setMessage(this.getResources().getString(R.string.err_db_init))
+                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
         DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
         database = dbHelper.getReadableDatabase();
@@ -133,12 +132,11 @@ public class MainPage extends AppCompatActivity {
                                     Log.i("h", "Created image format");
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    new AlertDialog.Builder(MainPage.this).setMessage("Image data is invalid.\n\n" +
-                                            "For additional information, please refer to GitHub readme.")
-                                            .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
-                                                public void onClick(final DialogInterface dialog, final int id) {
-                                                    finish();
-                                                }}).setTitle("Fatal Error").setCancelable(false).show();
+                                    new AlertDialog.Builder(MainPage.this)
+                                            .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
+                                            .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                                                public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                                            .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
                                 }
                                 path = file.getPath();
                             } catch (Exception e) {
@@ -153,12 +151,11 @@ public class MainPage extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this).setMessage("Database query mismatch.\n\n" +
-                    "For additional information, please refer to GitHub readme.")
-                    .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            finish();
-                        }}).setTitle("Fatal Error").setCancelable(false).show();
+            new AlertDialog.Builder(this)
+                    .setMessage(this.getResources().getString(R.string.err_db_query))
+                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
     }
 }

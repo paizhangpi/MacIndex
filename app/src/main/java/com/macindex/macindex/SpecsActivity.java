@@ -51,11 +51,11 @@ public class SpecsActivity extends AppCompatActivity {
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this).setMessage("One or more intent argument is illegal.\n\n" +
-                    "For additional information, please refer to GitHub readme.")
-                    .setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                        }}).setTitle("Warning").setCancelable(false).show();
+            new AlertDialog.Builder(this)
+                    .setMessage(this.getResources().getString(R.string.err_intent_invalid))
+                    .setNegativeButton(this.getResources().getString(R.string.dismiss), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) { }})
+                    .setTitle(this.getResources().getString(R.string.warning)).setCancelable(false).show();
         }
     }
 }

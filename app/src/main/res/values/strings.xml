@@ -2,7 +2,7 @@
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">Specs</string>
     <string name="information">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex\n\nThis is part of University of Illinois, CS125 FA19 Final Project.\nProject credit to paizhangpi and Victor
-        Jiao.</string>
+        Jiao.\n\nFor more information, copyright acknowledgement, please visit GitHub link above.</string>
     <string name="information_short">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
@@ -20,4 +20,12 @@
     <string name="year">Production Year</string>
     <string name="model">Model Number</string>
     <string name="btn_spec">View Spec</string>
+    <string name="error">Fatal Error</string>
+    <string name="warning">Warning!</string>
+    <string name="quit">Quit</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="err_db_init">Database initialization failed.\n\nFor additional information, please refer to GitHub readme.</string>
+    <string name="err_db_query">Database query mismatch.\n\nFor additional information, please refer to GitHub readme.</string>
+    <string name="err_image_invalid">Image data is invalid.\n\nFor additional information, please refer to GitHub readme.</string>
+    <string name="err_intent_invalid">One or more intent argument is invalid.\n\nFor additional information, please refer to GitHub readme.</string>
 </resources>

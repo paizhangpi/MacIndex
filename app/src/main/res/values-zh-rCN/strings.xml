@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="btn_spec">查看参数</string>
+    <string name="title_activity_specs">参数</string>
+    <string name="information">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex\n\n这是 UIUC CS125 FA19 的 Final Project 之一。\n创建者为 paizhangpi 与 Victor
+        Jiao.\n\n若欲获知更多信息与版权说明，请访问上方的 GitHub 链接。</string>
+    <string name="information_short">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
@@ -12,13 +15,18 @@
     <string name="category7">iBook</string>
     <string name="category8">PowerBook</string>
     <string name="category9">PowerBook G3/G4</string>
-    <string name="information">\nMacIndex Android 应用程序与其数据库 \ngithub.com/paizhangpi/MacIndex\n\n这是伊利诺伊大学 CS125 2019 秋季的 Final Project 之一。\n制作者为 paizhangpi 与 Victor
-        Jiao。</string>
-    <string name="information_short">\nMacIndex Android 应用程序与其数据库 \ngithub.com/paizhangpi/MacIndex</string>
-    <string name="maxram">最大内存</string>
-    <string name="model">型号</string>
     <string name="name">名字</string>
     <string name="processor">处理器类型</string>
-    <string name="title_activity_specs">参数</string>
-    <string name="year">制造年期</string>
+    <string name="maxram">最大 RAM</string>
+    <string name="year">生产年期</string>
+    <string name="model">型号</string>
+    <string name="btn_spec">查看参数</string>
+    <string name="error">致命错误</string>
+    <string name="warning">警告！</string>
+    <string name="quit">退出</string>
+    <string name="dismiss">取消</string>
+    <string name="err_db_init">数据库初始化失败。\n\n更多信息，请参考 GitHub 主页。</string>
+    <string name="err_db_query">数据库查询不匹配。\n\n更多信息，请参考 GitHub 主页。</string>
+    <string name="err_image_invalid">图像数据无效。\n\n更多信息，请参考 GitHub 主页。</string>
+    <string name="err_intent_invalid">至少一个 Android 意图参数无效。\n\n更多信息，请参考 GitHub 主页。</string>
 </resources>
