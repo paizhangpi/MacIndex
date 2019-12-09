@@ -47,9 +47,10 @@ public class MainPage extends AppCompatActivity {
     private void initDatabase() {
         String appDataPath = this.getApplicationInfo().dataDir;
         File dbFolder = new File(appDataPath + "/databases");
-        dbFolder.mkdir();
         File dbFilePath = new File(appDataPath + "/databases/specs.db");
         try {
+            dbFolder.delete();
+            dbFolder.mkdir();
             InputStream inputStream = this.getAssets().open("specs.db");
             OutputStream outputStream = new FileOutputStream(dbFilePath);
             byte[] buffer = new byte[1024];
@@ -62,12 +63,13 @@ public class MainPage extends AppCompatActivity {
             outputStream.close();
             inputStream.close();
         } catch (Exception e) {
-            new AlertDialog.Builder(this).setMessage("Sorry, database initialization error occurred.\n\n" +
+            e.printStackTrace();
+            new AlertDialog.Builder(this).setMessage("Database initialization failed.\n\n" +
                     "For additional information, please refer to GitHub readme.")
                     .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
                             finish();
-                        }}).setTitle("Error").setTitle("Fatal Error").setCancelable(false).show();
+                        }}).setTitle("Fatal Error").setCancelable(false).show();
         }
         DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
         database = dbHelper.getReadableDatabase();
@@ -92,7 +94,7 @@ public class MainPage extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
-            Cursor cursor = database.query("category" + String.valueOf(category), null,
+            Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
@@ -130,11 +132,17 @@ public class MainPage extends AppCompatActivity {
                                     // bmp is your Bitmap instance
                                     // PNG is a lossless format, the compression factor (100) is ignored
                                     Log.i("h", "Created image format");
-                                } catch (IOException e) {
+                                } catch (Exception e) {
                                     e.printStackTrace();
+                                    new AlertDialog.Builder(MainPage.this).setMessage("Image data is invalid.\n\n" +
+                                            "For additional information, please refer to GitHub readme.")
+                                            .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
+                                                public void onClick(final DialogInterface dialog, final int id) {
+                                                    finish();
+                                                }}).setTitle("Fatal Error").setCancelable(false).show();
                                 }
                                 path = file.getPath();
-                            } catch (IOException e) {
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -147,15 +155,13 @@ public class MainPage extends AppCompatActivity {
                 currentLayout.addView(mainChunk);
             }
         } catch (Exception e) {
-            new AlertDialog.Builder(this).setMessage("Sorry, database query error occurred.\n\n" +
+            e.printStackTrace();
+            new AlertDialog.Builder(this).setMessage("Database query mismatch.\n\n" +
                     "For additional information, please refer to GitHub readme.")
-                    .setPositiveButton("DISMISS", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            dialog.dismiss();
-                        }}).setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
-                public void onClick(final DialogInterface dialog, final int id) {
-                    finish();
-                }}).setTitle("Error").setCancelable(false).show();
+                            finish();
+                        }}).setTitle("Fatal Error").setCancelable(false).show();
         }
     }
 }

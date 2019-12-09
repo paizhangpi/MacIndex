@@ -2,6 +2,8 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,34 +25,39 @@ public class SpecsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.i("thing", "called new spec");
         setContentView(R.layout.activity_specs);
-        Intent intent = getIntent();
-        this.setTitle(intent.getStringExtra("name"));
-        // Initialize TextView for each data category. Update necessary.
-        TextView name = findViewById(R.id.nameText);
-        TextView processor = findViewById(R.id.processorText);
-        TextView maxram = findViewById(R.id.maxramText);
-        TextView year = findViewById(R.id.yearText);
-        TextView model = findViewById(R.id.modelText);
-        ImageView image = findViewById(R.id.pic);
-
-        name.setText(intent.getStringExtra("name"));
-        processor.setText(intent.getStringExtra("processor"));
-        maxram.setText(intent.getStringExtra("maxram"));
-        year.setText(intent.getStringExtra("year"));
-        model.setText(intent.getStringExtra("model"));
-
-        String path = intent.getStringExtra("path");
-
-        File file;
         try {
-            file = new File(path);
+            Intent intent = getIntent();
+            this.setTitle(intent.getStringExtra("name"));
+            // Initialize TextView for each data category. Update necessary.
+            TextView name = findViewById(R.id.nameText);
+            TextView processor = findViewById(R.id.processorText);
+            TextView maxram = findViewById(R.id.maxramText);
+            TextView year = findViewById(R.id.yearText);
+            TextView model = findViewById(R.id.modelText);
+            ImageView image = findViewById(R.id.pic);
+
+            name.setText(intent.getStringExtra("name"));
+            processor.setText(intent.getStringExtra("processor"));
+            maxram.setText(intent.getStringExtra("maxram"));
+            year.setText(intent.getStringExtra("year"));
+            model.setText(intent.getStringExtra("model"));
+
+            String path = intent.getStringExtra("path");
+
+            File file = new File(path);
             if (file.exists()) {
-                Log.i("Thing", "File exists");
+                Log.i("thing", "file exists");
                 image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
             }
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
+            new AlertDialog.Builder(this).setMessage("Intent argument is illegal.\n\n" +
+                    "For additional information, please refer to GitHub readme.")
+                    .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            finish();
+                        }}).setTitle("Fatal Error").setCancelable(false).show();
         }
     }
 }
