@@ -3,15 +3,25 @@ package com.macindex.macindex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 public class SpecsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("thing", "called new spec");
         setContentView(R.layout.activity_specs);
         Intent intent = getIntent();
         this.setTitle(intent.getStringExtra("name"));
@@ -28,5 +38,19 @@ public class SpecsActivity extends AppCompatActivity {
         maxram.setText(intent.getStringExtra("maxram"));
         year.setText(intent.getStringExtra("year"));
         model.setText(intent.getStringExtra("model"));
+
+        String path = intent.getStringExtra("path");
+
+        File file;
+        try {
+            file = new File(path);
+            if (file.exists()) {
+                Log.i("Thing", "File exists");
+                image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
+            }
+            file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

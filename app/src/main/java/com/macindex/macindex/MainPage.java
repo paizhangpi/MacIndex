@@ -7,16 +7,23 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Blob;
+import java.sql.ResultSet;
 
 /**
  * MacIndex Android application and Specs database
@@ -97,6 +104,8 @@ public class MainPage extends AppCompatActivity {
                 final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
                 final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
                 final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
+                final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
+
                 machineName.setText(thisName);
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -108,6 +117,30 @@ public class MainPage extends AppCompatActivity {
                         intent.putExtra("maxram", thisMaxRAM);
                         intent.putExtra("year", thisYear);
                         intent.putExtra("model", thisModel);
+
+                        String path = null;
+
+                        if (thisBlob != null) {
+                            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
+                            Log.i("h", "Converted blob to bitmap");
+                            try {
+                                File file = File.createTempFile("tempF", ".tmp");
+                                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out); //
+                                    // bmp is your Bitmap instance
+                                    // PNG is a lossless format, the compression factor (100) is ignored
+                                    Log.i("h", "Created image format");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                path = file.getPath();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        intent.putExtra("path", path);
+
                         startActivity(intent);
                     }
                 });
