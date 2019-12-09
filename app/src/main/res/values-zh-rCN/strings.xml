@@ -3,7 +3,7 @@
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">参数</string>
     <string name="information">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex\n\n这是 UIUC CS125 FA19 的 Final Project 之一。\n创建者为 paizhangpi 与 Victor
-        Jiao.\n\n若欲获知更多信息与版权说明，请访问上方的 GitHub 链接。</string>
+        Jiao。\n由 paizhangpi 完成中文翻译。\n\n若欲获知更多信息与版权说明，请访问上方的 GitHub 链接。</string>
     <string name="information_short">\nMacIndex Android 应用程序与其数据库\ngithub.com/paizhangpi/MacIndex</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
@@ -24,7 +24,7 @@
     <string name="error">致命错误</string>
     <string name="warning">警告！</string>
     <string name="quit">退出</string>
-    <string name="dismiss">取消</string>
+    <string name="dismiss">关闭</string>
     <string name="err_db_init">数据库初始化失败。\n\n更多信息，请参考 GitHub 主页。</string>
     <string name="err_db_query">数据库查询不匹配。\n\n更多信息，请参考 GitHub 主页。</string>
     <string name="err_image_invalid">图像数据无效。\n\n更多信息，请参考 GitHub 主页。</string>
