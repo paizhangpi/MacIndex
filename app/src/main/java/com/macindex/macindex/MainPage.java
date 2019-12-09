@@ -85,7 +85,36 @@ public class MainPage extends AppCompatActivity {
     private void initInterface() {
         // Change the number below.
         for (int i = 0; i <= 9; i++) {
-            LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
+            final LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
+            for (int j = 0; j < currentLayout.getChildCount(); j++) {
+                View v = currentLayout.getChildAt(j);
+                v.setClickable(true);
+                v.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int visa = 0;
+
+                        for (int j = 0; j < currentLayout.getChildCount(); j++) {
+                            View vi = currentLayout.getChildAt(j);
+                            if (vi.getVisibility() == View.VISIBLE) {
+                                visa++;
+                            }
+                        }
+
+                        if (visa > 2) {
+                            for (int j = 2; j < currentLayout.getChildCount(); j++) {
+                                View vi = currentLayout.getChildAt(j);
+                                vi.setVisibility(View.GONE);
+                            }
+                        } else {
+                            for (int j = 2; j < currentLayout.getChildCount(); j++) {
+                                View vi = currentLayout.getChildAt(j);
+                                vi.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                });
+            }
             initCategory(currentLayout, i);
         }
         // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
@@ -97,6 +126,7 @@ public class MainPage extends AppCompatActivity {
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
+                mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
                 Button viewButton = mainChunk.findViewById(R.id.viewButton);
