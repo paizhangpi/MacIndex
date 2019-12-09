@@ -7,6 +7,7 @@ Designed for quick vintage Macintosh computer specifications look-up on Android 
 This is part of University of Illinois, CS125 FA19 Final Project. This draft app is for education purpose, and internal use only. It won't release to public. It uses information directly from Mactracker. Data it provides are also limited, please refer to the "Database Design Information" section below.
 
 ## Credits
+
 paizhangpi, Victor Jiao
 
 ## Database Design Information
@@ -14,6 +15,7 @@ paizhangpi, Victor Jiao
 This section is provided for people who want to maintain the database or application.
 
 ### Categories (tables)
+
 - category0: Classic Macintosh.
 - category1: eMac.
 - category2: iMac.
@@ -28,9 +30,8 @@ This section is provided for people who want to maintain the database or applica
 (From very first Macintosh to last PowerPC-based Mac models.)
 
 Note: Adding a new category in database
-CategoryHelper, initInterface and activity_main must be manually updated.
-If unexpected SQLiteException happened after update, try deleting copied database in device.
-Also, please update GitHub Readme at the same time.
+
+Please manually update CategoryHelper, initInterface and activity_main String resources and Readme.
 
 ### Data Categories (columns)
 
@@ -40,8 +41,12 @@ Also, please update GitHub Readme at the same time.
 - maxram: Maximum RAM.
 - year: Beginning Year of Production.
 - model: Model Number.
+- pic: Picture.
 
 Note: Adding a new data category in database
-SpecsActivity, initCategory and activity_specs must be manually updated.
-If unexpected SQLiteException happened after update, try deleting copied database in device.
-Also, please update GitHub Readme at the same time.
+
+Please manually update SpecsActivity, initCategory, activity_specs, String resources and Readme.
+
+## In case of error
+
+Please try deleting copied database in device under data directory.

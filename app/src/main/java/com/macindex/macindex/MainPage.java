@@ -121,7 +121,6 @@ public class MainPage extends AppCompatActivity {
                         intent.putExtra("model", thisModel);
 
                         String path = null;
-
                         if (thisBlob != null) {
                             Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
                             Log.i("h", "Converted blob to bitmap");
@@ -146,9 +145,7 @@ public class MainPage extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-
                         intent.putExtra("path", path);
-
                         startActivity(intent);
                     }
                 });

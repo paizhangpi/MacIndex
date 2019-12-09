@@ -43,7 +43,6 @@ public class SpecsActivity extends AppCompatActivity {
             model.setText(intent.getStringExtra("model"));
 
             String path = intent.getStringExtra("path");
-
             File file = new File(path);
             if (file.exists()) {
                 Log.i("thing", "file exists");
@@ -52,12 +51,11 @@ public class SpecsActivity extends AppCompatActivity {
             file.delete();
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this).setMessage("Intent argument is illegal.\n\n" +
+            new AlertDialog.Builder(this).setMessage("One or more intent argument is illegal.\n\n" +
                     "For additional information, please refer to GitHub readme.")
-                    .setNegativeButton("QUIT", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            finish();
-                        }}).setTitle("Fatal Error").setCancelable(false).show();
+                        }}).setTitle("Warning").setCancelable(false).show();
         }
     }
 }
