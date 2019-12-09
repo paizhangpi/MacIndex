@@ -30,6 +30,13 @@
                     android:textColor="#F44336"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c0_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c0_d"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -45,6 +52,13 @@
                     android:text="@string/category1"
                     android:textColor="#F44336"
                     android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c1_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c1_d"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -62,6 +76,13 @@
                     android:textColor="#F44336"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c2_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c2_d"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,6 +98,13 @@
                     android:text="@string/category3"
                     android:textColor="#F44336"
                     android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c3_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c3_d"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -94,6 +122,13 @@
                     android:textColor="#F44336"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c4_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c4_d"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -109,6 +144,13 @@
                     android:text="@string/category5"
                     android:textColor="#F44336"
                     android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c5_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c5_d"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -126,6 +168,13 @@
                     android:textColor="#F44336"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c6_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c6_d"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -141,6 +190,13 @@
                     android:text="@string/category7"
                     android:textColor="#00BCD4"
                     android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c7_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c7_d"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -158,6 +214,13 @@
                     android:textColor="#00BCD4"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c8_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c8_d"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -173,6 +236,13 @@
                     android:text="@string/category9"
                     android:textColor="#00BCD4"
                     android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/c9_d"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c9_d"
                     android:textStyle="bold" />
             </LinearLayout>
 

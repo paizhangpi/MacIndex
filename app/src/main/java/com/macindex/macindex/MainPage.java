@@ -98,6 +98,7 @@ public class MainPage extends AppCompatActivity {
             while (cursor.moveToNext()) {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
+                TextView machineYear = mainChunk.findViewById(R.id.machineYear);
                 Button viewButton = mainChunk.findViewById(R.id.viewButton);
                 // Create a String for each data category. Update here.
                 final String thisName = cursor.getString(cursor.getColumnIndex("name"));
@@ -108,6 +109,8 @@ public class MainPage extends AppCompatActivity {
                 final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
 
                 machineName.setText(thisName);
+                machineYear.setText(thisYear);
+
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
