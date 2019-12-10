@@ -41,7 +41,7 @@
                     android:clickable="true"
                     android:textSize="19sp"
                     android:text="@string/c0_d"
-                    android:textStyle="bold"/>
+                    android:paddingBottom="10dp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -66,8 +66,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c1_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c1_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,8 +92,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c2_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c2_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -118,8 +118,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c3_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c3_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -144,8 +144,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c4_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c4_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -170,8 +170,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c5_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c5_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -196,8 +196,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c6_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c6_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -222,8 +222,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c7_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c7_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -248,8 +248,8 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c8_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c8_d" />
             </LinearLayout>
 
             <LinearLayout
@@ -271,11 +271,11 @@
                 <TextView
                     android:id="@+id/c9_d"
                     android:layout_width="match_parent"
-                    android:layout_height="47dp"
+                    android:layout_height="wrap_content"
                     android:clickable="true"
                     android:textSize="19sp"
-                    android:text="@string/c9_d"
-                    android:textStyle="bold" />
+                    android:paddingBottom="10dp"
+                    android:text="@string/c9_d" />
             </LinearLayout>
 
             <TextView
