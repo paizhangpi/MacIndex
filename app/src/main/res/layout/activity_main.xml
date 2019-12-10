@@ -3,6 +3,7 @@
     android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="7dp"
     android:orientation="vertical">
 
     <ScrollView
@@ -30,7 +31,7 @@
                     android:clickable="true"
                     android:text="@string/category0"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -39,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:text="@string/c0_d"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
@@ -55,7 +56,7 @@
                     android:clickable="true"
                     android:text="@string/category1"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -80,7 +81,7 @@
                     android:clickable="true"
                     android:text="@string/category2"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -105,7 +106,7 @@
                     android:clickable="true"
                     android:text="@string/category3"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -130,7 +131,7 @@
                     android:clickable="true"
                     android:text="@string/category4"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -155,7 +156,7 @@
                     android:clickable="true"
                     android:text="@string/category5"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -180,7 +181,7 @@
                     android:clickable="true"
                     android:text="@string/category6"
                     android:textColor="#F44336"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -205,7 +206,7 @@
                     android:clickable="true"
                     android:text="@string/category7"
                     android:textColor="#00BCD4"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -230,7 +231,7 @@
                     android:clickable="true"
                     android:text="@string/category8"
                     android:textColor="#00BCD4"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -255,7 +256,7 @@
                     android:clickable="true"
                     android:text="@string/category9"
                     android:textColor="#00BCD4"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView

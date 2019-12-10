@@ -129,7 +129,6 @@ public class MainPage extends AppCompatActivity {
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
-                Button viewButton = mainChunk.findViewById(R.id.viewButton);
                 // Create a String for each data category. Update here.
                 final String thisName = cursor.getString(cursor.getColumnIndex("name"));
                 final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
@@ -141,7 +140,7 @@ public class MainPage extends AppCompatActivity {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
-                viewButton.setOnClickListener(new View.OnClickListener() {
+                machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
                         Intent intent = new Intent(MainPage.this, SpecsActivity.class);
@@ -180,6 +179,47 @@ public class MainPage extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+
+                machineYear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View unused) {
+                        Intent intent = new Intent(MainPage.this, SpecsActivity.class);
+                        // Put each String to Specs Intent. Update here.
+                        intent.putExtra("name", thisName);
+                        intent.putExtra("processor", thisProcessor);
+                        intent.putExtra("maxram", thisMaxRAM);
+                        intent.putExtra("year", thisYear);
+                        intent.putExtra("model", thisModel);
+
+                        String path = null;
+                        if (thisBlob != null) {
+                            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
+                            Log.i("h", "Converted blob to bitmap");
+                            try {
+                                File file = File.createTempFile("tempF", ".tmp");
+                                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out); //
+                                    // bmp is your Bitmap instance
+                                    // PNG is a lossless format, the compression factor (100) is ignored
+                                    Log.i("h", "Created image format");
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    new AlertDialog.Builder(MainPage.this)
+                                            .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
+                                            .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                                                public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                                            .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
+                                }
+                                path = file.getPath();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        intent.putExtra("path", path);
+                        startActivity(intent);
+                    }
+                });
+
                 currentLayout.addView(mainChunk);
             }
         } catch (Exception e) {
