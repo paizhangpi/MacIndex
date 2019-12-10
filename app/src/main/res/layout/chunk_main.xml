@@ -3,28 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingLeft="10dp">
+    android:paddingLeft="10dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp"
+    android:foreground="@drawable/border">
 
 <TextView
         android:id="@+id/machineName"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="true"
         android:gravity="left|center_vertical"
         android:textAlignment="gravity"
         android:textColor="#464646"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="italic" />
 
     <TextView
         android:id="@+id/machineYear"
-        android:layout_width="300dp"
-        android:layout_height="35dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:clickable="true"
         android:gravity="right|center_vertical"
         android:textAlignment="gravity"
-        android:textSize="14sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>
