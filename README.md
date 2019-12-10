@@ -1,10 +1,10 @@
-# MacIndex Android application and Specs database
+# MacIndex
 
-Designed for quick vintage Macintosh computer specifications look-up on Android Devices, to serve the community.
+Designed for quick vintage Macintosh computer specifications look-up on Android Devices.
 
 ## Acknowledgment
 
-This is part of University of Illinois, CS125 FA19 Final Project. This draft app is for education purpose, and internal use only. It won't release to public. It uses information directly from Mactracker. Data it provides are also limited, please refer to the "Database Design Information" section below.
+This is part of University of Illinois, CS125 FA19 Final Project. This draft app is for education purpose, and internal use only. Photo credit to Apple.
 
 ## Credits
 
