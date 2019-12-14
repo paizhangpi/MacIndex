@@ -39,9 +39,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
+                    android:paddingBottom="10dp"
                     android:text="@string/c0_d"
-                    android:paddingBottom="10dp"/>
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -65,9 +65,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c1_d" />
+                    android:text="@string/c1_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -91,9 +91,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c2_d" />
+                    android:text="@string/c2_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -117,9 +117,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c3_d" />
+                    android:text="@string/c3_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,9 +143,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c4_d" />
+                    android:text="@string/c4_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -169,9 +169,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c5_d" />
+                    android:text="@string/c5_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -195,9 +195,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c6_d" />
+                    android:text="@string/c6_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -221,9 +221,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c7_d" />
+                    android:text="@string/c7_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -247,9 +247,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c8_d" />
+                    android:text="@string/c8_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -273,9 +273,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:textSize="19sp"
                     android:paddingBottom="10dp"
-                    android:text="@string/c9_d" />
+                    android:text="@string/c9_d"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <TextView
@@ -284,7 +284,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/information_short"
                 android:textAlignment="center"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
     </ScrollView>

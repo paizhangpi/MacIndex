@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">Specs</string>
-    <string name="information">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex\n\nThis is part of University of Illinois, CS125 FA19 Final Project.\nProject credit to paizhangpi and Victor
-        Jiao.\n\nFor more information, copyright acknowledgement, please visit GitHub link above.</string>
-    <string name="information_short">\nMacIndex Android application and Specs database\ngithub.com/paizhangpi/MacIndex</string>
-    <string name="version">Version 1.191209</string>
+    <string name="information">paizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex\nBy: paizhangpi, Victor Jiao</string>
+    <string name="information_short">\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
+    <string name="version">2.0</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
@@ -28,7 +27,7 @@
     <string name="name">Machine Name</string>
     <string name="processor">Processor Type</string>
     <string name="maxram">Maximum RAM</string>
-    <string name="year">Production Year</string>
+    <string name="year">Introduction</string>
     <string name="model">Model Number</string>
     <string name="btn_spec">View</string>
     <string name="error">Fatal Error</string>

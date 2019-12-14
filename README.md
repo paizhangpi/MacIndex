@@ -2,17 +2,13 @@
 
 Designed for quick vintage Macintosh computer specifications look-up on Android Devices.
 
-## Acknowledgment
+## Information
 
-This is part of University of Illinois, CS125 FA19 Final Project. This draft app is for education purpose, and internal use only. Photo credit to Apple.
+This draft app is for education purpose, and internal use only. This app used to be part of University of Illinois CS125 FA19 Final Project.
 
-## Credits
-
-paizhangpi, Victor Jiao
+If error happened, please try deleting copied database in device under data directory.
 
 ## Database Design Information
-
-This section is provided for people who want to maintain the database or application.
 
 ### Categories (tables)
 
@@ -39,14 +35,10 @@ Please manually update CategoryHelper, initInterface and activity_main String re
 - name: Machine Name.
 - processor: Processor Type.
 - maxram: Maximum RAM.
-- year: Beginning Year of Production.
+- year: Time of Introduction.
 - model: Model Number.
 - pic: Picture.
 
 Note: Adding a new data category in database
 
 Please manually update SpecsActivity, initCategory, activity_specs, String resources and Readme.
-
-## In case of error
-
-Please try deleting copied database in device under data directory.

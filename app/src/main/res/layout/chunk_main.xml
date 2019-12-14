@@ -9,26 +9,25 @@
     android:paddingTop="5dp"
     android:foreground="@drawable/border">
 
-<TextView
+    <TextView
         android:id="@+id/machineName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:clickable="true"
         android:gravity="left|center_vertical"
         android:textAlignment="gravity"
         android:textColor="#464646"
-        android:textSize="20sp"
-        android:textStyle="italic" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/machineYear"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_weight="1"
         android:clickable="true"
         android:gravity="right|center_vertical"
         android:textAlignment="gravity"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
