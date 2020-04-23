@@ -2,43 +2,24 @@
 
 Designed for quick vintage Macintosh computer specifications look-up on Android Devices.
 
-## Information
+Please also checkout https://paizhang.info/MacIndex for a brief introduction or download.
 
-This draft app is for education purpose, and internal use only. This app used to be part of University of Illinois CS125 FA19 Final Project.
+## Acknowledgment
 
-If error happened, please try deleting copied database in device under data directory.
+This draft app is for education purpose, and internal use only.
 
-## Database Design Information
+This app is part of University of Illinois CS125 FA19 Final Project, CS199 Kotlin SP20 Final Project.
 
-### Categories (tables)
+This app is bundled with a upgradeable database. Pictures and sounds are from Apple and other sources.
 
-- category0: Classic Macintosh.
-- category1: eMac.
-- category2: iMac.
-- category3: Mac mini.
-- category4: Performa.
-- category5: Power Macintosh.
-- category6: Power Mac G3/G4/G5.
-- category7: iBook.
-- category8: PowerBook.
-- category9: PowerBook G3/G4.
+You may freely access the code and the database make some addition if you want.
 
-(From very first Macintosh to last PowerPC-based Mac models.)
+Please also contact me immediately if improper content was added mistakenly.
 
-Note: Adding a new category in database
+## Debug
 
-Please manually update CategoryHelper, initInterface and activity_main String resources and Readme.
+This app is extremely easy. I tried to catch some exception that would happen.
 
-### Data Categories (columns)
+If that did happen, please try clearing all data or reinstalling the app.
 
-- id: Internal ID for sorting and debugging. Won't present in application interface.
-- name: Machine Name.
-- processor: Processor Type.
-- maxram: Maximum RAM.
-- year: Time of Introduction.
-- model: Model Number.
-- pic: Picture.
-
-Note: Adding a new data category in database
-
-Please manually update SpecsActivity, initCategory, activity_specs, String resources and Readme.
+Please report bug to me if the problem is still unresolved.

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.File;
@@ -40,9 +41,11 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_intent_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (MainPage.isDebug() == false) {
+                            if (!MainPage.isDebug()) {
                                 finishAffinity();
-                            };
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
@@ -87,7 +90,7 @@ public class SpecsActivity extends AppCompatActivity {
         Button link = findViewById(R.id.linkButton);
         link.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 loadLinks();
             }
         });
@@ -107,22 +110,30 @@ public class SpecsActivity extends AppCompatActivity {
                 linkOption.setId(i);
                 linkOptions.addView(linkOption);
             }
+            linkDialog.setView(linkChunk);
 
             // When user tapped confirm or cancel...
-            linkDialog.setPositiveButton("@string/processor", new DialogInterface.OnClickListener() {
+            linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
+                    new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     int checkedOption = linkOptions.getCheckedRadioButtonId();
                     if (checkedOption != -1) {
                         Intent browser = new Intent(Intent.ACTION_VIEW);
                         browser.setData(Uri.parse(linkGroup[checkedOption].split(",")[1]));
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
                         startActivity(browser);
+                    } else {
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.link_no_selection), Toast.LENGTH_LONG).show();
                     }
                 }
             });
-            linkDialog.setNegativeButton("@string/cancel", new DialogInterface.OnClickListener() {
+            linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
+                    new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
+                public void onClick(final DialogInterface dialog, final int which) {
                     // CANCELLED
                 }
             });
@@ -133,9 +144,11 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_link_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (MainPage.isDebug() == false) {
+                            if (!MainPage.isDebug()) {
                                 finishAffinity();
-                            };
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }

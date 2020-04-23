@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,7 +32,7 @@ public class MainPage extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    final static boolean DB_DEBUG_MODE = true;
+    static final boolean DB_DEBUG_MODE = true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -64,9 +65,11 @@ public class MainPage extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_db_init))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (isDebug() == false) {
+                            if (!MainPage.isDebug()) {
                                 finishAffinity();
-                            };
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
@@ -168,9 +171,11 @@ public class MainPage extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_db_query))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (isDebug() == false) {
+                            if (!MainPage.isDebug()) {
                                 finishAffinity();
-                            };
+                            }
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
@@ -204,9 +209,11 @@ public class MainPage extends AppCompatActivity {
                             .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
                             .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                                 public void onClick(final DialogInterface dialog, final int id) {
-                                    if (isDebug() == false) {
+                                    if (!MainPage.isDebug()) {
                                         finishAffinity();
                                     }
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                                 } })
                             .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
                 }

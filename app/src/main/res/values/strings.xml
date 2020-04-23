@@ -2,7 +2,7 @@
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">Specs</string>
     <string name="information">By: paizhangpi, Victor Jiao\n\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
-    <string name="version">2.14</string>
+    <string name="version">2.2</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
@@ -31,11 +31,14 @@
     <string name="link">View in EveryMac</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
+    <string name="link_opening">Opening in default browser</string>
+    <string name="link_no_selection">Please make a selection</string>
     <string name="error">Fatal Error</string>
     <string name="quit">Quit</string>
     <string name="err_db_init">Database initialization failed.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_db_query">Database query error.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_image_invalid">Image data is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_intent_invalid">One or more argument is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
-    <string name="err_link_invalid">Link string is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
+    <string name="err_link_invalid">Link window initialize failed.\n\nPlease report to me if the error is unresolved after restart.</string>
+    <string name="err_debug_mode">Debug mode ON...</string>
 </resources>
