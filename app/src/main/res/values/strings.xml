@@ -29,6 +29,8 @@
     <string name="year">Introduction</string>
     <string name="model">Model Number</string>
     <string name="link">View in EveryMac</string>
+    <string name="link_confirm">Confirm</string>
+    <string name="link_cancel">Cancel</string>
     <string name="error">Fatal Error</string>
     <string name="quit">Quit</string>
     <string name="err_db_init">Database initialization failed.\n\nPlease report to me if the error is unresolved after restart.</string>

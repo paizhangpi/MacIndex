@@ -135,6 +135,7 @@ public class MainPage extends AppCompatActivity {
                 final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
                 final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
                 final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
+                final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
@@ -142,14 +143,16 @@ public class MainPage extends AppCompatActivity {
                 machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        sendIntent(thisName, thisSound, thisProcessor, thisMaxRAM, thisYear, thisModel, thisBlob);
+                        sendIntent(thisName, thisSound, thisProcessor,
+                                thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
                     }
                 });
 
                 machineYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        sendIntent(thisName, thisSound, thisProcessor, thisMaxRAM, thisYear, thisModel, thisBlob);
+                        sendIntent(thisName, thisSound, thisProcessor,
+                                thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
                     }
                 });
                 currentLayout.addView(mainChunk);
@@ -170,7 +173,7 @@ public class MainPage extends AppCompatActivity {
 
     private void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
                             final String thisMaxRAM, final String thisYear, final String thisModel,
-                            final byte[] thisBlob) {
+                            final byte[] thisBlob, final String thisLinks) {
         Intent intent = new Intent(MainPage.this, SpecsActivity.class);
         // Put each String to Specs Intent. Update here.
         intent.putExtra("name", thisName);
@@ -179,6 +182,7 @@ public class MainPage extends AppCompatActivity {
         intent.putExtra("maxram", thisMaxRAM);
         intent.putExtra("year", thisYear);
         intent.putExtra("model", thisModel);
+        intent.putExtra("links", thisLinks);
 
         String path = null;
         if (thisBlob != null) {

@@ -30,6 +30,8 @@
     <string name="year">推出于</string>
     <string name="model">型号</string>
     <string name="link">在 EveryMac 中浏览</string>
+    <string name="link_confirm">确认</string>
+    <string name="link_cancel">取消</string>
     <string name="error">错误</string>
     <string name="quit">退出</string>
     <string name="err_db_init">数据库初始化失败。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>

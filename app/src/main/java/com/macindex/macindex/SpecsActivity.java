@@ -7,11 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
@@ -89,6 +92,37 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void loadLinks() {
-        String[] linkGroup = intent.getStringExtra("link").split(";");
+        AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+
+        // Setup each option in dialog.
+        View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+        final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
+        // GET links AT HERE
+        final String[] linkGroup = intent.getStringExtra("links").split(";");
+        for (int i = 0; i < linkGroup.length; i++) {
+            RadioButton linkOption = new RadioButton(this);
+            linkOption.setText(linkGroup[i].split(",")[0]);
+            linkOption.setId(i);
+            linkOptions.addView(linkOption);
+        }
+
+        // When user tapped confirm or cancel...
+        linkDialog.setPositiveButton("@string/processor", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int checkedOption = linkOptions.getCheckedRadioButtonId();
+                if (checkedOption != -1) {
+                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                    browser.setData(Uri.parse(linkGroup[checkedOption].split(",")[1]));
+                    startActivity(browser);
+                }
+            }
+        });
+        linkDialog.setNegativeButton("@string/cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // CANCELLED
+            }
+        });
     }
 }
