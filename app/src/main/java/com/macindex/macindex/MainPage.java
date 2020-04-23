@@ -84,7 +84,7 @@ public class MainPage extends AppCompatActivity {
      */
     private void initInterface() {
         // Change the number below.
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= 0; i++) {
             final LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
             for (int j = 0; j < currentLayout.getChildCount(); j++) {
                 View v = currentLayout.getChildAt(j);
@@ -131,12 +131,12 @@ public class MainPage extends AppCompatActivity {
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
                 // Create a String for each data category. Update here.
                 final String thisName = cursor.getString(cursor.getColumnIndex("name"));
+                final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
                 final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
                 final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
                 final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
                 final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
                 final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
-                final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
@@ -201,7 +201,7 @@ public class MainPage extends AppCompatActivity {
                                     pic.compress(Bitmap.CompressFormat.PNG, 100, out); //
                                     // bmp is your Bitmap instance
                                     // PNG is a lossless format, the compression factor (100) is ignored
-                                    Log.i("h", "Created image format");
+                                    Log.i("initcategory", "Created image format");
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     new AlertDialog.Builder(MainPage.this)

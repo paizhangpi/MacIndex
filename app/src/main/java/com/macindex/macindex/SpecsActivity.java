@@ -7,8 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,6 +44,9 @@ public class SpecsActivity extends AppCompatActivity {
             year.setText(intent.getStringExtra("year"));
             model.setText(intent.getStringExtra("model"));
 
+            final MediaPlayer sound = MediaPlayer.create(this,
+                    SoundHelper.getSound(intent.getStringExtra("sound")));
+
             String path = intent.getStringExtra("path");
             File file = new File(path);
             if (file.exists()) {
@@ -49,6 +54,13 @@ public class SpecsActivity extends AppCompatActivity {
                 image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
             }
             file.delete();
+
+            image.setOnClickListener(new View.OnClickListener() {
+                public void onClick(final View unused) {
+                    sound.start();
+                    Log.i("specs", "Clicked");
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             new AlertDialog.Builder(this)
