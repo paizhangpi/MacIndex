@@ -7,15 +7,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "specs.db";
-    public DatabaseOpenHelper(Context context){
+    public DatabaseOpenHelper(Context context) {
         super(context, DB_NAME, null, 1);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(final SQLiteDatabase db) {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
     }
 }

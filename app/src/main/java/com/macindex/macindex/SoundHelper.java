@@ -2,7 +2,7 @@ package com.macindex.macindex;
 
 public class SoundHelper {
 
-    public static int getSound (String thisSound) {
+    public static int getSound(final String thisSound) {
         if (thisSound.equals("0")) {
             return R.raw.mac128;
         } else if (thisSound.equals("1")) {

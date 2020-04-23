@@ -20,7 +20,7 @@ public class CategoryHelper {
         getLayout.put(8, R.id.category8Layout);
         getLayout.put(9, R.id.category9Layout);
     }
-    public static int getLayout(int category) {
+    public static int getLayout(final int category) {
         return getLayout.get(category);
     }
 }

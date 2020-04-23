@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -15,17 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 
 public class SpecsActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("thing", "called new spec");
         setContentView(R.layout.activity_specs);
         try {
             Intent intent = getIntent();
@@ -50,14 +45,13 @@ public class SpecsActivity extends AppCompatActivity {
             String path = intent.getStringExtra("path");
             File file = new File(path);
             if (file.exists()) {
-                Log.i("thing", "file exists");
+                Log.i("SpecsAct", "Image exists");
                 image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
             }
             file.delete();
 
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-
                     sound.start();
                 }
             });
@@ -66,7 +60,9 @@ public class SpecsActivity extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_intent_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            finishAffinity();
+                        } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
     }

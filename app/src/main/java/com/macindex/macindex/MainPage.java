@@ -2,7 +2,6 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,21 +12,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Blob;
-import java.sql.ResultSet;
-
 /**
- * MacIndex Android application and Specs database
+ * MacIndex Android application and Specs database.
  * University of Illinois, CS125 FA19 Final Project
  *
  * For additional Database Design Information, please refer to:
@@ -38,7 +31,7 @@ public class MainPage extends AppCompatActivity {
     private SQLiteDatabase database;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initDatabase();
@@ -49,14 +42,14 @@ public class MainPage extends AppCompatActivity {
         File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
         File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
         try {
-            dbFolder.mkdir();
             dbFilePath.delete();
+            dbFolder.delete();
+            dbFolder.mkdir();
             InputStream inputStream = this.getAssets().open("specs.db");
             OutputStream outputStream = new FileOutputStream(dbFilePath);
             byte[] buffer = new byte[1024];
             int length;
-            while ((length = inputStream.read(buffer)) > 0)
-            {
+            while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
             }
             outputStream.flush();
@@ -67,7 +60,9 @@ public class MainPage extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_db_init))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            finishAffinity();
+                        } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
         DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
@@ -91,7 +86,7 @@ public class MainPage extends AppCompatActivity {
                 v.setClickable(true);
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(final View v) {
                         int visa = 0;
 
                         for (int j = 0; j < currentLayout.getChildCount(); j++) {
@@ -121,11 +116,11 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
-        try {
-            Log.i("initCategory", "Starting Category " + category);
-            Cursor cursor = database.query("category" + category, null,
-                    null, null, null, null, null);
-            while (cursor.moveToNext()) {
+        Log.i("initCategory", "Starting Category " + category);
+        Cursor cursor = database.query("category" + category, null,
+                null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            try {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
@@ -145,88 +140,66 @@ public class MainPage extends AppCompatActivity {
                 machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        Intent intent = new Intent(MainPage.this, SpecsActivity.class);
-                        // Put each String to Specs Intent. Update here.
-                        intent.putExtra("name", thisName);
-                        intent.putExtra("processor", thisProcessor);
-                        intent.putExtra("maxram", thisMaxRAM);
-                        intent.putExtra("year", thisYear);
-                        intent.putExtra("model", thisModel);
-                        intent.putExtra("sound",thisSound);
-
-                        String path = null;
-                        if (thisBlob != null) {
-                            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
-                            Log.i("h", "Converted blob to bitmap");
-                            try {
-                                File file = File.createTempFile("tempF", ".tmp");
-                                try (FileOutputStream out = new FileOutputStream(file, false)) {
-                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
-                                    Log.i("h", "Created image format");
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    new AlertDialog.Builder(MainPage.this)
-                                            .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
-                                            .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                                                public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
-                                            .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
-                                }
-                                path = file.getPath();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        intent.putExtra("path", path);
-                        startActivity(intent);
+                        sendIntent(thisName, thisSound, thisProcessor, thisMaxRAM, thisYear, thisModel, thisBlob);
                     }
                 });
 
                 machineYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        Intent intent = new Intent(MainPage.this, SpecsActivity.class);
-                        // Put each String to Specs Intent. Update here.
-                        intent.putExtra("name", thisName);
-                        intent.putExtra("processor", thisProcessor);
-                        intent.putExtra("maxram", thisMaxRAM);
-                        intent.putExtra("year", thisYear);
-                        intent.putExtra("model", thisModel);
-
-                        String path = null;
-                        if (thisBlob != null) {
-                            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
-                            Log.i("h", "Converted blob to bitmap");
-                            try {
-                                File file = File.createTempFile("tempF", ".tmp");
-                                try (FileOutputStream out = new FileOutputStream(file, false)) {
-                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    new AlertDialog.Builder(MainPage.this)
-                                            .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
-                                            .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                                                public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
-                                            .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
-                                }
-                                path = file.getPath();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        intent.putExtra("path", path);
-                        startActivity(intent);
+                        sendIntent(thisName, thisSound, thisProcessor, thisMaxRAM, thisYear, thisModel, thisBlob);
                     }
                 });
-
                 currentLayout.addView(mainChunk);
+            } catch (Exception e) {
+                e.printStackTrace();
+                new AlertDialog.Builder(this)
+                        .setMessage(this.getResources().getString(R.string.err_db_query))
+                        .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                            public void onClick(final DialogInterface dialog, final int id) {
+                                finishAffinity();
+                            }
+                        })
+                        .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            new AlertDialog.Builder(this)
-                    .setMessage(this.getResources().getString(R.string.err_db_query))
-                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
-                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
+    }
+    private void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
+                            final String thisMaxRAM, final String thisYear, final String thisModel,
+                            final byte[] thisBlob) {
+        Intent intent = new Intent(MainPage.this, SpecsActivity.class);
+        // Put each String to Specs Intent. Update here.
+        intent.putExtra("name", thisName);
+        intent.putExtra("sound", thisSound);
+        intent.putExtra("processor", thisProcessor);
+        intent.putExtra("maxram", thisMaxRAM);
+        intent.putExtra("year", thisYear);
+        intent.putExtra("model", thisModel);
+
+        String path = null;
+        if (thisBlob != null) {
+            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
+            Log.i("h", "Converted blob to bitmap");
+            try {
+                File file = File.createTempFile("tempF", ".tmp");
+                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    new AlertDialog.Builder(MainPage.this)
+                            .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
+                            .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                                public void onClick(final DialogInterface dialog, final int id) {
+                                    finishAffinity();
+                                } })
+                            .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
+                }
+                path = file.getPath();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        intent.putExtra("path", path);
+        startActivity(intent);
     }
 }
