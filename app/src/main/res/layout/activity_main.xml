@@ -278,14 +278,6 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/information"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/information_short"
-                android:textAlignment="center"
-                android:textSize="14sp" />
-
         </LinearLayout>
     </ScrollView>
 

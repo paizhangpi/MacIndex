@@ -49,8 +49,8 @@ public class MainPage extends AppCompatActivity {
         File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
         File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
         try {
-            dbFolder.delete();
             dbFolder.mkdir();
+            dbFilePath.delete();
             InputStream inputStream = this.getAssets().open("specs.db");
             OutputStream outputStream = new FileOutputStream(dbFilePath);
             byte[] buffer = new byte[1024];

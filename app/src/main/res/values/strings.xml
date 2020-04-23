@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="title_activity_specs">Specs</string>
-    <string name="information">paizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex\nBy: paizhangpi, Victor Jiao</string>
-    <string name="information_short">\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
+    <string name="information">By: paizhangpi, Victor Jiao\n\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
     <string name="version">2.1</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
