@@ -2,6 +2,7 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,9 +46,8 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        String appDataPath = this.getApplicationInfo().dataDir;
-        File dbFolder = new File(appDataPath + "/databases");
-        File dbFilePath = new File(appDataPath + "/databases/specs.db");
+        File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
+        File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
         try {
             dbFolder.delete();
             dbFolder.mkdir();
@@ -67,7 +67,7 @@ public class MainPage extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_db_init))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
         DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
@@ -84,7 +84,7 @@ public class MainPage extends AppCompatActivity {
      */
     private void initInterface() {
         // Change the number below.
-        for (int i = 0; i <= 0; i++) {
+        for (int i = 0; i <= 9; i++) {
             final LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
             for (int j = 0; j < currentLayout.getChildCount(); j++) {
                 View v = currentLayout.getChildAt(j);
@@ -122,6 +122,7 @@ public class MainPage extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
+            Log.i("initCategory", "Starting Category " + category);
             Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
@@ -167,7 +168,7 @@ public class MainPage extends AppCompatActivity {
                                     new AlertDialog.Builder(MainPage.this)
                                             .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
                                             .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                                                public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                                                public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
                                             .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
                                 }
                                 path = file.getPath();
@@ -198,16 +199,13 @@ public class MainPage extends AppCompatActivity {
                             try {
                                 File file = File.createTempFile("tempF", ".tmp");
                                 try (FileOutputStream out = new FileOutputStream(file, false)) {
-                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out); //
-                                    // bmp is your Bitmap instance
-                                    // PNG is a lossless format, the compression factor (100) is ignored
-                                    Log.i("initcategory", "Created image format");
+                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                     new AlertDialog.Builder(MainPage.this)
                                             .setMessage(MainPage.this.getResources().getString(R.string.err_image_invalid))
                                             .setNegativeButton(MainPage.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                                                public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                                                public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
                                             .setTitle(MainPage.this.getResources().getString(R.string.error)).setCancelable(false).show();
                                 }
                                 path = file.getPath();
@@ -227,7 +225,7 @@ public class MainPage extends AppCompatActivity {
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_db_query))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { finish(); }})
+                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
     }

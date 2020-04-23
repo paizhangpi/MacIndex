@@ -57,17 +57,17 @@ public class SpecsActivity extends AppCompatActivity {
 
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
+
                     sound.start();
-                    Log.i("specs", "Clicked");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_intent_invalid))
-                    .setNegativeButton(this.getResources().getString(R.string.dismiss), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) { }})
-                    .setTitle(this.getResources().getString(R.string.warning)).setCancelable(false).show();
+                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) { finishAffinity(); }})
+                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
     }
 }

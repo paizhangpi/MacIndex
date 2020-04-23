@@ -1,6 +1,7 @@
 package com.macindex.macindex;
 
 public class SoundHelper {
+
     public static int getSound (String thisSound) {
         if (thisSound.equals("0")) {
             return R.raw.mac128;
@@ -20,8 +21,10 @@ public class SoundHelper {
             return R.raw.powermac;
         } else if (thisSound.equals("8")) {
             return R.raw.newmac;
-        } else {
+        } else if (thisSound.equals("9")) {
             return R.raw.tam;
+        } else {
+            return 0;
         }
     }
 }
