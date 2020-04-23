@@ -12,7 +12,9 @@
         <activity android:name=".MainPage"></activity>
         <activity
             android:name=".SpecsActivity"
-            android:parentActivityName=".SpecsActivity"></activity>
+            android:parentActivityName=".SpecsActivity"
+            android:configChanges="orientation|keyboard|screenSize">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

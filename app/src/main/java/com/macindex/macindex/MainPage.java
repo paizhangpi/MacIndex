@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 /**
  * MacIndex Android application and Specs database.
  * University of Illinois, CS125 FA19 Final Project
@@ -116,11 +117,12 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
-        Log.i("initCategory", "Starting Category " + category);
-        Cursor cursor = database.query("category" + category, null,
-                null, null, null, null, null);
-        while (cursor.moveToNext()) {
-            try {
+        try {
+            Log.i("initCategory", "Starting Category " + category);
+            Cursor cursor = database.query("category" + category, null,
+                    null, null, null, null, null);
+            while (cursor.moveToNext()) {
+
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
@@ -151,19 +153,21 @@ public class MainPage extends AppCompatActivity {
                     }
                 });
                 currentLayout.addView(mainChunk);
-            } catch (Exception e) {
-                e.printStackTrace();
-                new AlertDialog.Builder(this)
-                        .setMessage(this.getResources().getString(R.string.err_db_query))
-                        .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                            public void onClick(final DialogInterface dialog, final int id) {
-                                finishAffinity();
-                            }
-                        })
-                        .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
+
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            new AlertDialog.Builder(this)
+                    .setMessage(this.getResources().getString(R.string.err_db_query))
+                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
+                        public void onClick(final DialogInterface dialog, final int id) {
+                            finishAffinity();
+                        }
+                    })
+                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
     }
+
     private void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
                             final String thisMaxRAM, final String thisYear, final String thisModel,
                             final byte[] thisBlob) {

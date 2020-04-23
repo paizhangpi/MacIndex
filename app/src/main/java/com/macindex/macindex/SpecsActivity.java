@@ -22,6 +22,10 @@ public class SpecsActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specs);
+        initSpecs();
+    }
+
+    private void initSpecs() {
         try {
             Intent intent = getIntent();
             this.setTitle(intent.getStringExtra("name"));
@@ -39,9 +43,6 @@ public class SpecsActivity extends AppCompatActivity {
             year.setText(intent.getStringExtra("year"));
             model.setText(intent.getStringExtra("model"));
 
-            final MediaPlayer sound = MediaPlayer.create(this,
-                    SoundHelper.getSound(intent.getStringExtra("sound")));
-
             String path = intent.getStringExtra("path");
             File file = new File(path);
             if (file.exists()) {
@@ -50,11 +51,15 @@ public class SpecsActivity extends AppCompatActivity {
             }
             file.delete();
 
-            image.setOnClickListener(new View.OnClickListener() {
-                public void onClick(final View unused) {
-                    sound.start();
-                }
-            });
+            int soundID = SoundHelper.getSound(intent.getStringExtra("sound"));
+            if (soundID != 0) {
+                final MediaPlayer sound = MediaPlayer.create(this, soundID);
+                image.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(final View unused) {
+                        sound.start();
+                    }
+                });
+            }
         } catch (Exception e) {
             e.printStackTrace();
             new AlertDialog.Builder(this)
