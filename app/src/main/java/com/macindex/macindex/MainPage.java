@@ -136,6 +136,7 @@ public class MainPage extends AppCompatActivity {
                 final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
                 final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
                 final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
+                final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
@@ -150,6 +151,7 @@ public class MainPage extends AppCompatActivity {
                         intent.putExtra("maxram", thisMaxRAM);
                         intent.putExtra("year", thisYear);
                         intent.putExtra("model", thisModel);
+                        intent.putExtra("sound",thisSound);
 
                         String path = null;
                         if (thisBlob != null) {
@@ -158,9 +160,7 @@ public class MainPage extends AppCompatActivity {
                             try {
                                 File file = File.createTempFile("tempF", ".tmp");
                                 try (FileOutputStream out = new FileOutputStream(file, false)) {
-                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out); //
-                                    // bmp is your Bitmap instance
-                                    // PNG is a lossless format, the compression factor (100) is ignored
+                                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                                     Log.i("h", "Created image format");
                                 } catch (Exception e) {
                                     e.printStackTrace();
