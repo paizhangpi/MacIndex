@@ -37,4 +37,5 @@
     <string name="err_db_query">Database query error.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_image_invalid">Image data is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_intent_invalid">One or more argument is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
+    <string name="err_link_invalid">Link string is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
 </resources>

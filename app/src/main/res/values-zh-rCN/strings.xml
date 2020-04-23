@@ -38,4 +38,5 @@
     <string name="err_db_query">数据库查询错误。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
     <string name="err_image_invalid">图像数据无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
     <string name="err_intent_invalid">至少有一个参数无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
+    <string name="err_link_invalid">链接字符串无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
 </resources>
