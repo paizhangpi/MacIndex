@@ -12,7 +12,7 @@ This app is part of University of Illinois CS125 FA19 Final Project, CS199 Kotli
 
 This app is bundled with a upgradeable database. Pictures and sounds are from Apple and other sources.
 
-You may freely access the code and the database make some addition if you want.
+You may freely access the code and the database and make some addition if you want.
 
 Please also contact me immediately if improper content was added mistakenly.
 

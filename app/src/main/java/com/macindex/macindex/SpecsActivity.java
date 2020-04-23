@@ -41,7 +41,7 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_intent_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainPage.isDebug()) {
+                            if (!MainActivity.isDebug()) {
                                 finishAffinity();
                             }
                             Toast.makeText(getApplicationContext(),
@@ -144,7 +144,7 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_link_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainPage.isDebug()) {
+                            if (!MainActivity.isDebug()) {
                                 finishAffinity();
                             }
                             Toast.makeText(getApplicationContext(),

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="title_activity_specs">参数</string>
+    <string name="about">关于 MacIndex</string>
+    <string name="version">2.2.1</string>
     <string name="information">作者：paizhangpi，Victor Jiao\n\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
-    <string name="version">2.2</string>
+    <string name="information_specs">点按上方图片来试听开机音效。\n你可以在 EveryMac 中浏览更加详尽的数据。\n\n图片与声音来自苹果公司。</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
@@ -41,5 +42,5 @@
     <string name="err_image_invalid">图像数据无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
     <string name="err_intent_invalid">至少有一个参数无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
     <string name="err_link_invalid">不能初始化链接窗口。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_debug_mode">DEBUG模式</string>
+    <string name="err_debug_mode">Debug 模式</string>
 </resources>

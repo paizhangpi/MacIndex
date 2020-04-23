@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="title_activity_specs">Specs</string>
+    <string name="about">About MacIndex</string>
+    <string name="version">2.2.1</string>
     <string name="information">By: paizhangpi, Victor Jiao\n\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
-    <string name="version">2.2</string>
+    <string name="information_specs">Tap on the image to play startup sound.\nYou can access more specifications in detail at EveryMac.\n\nPhoto and sound credit: Apple.</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
@@ -40,5 +41,5 @@
     <string name="err_image_invalid">Image data is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_intent_invalid">One or more argument is invalid.\n\nPlease report to me if the error is unresolved after restart.</string>
     <string name="err_link_invalid">Link window initialize failed.\n\nPlease report to me if the error is unresolved after restart.</string>
-    <string name="err_debug_mode">Debug mode ON...</string>
+    <string name="err_debug_mode">Debug Mode ON</string>
 </resources>
