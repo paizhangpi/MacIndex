@@ -41,11 +41,12 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_intent_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.isDebug()) {
+                            if (!MainActivity.DB_DEBUG_MODE) {
                                 finishAffinity();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(getApplicationContext(),
-                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
@@ -112,6 +113,9 @@ public class SpecsActivity extends AppCompatActivity {
                     RadioButton linkOption = new RadioButton(this);
                     linkOption.setText(linkGroup[i].split(",")[0]);
                     linkOption.setId(i);
+                    if (i == 0) {
+                        linkOption.setChecked(true);
+                    }
                     linkOptions.addView(linkOption);
                 }
                 linkDialog.setView(linkChunk);
@@ -121,13 +125,8 @@ public class SpecsActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                int checkedOption = linkOptions.getCheckedRadioButtonId();
-                                if (checkedOption != -1) {
-                                    startBrowser(linkGroup[checkedOption].split(",")[1]);
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.link_no_selection), Toast.LENGTH_LONG).show();
-                                }
+                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[1]);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
@@ -145,11 +144,12 @@ public class SpecsActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_link_invalid))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.isDebug()) {
+                            if (!MainActivity.DB_DEBUG_MODE) {
                                 finishAffinity();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(getApplicationContext(),
-                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }

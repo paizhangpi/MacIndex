@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    static final boolean DB_DEBUG_MODE = true;
+    private static String dbVer = null;
+
+    public static final boolean DB_DEBUG_MODE = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -47,14 +49,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         if (item.getItemId() == R.id.aboutMenu) {
             Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(aboutIntent);
@@ -64,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
-        File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
         try {
+            File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
+            File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
             dbFilePath.delete();
             dbFolder.delete();
             dbFolder.mkdir();
@@ -80,32 +82,32 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
             inputStream.close();
+
+            DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
+            database = dbHelper.getReadableDatabase();
+
+            Cursor cursor = database.query("ver", null,
+                    null, null, null, null, null);
+            cursor.moveToNext();
+            dbVer = cursor.getString(0);
+            Log.i("initDatabase", "Database initialized " + dbVer);
         } catch (Exception e) {
             e.printStackTrace();
             new AlertDialog.Builder(this)
                     .setMessage(this.getResources().getString(R.string.err_db_init))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.isDebug()) {
+                            if (!DB_DEBUG_MODE) {
                                 finishAffinity();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(getApplicationContext(),
-                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
-        DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
-        database = dbHelper.getReadableDatabase();
     }
 
-    /**
-     * If new category, or data category was added, database structure was changed.
-     * Thus, code update is necessary to handle new data.
-     * Also, exceptions may happen even after you update the code during runtime. Please refer to:
-     * https://github.com/paizhangpi/MacIndex/
-     *
-     * Not necessary if only new machine was added.
-     */
     private void initInterface() {
         // Change the number below.
         for (int i = 0; i <= 9; i++) {
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
-            Log.i("initCategory", "Starting Category " + category);
+            Log.i("initCategory", "Initializing Category " + category);
             Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
@@ -155,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
+
                 // Create a String for each data category. Update here.
                 final String thisName = cursor.getString(cursor.getColumnIndex("name"));
                 final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
@@ -192,11 +195,12 @@ public class MainActivity extends AppCompatActivity {
                     .setMessage(this.getResources().getString(R.string.err_db_query))
                     .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                         public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.isDebug()) {
+                            if (!DB_DEBUG_MODE) {
                                 finishAffinity();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                             }
-                            Toast.makeText(getApplicationContext(),
-                                    getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
@@ -230,11 +234,12 @@ public class MainActivity extends AppCompatActivity {
                             .setMessage(MainActivity.this.getResources().getString(R.string.err_image_invalid))
                             .setNegativeButton(MainActivity.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
                                 public void onClick(final DialogInterface dialog, final int id) {
-                                    if (!MainActivity.isDebug()) {
+                                    if (!DB_DEBUG_MODE) {
                                         finishAffinity();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),
+                                                getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                                     }
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
                                 } })
                             .setTitle(MainActivity.this.getResources().getString(R.string.error)).setCancelable(false).show();
                 }
@@ -247,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public static boolean isDebug() {
-        return DB_DEBUG_MODE;
+    public static String getDbVer() {
+        return dbVer;
     }
 }

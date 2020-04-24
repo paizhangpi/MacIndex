@@ -12,8 +12,12 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         this.setTitle(getResources().getString(R.string.about));
+
+        TextView versionText = findViewById(R.id.versionText);
         TextView debugText = findViewById(R.id.debugText);
-        if (MainActivity.isDebug()) {
+
+        versionText.setText(BuildConfig.VERSION_NAME + " " + MainActivity.getDbVer());
+        if (MainActivity.DB_DEBUG_MODE) {
             debugText.setText(getResources().getString(R.string.err_debug_mode));
         }
     }

@@ -13,10 +13,9 @@
         app:srcCompat="@drawable/macindex" />
 
     <TextView
-        android:id="@+id/version"
+        android:id="@+id/versionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/version"
         android:textAlignment="center"
         android:textSize="22sp"
         android:textStyle="bold" />

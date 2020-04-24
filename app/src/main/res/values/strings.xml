@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="about">About MacIndex</string>
-    <string name="version">2.2.2</string>
-    <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\n\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
+    <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
     <string name="information_specs">Tap on the image to play startup sound.\nYou can access more specifications in detail at EveryMac.\nPhoto and sound credit: Apple.</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
@@ -33,7 +32,6 @@
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in default browser</string>
-    <string name="link_no_selection">Please make a selection</string>
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="error">Fatal Error</string>
     <string name="quit">Quit</string>

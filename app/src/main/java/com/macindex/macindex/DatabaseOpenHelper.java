@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "specs.db";
-    public DatabaseOpenHelper(Context context) {
+    public DatabaseOpenHelper(final Context context) {
         super(context, DB_NAME, null, 1);
     }
 

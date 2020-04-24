@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="about">关于 MacIndex</string>
-    <string name="version">2.2.2</string>
     <string name="information">作者：paizhangpi，Victor Jiao， 2019， 2020\npaizhang.info/MacIndex\ngithub.com/paizhangpi/MacIndex</string>
     <string name="information_specs">点按上方图片来试听开机音效。\n你可以在 EveryMac 中浏览更加详尽的数据。\n图片与声音来自苹果公司。</string>
     <string name="category0">经典 Macintosh</string>
@@ -34,7 +33,6 @@
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在启动默认浏览器</string>
-    <string name="link_no_selection">请做出选择</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="error">错误</string>
     <string name="quit">退出</string>
