@@ -97,47 +97,48 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void loadLinks() {
-        AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
         try {
-            // Setup each option in dialog.
-            View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
-            final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
             // GET links AT HERE
             final String[] linkGroup = intent.getStringExtra("links").split(";");
-            for (int i = 0; i < linkGroup.length; i++) {
-                RadioButton linkOption = new RadioButton(this);
-                linkOption.setText(linkGroup[i].split(",")[0]);
-                linkOption.setId(i);
-                linkOptions.addView(linkOption);
-            }
-            linkDialog.setView(linkChunk);
+            if (linkGroup.length == 1) {
+                startBrowser(linkGroup[0].split(",")[1]);
+            } else {
+                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                linkDialog.setMessage(getResources().getString(R.string.link_message));
+                // Setup each option in dialog.
+                View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+                final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
+                for (int i = 0; i < linkGroup.length; i++) {
+                    RadioButton linkOption = new RadioButton(this);
+                    linkOption.setText(linkGroup[i].split(",")[0]);
+                    linkOption.setId(i);
+                    linkOptions.addView(linkOption);
+                }
+                linkDialog.setView(linkChunk);
 
-            // When user tapped confirm or cancel...
-            linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                    new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(final DialogInterface dialog, final int which) {
-                    int checkedOption = linkOptions.getCheckedRadioButtonId();
-                    if (checkedOption != -1) {
-                        Intent browser = new Intent(Intent.ACTION_VIEW);
-                        browser.setData(Uri.parse(linkGroup[checkedOption].split(",")[1]));
-                        Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
-                        startActivity(browser);
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.link_no_selection), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-            linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                    new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(final DialogInterface dialog, final int which) {
-                    // CANCELLED
-                }
-            });
-            linkDialog.show();
+                // When user tapped confirm or cancel...
+                linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                int checkedOption = linkOptions.getCheckedRadioButtonId();
+                                if (checkedOption != -1) {
+                                    startBrowser(linkGroup[checkedOption].split(",")[1]);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.link_no_selection), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
+                linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                // CANCELLED
+                            }
+                        });
+                linkDialog.show();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             new AlertDialog.Builder(this)
@@ -152,5 +153,13 @@ public class SpecsActivity extends AppCompatActivity {
                         } })
                     .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
         }
+    }
+
+    private void startBrowser(final String url) {
+        Intent browser = new Intent(Intent.ACTION_VIEW);
+        browser.setData(Uri.parse(url));
+        Toast.makeText(getApplicationContext(),
+                getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+        startActivity(browser);
     }
 }
