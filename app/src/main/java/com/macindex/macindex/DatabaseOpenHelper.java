@@ -4,10 +4,10 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class DatabaseOpenHelper extends SQLiteOpenHelper {
+class DatabaseOpenHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "specs.db";
-    public DatabaseOpenHelper(final Context context) {
+    private static final String DB_NAME = "specs.db";
+    DatabaseOpenHelper(final Context context) {
         super(context, DB_NAME, null, 1);
     }
 

@@ -26,7 +26,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private Intent intent;
 
-    boolean startup = true;
+    private boolean startup = true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -74,26 +74,23 @@ public class SpecsActivity extends AppCompatActivity {
         if (startupID != 0 && deathID != 0) {
             // Startup sound exists, death sound exists
             final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
-            final MediaPlayer deathSound = MediaPlayer.create(this,deathID);
+            final MediaPlayer deathSound = MediaPlayer.create(this, deathID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     if (startup) {
-                        //deathSound.stop();
                         startupSound.start();
                         startup = false;
                     } else {
-                        //startupSound.stop();
                         deathSound.start();
                         startup = true;
                     }
                 }
             });
-        } else if (startupID != 0 && deathID == 0) {
+        } else if (startupID != 0) {
             // Startup sound exists, death sound not exist
             final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-                    //startupSound.stop();
                     startupSound.start();
                 }
             });

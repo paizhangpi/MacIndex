@@ -3,7 +3,7 @@ package com.macindex.macindex;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CategoryHelper {
+class CategoryHelper {
 
     private static final Map<Integer, Integer> getLayout;
     static {
@@ -20,7 +20,7 @@ public class CategoryHelper {
         getLayout.put(8, R.id.category8Layout);
         getLayout.put(9, R.id.category9Layout);
     }
-    public static int getLayout(final int category) {
+    static int getLayout(final int category) {
         return getLayout.get(category);
     }
 }
