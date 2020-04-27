@@ -3,8 +3,6 @@ package com.macindex.macindex;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,19 +24,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * MacIndex Android application and Specs database.
+ * MacIndex
  * University of Illinois, CS125 FA19 Final Project
- *
- * For additional Database Design Information, please refer to:
- * https://github.com/paizhangpi/MacIndex/
+ * https://paizhang.info/MacIndex
  */
 public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
-
-    private static String dbVer = null;
-
-    public static final boolean DB_DEBUG_MODE = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -61,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
             Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(aboutIntent);
             return true;
+        } else if (item.getItemId() == R.id.searchMenu) {
+            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+            startActivity(searchIntent);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -82,34 +78,17 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
             inputStream.close();
-
             DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
             database = dbHelper.getReadableDatabase();
-
-            Cursor cursor = database.query("ver", null,
-                    null, null, null, null, null);
-            cursor.moveToNext();
-            dbVer = cursor.getString(0);
-            Log.i("initDatabase", "Database initialized " + dbVer);
+            Log.i("initDatabase","Initialized successfully.");
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this)
-                    .setMessage(this.getResources().getString(R.string.err_db_init))
-                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            if (!DB_DEBUG_MODE) {
-                                finishAffinity();
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
-                            }
-                        } })
-                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initInterface() {
-        // Change the number below.
         for (int i = 0; i <= 9; i++) {
             final LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
             for (int j = 0; j < currentLayout.getChildCount(); j++) {
@@ -191,27 +170,15 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this)
-                    .setMessage(this.getResources().getString(R.string.err_db_query))
-                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            if (!DB_DEBUG_MODE) {
-                                finishAffinity();
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    })
-                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
-                            final String thisMaxRAM, final String thisYear, final String thisModel,
-                            final byte[] thisBlob, final String thisLinks) {
+    public void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
+                                  final String thisMaxRAM, final String thisYear, final String thisModel,
+                                  final byte[] thisBlob, final String thisLinks) {
         Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
-        // Put each String to Specs Intent. Update here.
         intent.putExtra("name", thisName);
         intent.putExtra("sound", thisSound);
         intent.putExtra("processor", thisProcessor);
@@ -223,36 +190,23 @@ public class MainActivity extends AppCompatActivity {
         String path = null;
         if (thisBlob != null) {
             Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
-            Log.i("h", "Converted blob to bitmap");
+            Log.i("sendIntent", "Converted blob to bitmap");
             try {
                 File file = File.createTempFile("tempF", ".tmp");
                 try (FileOutputStream out = new FileOutputStream(file, false)) {
                     pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setMessage(MainActivity.this.getResources().getString(R.string.err_image_invalid))
-                            .setNegativeButton(MainActivity.this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                                public void onClick(final DialogInterface dialog, final int id) {
-                                    if (!DB_DEBUG_MODE) {
-                                        finishAffinity();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(),
-                                                getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
-                                    }
-                                } })
-                            .setTitle(MainActivity.this.getResources().getString(R.string.error)).setCancelable(false).show();
+                    // to do
                 }
                 path = file.getPath();
             } catch (Exception e) {
                 e.printStackTrace();
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             }
         }
         intent.putExtra("path", path);
         startActivity(intent);
-    }
-
-    public static String getDbVer() {
-        return dbVer;
     }
 }

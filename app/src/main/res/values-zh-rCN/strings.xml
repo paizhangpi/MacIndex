@@ -34,12 +34,6 @@
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在启动默认浏览器</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
-    <string name="error">错误</string>
-    <string name="quit">退出</string>
-    <string name="err_db_init">数据库初始化失败。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_db_query">数据库查询错误。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_image_invalid">图像数据无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_intent_invalid">至少有一个参数无效。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_link_invalid">不能初始化链接窗口。\n\n如果重新启动软件后仍未解决错误，请向我汇报。</string>
-    <string name="err_debug_mode">Debug 模式</string>
+    <string name="error">发生内部错误。</string>
+    <string name="search">搜索</string>
 </resources>

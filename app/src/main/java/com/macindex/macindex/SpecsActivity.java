@@ -37,23 +37,12 @@ public class SpecsActivity extends AppCompatActivity {
             initLinks();
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this)
-                    .setMessage(this.getResources().getString(R.string.err_intent_invalid))
-                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.DB_DEBUG_MODE) {
-                                finishAffinity();
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
-                            }
-                        } })
-                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void initSpecs() {
-        // Initialize TextView for each data category. Update necessary.
         TextView name = findViewById(R.id.nameText);
         TextView processor = findViewById(R.id.processorText);
         TextView maxram = findViewById(R.id.maxramText);
@@ -99,7 +88,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void loadLinks() {
         try {
-            // GET links AT HERE
             final String[] linkGroup = intent.getStringExtra("links").split(";");
             if (linkGroup.length == 1) {
                 startBrowser(linkGroup[0].split(",")[1]);
@@ -140,18 +128,8 @@ public class SpecsActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            new AlertDialog.Builder(this)
-                    .setMessage(this.getResources().getString(R.string.err_link_invalid))
-                    .setNegativeButton(this.getResources().getString(R.string.quit), new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, final int id) {
-                            if (!MainActivity.DB_DEBUG_MODE) {
-                                finishAffinity();
-                            } else {
-                                Toast.makeText(getApplicationContext(),
-                                        getResources().getString(R.string.err_debug_mode), Toast.LENGTH_SHORT).show();
-                            }
-                        } })
-                    .setTitle(this.getResources().getString(R.string.error)).setCancelable(false).show();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
