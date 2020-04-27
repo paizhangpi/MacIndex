@@ -3,7 +3,7 @@
     <string name="app_name">MacIndex</string>
     <string name="about">关于 MacIndex</string>
     <string name="information">作者：paizhangpi，Victor Jiao， 2019， 2020\npaizhang.info/MacIndex\n\n开机音效、宕机音效与图片对于特定的机器可能有所变化，因此并不完全准确。\n声音与图片来自苹果公司。</string>
-    <string name="information_specs">点按上方图片来试听开机音效。\n再次点按来试听宕机音效。\n你可以在 EveryMac 中浏览更加详尽的数据。</string>
+    <string name="information_specs">点按上方图片来试听开机音效。\n再次点按来试听宕机音效。（如果有）\n你可以在 EveryMac 中浏览更加详尽的数据。</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>

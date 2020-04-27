@@ -77,12 +77,14 @@ public class SpecsActivity extends AppCompatActivity {
             final MediaPlayer deathSound = MediaPlayer.create(this, deathID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-                    if (startup) {
-                        startupSound.start();
-                        startup = false;
-                    } else {
-                        deathSound.start();
-                        startup = true;
+                    if (!startupSound.isPlaying() && !deathSound.isPlaying()) {
+                        if (startup) {
+                            startupSound.start();
+                            startup = false;
+                        } else {
+                            deathSound.start();
+                            startup = true;
+                        }
                     }
                 }
             });

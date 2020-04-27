@@ -197,7 +197,8 @@ public class MainActivity extends AppCompatActivity {
                     pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // to do
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                 }
                 path = file.getPath();
             } catch (Exception e) {
