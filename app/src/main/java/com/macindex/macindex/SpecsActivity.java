@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -71,8 +70,10 @@ public class SpecsActivity extends AppCompatActivity {
         String soundID = intent.getStringExtra("sound");
         int startupID = SoundHelper.getSound(soundID);
         int deathID = SoundHelper.getDeathSound(soundID);
+        TextView informationLabel = findViewById(R.id.information);
         if (startupID != 0 && deathID != 0) {
             // Startup sound exists, death sound exists
+            informationLabel.setText(getResources().getString(R.string.information_specs));
             final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
             final MediaPlayer deathSound = MediaPlayer.create(this, deathID);
             image.setOnClickListener(new View.OnClickListener() {
@@ -90,14 +91,17 @@ public class SpecsActivity extends AppCompatActivity {
             });
         } else if (startupID != 0) {
             // Startup sound exists, death sound not exist
+            informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
             final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     startupSound.start();
                 }
             });
+        } else {
+            // Exception for PowerBook DuoDock...
+            informationLabel.setText(getResources().getString(R.string.information_specs_no_sound));
         }
-        // Exception for PowerBook DuoDock...
     }
 
     private void initLinks() {

@@ -22,6 +22,7 @@ class SoundHelper {
             case "6":
                 return R.raw.powermac5000;
             case "7":
+            case "PB":
                 return R.raw.powermac;
             case "8":
                 return R.raw.newmac;
@@ -39,6 +40,7 @@ class SoundHelper {
                 return R.raw.macii_death;
             case "2":
             case "3":
+            case "PB":
                 return R.raw.maclc_death;
             case "4":
                 return R.raw.quadraav_death;
