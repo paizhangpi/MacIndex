@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,8 @@ import java.io.File;
 public class SpecsActivity extends AppCompatActivity {
 
     private Intent intent;
+
+    boolean startup = true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -65,15 +68,37 @@ public class SpecsActivity extends AppCompatActivity {
             image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
         }
         file.delete();
-        int soundID = SoundHelper.getSound(intent.getStringExtra("sound"));
-        if (soundID != 0) {
-            final MediaPlayer sound = MediaPlayer.create(this, soundID);
+        String soundID = intent.getStringExtra("sound");
+        int startupID = SoundHelper.getSound(soundID);
+        int deathID = SoundHelper.getDeathSound(soundID);
+        if (startupID != 0 && deathID != 0) {
+            // Startup sound exists, death sound exists
+            final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
+            final MediaPlayer deathSound = MediaPlayer.create(this,deathID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-                    sound.start();
+                    if (startup) {
+                        //deathSound.stop();
+                        startupSound.start();
+                        startup = false;
+                    } else {
+                        //startupSound.stop();
+                        deathSound.start();
+                        startup = true;
+                    }
+                }
+            });
+        } else if (startupID != 0 && deathID == 0) {
+            // Startup sound exists, death sound not exist
+            final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
+            image.setOnClickListener(new View.OnClickListener() {
+                public void onClick(final View unused) {
+                    //startupSound.stop();
+                    startupSound.start();
                 }
             });
         }
+        // Exception for PowerBook DuoDock...
     }
 
     private void initLinks() {
@@ -134,10 +159,16 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void startBrowser(final String url) {
-        Intent browser = new Intent(Intent.ACTION_VIEW);
-        browser.setData(Uri.parse(url));
-        Toast.makeText(getApplicationContext(),
-                getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
-        startActivity(browser);
+        try {
+            Intent browser = new Intent(Intent.ACTION_VIEW);
+            browser.setData(Uri.parse(url));
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+            startActivity(browser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
     }
 }

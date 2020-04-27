@@ -31,4 +31,32 @@ public class SoundHelper {
                 return 0;
         }
     }
+
+    public static int getDeathSound(final String thisSound) {
+        Log.i("SoundHelper Death", "Get ID " + thisSound);
+        switch (thisSound) {
+            case "0":
+                return 0;
+            case "1":
+                return R.raw.macii_death;
+            case "2":
+                return R.raw.maclc_death;
+            case "3":
+                return R.raw.maclc_death;
+            case "4":
+                return R.raw.quadraav_death;
+            case "5":
+                return R.raw.powermac6100_death;
+            case "6":
+                return R.raw.powermac5000_death;
+            case "7":
+                return R.raw.powermac_death;
+            case "8":
+                return 0;
+            case "9":
+                return R.raw.powermac_death;
+            default:
+                return 0;
+        }
+    }
 }
