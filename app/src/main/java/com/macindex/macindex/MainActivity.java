@@ -80,17 +80,23 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
             database = dbHelper.getReadableDatabase();
-            Log.i("initDatabase","Initialized successfully.");
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("initDatabase","Initialize failed!!");
         }
     }
 
     private void initInterface() {
-        for (int i = 0; i <= 9; i++) {
-            final LinearLayout currentLayout = findViewById(CategoryHelper.getLayout(i));
+        for (int i = 0; i <= 10; i++) {
+            final int layoutID = CategoryHelper.getLayout(i);
+            if (layoutID == 0) {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                continue;
+            }
+            final LinearLayout currentLayout = findViewById(layoutID);
             for (int j = 0; j < currentLayout.getChildCount(); j++) {
                 View v = currentLayout.getChildAt(j);
                 v.setClickable(true);
@@ -127,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
-            Log.i("initCategory", "Initializing Category " + category);
             Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
             while (cursor.moveToNext()) {
@@ -172,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("initCategory","Initialize Category " + category + " failed!!");
         }
     }
 

@@ -44,6 +44,12 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider0"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/category1Layout"
                 android:layout_width="match_parent"
@@ -69,6 +75,12 @@
                     android:text="@string/c1_d"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:id="@+id/category2Layout"
@@ -96,6 +108,12 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/category3Layout"
                 android:layout_width="match_parent"
@@ -121,6 +139,12 @@
                     android:text="@string/c3_d"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:id="@+id/category4Layout"
@@ -148,6 +172,12 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/category5Layout"
                 android:layout_width="match_parent"
@@ -173,6 +203,12 @@
                     android:text="@string/c5_d"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:id="@+id/category6Layout"
@@ -200,6 +236,12 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/category7Layout"
                 android:layout_width="match_parent"
@@ -226,6 +268,12 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
             <LinearLayout
                 android:id="@+id/category8Layout"
                 android:layout_width="match_parent"
@@ -251,6 +299,12 @@
                     android:text="@string/c8_d"
                     android:textSize="18sp" />
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <LinearLayout
                 android:id="@+id/category9Layout"

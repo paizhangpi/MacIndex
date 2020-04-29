@@ -27,6 +27,10 @@ public class SpecsActivity extends AppCompatActivity {
 
     private boolean startup = true;
 
+    MediaPlayer startupSound = null;
+
+    MediaPlayer deathSound = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,19 @@ public class SpecsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (startupSound != null && startupSound.isPlaying()) {
+            startupSound.stop();
+            startupSound.release();
+        }
+        if (deathSound != null && deathSound.isPlaying()) {
+            deathSound.stop();
+            deathSound.release();
+        }
+        super.onDestroy();
     }
 
     private void initSpecs() {
@@ -73,9 +90,9 @@ public class SpecsActivity extends AppCompatActivity {
         TextView informationLabel = findViewById(R.id.information);
         if (startupID != 0 && deathID != 0) {
             // Startup sound exists, death sound exists
-            informationLabel.setText(getResources().getString(R.string.information_specs));
-            final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
-            final MediaPlayer deathSound = MediaPlayer.create(this, deathID);
+            informationLabel.setText(getResources().getString(R.string.information_specs_full));
+            startupSound = MediaPlayer.create(this, startupID);
+            deathSound = MediaPlayer.create(this, deathID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     if (!startupSound.isPlaying() && !deathSound.isPlaying()) {
@@ -92,7 +109,7 @@ public class SpecsActivity extends AppCompatActivity {
         } else if (startupID != 0) {
             // Startup sound exists, death sound not exist
             informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
-            final MediaPlayer startupSound = MediaPlayer.create(this, startupID);
+            startupSound = MediaPlayer.create(this, startupID);
             image.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     startupSound.start();
@@ -100,12 +117,12 @@ public class SpecsActivity extends AppCompatActivity {
             });
         } else {
             // Exception for PowerBook DuoDock...
-            informationLabel.setText(getResources().getString(R.string.information_specs_no_sound));
+            informationLabel.setVisibility(View.GONE);
         }
     }
 
     private void initLinks() {
-        Button link = findViewById(R.id.linkButton);
+        ImageView link = findViewById(R.id.everymac);
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -158,6 +175,7 @@ public class SpecsActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("loadLinks", "Link loading failed!!");
         }
     }
 

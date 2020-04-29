@@ -1,5 +1,7 @@
 package com.macindex.macindex;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +23,12 @@ class CategoryHelper {
         getLayout.put(9, R.id.category9Layout);
     }
     static int getLayout(final int category) {
-        return getLayout.get(category);
+        try {
+            return getLayout.get(category);
+        } catch (Exception e) {
+            Log.e("CategoryLayout","Failed with " + category);
+            e.printStackTrace();
+        }
+        return 0;
     }
 }

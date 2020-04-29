@@ -5,7 +5,7 @@ import android.util.Log;
 class SoundHelper {
 
     static int getSound(final String thisSound) {
-        Log.i("SoundHelper", "Get ID " + thisSound);
+        Log.i("getSound", "Get ID " + thisSound);
         switch (thisSound) {
             case "0":
                 return R.raw.mac128;
@@ -29,12 +29,13 @@ class SoundHelper {
             case "9":
                 return R.raw.tam;
             default:
+                Log.i("getSound", "No startup sound for ID " + thisSound);
                 return 0;
         }
     }
 
     static int getDeathSound(final String thisSound) {
-        Log.i("SoundHelper Death", "Get ID " + thisSound);
+        Log.i("getDeathSound", "Get ID " + thisSound);
         switch (thisSound) {
             case "1":
                 return R.raw.macii_death;
@@ -52,6 +53,7 @@ class SoundHelper {
             case "9":
                 return R.raw.powermac_death;
             default:
+                Log.i("getDeathSound", "No death sound for ID " + thisSound);
                 return 0;
         }
     }

@@ -2,9 +2,9 @@
     <string name="app_name">MacIndex</string>
     <string name="about">About MacIndex</string>
     <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\npaizhang.info/MacIndex\n\nStartup sounds, death sounds, and photos have many variations, thus they could be inaccurate. \nSounds and photos by Apple.</string>
-    <string name="information_specs">Tap on the image to play startup sound.\nTap again to play death sound.\nYou can access more specifications in detail at EveryMac.</string>
-    <string name="information_specs_no_death">Tap on the image to play startup sound.\nYou can access more specifications in detail at EveryMac.</string>
-    <string name="information_specs_no_sound">You can access more specifications in detail at EveryMac.</string>
+    <string name="information_specs_full">Tap on the image to play startup sound.\nTap again to play death sound.</string>
+    <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
+    <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
