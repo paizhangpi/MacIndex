@@ -2,8 +2,13 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -13,6 +18,22 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
         this.setTitle(getResources().getString(R.string.about));
         TextView versionText = findViewById(R.id.versionText);
+        ImageView websiteImage = findViewById(R.id.websiteLogo);
         versionText.setText("Ver. " + BuildConfig.VERSION_NAME);
+        websiteImage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(final View unused) {
+                try {
+                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                    browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+                    startActivity(browser);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

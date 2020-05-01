@@ -51,10 +51,14 @@ public class SpecsActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (startupSound != null && startupSound.isPlaying()) {
             startupSound.stop();
-            startupSound.release();
         }
         if (deathSound != null && deathSound.isPlaying()) {
             deathSound.stop();
+        }
+        if (startupSound != null) {
+            startupSound.release();
+        }
+        if (deathSound != null) {
             deathSound.release();
         }
         super.onDestroy();
@@ -132,7 +136,13 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void loadLinks() {
         try {
-            final String[] linkGroup = intent.getStringExtra("links").split(";");
+            final String thisLinks = intent.getStringExtra("links");
+            if (thisLinks.equals("N")) {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
+                return;
+            }
+            final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
                 startBrowser(linkGroup[0].split(",")[1]);
             } else {

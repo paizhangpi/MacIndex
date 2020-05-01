@@ -1,13 +1,14 @@
 <resources>
     <string name="app_name">MacIndex</string>
     <string name="about">About MacIndex</string>
-    <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\npaizhang.info/MacIndex\n\nStartup sounds, death sounds, and photos have many variations, thus they could be inaccurate. \nDedicated to education and internal use. Sounds and photos by Apple.</string>
+    <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\n\nStartup sounds, death sounds, and photos have many variations, thus they could be inaccurate. \nDedicated to education and internal use. Sounds and photos by Apple.</string>
+    <string name="information_website">Check our official page for update, bug report, comments, and other information.\npaizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the image to play startup and death sound.</string>
     <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
     <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
     <string name="menu_everymac">Open in EveryMac</string>
-    <string name="menu_everymac_true">Will open in EveryMac by default this time</string>
-    <string name="menu_everymac_false">Will not open in EveryMac by default this time</string>
+    <string name="menu_everymac_true">Will open in EveryMac by default in future</string>
+    <string name="menu_everymac_false">Will not open in EveryMac by default in future</string>
     <string name="feature_not_available">Coming soon</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
@@ -38,6 +39,7 @@
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in default browser</string>
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
+    <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Error occured</string>
     <string name="search">Search</string>
 </resources>

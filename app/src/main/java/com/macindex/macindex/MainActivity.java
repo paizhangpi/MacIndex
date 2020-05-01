@@ -3,9 +3,11 @@ package com.macindex.macindex;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -37,11 +40,15 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    private boolean isOpenEveryMac = false;
+    SharedPreferences prefs = null;
+
+    SharedPreferences.Editor prefsEditor = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
+        prefsEditor = prefs.edit();
         setContentView(R.layout.activity_main);
         initDatabase();
         initInterface();
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
+        MenuItem isEveryMacMenu = menu.findItem(R.id.isEveryMacMenu);
+        isEveryMacMenu.setChecked(prefs.getBoolean("isOpenEveryMac", false));
         return true;
     }
 
@@ -71,13 +80,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.isEveryMacMenu:
                 if (item.isChecked()) {
                     item.setChecked(false);
-                    isOpenEveryMac = false;
-                    // Make saved preference in the future.
+                    prefsEditor.putBoolean("isOpenEveryMac", false);
+                    prefsEditor.commit();
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.menu_everymac_false), Toast.LENGTH_LONG).show();
                 } else {
                     item.setChecked(true);
-                    isOpenEveryMac = true;
+                    prefsEditor.putBoolean("isOpenEveryMac", true);
+                    prefsEditor.commit();
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
                 }
@@ -183,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        if (isOpenEveryMac) {
+                        if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
@@ -195,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 machineYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        if (isOpenEveryMac) {
+                        if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
@@ -253,6 +263,11 @@ public class MainActivity extends AppCompatActivity {
     // Copied from specsActivity...
     private void loadLinks(final String thisLinks) {
         try {
+            if (thisLinks.equals("N")) {
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
+                return;
+            }
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
                 startBrowser(linkGroup[0].split(",")[1]);
@@ -320,6 +335,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean getIsOpenInEveryMac() {
-        return isOpenEveryMac;
+        return prefs.getBoolean("isOpenEveryMac", false);
     }
 }

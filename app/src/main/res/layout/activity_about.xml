@@ -22,10 +22,25 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/information"
-        android:layout_width="wrap_content"
+        android:id="@+id/information_website"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:text="@string/information"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/websiteLogo"
+        android:layout_width="288dp"
+        android:layout_height="82dp"
+        android:scaleType="centerInside"
+        app:srcCompat="@drawable/logorev2" />
+
+    <TextView
+        android:id="@+id/information"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="@string/information_website"
         android:textAlignment="center"
         android:textSize="14sp" />
 
