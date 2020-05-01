@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
+    boolean isOpenEveryMac = false;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +52,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        if (item.getItemId() == R.id.aboutMenu) {
-            Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
-            startActivity(aboutIntent);
-            return true;
-        } else if (item.getItemId() == R.id.searchMenu) {
-            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
-            startActivity(searchIntent);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.aboutMenu:
+                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
+                return true;
+            case R.id.searchMenu:
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+                return true;
+            case R.id.isEveryMacMenu:
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    isOpenEveryMac = false;
+                } else {
+                    item.setChecked(true);
+                    isOpenEveryMac = true;
+                }
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void initDatabase() {
@@ -89,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
-        for (int i = 0; i <= 10; i++) {
+        for (int i = 0; i <= 9; i++) {
             final int layoutID = CategoryHelper.getLayout(i);
             if (layoutID == 0) {
                 Toast.makeText(getApplicationContext(),
@@ -192,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("year", thisYear);
         intent.putExtra("model", thisModel);
         intent.putExtra("links", thisLinks);
+        intent.putExtra("isOpenEveryMac", isOpenEveryMac);
 
         String path = null;
         if (thisBlob != null) {

@@ -6,6 +6,7 @@
     <string name="information_specs_full">点击上方图片来试听开机音效。\n再次点击来试听宕机音效。</string>
     <string name="information_specs_no_death">点击上方图片来试听开机音效。</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据&#8230;</string>
+    <string name="menu_everymac">直接打开 EveryMac</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>

@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -27,9 +26,11 @@ public class SpecsActivity extends AppCompatActivity {
 
     private boolean startup = true;
 
-    MediaPlayer startupSound = null;
+    private boolean isOpenEveryMac = false;
 
-    MediaPlayer deathSound = null;
+    private MediaPlayer startupSound = null;
+
+    private MediaPlayer deathSound = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -37,10 +38,15 @@ public class SpecsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specs);
         try {
             intent = getIntent();
+            isOpenEveryMac = intent.getBooleanExtra("isOpenEveryMac", false);
             this.setTitle(intent.getStringExtra("name"));
             initSpecs();
             initImage();
             initLinks();
+            if (isOpenEveryMac) {
+                Log.i("SpecsOnCreate", "isOpenEveryMac Checked!");
+                loadLinks();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
@@ -166,7 +172,9 @@ public class SpecsActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                // CANCELLED
+                                if (isOpenEveryMac) {
+                                    finish();
+                                }
                             }
                         });
                 linkDialog.show();
@@ -186,6 +194,9 @@ public class SpecsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
             startActivity(browser);
+            if (isOpenEveryMac) {
+                finish();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),

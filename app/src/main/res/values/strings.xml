@@ -5,6 +5,7 @@
     <string name="information_specs_full">Tap on the image to play startup sound.\nTap again to play death sound.</string>
     <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
     <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
+    <string name="menu_everymac">Open EveryMac Directly</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
