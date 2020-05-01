@@ -26,8 +26,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private boolean startup = true;
 
-    private boolean isOpenEveryMac = false;
-
     private MediaPlayer startupSound = null;
 
     private MediaPlayer deathSound = null;
@@ -38,15 +36,10 @@ public class SpecsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specs);
         try {
             intent = getIntent();
-            isOpenEveryMac = intent.getBooleanExtra("isOpenEveryMac", false);
             this.setTitle(intent.getStringExtra("name"));
             initSpecs();
             initImage();
             initLinks();
-            if (isOpenEveryMac) {
-                Log.i("SpecsOnCreate", "isOpenEveryMac Checked!");
-                loadLinks();
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
@@ -164,17 +157,21 @@ public class SpecsActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[1]);
+                                try {
+                                    startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                            .split(",")[1]);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(final DialogInterface dialog, final int which) {
-                                if (isOpenEveryMac) {
-                                    finish();
-                                }
+                                // Cancelled.
                             }
                         });
                 linkDialog.show();
@@ -194,9 +191,6 @@ public class SpecsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
             startActivity(browser);
-            if (isOpenEveryMac) {
-                finish();
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),

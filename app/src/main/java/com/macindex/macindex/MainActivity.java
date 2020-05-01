@@ -3,19 +3,23 @@ package com.macindex.macindex;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Checkable;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    boolean isOpenEveryMac = false;
+    private boolean isOpenEveryMac = false;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -58,16 +62,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(aboutIntent);
                 return true;
             case R.id.searchMenu:
-                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
-                startActivity(searchIntent);
+                // To be implemented.
+                //Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                //startActivity(searchIntent);
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.feature_not_available), Toast.LENGTH_LONG).show();
                 return true;
             case R.id.isEveryMacMenu:
                 if (item.isChecked()) {
                     item.setChecked(false);
                     isOpenEveryMac = false;
+                    // Make saved preference in the future.
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.menu_everymac_false), Toast.LENGTH_LONG).show();
                 } else {
                     item.setChecked(true);
                     isOpenEveryMac = true;
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
                 }
             default:
                 return super.onOptionsItemSelected(item);
@@ -171,16 +183,24 @@ public class MainActivity extends AppCompatActivity {
                 machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        sendIntent(thisName, thisSound, thisProcessor,
-                                thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                        if (isOpenEveryMac) {
+                            loadLinks(thisLinks);
+                        } else {
+                            sendIntent(thisName, thisSound, thisProcessor,
+                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                        }
                     }
                 });
 
                 machineYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        sendIntent(thisName, thisSound, thisProcessor,
-                                thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                        if (isOpenEveryMac) {
+                            loadLinks(thisLinks);
+                        } else {
+                            sendIntent(thisName, thisSound, thisProcessor,
+                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                        }
                     }
                 });
                 currentLayout.addView(mainChunk);
@@ -205,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("year", thisYear);
         intent.putExtra("model", thisModel);
         intent.putExtra("links", thisLinks);
-        intent.putExtra("isOpenEveryMac", isOpenEveryMac);
 
         String path = null;
         if (thisBlob != null) {
@@ -229,5 +248,78 @@ public class MainActivity extends AppCompatActivity {
         }
         intent.putExtra("path", path);
         startActivity(intent);
+    }
+
+    // Copied from specsActivity...
+    private void loadLinks(final String thisLinks) {
+        try {
+            final String[] linkGroup = thisLinks.split(";");
+            if (linkGroup.length == 1) {
+                startBrowser(linkGroup[0].split(",")[1]);
+            } else {
+                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                linkDialog.setMessage(getResources().getString(R.string.link_message));
+                // Setup each option in dialog.
+                View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+                final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
+                for (int i = 0; i < linkGroup.length; i++) {
+                    RadioButton linkOption = new RadioButton(this);
+                    linkOption.setText(linkGroup[i].split(",")[0]);
+                    linkOption.setId(i);
+                    if (i == 0) {
+                        linkOption.setChecked(true);
+                    }
+                    linkOptions.addView(linkOption);
+                }
+                linkDialog.setView(linkChunk);
+
+                // When user tapped confirm or cancel...
+                linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                try {
+                                    startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                            .split(",")[1]);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                // Cancelled.
+                            }
+                        });
+                linkDialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("loadLinks", "Link loading failed!!");
+        }
+    }
+
+    private void startBrowser(final String url) {
+        try {
+            Intent browser = new Intent(Intent.ACTION_VIEW);
+            browser.setData(Uri.parse(url));
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+            startActivity(browser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean getIsOpenInEveryMac() {
+        return isOpenEveryMac;
     }
 }
