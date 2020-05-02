@@ -19,7 +19,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Checkable;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -40,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    SharedPreferences prefs = null;
+    private SharedPreferences prefs = null;
 
-    SharedPreferences.Editor prefsEditor = null;
+    private SharedPreferences.Editor prefsEditor = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            Log.e("initDatabase","Initialize failed!!");
+            Log.e("initDatabase", "Initialize failed!!");
         }
     }
 
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            Log.e("initCategory","Initialize Category " + category + " failed!!");
+            Log.e("initCategory", "Initialize Category " + category + " failed!!");
         }
     }
 

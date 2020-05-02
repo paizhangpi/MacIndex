@@ -26,7 +26,7 @@ class CategoryHelper {
         try {
             return getLayout.get(category);
         } catch (Exception e) {
-            Log.e("CategoryLayout","Failed with " + category);
+            Log.e("CategoryLayout", "Failed with " + category);
             e.printStackTrace();
         }
         return 0;
