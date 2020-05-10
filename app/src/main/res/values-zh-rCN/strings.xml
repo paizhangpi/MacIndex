@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="about">关于 MacIndex</string>
+    <string name="about">关于 MacIndex&#160;</string>
     <string name="information">作者：paizhangpi，Victor Jiao， 2019， 2020\n\n开机音效、宕机音效与图片对于特定的机器可能有所变化，因此并不完全准确。\n本软件只用作教育和内部使用用途。\n声音与图片来自苹果公司。</string>
     <string name="information_website">从官网检查更新，提交 Bug，留下评论，或查看更多信息。\npaizhang.info/MacIndexCN</string>
     <string name="information_specs_full">点击上方图片来试听开机和宕机音效。</string>
@@ -11,9 +11,9 @@
     <string name="menu_everymac_true">未来将会默认打开 EveryMac</string>
     <string name="menu_everymac_false">未来将不默认打开 EveryMac</string>
     <string name="menu_random">试试手气</string>
-    <string name="feature_not_available">（目前不可用）</string>
-    <string name="total_1">共加载了\b</string>
-    <string name="total_2">\b个机型</string>
+    <string name="feature_not_available">&#160;（目前不可用）</string>
+    <string name="total_1">共加载了&#160;</string>
+    <string name="total_2">&#160;个机型</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>
