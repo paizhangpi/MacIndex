@@ -129,14 +129,13 @@ public class SpecsActivity extends AppCompatActivity {
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                loadLinks();
+                loadLinks(intent.getStringExtra("name"), intent.getStringExtra("links"));
             }
         });
     }
 
-    private void loadLinks() {
+    private void loadLinks(final String thisName, final String thisLinks) {
         try {
-            final String thisLinks = intent.getStringExtra("links");
             if (thisLinks.equals("N")) {
                 Toast.makeText(getApplicationContext(),
                         getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
@@ -144,9 +143,10 @@ public class SpecsActivity extends AppCompatActivity {
             }
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
-                startBrowser(linkGroup[0].split(",")[1]);
+                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                linkDialog.setTitle(thisName);
                 linkDialog.setMessage(getResources().getString(R.string.link_message));
                 // Setup each option in dialog.
                 View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
@@ -169,6 +169,7 @@ public class SpecsActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int which) {
                                 try {
                                     startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                            .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                             .split(",")[1]);
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -194,12 +195,12 @@ public class SpecsActivity extends AppCompatActivity {
         }
     }
 
-    private void startBrowser(final String url) {
+    private void startBrowser(final String thisName, final String url) {
         try {
             Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.link_opening) + "\n" + thisName, Toast.LENGTH_LONG).show();
             startActivity(browser);
         } catch (Exception e) {
             e.printStackTrace();

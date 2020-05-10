@@ -5,6 +5,9 @@
         android:id="@+id/searchMenu"
         android:title="@string/search" />
     <item
+        android:id="@+id/randomMenu"
+        android:title="@string/menu_random" />
+    <item
         android:id="@+id/aboutMenu"
         android:title="@string/about" />
 

@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
+import java.util.Random;
 
 /**
  * MacIndex
@@ -70,11 +73,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(aboutIntent);
                 return true;
             case R.id.searchMenu:
-                // To be implemented.
-                //Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
-                //startActivity(searchIntent);
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.feature_not_available), Toast.LENGTH_LONG).show();
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+                return true;
+            case R.id.randomMenu:
+                openRandom();
                 return true;
             case R.id.isEveryMacMenu:
                 if (item.isChecked()) {
@@ -90,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
                 }
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -193,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisLinks);
+                            loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
                                     thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
@@ -205,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisLinks);
+                            loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
                                     thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
@@ -260,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Copied from specsActivity...
-    private void loadLinks(final String thisLinks) {
+    private void loadLinks(final String thisName, final String thisLinks) {
         try {
             if (thisLinks.equals("N")) {
                 Toast.makeText(getApplicationContext(),
@@ -269,9 +273,10 @@ public class MainActivity extends AppCompatActivity {
             }
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
-                startBrowser(linkGroup[0].split(",")[1]);
+                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                linkDialog.setTitle(thisName);
                 linkDialog.setMessage(getResources().getString(R.string.link_message));
                 // Setup each option in dialog.
                 View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
@@ -294,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(final DialogInterface dialog, final int which) {
                                 try {
                                     startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                            .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                             .split(",")[1]);
                                 } catch (Exception e) {
                                     e.printStackTrace();
@@ -319,13 +325,45 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void startBrowser(final String url) {
+    private void startBrowser(final String thisName, final String url) {
         try {
             Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.link_opening) + "\n" + thisName, Toast.LENGTH_LONG).show();
             startActivity(browser);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openRandom() {
+        Random random = new Random();
+        int randomCategory = random.nextInt(10);
+        int randomMachine = random.nextInt((int) DatabaseUtils.queryNumEntries(database, "category" + randomCategory));
+        Log.i("RandomAccess", "Category " + randomCategory + ", Machine No. " + randomMachine);
+        try {
+            Cursor cursor = database.query("category" + randomCategory, null,
+                    null, null, null, null, null);
+            // Fix cursor -1 position error
+            cursor.moveToFirst();
+            cursor.move(randomMachine);
+            final String thisName = cursor.getString(cursor.getColumnIndex("name"));
+            final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
+            final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
+            final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
+            final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
+            final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
+            final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
+            final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
+            if (prefs.getBoolean("isOpenEveryMac", false)) {
+                loadLinks(thisName, thisLinks);
+            } else {
+                sendIntent(thisName, thisSound, thisProcessor,
+                        thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),

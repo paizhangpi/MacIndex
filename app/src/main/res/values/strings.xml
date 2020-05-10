@@ -9,6 +9,7 @@
     <string name="menu_everymac">Open in EveryMac</string>
     <string name="menu_everymac_true">Will open in EveryMac by default in the future</string>
     <string name="menu_everymac_false">Will not open in EveryMac by default in the future</string>
+    <string name="menu_random">Random</string>
     <string name="feature_not_available">Coming soon</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
@@ -36,7 +37,7 @@
     <string name="model">Model Number</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
-    <string name="link_opening">Opening in default browser</string>
+    <string name="link_opening">Opening in EveryMac:</string>
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Error occurred</string>

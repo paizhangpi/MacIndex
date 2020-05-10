@@ -10,6 +10,7 @@
     <string name="menu_everymac">从 EveryMac 打开</string>
     <string name="menu_everymac_true">未来将会默认打开 EveryMac</string>
     <string name="menu_everymac_false">未来将不默认打开 EveryMac</string>
+    <string name="menu_random">随机浏览</string>
     <string name="feature_not_available">该功能目前不可用</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
@@ -37,7 +38,7 @@
     <string name="model">型号</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
-    <string name="link_opening">正在启动默认浏览器</string>
+    <string name="link_opening">正在 EveryMac 中浏览：</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="error">发生错误</string>
