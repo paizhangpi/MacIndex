@@ -10,8 +10,10 @@
     <string name="menu_everymac">从 EveryMac 打开</string>
     <string name="menu_everymac_true">未来将会默认打开 EveryMac</string>
     <string name="menu_everymac_false">未来将不默认打开 EveryMac</string>
-    <string name="menu_random">随机浏览</string>
-    <string name="feature_not_available">该功能目前不可用</string>
+    <string name="menu_random">试试手气</string>
+    <string name="feature_not_available">（目前不可用）</string>
+    <string name="total_1">共加载了\b</string>
+    <string name="total_2">\b个机型</string>
     <string name="category0">经典 Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>

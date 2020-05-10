@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="about">About MacIndex</string>
+    <string name="about">About MacIndex&#160;</string>
     <string name="information">By: paizhangpi, Victor Jiao, 2019, 2020\n\nStartup sounds, death sounds, and photos have many variations, thus they could be inaccurate. \nDedicated to education and internal use. Sounds and photos by Apple.</string>
     <string name="information_website">Check out our official page for update, bug report, comments, and other information.\npaizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the image to play startup and death sound.</string>
@@ -9,8 +9,10 @@
     <string name="menu_everymac">Open in EveryMac</string>
     <string name="menu_everymac_true">Will open in EveryMac by default in the future</string>
     <string name="menu_everymac_false">Will not open in EveryMac by default in the future</string>
-    <string name="menu_random">Random</string>
-    <string name="feature_not_available">Coming soon</string>
+    <string name="menu_random">I\'m Feeling Lucky</string>
+    <string name="feature_not_available">&#160;(Coming soon)</string>
+    <string name="total_1"></string>
+    <string name="total_2">\ machines loaded in total</string>
     <string name="category0">Classic Macintosh</string>
     <string name="category1">eMac</string>
     <string name="category2">iMac</string>

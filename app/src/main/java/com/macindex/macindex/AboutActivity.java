@@ -18,7 +18,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        this.setTitle(getResources().getString(R.string.about));
+        this.setTitle(getResources().getString(R.string.about) + BuildConfig.VERSION_NAME);
         TextView versionText = findViewById(R.id.versionText);
         ImageView websiteImage = findViewById(R.id.websiteLogo);
         versionText.setText(BuildConfig.VERSION_NAME);

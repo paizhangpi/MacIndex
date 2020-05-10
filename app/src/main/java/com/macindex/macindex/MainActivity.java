@@ -30,7 +30,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.RandomAccessFile;
 import java.util.Random;
 
 /**
@@ -40,11 +39,15 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private static final int CATEGORIES_COUNT = 9;
+
     private SQLiteDatabase database;
 
     private SharedPreferences prefs = null;
 
     private SharedPreferences.Editor prefsEditor = null;
+
+    private int totalMachine = 0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -60,10 +63,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
+        MenuItem aboutMenu = menu.findItem(R.id.aboutMenu);
+        aboutMenu.setTitle(getResources().getString(R.string.about) + BuildConfig.VERSION_NAME);
         MenuItem isEveryMacMenu = menu.findItem(R.id.isEveryMacMenu);
         isEveryMacMenu.setChecked(prefs.getBoolean("isOpenEveryMac", false));
         MenuItem searchMenu = menu.findItem(R.id.searchMenu);
         searchMenu.setEnabled(false);
+        searchMenu.setTitle(getResources().getString(R.string.search) + getResources().getString(R.string.feature_not_available));
         return true;
     }
 
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
-        for (int i = 0; i <= 9; i++) {
+        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
             final int layoutID = CategoryHelper.getLayout(i);
             if (layoutID == 0) {
                 Toast.makeText(getApplicationContext(),
@@ -168,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
             }
             initCategory(currentLayout, i);
         }
+        Log.i("InitInterface", totalMachine + " loaded");
+        TextView totalMachineText = findViewById(R.id.totalMachinesText);
+        totalMachineText.setText(getResources().getString(R.string.total_1) + totalMachine + getResources().getString(R.string.total_2));
         // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }
 
@@ -175,8 +184,9 @@ public class MainActivity extends AppCompatActivity {
         try {
             Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
+            // Add to total machine
+            totalMachine += (int) DatabaseUtils.queryNumEntries(database, "category" + category);
             while (cursor.moveToNext()) {
-
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
@@ -347,12 +357,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openRandom() {
-        Random random = new Random();
-        int randomCategory = random.nextInt(10);
-        int randomMachine = random.nextInt((int) DatabaseUtils.queryNumEntries(database, "category" + randomCategory));
-        Log.i("RandomAccess", "Category " + randomCategory + ", Machine No. " + randomMachine);
         try {
-            Cursor cursor = database.query("category" + randomCategory, null,
+            if (totalMachine == 0) {
+                throw new IllegalArgumentException();
+            }
+            int randomMachine = new Random().nextInt(totalMachine);
+            Log.i("RandomAccess", "Machine No. " + randomMachine);
+            int category = 0;
+            while (category <= CATEGORIES_COUNT) {
+                if (randomMachine >= DatabaseUtils.queryNumEntries(database, "Category" + category)) {
+                    randomMachine -= DatabaseUtils.queryNumEntries(database, "Category" + category);
+                    category++;
+                } else {
+                    Log.i("RandomAccess", "Stopped at category " + category + ", remaining " + randomMachine);
+                    break;
+                }
+            }
+            Cursor cursor = database.query("category" + category, null,
                     null, null, null, null, null);
             // Fix cursor -1 position error
             cursor.moveToFirst();
