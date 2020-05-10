@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu_main, menu);
         MenuItem isEveryMacMenu = menu.findItem(R.id.isEveryMacMenu);
         isEveryMacMenu.setChecked(prefs.getBoolean("isOpenEveryMac", false));
+        MenuItem searchMenu = menu.findItem(R.id.searchMenu);
+        searchMenu.setEnabled(false);
         return true;
     }
 
@@ -197,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisName, thisLinks);
+                            loadLinks(thisName, thisLinks, false);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
                                     thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisName, thisLinks);
+                            loadLinks(thisName, thisLinks, false);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
                                     thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
@@ -263,8 +265,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Copied from specsActivity...
-    private void loadLinks(final String thisName, final String thisLinks) {
+    // Copied from specsActivity **modified with random parameter**
+    private void loadLinks(final String thisName, final String thisLinks, final boolean random) {
         try {
             if (thisLinks.equals("N")) {
                 Toast.makeText(getApplicationContext(),
@@ -274,6 +276,11 @@ public class MainActivity extends AppCompatActivity {
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
                 startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
+            } else if (random) {
+                // Dedicated for random function in MainActivity. Only update here.
+                int randomMachine = new Random().nextInt(linkGroup.length);
+                startBrowser(linkGroup[randomMachine].split(",")[0], linkGroup[randomMachine].split(",")[1]);
+
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
@@ -359,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
             final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
             final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
             if (prefs.getBoolean("isOpenEveryMac", false)) {
-                loadLinks(thisName, thisLinks);
+                loadLinks(thisName, thisLinks, true);
             } else {
                 sendIntent(thisName, thisSound, thisProcessor,
                         thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
