@@ -95,11 +95,28 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             getResources().getString(R.string.menu_everymac_false), Toast.LENGTH_LONG).show();
                 } else {
-                    item.setChecked(true);
-                    prefsEditor.putBoolean("isOpenEveryMac", true);
-                    prefsEditor.commit();
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
+                    AlertDialog.Builder isEveryMacDialog = new AlertDialog.Builder(this);
+                    isEveryMacDialog.setTitle(getResources().getString(R.string.menu_everymac));
+                    isEveryMacDialog.setMessage(getResources().getString(R.string.menu_everymac_description));
+                    isEveryMacDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(final DialogInterface dialog, final int which) {
+                                    item.setChecked(true);
+                                    prefsEditor.putBoolean("isOpenEveryMac", true);
+                                    prefsEditor.commit();
+                                    Toast.makeText(getApplicationContext(),
+                                            getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    isEveryMacDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(final DialogInterface dialog, final int which) {
+                                    // CANCELLED, do not modify.
+                                }
+                            });
+                    isEveryMacDialog.show();
                 }
                 return true;
             default:
@@ -279,6 +296,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadLinks(final String thisName, final String thisLinks, final boolean random) {
         try {
             if (thisLinks.equals("N")) {
+                // This should not happen
+                if (random) {
+                    throw new IllegalArgumentException();
+                }
                 Toast.makeText(getApplicationContext(),
                         getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
                 return;
@@ -289,6 +310,7 @@ public class MainActivity extends AppCompatActivity {
             } else if (random) {
                 // Dedicated for random function in MainActivity. Only update here.
                 int randomMachine = new Random().nextInt(linkGroup.length);
+                Log.i("loadLinks", "Random with multiple configurations, automatically chose " + randomMachine);
                 startBrowser(linkGroup[randomMachine].split(",")[0], linkGroup[randomMachine].split(",")[1]);
 
             } else {
@@ -387,6 +409,12 @@ public class MainActivity extends AppCompatActivity {
             final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
             final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
             if (prefs.getBoolean("isOpenEveryMac", false)) {
+                if (thisLinks.equals("N")) {
+                    // If this does happen: random machine have no link and open EveryMac checked
+                    Log.i("RandomAccess", "No link present! retrying");
+                    openRandom();
+                    return;
+                }
                 loadLinks(thisName, thisLinks, true);
             } else {
                 sendIntent(thisName, thisSound, thisProcessor,

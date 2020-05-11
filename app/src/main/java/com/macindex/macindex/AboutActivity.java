@@ -31,8 +31,6 @@ public class AboutActivity extends AppCompatActivity {
                     } else {
                         browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
                     }
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.link_opening), Toast.LENGTH_LONG).show();
                     startActivity(browser);
                 } catch (Exception e) {
                     e.printStackTrace();
