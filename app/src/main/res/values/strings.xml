@@ -9,7 +9,7 @@
     <string name="menu_everymac">Open in EveryMac</string>
     <string name="menu_everymac_true">Will open in EveryMac by default in the future</string>
     <string name="menu_everymac_false">Will not open in EveryMac by default in the future</string>
-    <string name="menu_everymac_description">MacIndex will not lunch specifications page in the future. Instead, it will redirect you to the specific EveryMac page of the model directly. \n\nMacIndex will ask for specific configuration if the model has more than one configurations unless you are accessing \"I\'m Feeling Lucky\" (it would decrease the randomness as well.)</string>
+    <string name="menu_everymac_description">MacIndex will not lunch specifications page in the future. Instead, it will redirect you to the specific EveryMac page of the model directly. \n\nMacIndex will ask you for specific configuration if the model has more than one configurations \n\n If you are trying \"I\'m Feeling Lucky\", MacIndex will redirect you to a random EveryMac page directly without asking.</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines loaded in total</string>
@@ -42,6 +42,8 @@
     <string name="link_opening">Opening in EveryMac:&#160;</string>
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="error">Please restart the app</string>
+    <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
     <string name="search">Search (Coming soon)</string>
+    <string name="previous">Previous:&#160;</string>
+    <string name="next">Next:&#160;</string>
 </resources>

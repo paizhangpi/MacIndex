@@ -2,11 +2,17 @@ package com.macindex.macindex;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 /*
- * MacIndex MachineHelper, Java playground.
- * May 12, 2020.
+ * MacIndex MachineHelper.
+ * Helps with ID-based flexible database query.
+ * First built May 12, 2020.
  */
 public class MachineHelper {
     // Set to actual quantity.
@@ -51,8 +57,18 @@ public class MachineHelper {
         }
     }
 
-    boolean selfCheck(final Cursor thisCursor) {
+    boolean selfCheck() {
         return status;
+    }
+
+    void suicide() {
+        if (selfCheck()) {
+            for (int i = 0; i <= categoryCount; i++) {
+                categoryIndividualCursor[i].close();
+                Log.i("MachineHelperSuicide", "Category cursor " + i + "closed successfully.");
+            }
+            database.close();
+        }
     }
 
     // Get total machines. For usage of random access.
@@ -132,12 +148,79 @@ public class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("name"));
     }
 
-    String getSound(final int thisMachine) {
+    // Integrated with SoundHelper
+    int[] getSound(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
+        String thisSound = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("sound"));
+        Log.i("MachineHelperGetSound", "Get ID " + thisSound);
+        int[] sound = new int[2];
+        switch (thisSound) {
+            case "0":
+                sound[0] = R.raw.mac128;
+                break;
+            case "1":
+                sound[0] = R.raw.macii;
+                break;
+            case "2":
+                sound[0] = R.raw.maclc;
+                break;
+            case "3":
+                sound[0] = R.raw.quadra;
+                break;
+            case "4":
+                sound[0] = R.raw.quadraav;
+                break;
+            case "5":
+                sound[0] = R.raw.powermac6100;
+                break;
+            case "6":
+                sound[0] = R.raw.powermac5000;
+                break;
+            case "7":
+            case "PB":
+                sound[0] = R.raw.powermac;
+                break;
+            case "8":
+                sound[0] = R.raw.newmac;
+                break;
+            case "9":
+                sound[0] = R.raw.tam;
+                break;
+            default:
+                Log.i("MachineHelperGetSound", "No startup sound for ID " + thisSound);
+                sound[0] = 0;
+        }
+        switch (thisSound) {
+            case "1":
+                sound[1] = R.raw.macii_death;
+                break;
+            case "2":
+            case "3":
+            case "PB":
+                sound[1] = R.raw.maclc_death;
+                break;
+            case "4":
+                sound[1] = R.raw.quadraav_death;
+                break;
+            case "5":
+                sound[1] = R.raw.powermac6100_death;
+                break;
+            case "6":
+                sound[1] = R.raw.powermac5000_death;
+                break;
+            case "7":
+            case "9":
+                sound[1] = R.raw.powermac_death;
+                break;
+            default:
+                Log.i("MachineHelperGetDthSnd", "No death sound for ID " + thisSound);
+                sound[1] = 0;
+                break;
+        }
+        return sound;
     }
 
     String getProcessor(final int thisMachine) {
@@ -172,13 +255,32 @@ public class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("model"));
     }
 
-    byte[] getPicture(final int thisMachine) {
+    File getPicture(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
+        byte[] thisBlob = categoryIndividualCursor[position[0]]
                 .getBlob(categoryIndividualCursor[position[0]].getColumnIndex("pic"));
+        // Old code from my old friend was not modified.
+        String path = null;
+        if (thisBlob != null) {
+            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
+            Log.i("sendIntent", "Converted blob to bitmap");
+            try {
+                File file = File.createTempFile("tempF", ".tmp");
+                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                path = file.getPath();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return new File(path);
     }
+
     String getConfig(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();

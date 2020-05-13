@@ -9,8 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,9 +29,12 @@ import java.io.OutputStream;
 import java.util.Random;
 
 /**
- * MacIndex
+ * MacIndex/2.
  * University of Illinois, CS125 FA19 Final Project
+ * University of Illinois, CS199 Kotlin SP20 Final Project
+ * https://paizhang.info/MacIndexCN
  * https://paizhang.info/MacIndex
+ * https://github.com/paizhangpi/MacIndex
  */
 public class MainActivity extends AppCompatActivity {
     // Set to the ID of last table.
@@ -58,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initDatabase();
         initInterface();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        machineHelper.suicide();
+        database.close();
     }
 
     @Override
@@ -144,14 +152,19 @@ public class MainActivity extends AppCompatActivity {
             inputStream.close();
             DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
             database = dbHelper.getReadableDatabase();
+
+            // Open MachineHelper
+            machineHelper = new MachineHelper(database, CATEGORIES_COUNT);
+            totalMachine = machineHelper.getMachineCount();
+            if (!machineHelper.selfCheck()) {
+                throw new IllegalArgumentException();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             Log.e("initDatabase", "Initialize failed!!");
         }
-        machineHelper = new MachineHelper(database, CATEGORIES_COUNT);
-        totalMachine = machineHelper.getMachineCount();
     }
 
     private void initInterface() {
