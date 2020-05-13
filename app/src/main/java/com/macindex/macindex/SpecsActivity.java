@@ -276,10 +276,16 @@ public class SpecsActivity extends AppCompatActivity {
             Log.i("SpecNavButtons", "Loading");
             // Previous button.
             final Button previous = findViewById(R.id.buttonPrevious);
+            // Reset the listener
+            previous.setOnClickListener(null);
+            // GONE by default, let it show up
+            previous.setVisibility(View.VISIBLE);
             if (machineID - 1 < 0) {
-                previous.setVisibility(View.GONE);
+                // First one, disable the prev button
+                previous.setEnabled(false);
+                previous.setText(getResources().getString(R.string.first_one));
             } else {
-                previous.setVisibility(View.VISIBLE);
+                previous.setEnabled(true);
                 previous.setText(getResources().getString(R.string.previous) + MainActivity.getMachineHelper().getName(machineID - 1));
                 previous.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -291,10 +297,14 @@ public class SpecsActivity extends AppCompatActivity {
 
             // Next button.
             final Button next = findViewById(R.id.buttonNext);
+            next.setOnClickListener(null);
+            next.setVisibility(View.VISIBLE);
             if (machineID + 1 >= MainActivity.getMachineHelper().getMachineCount()) {
-                next.setVisibility(View.GONE);
+                // Last one, disable the next button
+                next.setEnabled(false);
+                next.setText(getResources().getString(R.string.last_one));
             } else {
-                next.setVisibility(View.VISIBLE);
+                next.setEnabled(true);
                 next.setText(getResources().getString(R.string.next) + MainActivity.getMachineHelper().getName(machineID + 1));
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -321,22 +331,35 @@ public class SpecsActivity extends AppCompatActivity {
                 public void onSwipeRight() {
                     navNext();
                 }
+                public void onSwipeLeft() {
+                    // To make this working
+                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG);
+                }
             });
             mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
                     navNext();
                 }
+                public void onSwipeLeft() {
+                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG);
+                }
             });
         } else if (machineID + 1 >= MainActivity.getMachineHelper().getMachineCount()) {
             // Can only swipe Left (PREV)
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG);
+                }
                 public void onSwipeLeft() {
-                    navNext();
+                    navPrev();
                 }
             });
             mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG);
+                }
                 public void onSwipeLeft() {
-                    navNext();
+                    navPrev();
                 }
             });
         } else {

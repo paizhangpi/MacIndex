@@ -52,4 +52,6 @@
     <string name="search">搜索（暂不可用）</string>
     <string name="previous">上一个：</string>
     <string name="next">下一个：</string>
+    <string name="first_one">这是第一台电脑</string>
+    <string name="last_one">这是最后一台电脑</string>
 </resources>

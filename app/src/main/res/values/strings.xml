@@ -51,4 +51,6 @@
     <string name="search">Search (Coming soon)</string>
     <string name="previous">Previous:&#160;</string>
     <string name="next">Next:&#160;</string>
+    <string name="first_one">This is the first machine</string>
+    <string name="last_one">This is the last machine</string>
 </resources>
