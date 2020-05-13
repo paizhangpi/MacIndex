@@ -2,7 +2,6 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +34,10 @@ public class SpecsActivity extends AppCompatActivity {
 
     private MediaPlayer deathSound = null;
 
+    private View mainView = null;
+
+    private ScrollView mainScrollView = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,8 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             intent = getIntent();
             machineID = intent.getIntExtra("machineID", -1);
+            mainView = findViewById(R.id.mainView);
+            mainScrollView = findViewById(R.id.mainScrollView);
             initialize();
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,12 +69,19 @@ public class SpecsActivity extends AppCompatActivity {
             initSpecs();
             initImage();
             initLinks();
-            initButtons();
+            if (MainActivity.getPrefs().getBoolean("isUseNavButtons", false)) {
+                initButtons();
+            }
+            if (MainActivity.getPrefs().getBoolean("isUseGestures", true)) {
+                initGestures();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
+        Log.i("SpecsInitialize", "Machine ID " + machineID
+                + ", Previous ID " + (machineID - 1) + ", Next ID " + (machineID + 1));
     }
 
     private void release() {
@@ -126,8 +139,9 @@ public class SpecsActivity extends AppCompatActivity {
         int startupID = sound[0];
         int deathID = sound[1];
         TextView informationLabel = findViewById(R.id.information);
-        if (startupID != 0 && deathID != 0) {
-            // Startup sound exists, death sound exists
+        if (startupID != 0 && deathID != 0
+                && MainActivity.getPrefs().getBoolean("isPlayDeathSound", true)) {
+            // Startup sound exists, death sound exists, and user prefers both
             informationLabel.setText(getResources().getString(R.string.information_specs_full));
             startupSound = MediaPlayer.create(this, startupID);
             deathSound = MediaPlayer.create(this, deathID);
@@ -258,9 +272,8 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void initButtons() {
-        Log.i("SpecsInitButton", "Machine ID " + machineID
-                + ", Previous ID " + (machineID - 1) + ", Next ID " + (machineID + 1));
         try {
+            Log.i("SpecNavButtons", "Loading");
             // Previous button.
             final Button previous = findViewById(R.id.buttonPrevious);
             if (machineID - 1 < 0) {
@@ -270,9 +283,8 @@ public class SpecsActivity extends AppCompatActivity {
                 previous.setText(getResources().getString(R.string.previous) + MainActivity.getMachineHelper().getName(machineID - 1));
                 previous.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        machineID--;
-                        refresh();
+                    public void onClick(final View v) {
+                        navPrev();
                     }
                 });
             }
@@ -286,9 +298,8 @@ public class SpecsActivity extends AppCompatActivity {
                 next.setText(getResources().getString(R.string.next) + MainActivity.getMachineHelper().getName(machineID + 1));
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        machineID++;
-                        refresh();
+                    public void onClick(final View v) {
+                        navNext();
                     }
                 });
             }
@@ -299,10 +310,69 @@ public class SpecsActivity extends AppCompatActivity {
         }
     }
 
+    private void initGestures() {
+        // Reset listener
+        mainView.setOnTouchListener(null);
+        mainScrollView.setOnTouchListener(null);
+        Log.i("SpecGestures", "Loading");
+        if (machineID - 1 < 0) {
+            // Can only swipe Right (NEXT)
+            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    navNext();
+                }
+            });
+            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    navNext();
+                }
+            });
+        } else if (machineID + 1 >= MainActivity.getMachineHelper().getMachineCount()) {
+            // Can only swipe Left (PREV)
+            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeLeft() {
+                    navNext();
+                }
+            });
+            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeLeft() {
+                    navNext();
+                }
+            });
+        } else {
+            // Can do BOTH
+            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    navNext();
+                }
+                public void onSwipeLeft() {
+                    navPrev();
+                }
+            });
+            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    navNext();
+                }
+                public void onSwipeLeft() {
+                    navPrev();
+                }
+            });
+        }
+    }
+
+    private void navPrev() {
+        machineID--;
+        refresh();
+    }
+
+    private void navNext() {
+        machineID++;
+        refresh();
+    }
+
     private void refresh() {
         release();
         initialize();
-        View mainView = findViewById(R.id.mainView);
         mainView.invalidate();
     }
 }

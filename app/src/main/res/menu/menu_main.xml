@@ -9,10 +9,6 @@
         android:title="@string/menu_random" />
     <item
         android:id="@+id/aboutMenu"
-        android:title="@string/about" />
+        android:title="@string/menu_about_settings" />
 
-    <item
-        android:id="@+id/isEveryMacMenu"
-        android:checkable="true"
-        android:title="@string/menu_everymac" />
 </menu>

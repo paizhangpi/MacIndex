@@ -44,11 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
     private SQLiteDatabase database;
 
-    private SharedPreferences prefs = null;
+    private static SharedPreferences prefs = null;
 
-    private SharedPreferences.Editor prefsEditor = null;
-
-    private int totalMachine = 0;
+    private static SharedPreferences.Editor prefsEditor = null;
 
 
     @Override
@@ -73,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
         MenuItem aboutMenu = menu.findItem(R.id.aboutMenu);
-        aboutMenu.setTitle(getResources().getString(R.string.about) + BuildConfig.VERSION_NAME);
-        MenuItem isEveryMacMenu = menu.findItem(R.id.isEveryMacMenu);
-        isEveryMacMenu.setChecked(prefs.getBoolean("isOpenEveryMac", false));
+        aboutMenu.setTitle(getResources().getString(R.string.menu_about_settings));
         MenuItem searchMenu = menu.findItem(R.id.searchMenu);
         searchMenu.setEnabled(false);
         searchMenu.setTitle(getResources().getString(R.string.search));
@@ -86,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
-                Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
                 startActivity(aboutIntent);
                 return true;
             case R.id.searchMenu:
@@ -95,38 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.randomMenu:
                 openRandom();
-                return true;
-            case R.id.isEveryMacMenu:
-                if (item.isChecked()) {
-                    item.setChecked(false);
-                    prefsEditor.putBoolean("isOpenEveryMac", false);
-                    prefsEditor.commit();
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.menu_everymac_false), Toast.LENGTH_LONG).show();
-                } else {
-                    AlertDialog.Builder isEveryMacDialog = new AlertDialog.Builder(this);
-                    isEveryMacDialog.setTitle(getResources().getString(R.string.menu_everymac));
-                    isEveryMacDialog.setMessage(getResources().getString(R.string.menu_everymac_description));
-                    isEveryMacDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog, final int which) {
-                                    item.setChecked(true);
-                                    prefsEditor.putBoolean("isOpenEveryMac", true);
-                                    prefsEditor.commit();
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.menu_everymac_true), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                    isEveryMacDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog, final int which) {
-                                    // CANCELLED, do not modify.
-                                }
-                            });
-                    isEveryMacDialog.show();
-                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -155,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Open MachineHelper
             machineHelper = new MachineHelper(database, CATEGORIES_COUNT);
-            totalMachine = machineHelper.getMachineCount();
             if (!machineHelper.selfCheck()) {
                 throw new IllegalArgumentException();
             }
@@ -207,9 +170,10 @@ public class MainActivity extends AppCompatActivity {
             }
             initCategory(currentLayout, i);
         }
-        Log.i("InitInterface", totalMachine + " loaded");
+        Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
         TextView totalMachineText = findViewById(R.id.totalMachinesText);
-        totalMachineText.setText(getResources().getString(R.string.total_1) + totalMachine + getResources().getString(R.string.total_2));
+        totalMachineText.setText(getResources().getString(R.string.total_1) + machineHelper.getMachineCount() + " / "
+                + machineHelper.getConfigCount() + getResources().getString(R.string.total_2));
         // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }
 
@@ -349,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openRandom() {
         try {
-            if (totalMachine == 0) {
+            if (machineHelper.getMachineCount() == 0) {
                 throw new IllegalArgumentException();
             }
             if (prefs.getBoolean("isOpenEveryMac", false)) {
@@ -368,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                 startBrowser(linkGroup[configPosition[1]].split(",")[0],
                         linkGroup[configPosition[1]].split(",")[1]);
             } else {
-                int machineID = new Random().nextInt(totalMachine);
+                int machineID = new Random().nextInt(machineHelper.getMachineCount());
                 Log.i("RandomAccess", "Machine ID " + machineID);
                 sendIntent(machineID);
             }
@@ -379,11 +343,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean getIsOpenInEveryMac() {
-        return prefs.getBoolean("isOpenEveryMac", false);
-    }
-
     public static MachineHelper getMachineHelper() {
         return machineHelper;
+    }
+
+    public static SharedPreferences getPrefs() {
+        return prefs;
+    }
+
+    public static SharedPreferences.Editor getPrefsEditor() {
+        return prefsEditor;
     }
 }

@@ -30,7 +30,7 @@ public class MachineHelper {
 
     private int totalMachine = 0;
 
-    private int totalConfig = -1;
+    private int totalConfig = 0;
 
     MachineHelper(final SQLiteDatabase thisDatabase, final int setCategoryCount) {
         // Set basic parameters.
@@ -55,6 +55,12 @@ public class MachineHelper {
                     + " loaded with row count " + thisCursorCount
                     + ", accumulated total row count " + totalMachine);
         }
+
+        // Initialize configurations
+        for (int i = 0; i < totalMachine; i++) {
+            totalConfig += getThisConfigCount(i);
+        }
+        Log.i("MachineHelperTotCfg", "Initialized with " + totalConfig + " configurations.");
     }
 
     boolean selfCheck() {
@@ -78,13 +84,6 @@ public class MachineHelper {
 
     // Get total configurations. For usage of random access.
     int getConfigCount() {
-        if (totalConfig == -1) {
-            // See if this is uninitialized..
-            for (int i = 0; i < totalMachine; i++) {
-                totalConfig += getThisConfigCount(i);
-            }
-            Log.i("MachineHelperTotCfg", "Initialized with " + totalConfig + " configurations.");
-        }
         return totalConfig;
     }
 
