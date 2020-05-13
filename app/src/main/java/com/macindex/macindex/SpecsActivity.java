@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -19,10 +20,13 @@ import android.widget.Toast;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class SpecsActivity extends AppCompatActivity {
 
     private Intent intent;
+
+    private int machineID;
 
     private boolean startup = true;
 
@@ -36,7 +40,10 @@ public class SpecsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specs);
         try {
             intent = getIntent();
-            this.setTitle(intent.getStringExtra("name"));
+            machineID = intent.getIntExtra("machineID", -1);
+            if (machineID == -1) {
+                throw new IllegalArgumentException();
+            }
             initSpecs();
             initImage();
             initLinks();
@@ -71,23 +78,45 @@ public class SpecsActivity extends AppCompatActivity {
         TextView year = findViewById(R.id.yearText);
         TextView model = findViewById(R.id.modelText);
 
-        name.setText(intent.getStringExtra("name"));
-        processor.setText(intent.getStringExtra("processor"));
-        maxram.setText(intent.getStringExtra("maxram"));
-        year.setText(intent.getStringExtra("year"));
-        model.setText(intent.getStringExtra("model"));
+        this.setTitle(MainActivity.getMachineHelper().getName(machineID));
+        name.setText(MainActivity.getMachineHelper().getName(machineID));
+        processor.setText(MainActivity.getMachineHelper().getProcessor(machineID));
+        maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
+        year.setText(MainActivity.getMachineHelper().getYear(machineID));
+        model.setText(MainActivity.getMachineHelper().getModel(machineID));
     }
 
     private void initImage() {
         ImageView image = findViewById(R.id.pic);
-        String path = intent.getStringExtra("path");
+        // Old code from my old friend was not modified.
+        byte[] thisBlob = MainActivity.getMachineHelper().getPicture(machineID);
+        String path = null;
+        if (thisBlob != null) {
+            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
+            Log.i("sendIntent", "Converted blob to bitmap");
+            try {
+                File file = File.createTempFile("tempF", ".tmp");
+                try (FileOutputStream out = new FileOutputStream(file, false)) {
+                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),
+                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                }
+                path = file.getPath();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),
+                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            }
+        }
         File file = new File(path);
         if (file.exists()) {
             Log.i("SpecsAct", "Image exists");
             image.setImageBitmap(BitmapFactory.decodeFile(file.getPath()));
         }
         file.delete();
-        String soundID = intent.getStringExtra("sound");
+        String soundID = MainActivity.getMachineHelper().getSound(machineID);
         int startupID = SoundHelper.getSound(soundID);
         int deathID = SoundHelper.getDeathSound(soundID);
         TextView informationLabel = findViewById(R.id.information);
@@ -129,7 +158,7 @@ public class SpecsActivity extends AppCompatActivity {
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                loadLinks(intent.getStringExtra("name"), intent.getStringExtra("links"));
+                loadLinks(MainActivity.getMachineHelper().getName(machineID), MainActivity.getMachineHelper().getConfig(machineID));
             }
         });
     }

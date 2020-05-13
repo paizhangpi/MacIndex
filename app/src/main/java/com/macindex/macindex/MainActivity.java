@@ -8,8 +8,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     // Set to the ID of last table.
     private static final int CATEGORIES_COUNT = 9;
 
-    private MachineHelper machineHelper;
+    private static MachineHelper machineHelper;
 
     private SQLiteDatabase database;
 
@@ -214,14 +212,9 @@ public class MainActivity extends AppCompatActivity {
                 final int[] position = {category, i};
                 final int machineID = machineHelper.findByPosition(position);
 
-                // Create a String for each data category. Update here.
+                // Find information necessary for interface.
                 final String thisName = machineHelper.getName(machineID);
-                final String thisSound = machineHelper.getSound(machineID);
-                final String thisProcessor = machineHelper.getProcessor(machineID);
-                final String thisMaxRAM = machineHelper.getMaxRam(machineID);
                 final String thisYear = machineHelper.getYear(machineID);
-                final String thisModel = machineHelper.getModel(machineID);
-                final byte[] thisBlob = machineHelper.getPicture(machineID);
                 final String thisLinks = machineHelper.getConfig(machineID);
 
                 machineName.setText(thisName);
@@ -233,8 +226,7 @@ public class MainActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(thisName, thisSound, thisProcessor,
-                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
+                            sendIntent(machineID);
                         }
                     }
                 });
@@ -245,8 +237,7 @@ public class MainActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(thisName, thisSound, thisProcessor,
-                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
+                            sendIntent(machineID);
                         }
                     }
                 });
@@ -261,40 +252,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
-                                  final String thisMaxRAM, final String thisYear, final String thisModel,
-                                  final byte[] thisBlob, final String thisLinks, final int thisMachineID) {
+    public void sendIntent(final int thisMachineID) {
         Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
-        intent.putExtra("name", thisName);
-        intent.putExtra("sound", thisSound);
-        intent.putExtra("processor", thisProcessor);
-        intent.putExtra("maxram", thisMaxRAM);
-        intent.putExtra("year", thisYear);
-        intent.putExtra("model", thisModel);
-        intent.putExtra("links", thisLinks);
-        intent.putExtra("id", thisMachineID);
-
-        String path = null;
-        if (thisBlob != null) {
-            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
-            Log.i("sendIntent", "Converted blob to bitmap");
-            try {
-                File file = File.createTempFile("tempF", ".tmp");
-                try (FileOutputStream out = new FileOutputStream(file, false)) {
-                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                }
-                path = file.getPath();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            }
-        }
-        intent.putExtra("path", path);
+        intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
     }
 
@@ -380,30 +340,24 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalArgumentException();
             }
             if (prefs.getBoolean("isOpenEveryMac", false)) {
-                int configID = new Random().nextInt(machineHelper.getConfigCount());
-            } else {
-                int machineID = new Random().nextInt(totalMachine);
-            }
-            Log.i("RandomAccess", "Machine No. " + machineID);
-            final String thisName = machineHelper.getName(machineID);
-            final String thisSound = machineHelper.getSound(machineID);
-            final String thisProcessor = machineHelper.getProcessor(machineID);
-            final String thisMaxRAM = machineHelper.getMaxRam(machineID);
-            final String thisYear = machineHelper.getYear(machineID);
-            final String thisModel = machineHelper.getModel(machineID);
-            final byte[] thisBlob = machineHelper.getPicture(machineID);
-            final String thisLinks = machineHelper.getConfig(machineID);
-            if (prefs.getBoolean("isOpenEveryMac", false)) {
-                if (thisLinks.equals("N")) {
+                final int configID = new Random().nextInt(machineHelper.getConfigCount());
+                final int[] configPosition = machineHelper.findByConfig(configID);
+                final String configString = machineHelper.getConfig(configPosition[0]);
+                if (configString.equals("N")) {
                     // If this does happen: random machine have no link and open EveryMac checked
                     Log.w("RandomAccess", "No link present! retrying");
                     openRandom();
                     return;
                 }
-                loadLinks(thisName, thisLinks);
+                Log.i("RandomAccess", "Link direct, Config ID " + configID
+                        + ", Machine ID " + configPosition[0] + ", Link No. " + configPosition[1]);
+                final String[] linkGroup = configString.split(";");
+                startBrowser(linkGroup[configPosition[1]].split(",")[0],
+                        linkGroup[configPosition[1]].split(",")[1]);
             } else {
-                sendIntent(thisName, thisSound, thisProcessor,
-                        thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
+                int machineID = new Random().nextInt(totalMachine);
+                Log.i("RandomAccess", "Machine ID " + machineID);
+                sendIntent(machineID);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -416,4 +370,7 @@ public class MainActivity extends AppCompatActivity {
         return prefs.getBoolean("isOpenEveryMac", false);
     }
 
+    public static MachineHelper getMachineHelper() {
+        return machineHelper;
+    }
 }

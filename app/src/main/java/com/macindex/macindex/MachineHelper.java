@@ -107,17 +107,17 @@ public class MachineHelper {
         return machineID + thisPosition[1];
     }
 
-    // Get machine ID by this config number. Return -1 if this config number is invalid.
+    // Get config position by this config number. Return null if this config number is invalid.
     int[] findByConfig(final int thisConfig) {
         // Machine ID / Remainder
-        int[] config = {0, thisConfig};
-        while (config[0] < totalMachine) {
-            int thisConfigCount = getThisConfigCount(config[0]);
-            if (config[1] > thisConfigCount) {
-                config[1] -= thisConfigCount;
-                config[0]++;
+        int[] configPosition = {0, thisConfig};
+        while (configPosition[0] < totalMachine) {
+            int thisConfigCount = getThisConfigCount(configPosition[0]);
+            if (configPosition[1] >= thisConfigCount) {
+                configPosition[1] -= thisConfigCount;
+                configPosition[0]++;
             } else {
-                return config;
+                return configPosition;
             }
         }
         Log.e("MachineHelperFndByCfg", "Can't find such ID, returning null.");
