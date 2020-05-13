@@ -1,7 +1,9 @@
 package com.macindex.macindex;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,17 +39,32 @@ public class SettingsAboutActivity extends AppCompatActivity {
         TextView versionText = findViewById(R.id.versionText);
         versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
         // Set Website Logo clickable
-        ImageView websiteImage = findViewById(R.id.websiteLogo);
-        websiteImage.setOnClickListener(new View.OnClickListener() {
+        View aboutView = findViewById(R.id.aboutLayout);
+        aboutView.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View unused) {
                 try {
-                    Intent browser = new Intent(Intent.ACTION_VIEW);
-                    if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
-                    } else {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
-                    }
-                    startActivity(browser);
+                    AlertDialog.Builder webSiteLuncher = new AlertDialog.Builder(SettingsAboutActivity.this);
+                    webSiteLuncher.setTitle(getResources().getString(R.string.information_about_website_title));
+                    webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
+                    webSiteLuncher.setPositiveButton(getResources().getString(R.string.link_confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent browser = new Intent(Intent.ACTION_VIEW);
+                            if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                                browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
+                            } else {
+                                browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                            }
+                            startActivity(browser);
+                        }
+                    });
+                    webSiteLuncher.setNegativeButton(getResources().getString(R.string.link_cancel), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // CANCELLED.
+                        }
+                    });
+                    webSiteLuncher.show();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(getApplicationContext(),

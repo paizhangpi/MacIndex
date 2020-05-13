@@ -13,46 +13,48 @@
         android:gravity="center_horizontal"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/macindex" />
-
-        <TextView
-            android:id="@+id/versionText"
+        <LinearLayout
+            android:id="@+id/aboutLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/information_about"
-            android:textAlignment="center"
-            android:textSize="14sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
 
-        <ImageView
-            android:id="@+id/websiteLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/logorev2" />
+            <TextView
+                android:id="@+id/versionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="#3F51B5"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/information_about_website"
-            android:textAlignment="center"
-            android:textSize="14sp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/information_about"
+                android:textAlignment="center"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/logorev2" />
+
+        </LinearLayout>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="15sp" />
+            android:layout_height="5dp" />
 
         <View
             android:id="@+id/divider9"
@@ -71,7 +73,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="5dp" />
 
                 <Switch
                     android:id="@+id/switchEveryMac"
@@ -79,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/setting_everymac"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -90,7 +92,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="5dp" />
 
                 <View
                     android:id="@+id/divider11"
@@ -100,7 +102,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="5dp" />
 
                 <Switch
                     android:id="@+id/switchDeathSound"
@@ -108,7 +110,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/setting_deathsound"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -119,7 +121,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="5dp" />
 
                 <View
                     android:id="@+id/divider10"
@@ -129,7 +131,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="5dp" />
 
                 <Switch
                     android:id="@+id/switchGestures"
@@ -137,7 +139,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/setting_gestures"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -148,7 +150,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="10dp" />
 
                 <View
                     android:id="@+id/divider13"
@@ -158,7 +160,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="15sp" />
+                    android:layout_height="10dp" />
 
                 <Switch
                     android:id="@+id/switchNavButtons"
@@ -166,7 +168,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/setting_navbuttons"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <TextView

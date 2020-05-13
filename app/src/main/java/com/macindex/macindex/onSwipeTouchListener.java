@@ -26,11 +26,6 @@ public class OnSwipeTouchListener implements OnTouchListener {
         private static final int SWIPE_VELOCITY_THRESHOLD = 100;
 
         @Override
-        public boolean onDown(final MotionEvent e) {
-            return true;
-        }
-
-        @Override
         public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX, final float velocityY) {
             boolean result = false;
             try {

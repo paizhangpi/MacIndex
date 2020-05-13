@@ -1,21 +1,22 @@
 <resources>
     <string name="app_name">MacIndex</string>
-    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nDedicated to education and internal use.\nSounds and photos by Apple.</string>
-    <string name="information_about_website">Check out the official website for updates, comments, and other information.\npaizhang.info/MacIndex</string>
+    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Site: paizhang.info/MacIndex\nDedicated to education and internal use.\nSounds and photos by Apple.</string>
+    <string name="information_about_website_title">Open our official website?</string>
+    <string name="information_about_website">Check out the official website for updates, comments, and other information.</string>
     <string name="information_specs_full">Tap on the image to play startup and death sound.</string>
     <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
     <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
     <string name="setting_saved">Your settings was saved.</string>
-    <string name="setting_everymac">Open directly in EveryMac</string>
-    <string name="setting_everymac_description">MacIndex will not lunch specifications page in the future. Instead, it will redirect you to the specific EveryMac page of the model directly. \n\nMacIndex will ask you for specific configuration if the model has more than one configurations. \n\n If you are trying \"I\'m Feeling Lucky\", MacIndex will redirect you to a random EveryMac page directly without asking.</string>
-    <string name="setting_deathsound">Enable death Sound</string>
+    <string name="setting_everymac">Open directly in EveryMac (Default: disable)</string>
+    <string name="setting_everymac_description">MacIndex will not lunch specifications page in the future. Instead, it will redirect you to the specific EveryMac page of the model directly.\nMacIndex will ask you for specific configuration if the model has more than one configurations.\nHowever, if you are trying \"I\'m Feeling Lucky\", MacIndex will redirect you to a random EveryMac page directly without asking.</string>
+    <string name="setting_deathsound">Enable death Sound (Default: enable)</string>
     <string name="setting_deathsound_deathsound_description">By default, MacIndex will play startup and death sound alternatively. However, if you would not prefer to hear death sound, you can turn it off.</string>
-    <string name="setting_gestures">Enable gestures</string>
+    <string name="setting_gestures">Enable gestures (Default: enable)</string>
     <string name="setting_gestures_description">By default, you can use left and right swipes to navigate between models. However, if you don\'t like this function, you can turn it off as well.</string>
-    <string name="setting_navbuttons">Enable navigate buttons</string>
+    <string name="setting_navbuttons">Enable navigate buttons (Default: disable)</string>
     <string name="setting_navbuttons_description">You may also enable old-fashioned navigate buttons with or without gestures.</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
-    <string name="menu_about_settings">About MacIndex / Settings</string>
+    <string name="menu_about_settings">About and Settings</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines and configurations loaded</string>
     <string name="category0">Classic Macintosh</string>
@@ -49,8 +50,6 @@
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
     <string name="search">Search (Coming soon)</string>
-    <string name="previous">Previous:&#160;</string>
-    <string name="next">Next:&#160;</string>
-    <string name="first_one">This is the first machine</string>
-    <string name="last_one">This is the last machine</string>
+    <string name="first_one">Already the first one</string>
+    <string name="last_one">Already the last one</string>
 </resources>

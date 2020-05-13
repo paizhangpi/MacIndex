@@ -274,19 +274,23 @@ public class SpecsActivity extends AppCompatActivity {
     private void initButtons() {
         try {
             Log.i("SpecNavButtons", "Loading");
-            // Previous button.
+            View buttonView = findViewById(R.id.buttonView);
             final Button previous = findViewById(R.id.buttonPrevious);
+            final Button next = findViewById(R.id.buttonNext);
             // Reset the listener
             previous.setOnClickListener(null);
+            next.setOnClickListener(null);
             // GONE by default, let it show up
-            previous.setVisibility(View.VISIBLE);
+            buttonView.setVisibility(View.VISIBLE);
+
+            // Previous button.
             if (machineID - 1 < 0) {
                 // First one, disable the prev button
                 previous.setEnabled(false);
                 previous.setText(getResources().getString(R.string.first_one));
             } else {
                 previous.setEnabled(true);
-                previous.setText(getResources().getString(R.string.previous) + MainActivity.getMachineHelper().getName(machineID - 1));
+                previous.setText(MainActivity.getMachineHelper().getName(machineID - 1));
                 previous.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -294,18 +298,14 @@ public class SpecsActivity extends AppCompatActivity {
                     }
                 });
             }
-
             // Next button.
-            final Button next = findViewById(R.id.buttonNext);
-            next.setOnClickListener(null);
-            next.setVisibility(View.VISIBLE);
             if (machineID + 1 >= MainActivity.getMachineHelper().getMachineCount()) {
                 // Last one, disable the next button
                 next.setEnabled(false);
                 next.setText(getResources().getString(R.string.last_one));
             } else {
                 next.setEnabled(true);
-                next.setText(getResources().getString(R.string.next) + MainActivity.getMachineHelper().getName(machineID + 1));
+                next.setText(MainActivity.getMachineHelper().getName(machineID + 1));
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
