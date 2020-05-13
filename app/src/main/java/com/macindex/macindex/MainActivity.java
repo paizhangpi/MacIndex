@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     // Set to the ID of last table.
     private static final int CATEGORIES_COUNT = 9;
 
-    private static int COLUMNS_COUNT = 9;
+    private MachineHelper machineHelper;
 
     private SQLiteDatabase database;
 
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor prefsEditor = null;
 
     private int totalMachine = 0;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -151,6 +152,8 @@ public class MainActivity extends AppCompatActivity {
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
             Log.e("initDatabase", "Initialize failed!!");
         }
+        machineHelper = new MachineHelper(database, CATEGORIES_COUNT);
+        totalMachine = machineHelper.getMachineCount();
     }
 
     private void initInterface() {
@@ -201,25 +204,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
-            Cursor cursor = database.query("category" + category, null,
-                    null, null, null, null, null);
-            // Add to total machine
-            totalMachine += (int) DatabaseUtils.queryNumEntries(database, "category" + category);
-            while (cursor.moveToNext()) {
+            for (int i = 0; i < machineHelper.getCategoryCount(category); i++) {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
+                // Adapt MachineHelper.
+                final int[] position = {category, i};
+                final int machineID = machineHelper.findByPosition(position);
+
                 // Create a String for each data category. Update here.
-                final String thisName = cursor.getString(cursor.getColumnIndex("name"));
-                final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
-                final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
-                final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
-                final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
-                final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
-                final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
-                final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
+                final String thisName = machineHelper.getName(machineID);
+                final String thisSound = machineHelper.getSound(machineID);
+                final String thisProcessor = machineHelper.getProcessor(machineID);
+                final String thisMaxRAM = machineHelper.getMaxRam(machineID);
+                final String thisYear = machineHelper.getYear(machineID);
+                final String thisModel = machineHelper.getModel(machineID);
+                final byte[] thisBlob = machineHelper.getPicture(machineID);
+                final String thisLinks = machineHelper.getConfig(machineID);
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
@@ -228,10 +231,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisName, thisLinks, false);
+                            loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
-                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
                         }
                     }
                 });
@@ -240,10 +243,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisName, thisLinks, false);
+                            loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(thisName, thisSound, thisProcessor,
-                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                                    thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
                         }
                     }
                 });
@@ -260,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendIntent(final String thisName, final String thisSound, final String thisProcessor,
                                   final String thisMaxRAM, final String thisYear, final String thisModel,
-                                  final byte[] thisBlob, final String thisLinks) {
+                                  final byte[] thisBlob, final String thisLinks, final int thisMachineID) {
         Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
         intent.putExtra("name", thisName);
         intent.putExtra("sound", thisSound);
@@ -269,6 +272,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("year", thisYear);
         intent.putExtra("model", thisModel);
         intent.putExtra("links", thisLinks);
+        intent.putExtra("id", thisMachineID);
 
         String path = null;
         if (thisBlob != null) {
@@ -294,14 +298,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // Copied from specsActivity **modified with random parameter**
-    private void loadLinks(final String thisName, final String thisLinks, final boolean random) {
+    // Copied from specsActivity, keep them compatible.
+    private void loadLinks(final String thisName, final String thisLinks) {
         try {
             if (thisLinks.equals("N")) {
-                // This should not happen
-                if (random) {
-                    throw new IllegalArgumentException();
-                }
                 Toast.makeText(getApplicationContext(),
                         getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
                 return;
@@ -309,12 +309,6 @@ public class MainActivity extends AppCompatActivity {
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
                 startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
-            } else if (random) {
-                // Dedicated for random function in MainActivity. Only update here.
-                int randomMachine = new Random().nextInt(linkGroup.length);
-                Log.i("loadLinks", "Random with multiple configurations, automatically chose " + randomMachine);
-                startBrowser(linkGroup[randomMachine].split(",")[0], linkGroup[randomMachine].split(",")[1]);
-
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
@@ -385,42 +379,31 @@ public class MainActivity extends AppCompatActivity {
             if (totalMachine == 0) {
                 throw new IllegalArgumentException();
             }
-            int randomMachine = new Random().nextInt(totalMachine);
-            Log.i("RandomAccess", "Machine No. " + randomMachine);
-            int category = 0;
-            while (category <= CATEGORIES_COUNT) {
-                if (randomMachine >= DatabaseUtils.queryNumEntries(database, "Category" + category)) {
-                    randomMachine -= DatabaseUtils.queryNumEntries(database, "Category" + category);
-                    category++;
-                } else {
-                    Log.i("RandomAccess", "Stopped at category " + category + ", remaining " + randomMachine);
-                    break;
-                }
+            if (prefs.getBoolean("isOpenEveryMac", false)) {
+                int configID = new Random().nextInt(machineHelper.getConfigCount());
+            } else {
+                int machineID = new Random().nextInt(totalMachine);
             }
-            Cursor cursor = database.query("category" + category, null,
-                    null, null, null, null, null);
-            // Fix cursor -1 position error
-            cursor.moveToFirst();
-            cursor.move(randomMachine);
-            final String thisName = cursor.getString(cursor.getColumnIndex("name"));
-            final String thisSound = cursor.getString(cursor.getColumnIndex("sound"));
-            final String thisProcessor = cursor.getString(cursor.getColumnIndex("processor"));
-            final String thisMaxRAM = cursor.getString(cursor.getColumnIndex("maxram"));
-            final String thisYear = cursor.getString(cursor.getColumnIndex("year"));
-            final String thisModel = cursor.getString(cursor.getColumnIndex("model"));
-            final byte[] thisBlob = cursor.getBlob(cursor.getColumnIndex("pic"));
-            final String thisLinks = cursor.getString(cursor.getColumnIndex("links"));
+            Log.i("RandomAccess", "Machine No. " + machineID);
+            final String thisName = machineHelper.getName(machineID);
+            final String thisSound = machineHelper.getSound(machineID);
+            final String thisProcessor = machineHelper.getProcessor(machineID);
+            final String thisMaxRAM = machineHelper.getMaxRam(machineID);
+            final String thisYear = machineHelper.getYear(machineID);
+            final String thisModel = machineHelper.getModel(machineID);
+            final byte[] thisBlob = machineHelper.getPicture(machineID);
+            final String thisLinks = machineHelper.getConfig(machineID);
             if (prefs.getBoolean("isOpenEveryMac", false)) {
                 if (thisLinks.equals("N")) {
                     // If this does happen: random machine have no link and open EveryMac checked
-                    Log.i("RandomAccess", "No link present! retrying");
+                    Log.w("RandomAccess", "No link present! retrying");
                     openRandom();
                     return;
                 }
-                loadLinks(thisName, thisLinks, true);
+                loadLinks(thisName, thisLinks);
             } else {
                 sendIntent(thisName, thisSound, thisProcessor,
-                        thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks);
+                        thisMaxRAM, thisYear, thisModel, thisBlob, thisLinks, machineID);
             }
         } catch (Exception e) {
             e.printStackTrace();
