@@ -200,7 +200,7 @@ public class SpecsActivity extends AppCompatActivity {
             Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening) + "\n" + thisName, Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
             startActivity(browser);
         } catch (Exception e) {
             e.printStackTrace();

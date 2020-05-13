@@ -38,8 +38,10 @@ import java.util.Random;
  * https://paizhang.info/MacIndex
  */
 public class MainActivity extends AppCompatActivity {
-
+    // Set to the ID of last table.
     private static final int CATEGORIES_COUNT = 9;
+
+    private static int COLUMNS_COUNT = 9;
 
     private SQLiteDatabase database;
 
@@ -69,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         isEveryMacMenu.setChecked(prefs.getBoolean("isOpenEveryMac", false));
         MenuItem searchMenu = menu.findItem(R.id.searchMenu);
         searchMenu.setEnabled(false);
-        searchMenu.setTitle(getResources().getString(R.string.search) + getResources().getString(R.string.feature_not_available));
+        searchMenu.setTitle(getResources().getString(R.string.search));
         return true;
     }
 
@@ -369,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
             Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening) + "\n" + thisName, Toast.LENGTH_LONG).show();
+                    getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
             startActivity(browser);
         } catch (Exception e) {
             e.printStackTrace();
@@ -430,4 +432,5 @@ public class MainActivity extends AppCompatActivity {
     public boolean getIsOpenInEveryMac() {
         return prefs.getBoolean("isOpenEveryMac", false);
     }
+
 }

@@ -12,7 +12,6 @@
     <string name="menu_everymac_false">未来将不默认打开 EveryMac</string>
     <string name="menu_everymac_description">MacIndex 将不会打开参数页面，它将默认跳转到对应的 EveryMac 网页。 \n\n若该型号有多种不同的配置，MacIndex 将询问您，除非您正在试手气（同时，可能会降低随机性）。</string>
     <string name="menu_random">试试手气</string>
-    <string name="feature_not_available">&#160;（目前不可用）</string>
     <string name="total_1">共加载了&#160;</string>
     <string name="total_2">&#160;个机型</string>
     <string name="category0">经典 Macintosh</string>
@@ -44,6 +43,6 @@
     <string name="link_opening">正在 EveryMac 中浏览：</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
-    <string name="error">发生错误</string>
-    <string name="search">搜索</string>
+    <string name="error">请重启应用</string>
+    <string name="search">搜索（暂不可用）</string>
 </resources>
