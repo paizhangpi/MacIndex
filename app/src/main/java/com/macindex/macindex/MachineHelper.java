@@ -8,6 +8,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * MacIndex MachineHelper.
@@ -15,12 +17,11 @@ import java.io.FileOutputStream;
  * First built May 12, 2020.
  */
 public class MachineHelper {
-    // Set to actual quantity.
+
+    /* Set to actual quantity */
     private static final int COLUMNS_COUNT = 9;
 
     private SQLiteDatabase database;
-
-    private int categoryCount;
 
     private Cursor[] categoryIndividualCursor;
 
@@ -32,15 +33,85 @@ public class MachineHelper {
 
     private int totalConfig = 0;
 
-    MachineHelper(final SQLiteDatabase thisDatabase, final int setCategoryCount) {
-        // Set basic parameters.
+    /* Set to actual quantity - 1 */
+    private static final int CATEGORIES_COUNT = 13;
+
+    /**
+     * Categories Reference List since 3.2
+     *
+     * category0:  Compact Macintosh
+     * category1:  Macintosh II
+     * category2:  Macintosh LC
+     * category3:  Macintosh Centris
+     * category4:  Macintosh Quadra
+     * category5:  Macintosh Performa
+     * category6:  Power Macintosh
+     * category7:  Power Mac G3/G4/G5
+     * category8:  iMac
+     * category9:  eMac
+     * category10: Mac mini
+     * category11: PowerBook
+     * category12: PowerBook G3/G4
+     * category13: iBook
+     *
+     * The following two hash maps need to be updated MANUALLY.
+     */
+    private static final Map<Integer, Integer> categoryName;
+    static {
+        categoryName = new HashMap<>();
+        categoryName.put(0, R.string.category0);
+        categoryName.put(1, R.string.category1);
+        categoryName.put(2, R.string.category2);
+        categoryName.put(3, R.string.category3);
+        categoryName.put(4, R.string.category4);
+        categoryName.put(5, R.string.category5);
+        categoryName.put(6, R.string.category6);
+        categoryName.put(7, R.string.category7);
+        categoryName.put(8, R.string.category8);
+        categoryName.put(9, R.string.category9);
+    }
+
+    private static final Map<Integer, Integer> categoryDescription;
+    static {
+        categoryDescription = new HashMap<>();
+        categoryDescription.put(0, R.string.category0_description);
+        categoryDescription.put(1, R.string.category1_description);
+        categoryDescription.put(2, R.string.category2_description);
+        categoryDescription.put(3, R.string.category3_description);
+        categoryDescription.put(4, R.string.category4_description);
+        categoryDescription.put(5, R.string.category5_description);
+        categoryDescription.put(6, R.string.category6_description);
+        categoryDescription.put(7, R.string.category7_description);
+        categoryDescription.put(8, R.string.category8_description);
+        categoryDescription.put(9, R.string.category9_description);
+    }
+
+
+    MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
-        categoryCount = setCategoryCount;
 
         // Initialize cursors and perform a self check.
-        categoryIndividualCount = new int[categoryCount + 1];
-        categoryIndividualCursor = new Cursor[categoryCount + 1];
-        for (int i = 0; i <= categoryCount; i++) {
+        Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
+        int categoryCount = 0;
+        if (cursor.moveToFirst()) {
+            while ( !cursor.isAfterLast() ) {
+                if (!cursor.getString(0).equals("category" + categoryCount)) {
+                    Log.e("MachineHelperInit", "Wrong table name.");
+                    status = false;
+                    return;
+                }
+                categoryCount++;
+                cursor.moveToNext();
+            }
+        }
+        if (categoryCount - 1 != CATEGORIES_COUNT) {
+            Log.e("MachineHelperInit", "Category total count preset mismatch with actual quantity.");
+            status = false;
+            return;
+        }
+        categoryIndividualCount = new int[CATEGORIES_COUNT + 1];
+        categoryIndividualCursor = new Cursor[CATEGORIES_COUNT + 1];
+        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
             categoryIndividualCursor[i] = database.query("category" + i, null,
                     null, null, null, null, null);
             if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
@@ -69,12 +140,17 @@ public class MachineHelper {
 
     void suicide() {
         if (selfCheck()) {
-            for (int i = 0; i <= categoryCount; i++) {
+            for (int i = 0; i <= CATEGORIES_COUNT; i++) {
                 categoryIndividualCursor[i].close();
                 Log.i("MachineHelperSuicide", "Category cursor " + i + "closed successfully.");
             }
             database.close();
         }
+    }
+
+    // Get the total count of a category
+    int getCategoryTotalCount() {
+        return CATEGORIES_COUNT;
     }
 
     // Get total machines. For usage of random access.
@@ -87,6 +163,28 @@ public class MachineHelper {
         return totalConfig;
     }
 
+    // Get the name of a category
+    int getCategoryName(final int thisCategory) {
+        try {
+            return categoryName.get(thisCategory);
+        } catch (Exception e) {
+            Log.e("MachineHelperGetCatName", "Failed with " + thisCategory);
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    // Get the description of a category
+    int getCategoryDescription(final int thisCategory) {
+        try {
+            return categoryDescription.get(thisCategory);
+        } catch (Exception e) {
+            Log.e("MachineHelperGetCatDesp", "Failed with " + thisCategory);
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     // Get total machines in a category.
     int getCategoryCount(final int thisCategory) {
         return categoryIndividualCount[thisCategory];
@@ -96,7 +194,7 @@ public class MachineHelper {
     private int[] getPosition(final int thisMachine) {
         // Category ID / Remainder
         int[] position = {0, thisMachine};
-        while (position[0] <= categoryCount) {
+        while (position[0] <= CATEGORIES_COUNT) {
             if (position[1] >= categoryIndividualCount[position[0]]) {
                 position[1] -= categoryIndividualCount[position[0]];
                 position[0]++;

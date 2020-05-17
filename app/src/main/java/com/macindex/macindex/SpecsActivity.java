@@ -394,8 +394,12 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void refresh() {
+        // Release old variables
         release();
+        startup = true;
+        // Reload data
         initialize();
+        // Refresh view
         mainView.invalidate();
     }
 }

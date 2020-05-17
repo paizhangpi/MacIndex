@@ -37,33 +37,27 @@ import java.util.Random;
  * https://github.com/paizhangpi/MacIndex
  */
 public class MainActivity extends AppCompatActivity {
-    // Set to the ID of last table.
-    private static final int CATEGORIES_COUNT = 9;
-
-    private static MachineHelper machineHelper;
 
     private SQLiteDatabase database;
 
+    private static MachineHelper machineHelper;
+
     private static SharedPreferences prefs = null;
-
-    private static SharedPreferences.Editor prefsEditor = null;
-
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
-        prefsEditor = prefs.edit();
         setContentView(R.layout.activity_main);
+        prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
         initDatabase();
         initInterface();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         machineHelper.suicide();
         database.close();
+        super.onDestroy();
     }
 
     @Override
@@ -118,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             database = dbHelper.getReadableDatabase();
 
             // Open MachineHelper
-            machineHelper = new MachineHelper(database, CATEGORIES_COUNT);
+            machineHelper = new MachineHelper(database);
             if (!machineHelper.selfCheck()) {
                 throw new IllegalArgumentException();
             }
@@ -131,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
-        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
+        for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
             final int layoutID = CategoryHelper.getLayout(i);
             if (layoutID == 0) {
                 Toast.makeText(getApplicationContext(),
@@ -349,9 +343,5 @@ public class MainActivity extends AppCompatActivity {
 
     public static SharedPreferences getPrefs() {
         return prefs;
-    }
-
-    public static SharedPreferences.Editor getPrefsEditor() {
-        return prefsEditor;
     }
 }

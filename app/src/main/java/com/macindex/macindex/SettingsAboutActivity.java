@@ -87,26 +87,22 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                MainActivity.getPrefsEditor().putBoolean("isOpenEveryMac", isChecked);
-                MainActivity.getPrefsEditor().commit();
+                MainActivity.getPrefs().edit().putBoolean("isOpenEveryMac", isChecked).apply();
             }
         });
         swDeathSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                MainActivity.getPrefsEditor().putBoolean("isPlayDeathSound", isChecked);
-                MainActivity.getPrefsEditor().commit();
+                MainActivity.getPrefs().edit().putBoolean("isPlayDeathSound", isChecked).apply();
             }
         });
         swGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                MainActivity.getPrefsEditor().putBoolean("isUseGestures", isChecked);
-                MainActivity.getPrefsEditor().commit();
+                MainActivity.getPrefs().edit().putBoolean("isUseGestures", isChecked).apply();
             }
         });
         swNavButtons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                MainActivity.getPrefsEditor().putBoolean("isUseNavButtons", isChecked);
-                MainActivity.getPrefsEditor().commit();
+                MainActivity.getPrefs().edit().putBoolean("isUseNavButtons", isChecked).apply();
             }
         });
     }
