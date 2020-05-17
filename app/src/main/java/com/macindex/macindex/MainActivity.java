@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         // Parent layout of all categories.
         final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
-
         for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
             final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
             final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
@@ -168,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
             initCategory(categoryChunkLayout, i);
+            categoryContainer.addView(categoryChunk);
         }
         Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
         TextView totalMachineText = findViewById(R.id.totalMachinesText);

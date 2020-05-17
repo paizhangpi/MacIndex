@@ -69,6 +69,10 @@ public class MachineHelper {
         categoryName.put(7, R.string.category7);
         categoryName.put(8, R.string.category8);
         categoryName.put(9, R.string.category9);
+        categoryName.put(10, R.string.category10);
+        categoryName.put(11, R.string.category11);
+        categoryName.put(12, R.string.category12);
+        categoryName.put(13, R.string.category13);
     }
 
     private static final Map<Integer, Integer> categoryDescription;
@@ -84,6 +88,10 @@ public class MachineHelper {
         categoryDescription.put(7, R.string.category7_description);
         categoryDescription.put(8, R.string.category8_description);
         categoryDescription.put(9, R.string.category9_description);
+        categoryDescription.put(10, R.string.category10_description);
+        categoryDescription.put(11, R.string.category11_description);
+        categoryDescription.put(12, R.string.category12_description);
+        categoryDescription.put(13, R.string.category13_description);
     }
 
 
@@ -91,19 +99,6 @@ public class MachineHelper {
         database = thisDatabase;
 
         // Initialize cursors and perform a self check.
-        Cursor cursor = database.rawQuery("SELECT name FROM sqlite_master WHERE type='table'", null);
-        int categoryCount = 0;
-        if (cursor.moveToFirst()) {
-            while ( !cursor.isAfterLast() ) {
-                categoryCount++;
-                cursor.moveToNext();
-            }
-        }
-        if (categoryCount != CATEGORIES_COUNT) {
-            Log.e("MachineHelperInit", "Category total count preset mismatch with actual quantity. Actual = " + categoryCount);
-            status = false;
-            return;
-        }
         categoryIndividualCount = new int[CATEGORIES_COUNT + 1];
         categoryIndividualCursor = new Cursor[CATEGORIES_COUNT + 1];
         for (int i = 0; i <= CATEGORIES_COUNT; i++) {
