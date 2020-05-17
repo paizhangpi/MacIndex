@@ -56,42 +56,42 @@ public class MachineHelper {
      *
      * The following two hash maps need to be updated MANUALLY.
      */
-    private static final Map<Integer, Integer> categoryName;
+    private static final Map<Integer, Integer> CATEGORIES_NAMES;
     static {
-        categoryName = new HashMap<>();
-        categoryName.put(0, R.string.category0);
-        categoryName.put(1, R.string.category1);
-        categoryName.put(2, R.string.category2);
-        categoryName.put(3, R.string.category3);
-        categoryName.put(4, R.string.category4);
-        categoryName.put(5, R.string.category5);
-        categoryName.put(6, R.string.category6);
-        categoryName.put(7, R.string.category7);
-        categoryName.put(8, R.string.category8);
-        categoryName.put(9, R.string.category9);
-        categoryName.put(10, R.string.category10);
-        categoryName.put(11, R.string.category11);
-        categoryName.put(12, R.string.category12);
-        categoryName.put(13, R.string.category13);
+        CATEGORIES_NAMES = new HashMap<>();
+        CATEGORIES_NAMES.put(0, R.string.category0);
+        CATEGORIES_NAMES.put(1, R.string.category1);
+        CATEGORIES_NAMES.put(2, R.string.category2);
+        CATEGORIES_NAMES.put(3, R.string.category3);
+        CATEGORIES_NAMES.put(4, R.string.category4);
+        CATEGORIES_NAMES.put(5, R.string.category5);
+        CATEGORIES_NAMES.put(6, R.string.category6);
+        CATEGORIES_NAMES.put(7, R.string.category7);
+        CATEGORIES_NAMES.put(8, R.string.category8);
+        CATEGORIES_NAMES.put(9, R.string.category9);
+        CATEGORIES_NAMES.put(10, R.string.category10);
+        CATEGORIES_NAMES.put(11, R.string.category11);
+        CATEGORIES_NAMES.put(12, R.string.category12);
+        CATEGORIES_NAMES.put(13, R.string.category13);
     }
 
-    private static final Map<Integer, Integer> categoryDescription;
+    private static final Map<Integer, Integer> CATEGORIES_DESCRIPTIONS;
     static {
-        categoryDescription = new HashMap<>();
-        categoryDescription.put(0, R.string.category0_description);
-        categoryDescription.put(1, R.string.category1_description);
-        categoryDescription.put(2, R.string.category2_description);
-        categoryDescription.put(3, R.string.category3_description);
-        categoryDescription.put(4, R.string.category4_description);
-        categoryDescription.put(5, R.string.category5_description);
-        categoryDescription.put(6, R.string.category6_description);
-        categoryDescription.put(7, R.string.category7_description);
-        categoryDescription.put(8, R.string.category8_description);
-        categoryDescription.put(9, R.string.category9_description);
-        categoryDescription.put(10, R.string.category10_description);
-        categoryDescription.put(11, R.string.category11_description);
-        categoryDescription.put(12, R.string.category12_description);
-        categoryDescription.put(13, R.string.category13_description);
+        CATEGORIES_DESCRIPTIONS = new HashMap<>();
+        CATEGORIES_DESCRIPTIONS.put(0, R.string.category0_description);
+        CATEGORIES_DESCRIPTIONS.put(1, R.string.category1_description);
+        CATEGORIES_DESCRIPTIONS.put(2, R.string.category2_description);
+        CATEGORIES_DESCRIPTIONS.put(3, R.string.category3_description);
+        CATEGORIES_DESCRIPTIONS.put(4, R.string.category4_description);
+        CATEGORIES_DESCRIPTIONS.put(5, R.string.category5_description);
+        CATEGORIES_DESCRIPTIONS.put(6, R.string.category6_description);
+        CATEGORIES_DESCRIPTIONS.put(7, R.string.category7_description);
+        CATEGORIES_DESCRIPTIONS.put(8, R.string.category8_description);
+        CATEGORIES_DESCRIPTIONS.put(9, R.string.category9_description);
+        CATEGORIES_DESCRIPTIONS.put(10, R.string.category10_description);
+        CATEGORIES_DESCRIPTIONS.put(11, R.string.category11_description);
+        CATEGORIES_DESCRIPTIONS.put(12, R.string.category12_description);
+        CATEGORIES_DESCRIPTIONS.put(13, R.string.category13_description);
     }
 
 
@@ -132,7 +132,7 @@ public class MachineHelper {
         if (selfCheck()) {
             for (int i = 0; i <= CATEGORIES_COUNT; i++) {
                 categoryIndividualCursor[i].close();
-                Log.i("MachineHelperSuicide", "Category cursor " + i + "closed successfully.");
+                Log.i("MachineHelperSuicide", "Category cursor " + i + " closed successfully.");
             }
             database.close();
         }
@@ -156,7 +156,7 @@ public class MachineHelper {
     // Get the name of a category
     int getCategoryName(final int thisCategory) {
         try {
-            return categoryName.get(thisCategory);
+            return CATEGORIES_NAMES.get(thisCategory);
         } catch (Exception e) {
             Log.e("MachineHelperGetCatName", "Failed with " + thisCategory);
             e.printStackTrace();
@@ -167,7 +167,7 @@ public class MachineHelper {
     // Get the description of a category
     int getCategoryDescription(final int thisCategory) {
         try {
-            return categoryDescription.get(thisCategory);
+            return CATEGORIES_DESCRIPTIONS.get(thisCategory);
         } catch (Exception e) {
             Log.e("MachineHelperGetCatDesp", "Failed with " + thisCategory);
             e.printStackTrace();

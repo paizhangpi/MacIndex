@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,10 @@ public class SettingsAboutActivity extends AppCompatActivity {
         // Set Version Text
         TextView versionText = findViewById(R.id.versionText);
         versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+        // Set Total Machine Text
+        TextView totalMachineText = findViewById(R.id.totalMachinesText);
+        totalMachineText.setText(getResources().getString(R.string.total_1) + MainActivity.getMachineHelper().getMachineCount() + " / "
+                + MainActivity.getMachineHelper().getConfigCount() + getResources().getString(R.string.total_2));
         // Set Website Logo clickable
         View aboutView = findViewById(R.id.aboutLayout);
         aboutView.setOnClickListener(new View.OnClickListener() {

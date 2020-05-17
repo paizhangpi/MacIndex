@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MacIndex</string>
     <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n本软件只用作教育和内部使用用途。\n声音与图片来自苹果公司。</string>
     <string name="information_about_website_title">打开官网？</string>
     <string name="information_about_website">您可以从官网检查更新，留下评论，并查看更多信息。</string>
@@ -20,34 +19,18 @@
     <string name="menu_about_settings">关于与设置</string>
     <string name="total_1">共加载了&#160;</string>
     <string name="total_2">&#160;个机型与配置</string>
-    <string name="category0">Compact Macintosh</string>
-    <string name="category1">Macintosh II</string>
-    <string name="category2">Macintosh LC</string>
-    <string name="category3">Macintosh Centris</string>
-    <string name="category4">Macintosh Quadra</string>
-    <string name="category5">Macintosh Performa</string>
-    <string name="category6">Power Macintosh</string>
-    <string name="category7">Power Mac G3/G4/G5</string>
-    <string name="category8">iMac</string>
-    <string name="category9">eMac</string>
-    <string name="category10">Mac mini</string>
-    <string name="category11">PowerBook</string>
-    <string name="category12">PowerBook G3/G4</string>
-    <string name="category13">iBook</string>
-    <string name="category0_description"></string>
-    <string name="category1_description"></string>
-    <string name="category2_description"></string>
-    <string name="category3_description"></string>
-    <string name="category4_description"></string>
-    <string name="category5_description"></string>
-    <string name="category6_description"></string>
-    <string name="category7_description"></string>
-    <string name="category8_description"></string>
-    <string name="category9_description"></string>
-    <string name="category10_description"></string>
-    <string name="category11_description"></string>
-    <string name="category12_description"></string>
-    <string name="category13_description"></string>
+    <string name="category1_description">基于 68020 或 68030 的具有可扩展设计的 Macintosh 电脑，为高性能用途而设计。</string>
+    <string name="category2_description">基于 68020 或 68030 或 68040 的 Macintosh 电脑，为教育市场而设计。</string>
+    <string name="category3_description">基于 68040 的 Macintosh 电脑，为商业市场而设计。</string>
+    <string name="category4_description">基于 68040 的 Macintosh 电脑，为高性能用途而设计，并取代 Macintosh II。</string>
+    <string name="category5_description">基于 68k 或 PowerPC 的 Macintosh 电脑，与既有机型重新捆绑出售。</string>
+    <string name="category6_description">基于 PowerPC 60x 的 Macintosh 电脑，为多种用途而设计。</string>
+    <string name="category7_description">基于 PowerPC G3 或 G4 或 G5 的具有可扩展设计的 Macintosh 电脑，为高性能用途而设计。</string>
+    <string name="category8_description">基于 PowerPC G3 或 G4 或 G5 的具有一体设计的 Macintosh 电脑，为家用和多媒体而设计。</string>
+    <string name="category9_description">基于 PowerPC G4 的具有一体设计的 Macintosh 电脑，为教育市场而设计。</string>
+    <string name="category11_description">基于 68k 或 PowerPC 的 Macintosh 笔记本电脑，为多种用途而设计。</string>
+    <string name="category12_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为高性能用途而设计。</string>
+    <string name="category13_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为家用和多媒体而设计。</string>
     <string name="processor">处理器类型</string>
     <string name="maxram">最大 RAM</string>
     <string name="year">推出于</string>
@@ -61,4 +44,6 @@
     <string name="search">搜索（暂不可用）</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
+    <string name="category0_description">早期多种具有一体设计的 Macintosh 电脑，包括最初的机型，XL，Plus，SE，（Color）Classic 和 TV。</string>
+    <string name="category10_description">基于 PowerPC G4 且十分紧凑的 Macintosh 电脑。</string>
 </resources>

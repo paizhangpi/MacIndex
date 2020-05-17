@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">MacIndex</string>
+    <string name="app_name" translatable="false">MacIndex</string>
     <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Site: paizhang.info/MacIndex\nDedicated to education and internal use.\nSounds and photos by Apple.</string>
     <string name="information_about_website_title">Open our official website?</string>
     <string name="information_about_website">Check out the official website for updates, comments, and other information.</string>
     <string name="information_specs_full">Tap on the image to play startup and death sound.</string>
     <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
     <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
-    <string name="setting_saved">Your settings was saved.</string>
+    <string name="setting_saved">Your settings were saved.</string>
     <string name="setting_everymac">Open directly in EveryMac (Default: disable)</string>
     <string name="setting_everymac_description">MacIndex will not lunch specifications page in the future. Instead, it will redirect you to the specific EveryMac page of the model directly.\nMacIndex will ask you for specific configuration if the model has more than one configurations.\nHowever, if you are trying \"I\'m Feeling Lucky\", MacIndex will redirect you to a random EveryMac page directly without asking.</string>
     <string name="setting_deathsound">Enable death Sound (Default: enable)</string>
@@ -19,34 +19,34 @@
     <string name="menu_about_settings">About and Settings</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines and configurations loaded</string>
-    <string name="category0">Compact Macintosh</string>
-    <string name="category1">Macintosh II</string>
-    <string name="category2">Macintosh LC</string>
-    <string name="category3">Macintosh Centris</string>
-    <string name="category4">Macintosh Quadra</string>
-    <string name="category5">Macintosh Performa</string>
-    <string name="category6">Power Macintosh</string>
-    <string name="category7">Power Mac G3/G4/G5</string>
-    <string name="category8">iMac</string>
-    <string name="category9">eMac</string>
-    <string name="category10">Mac mini</string>
-    <string name="category11">PowerBook</string>
-    <string name="category12">PowerBook G3/G4</string>
-    <string name="category13">iBook</string>
-    <string name="category0_description"></string>
-    <string name="category1_description"></string>
-    <string name="category2_description"></string>
-    <string name="category3_description"></string>
-    <string name="category4_description"></string>
-    <string name="category5_description"></string>
-    <string name="category6_description"></string>
-    <string name="category7_description"></string>
-    <string name="category8_description"></string>
-    <string name="category9_description"></string>
-    <string name="category10_description"></string>
-    <string name="category11_description"></string>
-    <string name="category12_description"></string>
-    <string name="category13_description"></string>
+    <string name="category0" translatable="false">Compact Macintosh</string>
+    <string name="category1" translatable="false">Macintosh II</string>
+    <string name="category2" translatable="false">Macintosh LC</string>
+    <string name="category3" translatable="false">Macintosh Centris</string>
+    <string name="category4" translatable="false">Macintosh Quadra</string>
+    <string name="category5" translatable="false">Macintosh Performa</string>
+    <string name="category6" translatable="false">Power Macintosh</string>
+    <string name="category7" translatable="false">Power Mac G3/G4/G5</string>
+    <string name="category8" translatable="false">iMac</string>
+    <string name="category9" translatable="false">eMac</string>
+    <string name="category10" translatable="false">Mac mini</string>
+    <string name="category11" translatable="false">PowerBook</string>
+    <string name="category12" translatable="false">PowerBook G3/G4</string>
+    <string name="category13" translatable="false">iBook</string>
+    <string name="category0_description">Various early Macintosh computers with all-in-one design including the Original, XL, Plus, SE, (Color) Classic, and TV.</string>
+    <string name="category1_description">68020/68030-based Macintosh computers with expandable design and designed for high performance demands.</string>
+    <string name="category2_description">68020/68030/68040-based Macintosh \"low-cost\" computers designed for education market.</string>
+    <string name="category3_description">68040-based Macintosh \"center level\" computers designed for business market.</string>
+    <string name="category4_description">68040-based Macintosh computers designed for high performance demands and replaced Macintosh II.</string>
+    <string name="category5_description">68k/PowerPC-based Macintosh computers repacked consisting models with special bundles.</string>
+    <string name="category6_description">PowerPC 60x-based Macintosh computers designed for various demands.</string>
+    <string name="category7_description">PowerPC G3/G4/G5-based Macintosh computers with expandable design and designed for high performance demands.</string>
+    <string name="category8_description">PowerPC G3/G4/G5-based Macintosh computers with all-in-one design and designed for home and multimedia use.</string>
+    <string name="category9_description">PowerPC G4-based Macintosh computers with all-in-one design and designed for education market.</string>
+    <string name="category10_description">PowerPC G4-based Macintosh computers with extremely compact design.</string>
+    <string name="category11_description">68k/PowerPC-based Macintosh laptops designed for various demands.</string>
+    <string name="category12_description">PowerPC G3/G4-based Macintosh laptops designed for high performance demands.</string>
+    <string name="category13_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
     <string name="processor">Processor Type</string>
     <string name="maxram">Maximum RAM</string>
     <string name="year">Introduction</string>
@@ -57,7 +57,6 @@
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
-    <string name="error_title">Fatal Error</string>
     <string name="search">Search (Coming soon)</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>

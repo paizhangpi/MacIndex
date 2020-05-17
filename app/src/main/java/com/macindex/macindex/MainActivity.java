@@ -22,8 +22,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -131,12 +129,14 @@ public class MainActivity extends AppCompatActivity {
         final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
         for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
             final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
+            final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
             final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
             final TextView categoryName = categoryChunk.findViewById(R.id.category);
             final TextView categoryDescription = categoryChunk.findViewById(R.id.description);
             categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
             categoryDescription.setText(getResources().getString(machineHelper.getCategoryDescription(i)));
 
+            // Never change the old code from my teammate.
             for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
                 View v = categoryChunkLayout.getChildAt(j);
                 v.setClickable(true);
@@ -168,11 +168,11 @@ public class MainActivity extends AppCompatActivity {
             }
             initCategory(categoryChunkLayout, i);
             categoryContainer.addView(categoryChunk);
+            if (i != machineHelper.getCategoryTotalCount()) {
+                categoryContainer.addView(dividerChunk);
+            }
         }
         Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
-        TextView totalMachineText = findViewById(R.id.totalMachinesText);
-        totalMachineText.setText(getResources().getString(R.string.total_1) + machineHelper.getMachineCount() + " / "
-                + machineHelper.getConfigCount() + getResources().getString(R.string.total_2));
         // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }
 

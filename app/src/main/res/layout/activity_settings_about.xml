@@ -8,177 +8,177 @@
     tools:context=".SettingsAboutActivity">
 
     <LinearLayout
+        android:id="@+id/aboutLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/aboutLayout"
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/versionText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="#3F51B5"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/totalMachinesText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/information_about"
+            android:textAlignment="center"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/logorev2" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="5dp" />
+
+    <View
+        android:id="@+id/divider9"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="5dp" />
 
-            <TextView
-                android:id="@+id/versionText"
+            <Switch
+                android:id="@+id/switchEveryMac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="#3F51B5"
-                android:textSize="24sp"
+                android:gravity="center"
+                android:text="@string/setting_everymac"
+                android:textSize="14sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_everymac_description" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="5dp" />
 
-            <TextView
+            <View
+                android:id="@+id/divider11"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <Switch
+                android:id="@+id/switchDeathSound"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/information_about"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                android:gravity="center"
+                android:text="@string/setting_deathsound"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:scaleType="centerInside"
-                app:srcCompat="@drawable/logorev2" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_deathsound_deathsound_description" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <View
+                android:id="@+id/divider10"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+
+            <Switch
+                android:id="@+id/switchGestures"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setting_gestures"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_gestures_description" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <View
+                android:id="@+id/divider13"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <Switch
+                android:id="@+id/switchNavButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setting_navbuttons"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_navbuttons_description" />
 
         </LinearLayout>
+    </ScrollView>
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp" />
-
-        <View
-            android:id="@+id/divider9"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <Switch
-                    android:id="@+id/switchEveryMac"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/setting_everymac"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_everymac_description" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <View
-                    android:id="@+id/divider11"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <Switch
-                    android:id="@+id/switchDeathSound"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/setting_deathsound"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_deathsound_deathsound_description" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <View
-                    android:id="@+id/divider10"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp" />
-
-                <Switch
-                    android:id="@+id/switchGestures"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/setting_gestures"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_gestures_description" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-                <View
-                    android:id="@+id/divider13"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?android:attr/listDivider" />
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp" />
-
-                <Switch
-                    android:id="@+id/switchNavButtons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/setting_navbuttons"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_navbuttons_description" />
-
-            </LinearLayout>
-        </ScrollView>
-
-    </LinearLayout>
 </LinearLayout>
