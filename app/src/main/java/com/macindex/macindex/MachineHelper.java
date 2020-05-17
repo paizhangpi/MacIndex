@@ -95,17 +95,12 @@ public class MachineHelper {
         int categoryCount = 0;
         if (cursor.moveToFirst()) {
             while ( !cursor.isAfterLast() ) {
-                if (!cursor.getString(0).equals("category" + categoryCount)) {
-                    Log.e("MachineHelperInit", "Wrong table name.");
-                    status = false;
-                    return;
-                }
                 categoryCount++;
                 cursor.moveToNext();
             }
         }
-        if (categoryCount - 1 != CATEGORIES_COUNT) {
-            Log.e("MachineHelperInit", "Category total count preset mismatch with actual quantity.");
+        if (categoryCount != CATEGORIES_COUNT) {
+            Log.e("MachineHelperInit", "Category total count preset mismatch with actual quantity. Actual = " + categoryCount);
             status = false;
             return;
         }

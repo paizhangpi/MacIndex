@@ -22,6 +22,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -125,44 +127,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
+        // Parent layout of all categories.
+        final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+
         for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
-            final int layoutID = CategoryHelper.getLayout(i);
-            if (layoutID == 0) {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                continue;
-            }
-            final LinearLayout currentLayout = findViewById(layoutID);
-            for (int j = 0; j < currentLayout.getChildCount(); j++) {
-                View v = currentLayout.getChildAt(j);
+            final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
+            final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
+            final TextView categoryName = categoryChunk.findViewById(R.id.category);
+            final TextView categoryDescription = categoryChunk.findViewById(R.id.description);
+            categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
+            categoryDescription.setText(getResources().getString(machineHelper.getCategoryDescription(i)));
+
+            for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                View v = categoryChunkLayout.getChildAt(j);
                 v.setClickable(true);
                 v.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         int visa = 0;
 
-                        for (int j = 0; j < currentLayout.getChildCount(); j++) {
-                            View vi = currentLayout.getChildAt(j);
+                        for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                            View vi = categoryChunkLayout.getChildAt(j);
                             if (vi.getVisibility() == View.VISIBLE) {
                                 visa++;
                             }
                         }
 
                         if (visa > 2) {
-                            for (int j = 2; j < currentLayout.getChildCount(); j++) {
-                                View vi = currentLayout.getChildAt(j);
+                            for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                View vi = categoryChunkLayout.getChildAt(j);
                                 vi.setVisibility(View.GONE);
                             }
                         } else {
-                            for (int j = 2; j < currentLayout.getChildCount(); j++) {
-                                View vi = currentLayout.getChildAt(j);
+                            for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                View vi = categoryChunkLayout.getChildAt(j);
                                 vi.setVisibility(View.VISIBLE);
                             }
                         }
                     }
                 });
             }
-            initCategory(currentLayout, i);
+            initCategory(categoryChunkLayout, i);
         }
         Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
         TextView totalMachineText = findViewById(R.id.totalMachinesText);
