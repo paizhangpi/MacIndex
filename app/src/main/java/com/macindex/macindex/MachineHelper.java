@@ -375,4 +375,55 @@ public class MachineHelper {
         return categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("links"));
     }
+
+    String getType(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("type"));
+    }
+
+    int getProcessorImage(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        String thisProcessorImage = categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
+        Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
+        switch (thisProcessorImage) {
+            case "68k":
+                return R.drawable.motorola;
+            case "ppc":
+                return R.drawable.powerpc;
+            case "750":
+                return R.drawable.MPC750;
+            case "750cxe":
+                return R.drawable.PPC750CXe;
+            case "755":
+                return R.drawable.MPC755;
+            case "750fx":
+                return R.drawable.PPC750FX;
+            case "7400":
+                return R.drawable.MPC7400;
+            case "7410":
+                return R.drawable.MPC7410_Motorola;
+            case "7450":
+                return R.drawable.MPC7450;
+            case "7455":
+                return R.drawable.MPC7455;
+            case "7447":
+                return R.drawable.MPC7447A;
+            case "970":
+                return R.drawable.PowerPC_970;
+            case "970fx":
+                return R.drawable.PowerPC_970FX;
+            case "970mp":
+                return R.drawable.PowerPC_970MP;
+            case "N":
+            default:
+                Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
+        }
+        return 0;
+    }
 }
