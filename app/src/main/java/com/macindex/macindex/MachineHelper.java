@@ -384,6 +384,24 @@ public class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("type"));
     }
 
+    int getProcessorTypeImage(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        String thisProcessorImage = categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
+        Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
+        switch (thisProcessorImage) {
+            case "68k":
+                return R.drawable.motorola;
+            case "ppc":
+                return R.drawable.powerpc;
+            default:
+                Log.i("MHGetProcessorImageType", "No processor image for ID " + thisProcessorImage);
+        }
+        return 0;
+    }
+
     int getProcessorImage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
@@ -392,10 +410,6 @@ public class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
         switch (thisProcessorImage) {
-            case "68k":
-                return R.drawable.motorola;
-            case "ppc":
-                return R.drawable.powerpc;
             case "750":
                 return R.drawable.mpc750;
             case "750cxe":
@@ -420,7 +434,6 @@ public class MachineHelper {
                 return R.drawable.ppc970fx;
             case "970mp":
                 return R.drawable.ppc970mp;
-            case "N":
             default:
                 Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
         }

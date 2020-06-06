@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n点击这里来浏览更多信息。</string>
+    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n\n点击这里来浏览更多信息。</string>
     <string name="information_about_website_title">说明</string>
-    <string name="information_about_website">本开源软件只用作教育和内部使用用途。\nMotorola 与 PowerPC logo 为适当场所的注册商标。\n处理器图像由 Henriok 制作，本软件依 CC0 协议使用，不保证其准确性。\n不同机型的声音与图像来自苹果公司，不保证其准确性。\n您可以从官网检查更新，留下评论，并查看更多信息。将会使用默认浏览器打开。</string>
-    <string name="information_about_open">Open Website</string>
-    <string name="information_about_close">Close</string>
+    <string name="information_about_website">本开源软件只用作教育和内部使用用途。\n\nMotorola 与 PowerPC logo 为适当场所的注册商标。\n\n处理器图像由 Henriok 制作，本软件依 CC0 协议使用，不保证其准确性。\n\n不同机型的声音与图像来自苹果公司，不保证其准确性。\n\n您可以从官网检查更新，留下评论，并查看更多信息。</string>
+    <string name="information_about_open">打开网站</string>
+    <string name="information_about_close">关闭</string>
     <string name="information_specs_full">点击上方图片来试听开机和宕机音效。</string>
     <string name="information_specs_no_death">点击上方图片来试听开机音效。</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据&#8230;</string>
@@ -34,16 +34,16 @@
     <string name="category12_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为高性能用途而设计。</string>
     <string name="category13_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为家用和多媒体而设计。</string>
     <string name="type">ROM 类型</string>
-    <string name="processor">处理器类型</string>
+    <string name="processor">处理器</string>
     <string name="maxram">最大 RAM</string>
-    <string name="year">推出于</string>
+    <string name="year">推出时间</string>
     <string name="model">型号</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在 EveryMac 中浏览：</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。\n\n将会使用默认浏览器打开。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
-    <string name="link_message_confirm">请确认以下配置。\n\n将会使用默认浏览器打开。\n\n</string>
+    <string name="link_message_confirm">找到了一种配置，请检查并确认。\n\n将会使用默认浏览器打开。\n\n</string>
     <string name="error">很抱歉，发生了错误。请重启应用。若错误仍不能解决，请向我反馈 Bug 和复现过程。</string>
     <string name="search">搜索（暂不可用）</string>
     <string name="first_one">已是第一台</string>

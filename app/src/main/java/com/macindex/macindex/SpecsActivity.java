@@ -116,6 +116,7 @@ public class SpecsActivity extends AppCompatActivity {
         TextView maxram = findViewById(R.id.maxramText);
         TextView year = findViewById(R.id.yearText);
         TextView model = findViewById(R.id.modelText);
+        ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
         ImageView processorImage = findViewById(R.id.processorImage);
 
         this.setTitle(MainActivity.getMachineHelper().getName(machineID));
@@ -125,6 +126,14 @@ public class SpecsActivity extends AppCompatActivity {
         maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
         year.setText(MainActivity.getMachineHelper().getYear(machineID));
         model.setText(MainActivity.getMachineHelper().getModel(machineID));
+
+        int processorTypeImageRes = MainActivity.getMachineHelper().getProcessorTypeImage(machineID);
+        if (processorTypeImageRes == 0) {
+            processorTypeImage.setVisibility(View.GONE);
+        } else {
+            processorTypeImage.setVisibility(View.VISIBLE);
+            processorTypeImage.setImageResource(processorTypeImageRes);
+        }
         int processorImageRes = MainActivity.getMachineHelper().getProcessorImage(machineID);
         if (processorImageRes == 0) {
             processorImage.setVisibility(View.GONE);
