@@ -50,7 +50,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     AlertDialog.Builder webSiteLuncher = new AlertDialog.Builder(SettingsAboutActivity.this);
                     webSiteLuncher.setTitle(getResources().getString(R.string.information_about_website_title));
                     webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
-                    webSiteLuncher.setPositiveButton(getResources().getString(R.string.link_confirm), new DialogInterface.OnClickListener() {
+                    webSiteLuncher.setPositiveButton(getResources().getString(R.string.information_about_open), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent browser = new Intent(Intent.ACTION_VIEW);
@@ -62,7 +62,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                             startActivity(browser);
                         }
                     });
-                    webSiteLuncher.setNegativeButton(getResources().getString(R.string.link_cancel), new DialogInterface.OnClickListener() {
+                    webSiteLuncher.setNegativeButton(getResources().getString(R.string.information_about_close), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // CANCELLED.

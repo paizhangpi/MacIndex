@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n本软件只用作教育和内部使用用途。\n声音与图片来自苹果公司。</string>
-    <string name="information_about_website_title">是否要打开官网？</string>
-    <string name="information_about_website">您可以从官网检查更新，留下评论，并查看更多信息。将会使用默认浏览器打开。</string>
+    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n点击这里来浏览更多信息。</string>
+    <string name="information_about_website_title">说明</string>
+    <string name="information_about_website">本开源软件只用作教育和内部使用用途。\nMotorola 与 PowerPC logo 为适当场所的注册商标。\n处理器图像由 Henriok 制作，本软件依 CC0 协议使用，不保证其准确性。\n不同机型的声音与图像来自苹果公司，不保证其准确性。\n您可以从官网检查更新，留下评论，并查看更多信息。将会使用默认浏览器打开。</string>
+    <string name="information_about_open">Open Website</string>
+    <string name="information_about_close">Close</string>
     <string name="information_specs_full">点击上方图片来试听开机和宕机音效。</string>
     <string name="information_specs_no_death">点击上方图片来试听开机音效。</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据&#8230;</string>
@@ -31,6 +33,7 @@
     <string name="category11_description">基于 68k 或 PowerPC 的 Macintosh 笔记本电脑，为多种用途而设计。</string>
     <string name="category12_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为高性能用途而设计。</string>
     <string name="category13_description">基于 PowerPC G3 或 G4 的 Macintosh 笔记本电脑，为家用和多媒体而设计。</string>
+    <string name="type">ROM 类型</string>
     <string name="processor">处理器类型</string>
     <string name="maxram">最大 RAM</string>
     <string name="year">推出于</string>

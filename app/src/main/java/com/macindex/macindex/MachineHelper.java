@@ -19,7 +19,7 @@ import java.util.Map;
 public class MachineHelper {
 
     /* Set to actual quantity */
-    private static final int COLUMNS_COUNT = 9;
+    private static final int COLUMNS_COUNT = 11;
 
     private SQLiteDatabase database;
 
@@ -397,29 +397,29 @@ public class MachineHelper {
             case "ppc":
                 return R.drawable.powerpc;
             case "750":
-                return R.drawable.MPC750;
+                return R.drawable.mpc750;
             case "750cxe":
-                return R.drawable.PPC750CXe;
+                return R.drawable.ppc750cxe;
             case "755":
-                return R.drawable.MPC755;
+                return R.drawable.mpc755;
             case "750fx":
-                return R.drawable.PPC750FX;
+                return R.drawable.ppc750fx;
             case "7400":
-                return R.drawable.MPC7400;
+                return R.drawable.mpc7400;
             case "7410":
-                return R.drawable.MPC7410_Motorola;
+                return R.drawable.mpc7410;
             case "7450":
-                return R.drawable.MPC7450;
+                return R.drawable.mpc7450;
             case "7455":
-                return R.drawable.MPC7455;
+                return R.drawable.mpc7455;
             case "7447":
-                return R.drawable.MPC7447A;
+                return R.drawable.mpc7447a;
             case "970":
-                return R.drawable.PowerPC_970;
+                return R.drawable.ppc970;
             case "970fx":
-                return R.drawable.PowerPC_970FX;
+                return R.drawable.ppc970fx;
             case "970mp":
-                return R.drawable.PowerPC_970MP;
+                return R.drawable.ppc970mp;
             case "N":
             default:
                 Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);

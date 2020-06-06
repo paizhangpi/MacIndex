@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Site: paizhang.info/MacIndex\nDedicated to education and internal use.\nSounds and photos by Apple.</string>
-    <string name="information_about_website_title">Open our official website?</string>
-    <string name="information_about_website">Check out the official website for updates, comments, and other information.</string>
+    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Site: paizhang.info/MacIndex\nTap here for more information.</string>
+    <string name="information_about_website_title">Acknowledgment</string>
+    <string name="information_about_website">This open-source application is dedicated to education and internal use.\nMotorola, and PowerPC logo are registered trademarks.\nProcessor images by Henriok are used under CC0 license, accuracy is not guaranteed.\nMachine sounds and images by Apple, accuracy is not guaranteed.\nPlease check out the official website for updates, comments, and other information. This will open your default browser.</string>
+    <string name="information_about_open">Open Website</string>
+    <string name="information_about_close">Close</string>
     <string name="information_specs_full">Tap on the image to play startup and death sound.</string>
     <string name="information_specs_no_death">Tap on the image to play startup sound.</string>
     <string name="information_specs_everymac">Tap below to access more specifications&#8230;</string>
@@ -47,6 +49,7 @@
     <string name="category11_description">68k/PowerPC-based Macintosh laptops designed for various demands.</string>
     <string name="category12_description">PowerPC G3/G4-based Macintosh laptops designed for high performance demands.</string>
     <string name="category13_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
+    <string name="type">ROM Type</string>
     <string name="processor">Processor Type</string>
     <string name="maxram">Maximum RAM</string>
     <string name="year">Introduction</string>

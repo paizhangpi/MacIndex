@@ -111,17 +111,27 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initSpecs() {
         TextView name = findViewById(R.id.nameText);
+        TextView type = findViewById(R.id.typeText);
         TextView processor = findViewById(R.id.processorText);
         TextView maxram = findViewById(R.id.maxramText);
         TextView year = findViewById(R.id.yearText);
         TextView model = findViewById(R.id.modelText);
+        ImageView processorImage = findViewById(R.id.processorImage);
 
         this.setTitle(MainActivity.getMachineHelper().getName(machineID));
         name.setText(MainActivity.getMachineHelper().getName(machineID));
+        type.setText(MainActivity.getMachineHelper().getType(machineID));
         processor.setText(MainActivity.getMachineHelper().getProcessor(machineID));
         maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
         year.setText(MainActivity.getMachineHelper().getYear(machineID));
         model.setText(MainActivity.getMachineHelper().getModel(machineID));
+        int processorImageRes = MainActivity.getMachineHelper().getProcessorImage(machineID);
+        if (processorImageRes == 0) {
+            processorImage.setVisibility(View.GONE);
+        } else {
+            processorImage.setVisibility(View.VISIBLE);
+            processorImage.setImageResource(processorImageRes);
+        }
     }
 
     private void initImage() {
