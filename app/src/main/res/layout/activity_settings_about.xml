@@ -178,6 +178,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/setting_navbuttons_description" />
 
+            <Button
+                android:id="@+id/button_defaults"
+                android:layout_width="272dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/setting_defaults" />
+
         </LinearLayout>
     </ScrollView>
 
