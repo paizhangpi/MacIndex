@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         this.setTitle(getResources().getString(R.string.menu_about_settings));
         initAbout();
         initSettings();
+        checkChange();
     }
 
     @Override
@@ -81,7 +83,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
         final Switch swGestures = findViewById(R.id.switchGestures);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
-        final Button restoreDefaults = findViewById(R.id.button_defaults);
 
         swEveryMac.setChecked(MainActivity.getPrefs().getBoolean("isOpenEveryMac", false));
         swDeathSound.setChecked(MainActivity.getPrefs().getBoolean("isPlayDeathSound", true));
@@ -91,35 +92,58 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 MainActivity.getPrefs().edit().putBoolean("isOpenEveryMac", isChecked).apply();
+                checkChange();
             }
         });
         swDeathSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 MainActivity.getPrefs().edit().putBoolean("isPlayDeathSound", isChecked).apply();
+                checkChange();
             }
         });
         swGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 MainActivity.getPrefs().edit().putBoolean("isUseGestures", isChecked).apply();
+                checkChange();
             }
         });
         swNavButtons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 MainActivity.getPrefs().edit().putBoolean("isUseNavButtons", isChecked).apply();
+                checkChange();
             }
         });
-        restoreDefaults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                swEveryMac.setChecked(false);
-                MainActivity.getPrefs().edit().putBoolean("isOpenEveryMac", false).apply();
-                swDeathSound.setChecked(true);
-                MainActivity.getPrefs().edit().putBoolean("isPlayDeathSound", true).apply();
-                swGestures.setChecked(true);
-                MainActivity.getPrefs().edit().putBoolean("isUseGestures", true).apply();
-                swNavButtons.setChecked(false);
-                MainActivity.getPrefs().edit().putBoolean("isUseNavButtons", false).apply();
-            }
-        });
+    }
+
+    private void checkChange() {
+        final Switch swEveryMac = findViewById(R.id.switchEveryMac);
+        final Switch swDeathSound = findViewById(R.id.switchDeathSound);
+        final Switch swGestures = findViewById(R.id.switchGestures);
+        final Switch swNavButtons = findViewById(R.id.switchNavButtons);
+        final TextView restoreDefaults = findViewById(R.id.textDefaults);
+        if (MainActivity.getPrefs().getBoolean("isOpenEveryMac", false)
+                || !MainActivity.getPrefs().getBoolean("isPlayDeathSound", true)
+                || !MainActivity.getPrefs().getBoolean("isUseGestures", true)
+                || MainActivity.getPrefs().getBoolean("isUseNavButtons", false)) {
+            restoreDefaults.setTextColor(Color.BLACK);
+            restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            restoreDefaults.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    swEveryMac.setChecked(false);
+                    MainActivity.getPrefs().edit().putBoolean("isOpenEveryMac", false).apply();
+                    swDeathSound.setChecked(true);
+                    MainActivity.getPrefs().edit().putBoolean("isPlayDeathSound", true).apply();
+                    swGestures.setChecked(true);
+                    MainActivity.getPrefs().edit().putBoolean("isUseGestures", true).apply();
+                    swNavButtons.setChecked(false);
+                    MainActivity.getPrefs().edit().putBoolean("isUseNavButtons", false).apply();
+                }
+            });
+        } else {
+            restoreDefaults.setTextColor(Color.LTGRAY);
+            restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+            restoreDefaults.setOnClickListener(null);
+        }
     }
 }
