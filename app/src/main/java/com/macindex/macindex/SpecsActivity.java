@@ -197,6 +197,7 @@ public class SpecsActivity extends AppCompatActivity {
         });
     }
 
+    // Keep compatible with MainActivity.
     private void loadLinks(final String thisName, final String thisLinks) {
         try {
             if (thisLinks.equals("N")) {
@@ -206,7 +207,24 @@ public class SpecsActivity extends AppCompatActivity {
             }
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
-                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
+                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                linkDialog.setTitle(thisName);
+                linkDialog.setMessage(getResources().getString(R.string.link_message_confirm)
+                        + linkGroup[0].split(",")[0]);
+                linkDialog.setPositiveButton(getResources().getString(R.string.link_confirm),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
+                            }
+                        });
+                linkDialog.setNegativeButton(getResources().getString(R.string.link_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Cancelled, no action needed.
+                    }
+                });
+                linkDialog.show();
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
@@ -254,6 +272,7 @@ public class SpecsActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("loadLinks", "Link loading failed!!");
         }
     }
 

@@ -54,8 +54,9 @@
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>
-    <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
+    <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.\n\nThis will open your default browser.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
+    <string name="link_message_confirm">Please review the following configuration.\n\nThis will open your default browser.\n\n</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
     <string name="search">Search (Coming soon)</string>
     <string name="first_one">Already the first one</string>

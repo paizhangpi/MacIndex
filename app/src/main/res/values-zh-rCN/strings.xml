@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n本软件只用作教育和内部使用用途。\n声音与图片来自苹果公司。</string>
-    <string name="information_about_website_title">打开官网？</string>
-    <string name="information_about_website">您可以从官网检查更新，留下评论，并查看更多信息。</string>
+    <string name="information_about_website_title">是否要打开官网？</string>
+    <string name="information_about_website">您可以从官网检查更新，留下评论，并查看更多信息。将会使用默认浏览器打开。</string>
     <string name="information_specs_full">点击上方图片来试听开机和宕机音效。</string>
     <string name="information_specs_no_death">点击上方图片来试听开机音效。</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据&#8230;</string>
@@ -38,8 +38,9 @@
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在 EveryMac 中浏览：</string>
-    <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
+    <string name="link_message">该机型有多种不同的配置。请做出选择并确认。\n\n将会使用默认浏览器打开。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
+    <string name="link_message_confirm">请确认以下配置。\n\n将会使用默认浏览器打开。\n\n</string>
     <string name="error">很抱歉，发生了错误。请重启应用。若错误仍不能解决，请向我反馈 Bug 和复现过程。</string>
     <string name="search">搜索（暂不可用）</string>
     <string name="first_one">已是第一台</string>
