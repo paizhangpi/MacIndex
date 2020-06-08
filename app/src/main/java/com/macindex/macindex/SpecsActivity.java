@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -116,8 +117,6 @@ public class SpecsActivity extends AppCompatActivity {
         TextView maxram = findViewById(R.id.maxramText);
         TextView year = findViewById(R.id.yearText);
         TextView model = findViewById(R.id.modelText);
-        ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
-        ImageView processorImage = findViewById(R.id.processorImage);
 
         this.setTitle(MainActivity.getMachineHelper().getName(machineID));
         name.setText(MainActivity.getMachineHelper().getName(machineID));
@@ -127,19 +126,51 @@ public class SpecsActivity extends AppCompatActivity {
         year.setText(MainActivity.getMachineHelper().getYear(machineID));
         model.setText(MainActivity.getMachineHelper().getModel(machineID));
 
+        /**
+         *  Processor Images dynaLoad.
+         *
+         *  (1) Try getting type image. If type image is present, will only load from it.
+         *  (2) Try getting specific image. Will load if specific image(s) is/are present.
+         *  (3) No action. The case is not applicable for both loading process.
+         */
+        LinearLayout processorAllImagesContainer = findViewById(R.id.processorAllImages);
+        ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
+        LinearLayout processorImages = findViewById(R.id.processorImageLayout);
+        // Default states are all hidden.
+        processorAllImagesContainer.setVisibility(View.GONE);
+        processorTypeImage.setVisibility(View.GONE);
+        processorImages.setVisibility(View.GONE);
+
         int processorTypeImageRes = MainActivity.getMachineHelper().getProcessorTypeImage(machineID);
         if (processorTypeImageRes == 0) {
-            processorTypeImage.setVisibility(View.GONE);
+            // Not applicable for type image loading, trying specific image.
+            int[][] processorImageRes = MainActivity.getMachineHelper().getProcessorImage(machineID);
+            if (processorImageRes[0][0] == 0) {
+                // No specific image present as well. No action.
+            } else {
+                // Got specific images. Now loading.
+                processorImages.setVisibility(View.VISIBLE);
+                processorAllImagesContainer.setVisibility(View.VISIBLE);
+                // Clear all existing children.
+                processorImages.removeAllViews();
+                for (int[] processorImageResGroup : processorImageRes) {
+                    for (int thisProcessorImageRes : processorImageResGroup) {
+                        View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
+                        View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
+                        ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
+                        thisProcessorImage.setImageResource(thisProcessorImageRes);
+                        processorImages.addView(imageChunk);
+                        processorImages.addView(spaceChunk);
+                    }
+                }
+                // Remove the last space.
+                processorImages.removeViewAt(processorImages.getChildCount() - 1);
+            }
         } else {
+            // Got type image. Now loading.
             processorTypeImage.setVisibility(View.VISIBLE);
+            processorAllImagesContainer.setVisibility(View.VISIBLE);
             processorTypeImage.setImageResource(processorTypeImageRes);
-        }
-        int processorImageRes = MainActivity.getMachineHelper().getProcessorImage(machineID);
-        if (processorImageRes == 0) {
-            processorImage.setVisibility(View.GONE);
-        } else {
-            processorImage.setVisibility(View.VISIBLE);
-            processorImage.setImageResource(processorImageRes);
         }
     }
 

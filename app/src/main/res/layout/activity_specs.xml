@@ -164,21 +164,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/processorAllImages"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_weight="1" />
+
                 <ImageView
                     android:id="@+id/processorTypeImage"
-                    android:layout_width="140dp"
+                    android:layout_width="120dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center" />
 
-                <ImageView
-                    android:id="@+id/processorImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center" />
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/processorImageLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal">
+
+                    </LinearLayout>
+                </HorizontalScrollView>
+
             </LinearLayout>
 
             <Space

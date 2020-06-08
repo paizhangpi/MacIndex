@@ -168,10 +168,10 @@ public class MainActivity extends AppCompatActivity {
             }
             initCategory(categoryChunkLayout, i);
             categoryContainer.addView(categoryChunk);
-            if (i != machineHelper.getCategoryTotalCount()) {
-                categoryContainer.addView(dividerChunk);
-            }
+            categoryContainer.addView(dividerChunk);
         }
+        // Remove the last divider.
+        categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
         Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
         // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n\n点击这里来浏览更多信息。</string>
+    <string name="information_about">作者：paizhangpi，Victor Jiao， 2019， 2020\n官方网站：paizhang.info/MacIndexCN\n点击这里来浏览更多信息</string>
     <string name="information_about_website_title">说明</string>
     <string name="information_about_website">本开源软件只用作教育和内部使用用途。\n\nMotorola 与 PowerPC logo 为适当场所的注册商标。\n\n处理器图像由 Henriok 制作，本软件依 CC0 协议使用，不保证其准确性。\n\n不同机型的声音与图像来自苹果公司，不保证其准确性。\n\n您可以从官网检查更新，留下评论，并查看更多信息。</string>
     <string name="information_about_open">打开网站</string>
     <string name="information_about_close">关闭</string>
-    <string name="information_specs_full">点击上方图片来试听开机和宕机音效。</string>
-    <string name="information_specs_no_death">点击上方图片来试听开机音效。</string>
-    <string name="information_specs_everymac">点击下方来浏览更加详尽的数据&#8230;</string>
+    <string name="information_specs_full">点击上方图片来试听开机和宕机音效</string>
+    <string name="information_specs_no_death">点击上方图片来试听开机音效</string>
+    <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">MacIndex 将不会打开参数页面，并默认跳转到对应的 EveryMac 网页。\n若该型号有多种不同的配置，MacIndex 将询问您。\n除非，若您正在试手气，则不会询问您，而会随机跳转到一个 EveryMac 网页。</string>
     <string name="setting_deathsound">播放宕机音</string>

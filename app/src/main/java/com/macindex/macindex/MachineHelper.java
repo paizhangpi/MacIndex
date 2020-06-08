@@ -384,6 +384,7 @@ public class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("type"));
     }
 
+    // Refer to SpecsActivity for a documentation.
     int getProcessorTypeImage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
@@ -391,7 +392,8 @@ public class MachineHelper {
         String thisProcessorImage = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
         Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
-        switch (thisProcessorImage) {
+        String[] thisImages = thisProcessorImage.split(",");
+        switch (thisImages[0]) {
             case "68k":
                 return R.drawable.motorola;
             case "ppc":
@@ -402,41 +404,90 @@ public class MachineHelper {
         return 0;
     }
 
-    int getProcessorImage(final int thisMachine) {
+    int[][] getProcessorImage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         String thisProcessorImage = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
-        switch (thisProcessorImage) {
-            case "750":
-                return R.drawable.mpc750;
-            case "750cxe":
-                return R.drawable.ppc750cxe;
-            case "755":
-                return R.drawable.mpc755;
-            case "750fx":
-                return R.drawable.ppc750fx;
-            case "7400":
-                return R.drawable.mpc7400;
-            case "7410":
-                return R.drawable.mpc7410;
-            case "7450":
-                return R.drawable.mpc7450;
-            case "7455":
-                return R.drawable.mpc7455;
-            case "7447":
-                return R.drawable.mpc7447a;
-            case "970":
-                return R.drawable.ppc970;
-            case "970fx":
-                return R.drawable.ppc970fx;
-            case "970mp":
-                return R.drawable.ppc970mp;
-            default:
-                Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
+        String[] thisImages = thisProcessorImage.split(",");
+        int[][] toReturn = new int[thisImages.length][];
+        for (int i = 0; i < thisImages.length; i++) {
+            switch (thisImages[i]) {
+                case "740":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc740;
+                    break;
+                case "750":
+                    toReturn[i] = new int[2];
+                    toReturn[i][0] = R.drawable.mpc750;
+                    toReturn[i][1] = R.drawable.ppc750l;
+                    break;
+                case "750cx":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc750cx;
+                    break;
+                case "750cxe":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc750cxe;
+                    break;
+                case "755":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc755;
+                    break;
+                case "750fx":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc750fx;
+                    break;
+                case "7400":
+                    toReturn[i] = new int[2];
+                    toReturn[i][0] = R.drawable.mpc7400;
+                    toReturn[i][1] = R.drawable.ppc7400;
+                    break;
+                case "7410":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7410;
+                    break;
+                case "7440":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7440;
+                    break;
+                case "7445":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7445;
+                    break;
+                case "7450":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7450;
+                    break;
+                case "7455":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7455;
+                    break;
+                case "7447":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.mpc7447a;
+                    break;
+                case "970":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc970;
+                    break;
+                case "970fx":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc970fx;
+                    break;
+                case "970mp":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.ppc970mp;
+                    break;
+                default:
+                    Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = 0;
+                    break;
+            }
         }
-        return 0;
+        return toReturn;
     }
 }
