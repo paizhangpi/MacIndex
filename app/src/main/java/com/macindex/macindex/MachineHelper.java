@@ -18,6 +18,23 @@ import java.util.Map;
  */
 public class MachineHelper {
 
+    /*
+     * Updating categories
+     * (1) Update the following number.
+     * (2) Add string resources.
+     * (3) Update the following two hash maps.
+     * (4) Add a new table to database.
+     *
+     * Updating columns
+     * (1) Update the following number.
+     * (2) Update MH to adapt the new column.
+     * (3) Update any code if needed.
+     * (4) Add a new column to every table.
+     */
+
+    /* Set to actual quantity - 1 */
+    private static final int CATEGORIES_COUNT = 14;
+
     /* Set to actual quantity */
     private static final int COLUMNS_COUNT = 11;
 
@@ -32,9 +49,6 @@ public class MachineHelper {
     private int totalMachine = 0;
 
     private int totalConfig = 0;
-
-    /* Set to actual quantity - 1 */
-    private static final int CATEGORIES_COUNT = 13;
 
     /**
      * Categories Reference List since 3.2
@@ -51,10 +65,9 @@ public class MachineHelper {
      * category9:  eMac
      * category10: Mac mini
      * category11: PowerBook
-     * category12: PowerBook G3/G4
-     * category13: iBook
-     *
-     * The following two hash maps need to be updated MANUALLY.
+     * category12: PowerBook Subnotebook
+     * category13: PowerBook G3/G4
+     * category14: iBook
      */
     private static final Map<Integer, Integer> CATEGORIES_NAMES;
     static {
@@ -71,8 +84,9 @@ public class MachineHelper {
         CATEGORIES_NAMES.put(9, R.string.category9);
         CATEGORIES_NAMES.put(10, R.string.category10);
         CATEGORIES_NAMES.put(11, R.string.category11);
-        CATEGORIES_NAMES.put(12, R.string.category12);
+        CATEGORIES_NAMES.put(12,R.string.category12);
         CATEGORIES_NAMES.put(13, R.string.category13);
+        CATEGORIES_NAMES.put(14, R.string.category14);
     }
 
     private static final Map<Integer, Integer> CATEGORIES_DESCRIPTIONS;
@@ -90,14 +104,14 @@ public class MachineHelper {
         CATEGORIES_DESCRIPTIONS.put(9, R.string.category9_description);
         CATEGORIES_DESCRIPTIONS.put(10, R.string.category10_description);
         CATEGORIES_DESCRIPTIONS.put(11, R.string.category11_description);
-        CATEGORIES_DESCRIPTIONS.put(12, R.string.category12_description);
+        CATEGORIES_DESCRIPTIONS.put(12,R.string.category12_description);
         CATEGORIES_DESCRIPTIONS.put(13, R.string.category13_description);
+        CATEGORIES_DESCRIPTIONS.put(14, R.string.category14_description);
     }
 
 
     MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
-
         // Initialize cursors and perform a self check.
         categoryIndividualCount = new int[CATEGORIES_COUNT + 1];
         categoryIndividualCursor = new Cursor[CATEGORIES_COUNT + 1];
@@ -231,8 +245,8 @@ public class MachineHelper {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("name"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("name")));
     }
 
     // Integrated with SoundHelper
@@ -242,8 +256,12 @@ public class MachineHelper {
         categoryIndividualCursor[position[0]].move(position[1]);
         String thisSound = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("sound"));
+        int[] sound = {0, 0};
+        // NullSafe
+        if (thisSound == null) {
+            return sound;
+        }
         Log.i("MachineHelperGetSound", "Get ID " + thisSound);
-        int[] sound = new int[2];
         switch (thisSound) {
             case "0":
                 sound[0] = R.raw.mac128;
@@ -278,7 +296,6 @@ public class MachineHelper {
                 break;
             default:
                 Log.i("MachineHelperGetSound", "No startup sound for ID " + thisSound);
-                sound[0] = 0;
         }
         switch (thisSound) {
             case "1":
@@ -304,8 +321,6 @@ public class MachineHelper {
                 break;
             default:
                 Log.i("MachineHelperGetDthSnd", "No death sound for ID " + thisSound);
-                sound[1] = 0;
-                break;
         }
         return sound;
     }
@@ -314,32 +329,32 @@ public class MachineHelper {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processor"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processor")));
     }
 
     String getMaxRam(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("maxram"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("maxram")));
     }
 
     String getYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("year"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("year")));
     }
 
     String getModel(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("model"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("model")));
     }
 
     File getPicture(final int thisMachine) {
@@ -348,6 +363,10 @@ public class MachineHelper {
         categoryIndividualCursor[position[0]].move(position[1]);
         byte[] thisBlob = categoryIndividualCursor[position[0]]
                 .getBlob(categoryIndividualCursor[position[0]].getColumnIndex("pic"));
+        // NullSafe
+        if (thisBlob == null) {
+            return new File("/");
+        }
         // Old code from my old friend was not modified.
         String path = null;
         if (thisBlob != null) {
@@ -368,20 +387,27 @@ public class MachineHelper {
         return new File(path);
     }
 
+    // Should return "N" if EveryMac link is not available.
     String getConfig(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
+        String toReturn = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("links"));
+        // NullSafe
+        if (toReturn == null) {
+            return "N";
+        } else {
+            return toReturn;
+        }
     }
 
     String getType(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
-        return categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("type"));
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("type")));
     }
 
     // Refer to SpecsActivity for a documentation.
@@ -392,6 +418,10 @@ public class MachineHelper {
         String thisProcessorImage = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
         Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
+        // NullSafe
+        if (thisProcessorImage == null) {
+            return 0;
+        }
         String[] thisImages = thisProcessorImage.split(",");
         switch (thisImages[0]) {
             case "68k":
@@ -411,6 +441,11 @@ public class MachineHelper {
         String thisProcessorImage = categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
+        // NullSafe
+        if (thisProcessorImage == null) {
+            int[][] toReturn = {{0},{0}};
+            return toReturn;
+        }
         String[] thisImages = thisProcessorImage.split(",");
         int[][] toReturn = new int[thisImages.length][];
         for (int i = 0; i < thisImages.length; i++) {
@@ -489,5 +524,14 @@ public class MachineHelper {
             }
         }
         return toReturn;
+    }
+
+    // NullSafe
+    private String checkApplicability(String thisSpec) {
+        if (thisSpec == null || thisSpec.equals("N")) {
+            return MainActivity.getRes().getString(R.string.not_applicable);
+        } else {
+            return thisSpec;
+        }
     }
 }

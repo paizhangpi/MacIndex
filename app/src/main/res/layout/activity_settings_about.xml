@@ -18,13 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="5dp" />
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/logorev2" />
+
         <TextView
             android:id="@+id/versionText"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:textAlignment="center"
             android:textColor="#3F51B5"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Space
@@ -44,12 +52,6 @@
             android:text="@string/information_about"
             android:textAlignment="center"
             android:textSize="14sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/logorev2" />
 
     </LinearLayout>
 

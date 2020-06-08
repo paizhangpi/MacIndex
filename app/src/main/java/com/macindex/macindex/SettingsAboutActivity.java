@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -35,47 +36,54 @@ public class SettingsAboutActivity extends AppCompatActivity {
     }
 
     private void initAbout() {
-        // Set Version Text
-        TextView versionText = findViewById(R.id.versionText);
-        versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
-        // Set Total Machine Text
-        TextView totalMachineText = findViewById(R.id.totalMachinesText);
-        totalMachineText.setText(getResources().getString(R.string.total_1) + MainActivity.getMachineHelper().getMachineCount() + " / "
-                + MainActivity.getMachineHelper().getConfigCount() + getResources().getString(R.string.total_2));
-        // Set Website Logo clickable
-        View aboutView = findViewById(R.id.aboutLayout);
-        aboutView.setOnClickListener(new View.OnClickListener() {
-            public void onClick(final View unused) {
-                try {
-                    AlertDialog.Builder webSiteLuncher = new AlertDialog.Builder(SettingsAboutActivity.this);
-                    webSiteLuncher.setTitle(getResources().getString(R.string.information_about_website_title));
-                    webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
-                    webSiteLuncher.setPositiveButton(getResources().getString(R.string.information_about_open), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent browser = new Intent(Intent.ACTION_VIEW);
-                            if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                                browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
-                            } else {
-                                browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+        try {
+            // Set Version Text
+            TextView versionText = findViewById(R.id.versionText);
+            versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+            // Set Total Machine Text
+            TextView totalMachineText = findViewById(R.id.totalMachinesText);
+            totalMachineText.setText(getResources().getString(R.string.total_1) + MainActivity.getMachineHelper().getMachineCount() + " / "
+                    + MainActivity.getMachineHelper().getConfigCount() + getResources().getString(R.string.total_2));
+            // Set Website Logo clickable
+            View aboutView = findViewById(R.id.aboutLayout);
+            aboutView.setOnClickListener(new View.OnClickListener() {
+                public void onClick(final View unused) {
+                    try {
+                        AlertDialog.Builder webSiteLuncher = new AlertDialog.Builder(SettingsAboutActivity.this);
+                        webSiteLuncher.setTitle(getResources().getString(R.string.information_about_website_title));
+                        webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
+                        webSiteLuncher.setPositiveButton(getResources().getString(R.string.information_about_open), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent browser = new Intent(Intent.ACTION_VIEW);
+                                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                                    browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
+                                } else {
+                                    browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                                }
+                                startActivity(browser);
                             }
-                            startActivity(browser);
-                        }
-                    });
-                    webSiteLuncher.setNegativeButton(getResources().getString(R.string.information_about_close), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            // CANCELLED.
-                        }
-                    });
-                    webSiteLuncher.show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(getApplicationContext(),
-                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        });
+                        webSiteLuncher.setNegativeButton(getResources().getString(R.string.information_about_close), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // CANCELLED.
+                            }
+                        });
+                        webSiteLuncher.show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),
+                                getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("initDatabase", "Initialize failed!!");
+        }
     }
 
     private void initSettings() {

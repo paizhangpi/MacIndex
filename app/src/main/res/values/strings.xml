@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Site: paizhang.info/MacIndex\nTap here for more information.</string>
+    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Website: paizhang.info/MacIndex</string>
     <string name="information_about_website_title">Acknowledgment</string>
     <string name="information_about_website">This open-source application is dedicated to education and internal use.\n\nMotorola, and PowerPC logo are registered trademarks.\n\nProcessor images by Henriok are used under CC0 license, accuracy is not guaranteed.\n\nMachine sounds and images by Apple, accuracy is not guaranteed.\n\nPlease check out the official website for updates, comments, and other information.</string>
     <string name="information_about_open">Open Website</string>
@@ -33,8 +33,9 @@
     <string name="category9" translatable="false">eMac</string>
     <string name="category10" translatable="false">Mac mini</string>
     <string name="category11" translatable="false">PowerBook</string>
-    <string name="category12" translatable="false">PowerBook G3/G4</string>
-    <string name="category13" translatable="false">iBook</string>
+    <string name="category12" translatable="false">PowerBook Duo</string>
+    <string name="category13" translatable="false">PowerBook G3/G4</string>
+    <string name="category14" translatable="false">iBook</string>
     <string name="category0_description">Various early Macintosh computers with all-in-one design including the Original, XL, Plus, SE, (Color) Classic, and TV.</string>
     <string name="category1_description">68020/68030-based Macintosh computers with expandable design and designed for high performance demands.</string>
     <string name="category2_description">68020/68030/68040-based Macintosh \"low-cost\" computers designed for education market.</string>
@@ -47,19 +48,24 @@
     <string name="category9_description">PowerPC G4-based Macintosh computers with all-in-one design and designed for education market.</string>
     <string name="category10_description">PowerPC G4-based Macintosh computers with extremely compact design.</string>
     <string name="category11_description">68k/PowerPC-based Macintosh laptops designed for various demands.</string>
-    <string name="category12_description">PowerPC G3/G4-based Macintosh laptops designed for high performance demands.</string>
-    <string name="category13_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
-    <string name="type">ROM Type</string>
-    <string name="processor">Processor</string>
-    <string name="maxram">Maximum RAM</string>
+    <string name="category12_description">68k/PowerPC-based Macintosh laptops with ultra-portable design and dock support.</string>
+    <string name="category13_description">PowerPC G3/G4-based Macintosh laptops designed for high performance demands.</string>
+    <string name="category14_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
     <string name="year">Introduction</string>
     <string name="model">Model Number</string>
+    <string name="processor">Processor</string>
+    <string name="graphics">Graphics</string>
+    <string name="display">Display</string>
+    <string name="type">ROM Information</string>
+    <string name="maxram">RAM Information</string>
+    <string name="bus_expansion">Bus &amp; Expansion</string>
+    <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>
-    <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.\n\nThis will open your default browser.</string>
+    <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="link_message_confirm">One configuration is found for this model. Please review then confirm.\n\nThis will open your default browser.\n\n</string>
+    <string name="link_message_confirm">Only the following configuration is found for this model. Please review then confirm.</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
     <string name="search">Search (Coming soon)</string>
     <string name="first_one">Already the first one</string>

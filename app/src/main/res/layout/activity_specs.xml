@@ -42,21 +42,24 @@
 
         </LinearLayout>
 
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_weight="1" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <View
-            android:id="@+id/divider12"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp"
-            android:layout_weight="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="5dp" />
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -70,41 +73,52 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/pic"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@drawable/macindex" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/nameText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="#555555"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp" />
 
-            <TextView
-                android:id="@+id/information"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#555555"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <TextView
+                    android:id="@+id/information"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-            <View
-                android:id="@+id/divider"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -113,7 +127,7 @@
 
                 <TextView
                     android:id="@+id/typeTitle"
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/type"
                     android:textSize="18sp"
@@ -127,20 +141,24 @@
 
             </LinearLayout>
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/divider7"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -149,7 +167,7 @@
 
                 <TextView
                     android:id="@+id/processorTitle"
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/processor"
                     android:textSize="18sp"
@@ -171,8 +189,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:layout_weight="1" />
+                    android:layout_height="5dp" />
 
                 <ImageView
                     android:id="@+id/processorTypeImage"
@@ -181,12 +198,13 @@
                     android:layout_gravity="center" />
 
                 <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center">
 
                     <LinearLayout
                         android:id="@+id/processorImageLayout"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:orientation="horizontal">
@@ -196,19 +214,25 @@
 
             </LinearLayout>
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -217,7 +241,7 @@
 
                 <TextView
                     android:id="@+id/maxramTitle"
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/maxram"
                     android:textSize="18sp"
@@ -231,20 +255,25 @@
 
             </LinearLayout>
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/divider3"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -253,7 +282,7 @@
 
                 <TextView
                     android:id="@+id/yearTitle"
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/year"
                     android:textSize="18sp"
@@ -267,19 +296,25 @@
 
             </LinearLayout>
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -288,7 +323,7 @@
 
                 <TextView
                     android:id="@+id/modelTitle"
-                    android:layout_width="140dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/model"
                     android:textSize="18sp"
@@ -302,20 +337,25 @@
 
             </LinearLayout>
 
-            <Space
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <View
-                android:id="@+id/divider5"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
 
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/informationEverymac"

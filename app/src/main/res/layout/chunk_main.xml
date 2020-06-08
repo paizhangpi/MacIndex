@@ -18,7 +18,8 @@
         android:gravity="left|center_vertical"
         android:textAlignment="gravity"
         android:textColor="#464646"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/machineYear"

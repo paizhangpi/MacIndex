@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,18 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
     private static SharedPreferences prefs = null;
 
+    private static Resources resources = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
+        resources = getResources();
         initDatabase();
         initInterface();
     }
 
     @Override
     protected void onDestroy() {
-        machineHelper.suicide();
+        if (machineHelper != null) {
+            machineHelper.suicide();
+        }
         database.close();
         super.onDestroy();
     }
@@ -125,55 +131,62 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initInterface() {
-        // Parent layout of all categories.
-        final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
-        for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
-            final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
-            final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
-            final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
-            final TextView categoryName = categoryChunk.findViewById(R.id.category);
-            final TextView categoryDescription = categoryChunk.findViewById(R.id.description);
-            categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
-            categoryDescription.setText(getResources().getString(machineHelper.getCategoryDescription(i)));
+        try {
+            // Parent layout of all categories.
+            final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+            for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
+                final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
+                final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
+                final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
+                final TextView categoryName = categoryChunk.findViewById(R.id.category);
+                final TextView categoryDescription = categoryChunk.findViewById(R.id.description);
+                categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
+                categoryDescription.setText(getResources().getString(machineHelper.getCategoryDescription(i)));
 
-            // Never change the old code from my teammate.
-            for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                View v = categoryChunkLayout.getChildAt(j);
-                v.setClickable(true);
-                v.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        int visa = 0;
+                // Never change the old code from my teammate.
+                for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                    View v = categoryChunkLayout.getChildAt(j);
+                    v.setClickable(true);
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            int visa = 0;
 
-                        for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                            View vi = categoryChunkLayout.getChildAt(j);
-                            if (vi.getVisibility() == View.VISIBLE) {
-                                visa++;
+                            for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                                View vi = categoryChunkLayout.getChildAt(j);
+                                if (vi.getVisibility() == View.VISIBLE) {
+                                    visa++;
+                                }
+                            }
+
+                            if (visa > 2) {
+                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                    View vi = categoryChunkLayout.getChildAt(j);
+                                    vi.setVisibility(View.GONE);
+                                }
+                            } else {
+                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                    View vi = categoryChunkLayout.getChildAt(j);
+                                    vi.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
-
-                        if (visa > 2) {
-                            for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                View vi = categoryChunkLayout.getChildAt(j);
-                                vi.setVisibility(View.GONE);
-                            }
-                        } else {
-                            for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                View vi = categoryChunkLayout.getChildAt(j);
-                                vi.setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                });
+                    });
+                }
+                initCategory(categoryChunkLayout, i);
+                categoryContainer.addView(categoryChunk);
+                categoryContainer.addView(dividerChunk);
             }
-            initCategory(categoryChunkLayout, i);
-            categoryContainer.addView(categoryChunk);
-            categoryContainer.addView(dividerChunk);
+            // Remove the last divider.
+            categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
+            Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
+            // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            Log.e("initDatabase", "Initialize failed!!");
         }
-        // Remove the last divider.
-        categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
-        Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
-        // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
     }
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
@@ -365,5 +378,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static SharedPreferences getPrefs() {
         return prefs;
+    }
+
+    public static Resources getRes() {
+        return resources;
     }
 }
