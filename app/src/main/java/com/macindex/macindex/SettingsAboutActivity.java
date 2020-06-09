@@ -20,6 +20,12 @@ import java.util.Locale;
 
 public class SettingsAboutActivity extends AppCompatActivity {
 
+    private boolean setEveryMac;
+    private boolean setDeathSound;
+    private boolean setGestures;
+    private boolean setNavButtons;
+    private boolean setQuickNav;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,14 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        if (setEveryMac != MainActivity.getPrefs().getBoolean("isOpenEveryMac", false)
+                || setDeathSound != MainActivity.getPrefs().getBoolean("isPlayDeathSound", true)
+                || setGestures != MainActivity.getPrefs().getBoolean("isUseGestures", true)
+                || setNavButtons != MainActivity.getPrefs().getBoolean("isUseNavButtons", false)
+                || setQuickNav != MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
+            Log.i("Settings", "Settings changed");
+            Toast.makeText(this, R.string.setting_saved, Toast.LENGTH_LONG).show();
+        }
         super.onDestroy();
     }
 
@@ -91,11 +105,19 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
         final Switch swGestures = findViewById(R.id.switchGestures);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
+        final Switch swQuickNav = findViewById(R.id.switchQuickNav);
 
-        swEveryMac.setChecked(MainActivity.getPrefs().getBoolean("isOpenEveryMac", false));
-        swDeathSound.setChecked(MainActivity.getPrefs().getBoolean("isPlayDeathSound", true));
-        swGestures.setChecked(MainActivity.getPrefs().getBoolean("isUseGestures", true));
-        swNavButtons.setChecked(MainActivity.getPrefs().getBoolean("isUseNavButtons", false));
+        setEveryMac = MainActivity.getPrefs().getBoolean("isOpenEveryMac", false);
+        setDeathSound = MainActivity.getPrefs().getBoolean("isPlayDeathSound", true);
+        setGestures = MainActivity.getPrefs().getBoolean("isUseGestures", true);
+        setNavButtons = MainActivity.getPrefs().getBoolean("isUseNavButtons", false);
+        setQuickNav = MainActivity.getPrefs().getBoolean("isQuickNav", false);
+
+        swEveryMac.setChecked(setEveryMac);
+        swDeathSound.setChecked(setDeathSound);
+        swGestures.setChecked(setGestures);
+        swNavButtons.setChecked(setNavButtons);
+        swQuickNav.setChecked(setQuickNav);
 
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -121,6 +143,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 checkChange();
             }
         });
+        swQuickNav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                MainActivity.getPrefs().edit().putBoolean("isQuickNav", isChecked).apply();
+                checkChange();
+            }
+        });
     }
 
     private void checkChange() {
@@ -128,11 +156,15 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
         final Switch swGestures = findViewById(R.id.switchGestures);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
+        final Switch swQuickNav = findViewById(R.id.switchQuickNav);
+
         final TextView restoreDefaults = findViewById(R.id.textDefaults);
         if (MainActivity.getPrefs().getBoolean("isOpenEveryMac", false)
                 || !MainActivity.getPrefs().getBoolean("isPlayDeathSound", true)
                 || !MainActivity.getPrefs().getBoolean("isUseGestures", true)
-                || MainActivity.getPrefs().getBoolean("isUseNavButtons", false)) {
+                || MainActivity.getPrefs().getBoolean("isUseNavButtons", false)
+                || MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
+            Log.i("Settings", "Restore default available");
             restoreDefaults.setTextColor(Color.BLACK);
             restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             restoreDefaults.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +178,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     MainActivity.getPrefs().edit().putBoolean("isUseGestures", true).apply();
                     swNavButtons.setChecked(false);
                     MainActivity.getPrefs().edit().putBoolean("isUseNavButtons", false).apply();
+                    swQuickNav.setChecked(false);
+                    MainActivity.getPrefs().edit().putBoolean("isQuickNav", false).apply();
                 }
             });
         } else {
+            Log.i("Settings", "Restore default not available");
             restoreDefaults.setTextColor(Color.LTGRAY);
             restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
             restoreDefaults.setOnClickListener(null);

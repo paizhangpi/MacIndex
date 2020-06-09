@@ -363,6 +363,7 @@ public class SpecsActivity extends AppCompatActivity {
                 previous.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
+                        previous.setEnabled(false);
                         navPrev();
                     }
                 });
@@ -378,6 +379,7 @@ public class SpecsActivity extends AppCompatActivity {
                 next.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
+                        next.setEnabled(false);
                         navNext();
                     }
                 });
@@ -390,44 +392,44 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void initGestures() {
-        // Reset listener
-        mainView.setOnTouchListener(null);
-        mainScrollView.setOnTouchListener(null);
         Log.i("SpecGestures", "Loading");
         if (machineID - 1 < 0) {
             // Can only swipe Right (NEXT)
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
+                    releaseGestures();
                     navNext();
                 }
                 public void onSwipeLeft() {
-                    // To make this working
-                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
                 }
             });
             mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
+                    releaseGestures();
                     navNext();
                 }
                 public void onSwipeLeft() {
-                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
                 }
             });
         } else if (machineID + 1 >= MainActivity.getMachineHelper().getMachineCount()) {
             // Can only swipe Left (PREV)
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
-                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
                 }
                 public void onSwipeLeft() {
+                    releaseGestures();
                     navPrev();
                 }
             });
             mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
-                    // Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG);
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
                 }
                 public void onSwipeLeft() {
+                    releaseGestures();
                     navPrev();
                 }
             });
@@ -435,21 +437,31 @@ public class SpecsActivity extends AppCompatActivity {
             // Can do BOTH
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
+                    releaseGestures();
                     navNext();
                 }
                 public void onSwipeLeft() {
+                    releaseGestures();
                     navPrev();
                 }
             });
             mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
+                    releaseGestures();
                     navNext();
                 }
                 public void onSwipeLeft() {
+                    releaseGestures();
                     navPrev();
                 }
             });
         }
+    }
+
+    private void releaseGestures() {
+        mainView.setOnTouchListener(null);
+        mainScrollView.setOnTouchListener(null);
+        Log.i("SpecGestures", "Released");
     }
 
     private void navPrev() {
@@ -463,12 +475,18 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void refresh() {
-        // Release old variables
-        release();
-        startup = true;
-        // Reload data
-        initialize();
-        // Refresh view
-        mainView.invalidate();
+        if (MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
+            // Old method - not creating a new Activity
+            release();
+            startup = true;
+            initialize();
+            mainView.invalidate();
+        } else {
+            // New method
+            Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
+            newMachine.putExtra("machineID", machineID);
+            startActivity(newMachine);
+            finish();
+        }
     }
 }
