@@ -553,15 +553,16 @@ class MachineHelper {
         // Setup temp cursor of each category for a query.
         try {
             for (int i = 0; i <= CATEGORIES_COUNT; i++) {
-                Cursor thisSearchIndividualCursor = database.query("category" + i, new String[]{columnName}, columnName + " LIKE ? ", new String[]{"%" + searchInput + "%"}, null, null, null);
-                Log.i("MHSearchHelper", "Category " + i + ", get " + thisSearchIndividualCursor.getCount() + " Result(s)");
+                Cursor thisSearchIndividualCursor = database.query("category" + i,
+                        null, columnName +" LIKE ? ",
+                        new String[]{"%" + searchInput + "%"},
+                        null, null, null);
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
-                thisSearchIndividualCursor.moveToFirst();
-                int resultFillCount = 0;
                 // Write raw query results.
+                int previousCount = 0;
                 while (thisSearchIndividualCursor.moveToNext()) {
-                    rawResults[i][resultFillCount] = thisSearchIndividualCursor.getColumnIndex("id");
-                    resultFillCount++;
+                    rawResults[i][previousCount] = thisSearchIndividualCursor.getInt(thisSearchIndividualCursor.getColumnIndex("id"));
+                    previousCount++;
                 }
                 thisSearchIndividualCursor.close();
             }
@@ -574,9 +575,12 @@ class MachineHelper {
         for (int[] thisRawResult : rawResults) {
             if (thisRawResult != null) {
                 resultTotalCount += thisRawResult.length;
+                for (int j = 0; j < thisRawResult.length; j++) {
+                }
             }
             Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
         }
+
         // Sets of positions (positionCount/category ID/remainder)
         int[][] finalPositions = new int[resultTotalCount][2];
         int previousCount = 0;

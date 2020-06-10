@@ -20,11 +20,12 @@
     <string name="setting_quicknav_description">Use alternative method to make navigation faster between machines.</string>
     <string name="setting_defaults">Restore defaults&#8230;</string>
     <string name="setting_saved">Settings saved</string>
-    <string name="search_nameOption">Names</string>
+    <string name="search_nameOption">Name</string>
     <string name="search_modelOption">Model Number</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
+    <string name="search_illegal">Invalid Input</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="total_1"></string>
@@ -77,7 +78,7 @@
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="link_message_confirm">Only the following configuration is found for this model. Please review then confirm.</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
-    <string name="search">Search (Coming soon)</string>
+    <string name="search">Search</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
 </resources>

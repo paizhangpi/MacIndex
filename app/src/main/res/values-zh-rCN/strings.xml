@@ -25,6 +25,7 @@
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
+    <string name="search_illegal">无效输入</string>
     <string name="menu_random">试试手气</string>
     <string name="menu_about_settings">关于与设置</string>
     <string name="total_1">共加载了&#160;</string>
@@ -60,7 +61,7 @@
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="link_message_confirm">该机型仅有一种配置，请检查并确认。</string>
     <string name="error">很抱歉，发生了错误。请重启应用。若错误仍不能解决，请向我反馈 Bug 和复现过程。</string>
-    <string name="search">搜索（暂不可用）</string>
+    <string name="search">搜索</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
     <string name="category0_description">早期多种具有一体设计的 Macintosh 电脑，包括最初的机型，XL，Plus，SE，（Color）Classic 和 TV。</string>

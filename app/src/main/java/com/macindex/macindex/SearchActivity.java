@@ -24,12 +24,44 @@ public class SearchActivity extends AppCompatActivity {
 
     private SharedPreferences prefs = MainActivity.getPrefs();
 
+    private TextView textResult = null;
+
+    private TextView textIllegalInput = null;
+
+    private RadioGroup searchOptions = null;
+
+    private LinearLayout currentLayout = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         this.setTitle(getResources().getString(R.string.search));
+
+        textResult = findViewById(R.id.textResult);
+        textIllegalInput = findViewById(R.id.textIllegalInput);
+
+        textResult.setVisibility(View.GONE);
+        textIllegalInput.setVisibility(View.GONE);
+
+        searchOptions = findViewById(R.id.searchOptions);
+        currentLayout = findViewById(R.id.resultFullContainer);
+
         initSearch();
+    }
+
+    private String getOption() {
+        switch (searchOptions.getCheckedRadioButtonId()) {
+            case R.id.nameOption:
+                Log.i("getOption", "Option Name");
+                return "name";
+            case R.id.modelOption:
+                Log.i("getOption", "Option Model");
+                return "model";
+            default:
+                Log.e("getOption", "Not a Valid Selection");
+                return "";
+        }
     }
 
     private void initSearch() {
@@ -47,24 +79,57 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                performSearch(s.toString());
+                TextView illegalInput = findViewById(R.id.textIllegalInput);
+                illegalInput.setVisibility(View.GONE);
+                currentLayout.removeAllViews();
+                String searchInput = s.toString().trim();
+                if (!searchInput.equals("")) {
+                    if (validate(searchInput, getOption())) {
+                        performSearch(s.toString());
+                    } else {
+                        illegalInput.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    textResult.setVisibility(View.GONE);
+                }
             }
         });
     }
 
+    // Acceptable search input: A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus.
+    public static boolean validate(final String validateInput, final String method) {
+        final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+";
+        final String legalCharactersModel = "AM1234567890";
+        String legalCharacters;
+        switch (method) {
+            case "name":
+                legalCharacters = legalCharactersName;
+                break;
+            case "model":
+                legalCharacters = legalCharactersModel;
+                break;
+            default:
+                legalCharacters = "";
+        }
+        boolean status = true;
+        for (int i = 0; i < validateInput.length(); i++) {
+            if (!legalCharacters.contains(String.valueOf(validateInput.charAt(i)))) {
+                status = false;
+            }
+        }
+        return status;
+    }
+
     private void performSearch(final String searchInput) {
         try {
-            TextView textNoResult = findViewById(R.id.textNoResult);
-            int[][] positions = thisMachineHelper.searchHelper("name", searchInput);
+            textResult.setVisibility(View.VISIBLE);
+            int[][] positions = thisMachineHelper.searchHelper(getOption(), searchInput);
             int resultCount = positions.length;
             if (positions.length == 0) {
-                textNoResult.setText(R.string.search_noResult);
+                textResult.setText(R.string.search_noResult);
             } else {
-                //textNoResult.setText(getString(R.string.search_found) + String.valueOf(resultCount) + getString(R.string.search_results));
+                textResult.setText(getString(R.string.search_found) + String.valueOf(resultCount) + getString(R.string.search_results));
             }
-
-            final LinearLayout currentLayout = findViewById(R.id.resultFullContainer);
-            currentLayout.removeAllViews();
 
             // Largely adapted MainActivity InitCategory. Should update both.
             for (int i = 0; i < resultCount; i++) {
@@ -73,7 +138,6 @@ public class SearchActivity extends AppCompatActivity {
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
                 final int machineID = thisMachineHelper.findByPosition(positions[i]);
-                Log.w("Search", "Get ID " + machineID);
 
                 // Find information necessary for interface.
                 final String thisName = thisMachineHelper.getName(machineID);

@@ -19,6 +19,13 @@
             android:ems="10"
             android:inputType="textPersonName" />
 
+        <TextView
+            android:id="@+id/textIllegalInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_illegal"
+            android:textColor="#D50000" />
+
         <RadioGroup
             android:id="@+id/searchOptions"
             android:layout_width="match_parent"
@@ -30,14 +37,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="RadioButton" />
+                android:checked="true"
+                android:text="@string/search_nameOption" />
 
             <RadioButton
                 android:id="@+id/modelOption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="RadioButton" />
+                android:text="@string/search_modelOption" />
 
         </RadioGroup>
 
@@ -68,24 +76,30 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/resultFullContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="5dp" />
 
             <TextView
-                android:id="@+id/textNoResult"
+                android:id="@+id/textResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/search_noResult"
                 android:textAlignment="center"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
-                android:id="@+id/resultFullContainer"
+            <Space
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_height="5dp" />
         </LinearLayout>
     </ScrollView>
 

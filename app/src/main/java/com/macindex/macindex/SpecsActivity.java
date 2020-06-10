@@ -26,9 +26,9 @@ import java.io.File;
 
 public class SpecsActivity extends AppCompatActivity {
 
-    private MachineHelper thisMachineHelper = null;
+    private MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private SharedPreferences thisPrefs = null;
+    private SharedPreferences thisPrefs = MainActivity.getPrefs();
 
     private int machineID = -1;
 
@@ -50,8 +50,6 @@ public class SpecsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_specs);
         try {
             final Intent intent = getIntent();
-            thisMachineHelper = MainActivity.getMachineHelper();
-            thisPrefs = MainActivity.getPrefs();
             machineID = intent.getIntExtra("machineID", -1);
             mainView = findViewById(R.id.mainView);
             mainScrollView = findViewById(R.id.mainScrollView);
