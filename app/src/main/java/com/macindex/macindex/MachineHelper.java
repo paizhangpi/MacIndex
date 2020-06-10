@@ -16,7 +16,7 @@ import java.util.Map;
  * Helps with ID-based flexible database query.
  * First built May 12, 2020.
  */
-public class MachineHelper {
+class MachineHelper {
 
     /*
      * Updating categories
@@ -32,7 +32,10 @@ public class MachineHelper {
      * (4) Add a new column to every table.
      */
 
-    /* Set to actual quantity - 1 */
+    /* Set to actual quantity - 1.
+     * Warning! In a loop should include itself.
+     * Array Init should +1 to match actual quantity.
+     */
     private static final int CATEGORIES_COUNT = 14;
 
     /* Set to actual quantity */
@@ -42,6 +45,7 @@ public class MachineHelper {
 
     private Cursor[] categoryIndividualCursor;
 
+    /* Machine ID starts from 0, ends total -1. */
     private int[] categoryIndividualCount;
 
     private boolean status = true;
@@ -104,7 +108,7 @@ public class MachineHelper {
         CATEGORIES_DESCRIPTIONS.put(9, R.string.category9_description);
         CATEGORIES_DESCRIPTIONS.put(10, R.string.category10_description);
         CATEGORIES_DESCRIPTIONS.put(11, R.string.category11_description);
-        CATEGORIES_DESCRIPTIONS.put(12,R.string.category12_description);
+        CATEGORIES_DESCRIPTIONS.put(12, R.string.category12_description);
         CATEGORIES_DESCRIPTIONS.put(13, R.string.category13_description);
         CATEGORIES_DESCRIPTIONS.put(14, R.string.category14_description);
     }
@@ -152,7 +156,7 @@ public class MachineHelper {
         }
     }
 
-    // Get the total count of a category
+    // Get the total count of categories
     int getCategoryTotalCount() {
         return CATEGORIES_COUNT;
     }
@@ -194,8 +198,19 @@ public class MachineHelper {
         return categoryIndividualCount[thisCategory];
     }
 
+    // Get start and end ID of a category. [start, end)
+    int[] getCategoryStartEnd(final int thisCategory) {
+        int start = 0;
+        for (int i = 0; i < thisCategory; i++) {
+            start += categoryIndividualCount[i];
+        }
+        int end = start + getCategoryCount(thisCategory);
+        int[] toReturn = {start, end};
+        return toReturn;
+    }
+
     // Get specific position of a machine ID.
-    private int[] getPosition(final int thisMachine) {
+    int[] getPosition(final int thisMachine) {
         // Category ID / Remainder
         int[] position = {0, thisMachine};
         while (position[0] <= CATEGORIES_COUNT) {
@@ -216,9 +231,8 @@ public class MachineHelper {
 
     // Get machine ID by a specific position.
     int findByPosition(final int[] thisPosition) {
-        int[] position = thisPosition;
         int machineID = 0;
-        for (int i = 0; i < position[0]; i++) {
+        for (int i = 0; i < thisPosition[0]; i++) {
             machineID += categoryIndividualCount[i];
         }
         return machineID + thisPosition[1];
@@ -363,12 +377,8 @@ public class MachineHelper {
         categoryIndividualCursor[position[0]].move(position[1]);
         byte[] thisBlob = categoryIndividualCursor[position[0]]
                 .getBlob(categoryIndividualCursor[position[0]].getColumnIndex("pic"));
-        // NullSafe
-        if (thisBlob == null) {
-            return new File("/");
-        }
         // Old code from my old friend was not modified.
-        String path = null;
+        String path = "/";
         if (thisBlob != null) {
             Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
             Log.i("sendIntent", "Converted blob to bitmap");
@@ -443,8 +453,7 @@ public class MachineHelper {
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
-            int[][] toReturn = {{0},{0}};
-            return toReturn;
+            return new int[][] {{0}, {0}};
         }
         String[] thisImages = thisProcessorImage.split(",");
         int[][] toReturn = new int[thisImages.length][];
@@ -527,11 +536,57 @@ public class MachineHelper {
     }
 
     // NullSafe
-    private String checkApplicability(String thisSpec) {
+    private static String checkApplicability(final String thisSpec) {
         if (thisSpec == null || thisSpec.equals("N")) {
             return MainActivity.getRes().getString(R.string.not_applicable);
         } else {
             return thisSpec;
         }
+    }
+
+    // For search use. Return sets of positions (positionCount/category ID/remainder).
+    int[][] searchHelper(final String columnName, final String searchInput) {
+        Log.i("MHSearchHelper", "Get parameter " + columnName + ", " + searchInput);
+        // Raw results (categoryID/remainders)
+        int[][] rawResults = new int[CATEGORIES_COUNT + 1][];
+
+        // Setup temp cursor of each category for a query.
+        try {
+            for (int i = 0; i <= CATEGORIES_COUNT; i++) {
+                Cursor thisSearchIndividualCursor = database.query("category" + i, new String[]{columnName}, columnName + " LIKE ? ", new String[]{"%" + searchInput + "%"}, null, null, null);
+                Log.i("MHSearchHelper", "Category " + i + ", get " + thisSearchIndividualCursor.getCount() + " Result(s)");
+                rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
+                thisSearchIndividualCursor.moveToFirst();
+                int resultFillCount = 0;
+                // Write raw query results.
+                while (thisSearchIndividualCursor.moveToNext()) {
+                    rawResults[i][resultFillCount] = thisSearchIndividualCursor.getColumnIndex("id");
+                    resultFillCount++;
+                }
+                thisSearchIndividualCursor.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Convert raw results to positions.
+        int resultTotalCount = 0;
+        for (int[] thisRawResult : rawResults) {
+            if (thisRawResult != null) {
+                resultTotalCount += thisRawResult.length;
+            }
+            Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
+        }
+        // Sets of positions (positionCount/category ID/remainder)
+        int[][] finalPositions = new int[resultTotalCount][2];
+        int previousCount = 0;
+        for (int j = 0; j <= CATEGORIES_COUNT; j++) {
+            for (int k = 0; k < rawResults[j].length; k++) {
+                finalPositions[previousCount][0] = j;
+                finalPositions[previousCount][1] = rawResults[j][k];
+                previousCount++;
+            }
+        }
+        return finalPositions;
     }
 }

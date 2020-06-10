@@ -68,7 +68,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                         webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
                         webSiteLuncher.setPositiveButton(getResources().getString(R.string.information_about_open), new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(final DialogInterface dialog, final int which) {
                                 Intent browser = new Intent(Intent.ACTION_VIEW);
                                 if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
                                     browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
@@ -80,7 +80,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                         });
                         webSiteLuncher.setNegativeButton(getResources().getString(R.string.information_about_close), new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            public void onClick(final DialogInterface dialog, final int which) {
                                 // CANCELLED.
                             }
                         });
@@ -169,7 +169,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
             restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             restoreDefaults.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
                     swEveryMac.setChecked(false);
                     MainActivity.getPrefs().edit().putBoolean("isOpenEveryMac", false).apply();
                     swDeathSound.setChecked(true);

@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         MenuItem aboutMenu = menu.findItem(R.id.aboutMenu);
         aboutMenu.setTitle(getResources().getString(R.string.menu_about_settings));
         MenuItem searchMenu = menu.findItem(R.id.searchMenu);
-        searchMenu.setEnabled(false);
         searchMenu.setTitle(getResources().getString(R.string.search));
         return true;
     }
@@ -82,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.aboutMenu:
-                Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
+                Intent aboutIntent = new Intent(this, SettingsAboutActivity.class);
                 startActivity(aboutIntent);
                 return true;
             case R.id.searchMenu:
-                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                Intent searchIntent = new Intent(this, SearchActivity.class);
                 startActivity(searchIntent);
                 return true;
             case R.id.randomMenu:
@@ -134,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+            // Set up each category.
             for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
                 final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
                 final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
@@ -241,8 +241,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void sendIntent(final int thisMachineID) {
-        Intent intent = new Intent(MainActivity.this, SpecsActivity.class);
+    // Keep compatible with SearchActivity.
+    private void sendIntent(final int thisMachineID) {
+        Intent intent = new Intent(this, SpecsActivity.class);
         intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
     }
@@ -257,24 +258,8 @@ public class MainActivity extends AppCompatActivity {
             }
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
-                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
-                linkDialog.setTitle(thisName);
-                linkDialog.setMessage(getResources().getString(R.string.link_message_confirm)
-                        + linkGroup[0].split(",")[0]);
-                linkDialog.setPositiveButton(getResources().getString(R.string.link_confirm),
-                        new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
-                    }
-                });
-                linkDialog.setNegativeButton(getResources().getString(R.string.link_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Cancelled, no action needed.
-                    }
-                });
-                linkDialog.show();
+                // Only one option, launch EveryMac directly.
+                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
                 AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);

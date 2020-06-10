@@ -5,8 +5,8 @@
     <string name="information_about_website">This open-source application is dedicated to education and internal use.\n\nMotorola, and PowerPC logo are registered trademarks.\n\nProcessor images by Henriok are used under CC0 license, accuracy is not guaranteed.\n\nMachine sounds and images by Apple, accuracy is not guaranteed.\n\nPlease check out the official website for updates, comments, and other information.</string>
     <string name="information_about_open">Open Website</string>
     <string name="information_about_close">Close</string>
-    <string name="information_specs_full">Tap on the image to play startup and death sound</string>
-    <string name="information_specs_no_death">Tap on the image to play startup sound</string>
+    <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
+    <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="setting_everymac">Open directly in EveryMac</string>
     <string name="setting_everymac_description">MacIndex will open the specific EveryMac page of the model directly.\nMacIndex will ask you for specific configuration if the model has more than one configurations unless you are accessing randomly.</string>
@@ -17,9 +17,14 @@
     <string name="setting_navbuttons">Enable navigate buttons</string>
     <string name="setting_navbuttons_description">You may also enable old-fashioned navigate buttons with or without gestures.</string>
     <string name="setting_quicknav">Quick Navigation</string>
-    <string name="setting_quicknav_description">Make navigation faster between machines.</string>
+    <string name="setting_quicknav_description">Use alternative method to make navigation faster between machines.</string>
     <string name="setting_defaults">Restore defaults&#8230;</string>
     <string name="setting_saved">Settings saved</string>
+    <string name="search_nameOption">Names</string>
+    <string name="search_modelOption">Model Number</string>
+    <string name="search_noResult">No result</string>
+    <string name="search_found">Found&#160;</string>
+    <string name="search_results">&#160;result(s)</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="total_1"></string>
@@ -56,7 +61,9 @@
     <string name="category14_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
     <string name="year">Introduction</string>
     <string name="model">Model Number</string>
+    <string name="id">Identification</string>
     <string name="processor">Processor</string>
+    <string name="bus">Bus speed</string>
     <string name="graphics">Graphics</string>
     <string name="display">Display</string>
     <string name="type">ROM Information</string>
