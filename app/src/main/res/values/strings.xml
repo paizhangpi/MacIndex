@@ -14,10 +14,10 @@
     <string name="setting_deathsound_deathsound_description">By default, MacIndex will play startup and death sound alternatively. However, if you would not prefer to hear death sound, you can turn it off.</string>
     <string name="setting_gestures">Enable gestures</string>
     <string name="setting_gestures_description">By default, you can use left and right swipes to navigate between models. However, if you don\'t like this function, you can turn it off as well.</string>
-    <string name="setting_navbuttons">Enable navigate buttons</string>
+    <string name="setting_navbuttons">Enable navigation buttons</string>
     <string name="setting_navbuttons_description">You may also enable old-fashioned navigate buttons with or without gestures.</string>
     <string name="setting_quicknav">Quick Navigation</string>
-    <string name="setting_quicknav_description">Use alternative method to make navigation faster between machines.</string>
+    <string name="setting_quicknav_description">Use an alternative method to make navigation faster between machines.</string>
     <string name="setting_defaults">Restore defaults&#8230;</string>
     <string name="setting_saved">Settings saved</string>
     <string name="search_nameOption">Name</string>
@@ -45,21 +45,6 @@
     <string name="category12" translatable="false">PowerBook Duo</string>
     <string name="category13" translatable="false">PowerBook G3/G4</string>
     <string name="category14" translatable="false">iBook</string>
-    <string name="category0_description">Various early Macintosh computers with all-in-one design including the Original, XL, Plus, SE, (Color) Classic, and TV.</string>
-    <string name="category1_description">68020/68030-based Macintosh computers with expandable design and designed for high performance demands.</string>
-    <string name="category2_description">68020/68030/68040-based Macintosh \"low-cost\" computers designed for education market.</string>
-    <string name="category3_description">68040-based Macintosh \"center level\" computers designed for business market.</string>
-    <string name="category4_description">68040-based Macintosh computers designed for high performance demands and replaced Macintosh II.</string>
-    <string name="category5_description">68k/PowerPC-based Macintosh computers repacked consisting models with special bundles.</string>
-    <string name="category6_description">PowerPC 60x-based Macintosh computers designed for various demands.</string>
-    <string name="category7_description">PowerPC G3/G4/G5-based Macintosh computers with expandable design and designed for high performance demands.</string>
-    <string name="category8_description">PowerPC G3/G4/G5-based Macintosh computers with all-in-one design and designed for home and multimedia use.</string>
-    <string name="category9_description">PowerPC G4-based Macintosh computers with all-in-one design and designed for education market.</string>
-    <string name="category10_description">PowerPC G4-based Macintosh computers with extremely compact design.</string>
-    <string name="category11_description">68k/PowerPC-based Macintosh laptops designed for various demands.</string>
-    <string name="category12_description">68k/PowerPC-based Macintosh laptops with ultra-portable design and dock support.</string>
-    <string name="category13_description">PowerPC G3/G4-based Macintosh laptops designed for high performance demands.</string>
-    <string name="category14_description">PowerPC G3/G4-based Macintosh laptops designed for home and multimedia use.</string>
     <string name="year">Introduction</string>
     <string name="model">Model Number</string>
     <string name="id">Identification</string>

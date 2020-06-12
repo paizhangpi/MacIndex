@@ -2,6 +2,8 @@ package com.macindex.macindex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.customview.widget.ViewDragHelper;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,7 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.util.Random;
 
 /**
@@ -54,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
         resources = getResources();
         initDatabase();
+        initMenu();
+        // To change the loading method.
         initInterface();
     }
 
@@ -96,6 +103,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initMenu() {
+        try {
+            // Set the edge size of drawer.
+            DrawerLayout mDrawerLayout = findViewById(R.id.mainContainer);
+            Field mDragger = mDrawerLayout.getClass().getDeclaredField(
+                    "mLeftDragger");
+            mDragger.setAccessible(true);
+            ViewDragHelper draggerObj = (ViewDragHelper) mDragger
+                    .get(mDrawerLayout);
+            Field mEdgeSize = draggerObj.getClass().getDeclaredField(
+                    "mEdgeSize");
+            mEdgeSize.setAccessible(true);
+            int edge = mEdgeSize.getInt(draggerObj);
+            mEdgeSize.setInt(draggerObj, edge * 10);
+
+            // Initialize the navigation bar
+            final String[] leftDrawerContent = {"Test1","Test2"};
+            ListView leftDrawer = findViewById(R.id.left_drawer);
+            leftDrawer.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, leftDrawerContent));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initDatabase() {
         try {
             File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
@@ -118,9 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Open MachineHelper
             machineHelper = new MachineHelper(database);
-            if (!machineHelper.selfCheck()) {
-                throw new IllegalArgumentException();
-            }
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
@@ -139,9 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
                 final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
-                final TextView categoryDescription = categoryChunk.findViewById(R.id.description);
                 categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
-                categoryDescription.setText(getResources().getString(machineHelper.getCategoryDescription(i)));
 
                 // Never change the old code from my teammate.
                 for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {

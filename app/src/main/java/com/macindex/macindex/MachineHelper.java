@@ -19,17 +19,19 @@ import java.util.Map;
 class MachineHelper {
 
     /*
-     * Updating categories
+     * Updating categories (Ver. 4.0)
      * (1) Update the following number.
-     * (2) Add string resources.
-     * (3) Update the following two hash maps.
-     * (4) Add a new table to database.
+     * (2) Update the following filter string array.
+     * (3) Add a new table to database.
+     *
+     * Updating filters (Ver. 4.0)
+     * (1) Update the navigation code if needed.
+     * (2) Update the following filter string array.
      *
      * Updating columns
-     * (1) Update the following number.
-     * (2) Update MH to adapt the new column.
-     * (3) Update any code if needed.
-     * (4) Add a new column to every table.
+     * (1) Update MH to adapt the new column.
+     * (2) Update any code if needed.
+     * (3) Add a new column to every table.
      */
 
     /* Set to actual quantity - 1.
@@ -38,17 +40,12 @@ class MachineHelper {
      */
     private static final int CATEGORIES_COUNT = 14;
 
-    /* Set to actual quantity */
-    private static final int COLUMNS_COUNT = 11;
-
     private SQLiteDatabase database;
 
     private Cursor[] categoryIndividualCursor;
 
     /* Machine ID starts from 0, ends total -1. */
     private int[] categoryIndividualCount;
-
-    private boolean status = true;
 
     private int totalMachine = 0;
 
@@ -93,27 +90,6 @@ class MachineHelper {
         CATEGORIES_NAMES.put(14, R.string.category14);
     }
 
-    private static final Map<Integer, Integer> CATEGORIES_DESCRIPTIONS;
-    static {
-        CATEGORIES_DESCRIPTIONS = new HashMap<>();
-        CATEGORIES_DESCRIPTIONS.put(0, R.string.category0_description);
-        CATEGORIES_DESCRIPTIONS.put(1, R.string.category1_description);
-        CATEGORIES_DESCRIPTIONS.put(2, R.string.category2_description);
-        CATEGORIES_DESCRIPTIONS.put(3, R.string.category3_description);
-        CATEGORIES_DESCRIPTIONS.put(4, R.string.category4_description);
-        CATEGORIES_DESCRIPTIONS.put(5, R.string.category5_description);
-        CATEGORIES_DESCRIPTIONS.put(6, R.string.category6_description);
-        CATEGORIES_DESCRIPTIONS.put(7, R.string.category7_description);
-        CATEGORIES_DESCRIPTIONS.put(8, R.string.category8_description);
-        CATEGORIES_DESCRIPTIONS.put(9, R.string.category9_description);
-        CATEGORIES_DESCRIPTIONS.put(10, R.string.category10_description);
-        CATEGORIES_DESCRIPTIONS.put(11, R.string.category11_description);
-        CATEGORIES_DESCRIPTIONS.put(12, R.string.category12_description);
-        CATEGORIES_DESCRIPTIONS.put(13, R.string.category13_description);
-        CATEGORIES_DESCRIPTIONS.put(14, R.string.category14_description);
-    }
-
-
     MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
         // Initialize cursors and perform a self check.
@@ -122,11 +98,6 @@ class MachineHelper {
         for (int i = 0; i <= CATEGORIES_COUNT; i++) {
             categoryIndividualCursor[i] = database.query("category" + i, null,
                     null, null, null, null, null);
-            if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
-                Log.e("MachineHelperInit", "Columns count preset mismatch with actual quantity.");
-                status = false;
-                return;
-            }
             int thisCursorCount = categoryIndividualCursor[i].getCount();
             categoryIndividualCount[i] = thisCursorCount;
             totalMachine += thisCursorCount;
@@ -141,18 +112,14 @@ class MachineHelper {
         }
         Log.i("MachineHelperTotCfg", "Initialized with " + totalConfig + " configurations.");
     }
-
-    boolean selfCheck() {
-        return status;
-    }
+    /* SelfCheck was removed since Ver 4.0 */
 
     void suicide() {
-        if (selfCheck()) {
-            for (int i = 0; i <= CATEGORIES_COUNT; i++) {
+        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
+            if (categoryIndividualCursor[i] != null) {
                 categoryIndividualCursor[i].close();
                 Log.i("MachineHelperSuicide", "Category cursor " + i + " closed successfully.");
             }
-            database.close();
         }
     }
 
@@ -181,17 +148,7 @@ class MachineHelper {
         }
         return 0;
     }
-
-    // Get the description of a category
-    int getCategoryDescription(final int thisCategory) {
-        try {
-            return CATEGORIES_DESCRIPTIONS.get(thisCategory);
-        } catch (Exception e) {
-            Log.e("MachineHelperGetCatDesp", "Failed with " + thisCategory);
-            e.printStackTrace();
-        }
-        return 0;
-    }
+    /* Category description was removed since Ver. 4.0, June 12, 2020 at Shenyang, China */
 
     // Get total machines in a category.
     int getCategoryCount(final int thisCategory) {
@@ -558,6 +515,7 @@ class MachineHelper {
                         new String[]{"%" + searchInput + "%"},
                         null, null, null);
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
+                Log.i("MHSearchHelper", "Category " + i + "get " + thisSearchIndividualCursor.getCount() + " result(s).");
                 // Write raw query results.
                 int previousCount = 0;
                 while (thisSearchIndividualCursor.moveToNext()) {

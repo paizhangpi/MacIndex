@@ -4,7 +4,6 @@
     android:id="@+id/mainView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="7dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/buttonPrevious"
@@ -42,24 +42,10 @@
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
-        </LinearLayout>
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
     </LinearLayout>
 
@@ -71,7 +57,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:id="@+id/topLayout"

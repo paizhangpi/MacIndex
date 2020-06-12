@@ -54,7 +54,7 @@ public class SearchActivity extends AppCompatActivity {
         switch (searchOptions.getCheckedRadioButtonId()) {
             case R.id.nameOption:
                 Log.i("getOption", "Option Name");
-                return "name";
+                return "sindex";
             case R.id.modelOption:
                 Log.i("getOption", "Option Model");
                 return "model";
@@ -96,13 +96,15 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
-    // Acceptable search input: A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus.
     public static boolean validate(final String validateInput, final String method) {
+        // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus.
         final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+";
-        final String legalCharactersModel = "AM1234567890";
+        // Model Number: acceptable search input Aa, Mm, 0~9.
+        final String legalCharactersModel = "AMam1234567890";
+
         String legalCharacters;
         switch (method) {
-            case "name":
+            case "sindex":
                 legalCharacters = legalCharactersName;
                 break;
             case "model":

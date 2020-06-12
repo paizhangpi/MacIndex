@@ -12,11 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="5dp" />
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,10 +52,6 @@
 
     </LinearLayout>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="5dp" />
-
     <View
         android:id="@+id/divider9"
         android:layout_width="match_parent"
@@ -72,11 +65,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="5dp" />
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -290,10 +280,6 @@
                 android:text="@string/setting_defaults"
                 android:textSize="18sp"
                 android:textStyle="bold" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
 
         </LinearLayout>
     </ScrollView>
