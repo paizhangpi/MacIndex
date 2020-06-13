@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -77,55 +78,14 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
-        MenuItem aboutMenu = menu.findItem(R.id.aboutMenu);
-        aboutMenu.setTitle(getResources().getString(R.string.menu_about_settings));
-        MenuItem searchMenu = menu.findItem(R.id.searchMenu);
-        searchMenu.setTitle(getResources().getString(R.string.search));
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.aboutMenu:
-                Intent aboutIntent = new Intent(this, SettingsAboutActivity.class);
-                startActivity(aboutIntent);
-                return true;
-            case R.id.searchMenu:
-                Intent searchIntent = new Intent(this, SearchActivity.class);
-                startActivity(searchIntent);
-                return true;
-            case R.id.randomMenu:
-                openRandom();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void initMenu() {
-        try {
-            // Set the edge size of drawer.
-            DrawerLayout mDrawerLayout = findViewById(R.id.mainContainer);
-            Field mDragger = mDrawerLayout.getClass().getDeclaredField(
-                    "mLeftDragger");
-            mDragger.setAccessible(true);
-            ViewDragHelper draggerObj = (ViewDragHelper) mDragger
-                    .get(mDrawerLayout);
-            Field mEdgeSize = draggerObj.getClass().getDeclaredField(
-                    "mEdgeSize");
-            mEdgeSize.setAccessible(true);
-            int edge = mEdgeSize.getInt(draggerObj);
-            mEdgeSize.setInt(draggerObj, edge * 10);
-
-            // Initialize the navigation bar
-            final String[] leftDrawerContent = {"Test1","Test2"};
-            ListView leftDrawer = findViewById(R.id.left_drawer);
-            leftDrawer.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, leftDrawerContent));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -159,6 +119,69 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initMenu() {
+        try {
+            // Set the edge size of drawer.
+            final DrawerLayout mDrawerLayout = findViewById(R.id.mainContainer);
+            Field mDragger = mDrawerLayout.getClass().getDeclaredField(
+                    "mLeftDragger");
+            mDragger.setAccessible(true);
+            ViewDragHelper draggerObj = (ViewDragHelper) mDragger
+                    .get(mDrawerLayout);
+            Field mEdgeSize = draggerObj.getClass().getDeclaredField(
+                    "mEdgeSize");
+            mEdgeSize.setAccessible(true);
+            int edge = mEdgeSize.getInt(draggerObj);
+            mEdgeSize.setInt(draggerObj, edge * 10);
+
+            // Initialize the navigation bar
+            /* Set the filters here*/
+            final String[] viewContent = {"By Categories","By Processor", "By Year"};
+            final String[] menuContent = {getString(R.string.menu_search),
+                    getString(R.string.menu_random),
+                    getString(R.string.menu_about_settings)};
+
+            ListView viewList = findViewById(R.id.view_list);
+            ListView menuList = findViewById(R.id.menu_list);
+
+            viewList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, viewContent));
+            menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuContent));
+
+            viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Not available now
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+
+            menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (position) {
+                        case 0:
+                            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                            startActivity(searchIntent);
+                            break;
+                        case 1:
+                            openRandom();
+                            break;
+                        case 2:
+                            Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
+                            startActivity(aboutIntent);
+                            break;
+                        default:
+                    }
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),
+                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void initInterface() {
         try {
             // Parent layout of all categories.
@@ -188,12 +211,12 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             if (visa > 2) {
-                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
                                     View vi = categoryChunkLayout.getChildAt(j);
                                     vi.setVisibility(View.GONE);
                                 }
                             } else {
-                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
                                     View vi = categoryChunkLayout.getChildAt(j);
                                     vi.setVisibility(View.VISIBLE);
                                 }

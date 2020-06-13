@@ -1,14 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/searchMenu"
-        android:title="@string/search" />
-    <item
-        android:id="@+id/randomMenu"
-        android:title="@string/menu_random" />
-    <item
-        android:id="@+id/aboutMenu"
-        android:title="@string/menu_about_settings" />
-
-</menu>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

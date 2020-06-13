@@ -54,10 +54,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
             // Set Version Text
             TextView versionText = findViewById(R.id.versionText);
             versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
-            // Set Total Machine Text
-            TextView totalMachineText = findViewById(R.id.totalMachinesText);
-            totalMachineText.setText(getResources().getString(R.string.total_1) + MainActivity.getMachineHelper().getMachineCount() + " / "
-                    + MainActivity.getMachineHelper().getConfigCount() + getResources().getString(R.string.total_2));
             // Set Website Logo clickable
             View aboutView = findViewById(R.id.aboutLayout);
             aboutView.setOnClickListener(new View.OnClickListener() {
@@ -165,7 +161,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 || MainActivity.getPrefs().getBoolean("isUseNavButtons", false)
                 || MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
             Log.i("Settings", "Restore default available");
-            restoreDefaults.setTextColor(Color.BLACK);
+            restoreDefaults.setTextColor(getColor(R.color.colorPrimaryDark));
             restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             restoreDefaults.setOnClickListener(new View.OnClickListener() {
                 @Override

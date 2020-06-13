@@ -26,8 +26,11 @@
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
     <string name="search_illegal">Invalid Input</string>
+    <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
+    <string name="menu_view">Categories</string>
+    <string name="menu">Menu</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines and configurations loaded</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
@@ -63,7 +66,6 @@
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="link_message_confirm">Only the following configuration is found for this model. Please review then confirm.</string>
     <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
-    <string name="search">Search</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
 </resources>

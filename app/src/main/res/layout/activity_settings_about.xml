@@ -28,20 +28,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAlignment="center"
-            android:textColor="#3F51B5"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <Space
             android:layout_width="match_parent"
             android:layout_height="5dp" />
-
-        <TextView
-            android:id="@+id/totalMachinesText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textStyle="bold" />
 
         <TextView
             android:layout_width="match_parent"
@@ -77,8 +70,9 @@
                     android:id="@+id/switchEveryMac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/setting_everymac"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -117,8 +111,9 @@
                     android:id="@+id/switchDeathSound"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/setting_deathsound"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -158,8 +153,9 @@
                     android:id="@+id/switchGestures"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/setting_gestures"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -199,8 +195,9 @@
                     android:id="@+id/switchNavButtons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/setting_navbuttons"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -240,8 +237,9 @@
                     android:id="@+id/switchQuickNav"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start|center_vertical"
                     android:text="@string/setting_quicknav"
+                    android:textColor="@color/colorPrimary"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

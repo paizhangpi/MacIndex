@@ -16,7 +16,7 @@
         android:clickable="true"
         android:gravity="left|center_vertical"
         android:textAlignment="gravity"
-        android:textColor="#464646"
+        android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold" />
 
