@@ -30,6 +30,12 @@
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="menu_view">Categories</string>
+    <string name="menu_view1">By Categories</string>
+    <string name="menu_view2">By Processors</string>
+    <string name="menu_view3">By Years</string>
+    <string name="menu_group">Groups</string>
+    <string name="menu_group1">Apple Desktop Computers</string>
+    <string name="menu_group2">Apple Laptops</string>
     <string name="menu">Menu</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines and configurations loaded</string>

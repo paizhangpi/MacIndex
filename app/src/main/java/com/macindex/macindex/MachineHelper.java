@@ -8,8 +8,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * MacIndex MachineHelper.
@@ -20,21 +18,24 @@ class MachineHelper {
 
     /*
      * Updating categories (Ver. 4.0)
-     * (1) Update the following number.
-     * (2) Update the following filter string array.
-     * (3) Add a new table to database.
+     * (1) Update the following number if needed
+     * (2) Update the MainActivity drawer code and string.
+     * (3) Update the MH manufacturer method accordingly.
+     * (4) Update the MH filter method.
+     * (5) Add a new table to database and make other changes if needed.
      *
      * Updating filters (Ver. 4.0)
-     * (1) Update the navigation code if needed.
-     * (2) Update the following filter string array.
+     * (1) Update the MainActivity drawer code and string.
+     * (2) Update the MH filter method.
      *
      * Updating columns
      * (1) Update MH to adapt the new column.
-     * (2) Update any code if needed.
+     * (2) Update SpecActivity code and string to get the data.
      * (3) Add a new column to every table.
      */
 
-    /* Set to actual quantity - 1.
+    /*
+     * Set to actual quantity - 1.
      * Warning! In a loop should include itself.
      * Array Init should +1 to match actual quantity.
      */
@@ -50,45 +51,6 @@ class MachineHelper {
     private int totalMachine = 0;
 
     private int totalConfig = 0;
-
-    /**
-     * Categories Reference List since 3.2
-     *
-     * category0:  Compact Macintosh
-     * category1:  Macintosh II
-     * category2:  Macintosh LC
-     * category3:  Macintosh Centris
-     * category4:  Macintosh Quadra
-     * category5:  Macintosh Performa
-     * category6:  Power Macintosh
-     * category7:  Power Mac G3/G4/G5
-     * category8:  iMac
-     * category9:  eMac
-     * category10: Mac mini
-     * category11: PowerBook
-     * category12: PowerBook Subnotebook
-     * category13: PowerBook G3/G4
-     * category14: iBook
-     */
-    private static final Map<Integer, Integer> CATEGORIES_NAMES;
-    static {
-        CATEGORIES_NAMES = new HashMap<>();
-        CATEGORIES_NAMES.put(0, R.string.category0);
-        CATEGORIES_NAMES.put(1, R.string.category1);
-        CATEGORIES_NAMES.put(2, R.string.category2);
-        CATEGORIES_NAMES.put(3, R.string.category3);
-        CATEGORIES_NAMES.put(4, R.string.category4);
-        CATEGORIES_NAMES.put(5, R.string.category5);
-        CATEGORIES_NAMES.put(6, R.string.category6);
-        CATEGORIES_NAMES.put(7, R.string.category7);
-        CATEGORIES_NAMES.put(8, R.string.category8);
-        CATEGORIES_NAMES.put(9, R.string.category9);
-        CATEGORIES_NAMES.put(10, R.string.category10);
-        CATEGORIES_NAMES.put(11, R.string.category11);
-        CATEGORIES_NAMES.put(12,R.string.category12);
-        CATEGORIES_NAMES.put(13, R.string.category13);
-        CATEGORIES_NAMES.put(14, R.string.category14);
-    }
 
     MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
@@ -137,23 +99,13 @@ class MachineHelper {
     int getConfigCount() {
         return totalConfig;
     }
-
-    // Get the name of a category
-    int getCategoryName(final int thisCategory) {
-        try {
-            return CATEGORIES_NAMES.get(thisCategory);
-        } catch (Exception e) {
-            Log.e("MachineHelperGetCatName", "Failed with " + thisCategory);
-            e.printStackTrace();
-        }
-        return 0;
-    }
-    /* Category description was removed since Ver. 4.0, June 12, 2020 at Shenyang, China */
+    /* Category name and description was removed since Ver. 4.0 */
 
     // Get total machines in a category.
     int getCategoryCount(final int thisCategory) {
         return categoryIndividualCount[thisCategory];
     }
+    /* Category start and end was removed since Ver. 4.0 */
 
     // Get start and end ID of a category. [start, end)
     int[] getCategoryStartEnd(final int thisCategory) {
@@ -501,21 +453,89 @@ class MachineHelper {
         }
     }
 
-    // For search use. Return sets of positions (positionCount/category ID/remainder).
-    int[][] searchHelper(final String columnName, final String searchInput) {
-        Log.i("MHSearchHelper", "Get parameter " + columnName + ", " + searchInput);
+    // Get category range by manufacturer. Should be updated accordingly. Return[start, end].
+    private int[] getCategoryRange(final String thisManufacturer) {
+        Log.i("MHRange", "Get parameter " + thisManufacturer);
+        final int[] appledesktop = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        final int[] applelaptop = {11, 12, 13, 14};
+        int[] all = new int[CATEGORIES_COUNT + 1];
+        for (int i = 0; i < all.length; i++) {
+            all[i] = i;
+        }
+        switch (thisManufacturer) {
+            case "appledesktop":
+                return appledesktop;
+            case "applelaptop":
+                return applelaptop;
+            case "all":
+                return all;
+            default:
+                Log.w("MHRange", "Invalid parameter");
+                return all;
+        }
+    }
+
+    // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
+    String[][] getFilterString(final String thisFilter, final String thisManufacturer) {
+        final String[][] appledesktopNames = {{"sindex"}, {"*Macintosh", "Macintosh II",
+                "Macintosh LC", "Macintosh Centris", "Macintosh Quadra", "Macintosh Performa",
+                "^", "&Power", "iMac", "eMac", "Mac mini"}, {"Compact Macintosh",
+                "Macintosh II", "Macintosh LC", "Macintosh Centris", "Macintosh Quadra",
+                "Macintosh Performa", "Power Macintosh", "Power Mac G3/G4/G5", "iMac", "eMac",
+                "Mac mini"}};
+        final String[][] applelaptopNames = {{"sindex"}, {"@Macintosh", "Macintosh PowerBook Duo",
+                "PowerBook G", "iBook"}, {"Macintosh PowerBook", "Macintosh PowerBook Duo",
+                "PowerBook G3/G4", "iBook"}};
+        final String[][] vtgprocessors = {{"processor"}, {"68000", "68020", "68030", "040",
+                "PowerPC 601", "PowerPC 603", "PowerPC 604", "G3", "G4", "G5"}, {"Motorola 68000",
+                "Motorola 68020", "Motorola 68030", "Motorola 68040", "PowerPC 601",
+                "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4", "PowerPC G5"}};
+        final String[][] allyears = {{"year"}, {"1984", "1985", "1986", "1987", "1988", "1989",
+                "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999",
+                "2000", "2001", "2002", "2003", "2004", "2005"}, {"1984", "1985", "1986",
+                "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996",
+                "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}};
+        Log.i("MHGetFilter", "Get parameters " + thisFilter + ", " + thisManufacturer);
+        switch (thisFilter) {
+            case "names":
+                switch (thisManufacturer) {
+                    case "appledesktop":
+                        return appledesktopNames;
+                    case "applelaptop":
+                        return applelaptopNames;
+                    default:
+                        break;
+                }
+                break;
+            case "processors":
+                return vtgprocessors;
+            case "years":
+                return allyears;
+            default:
+                break;
+        }
+        Log.w("MHGetFilter", "Invalid parameters");
+        return allyears;
+    }
+
+    // For search use. Return machine IDs. Adapted with category range.
+    int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer) {
+        Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
         // Raw results (categoryID/remainders)
-        int[][] rawResults = new int[CATEGORIES_COUNT + 1][];
+        final int[] thisCategoryRange = getCategoryRange(thisManufacturer);
+        final int thisCategoryCount = thisCategoryRange.length;
+        int[][] rawResults = new int[thisCategoryCount][];
 
         // Setup temp cursor of each category for a query.
         try {
-            for (int i = 0; i <= CATEGORIES_COUNT; i++) {
-                Cursor thisSearchIndividualCursor = database.query("category" + i,
+            for (int i = 0; i < thisCategoryCount; i++) {
+                Cursor thisSearchIndividualCursor = database.query("category" + thisCategoryRange[i],
                         null, columnName +" LIKE ? ",
                         new String[]{"%" + searchInput + "%"},
                         null, null, null);
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
-                Log.i("MHSearchHelper", "Category " + i + "get " + thisSearchIndividualCursor.getCount() + " result(s).");
+                Log.i("MHSearchHelper", "Category " + thisCategoryRange[i] + " got "
+                        + thisSearchIndividualCursor.getCount() + " result(s).");
                 // Write raw query results.
                 int previousCount = 0;
                 while (thisSearchIndividualCursor.moveToNext()) {
@@ -533,21 +553,27 @@ class MachineHelper {
         for (int[] thisRawResult : rawResults) {
             if (thisRawResult != null) {
                 resultTotalCount += thisRawResult.length;
-                for (int j = 0; j < thisRawResult.length; j++) {
-                }
             }
             Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
         }
-
-        // Sets of positions (positionCount/category ID/remainder)
-        int[][] finalPositions = new int[resultTotalCount][2];
+        int[] finalPositions = new int[resultTotalCount];
         int previousCount = 0;
-        for (int j = 0; j <= CATEGORIES_COUNT; j++) {
+        for (int j = 0; j < thisCategoryCount; j++) {
             for (int k = 0; k < rawResults[j].length; k++) {
-                finalPositions[previousCount][0] = j;
-                finalPositions[previousCount][1] = rawResults[j][k];
+                finalPositions[previousCount] = findByPosition(new int[] {
+                        getCategoryRange(thisManufacturer)[j], rawResults[j][k]});
                 previousCount++;
             }
+        }
+        return finalPositions;
+    }
+
+    // For filter-based fixed search use. Return (filterIDs/machineIDs).
+    int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer) {
+        final String[][] filterString = getFilterString(thisFilter, thisManufacturer);
+        int[][] finalPositions = new int[filterString[1].length][];
+        for (int i = 0; i < filterString[1].length; i++) {
+            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer);
         }
         return finalPositions;
     }

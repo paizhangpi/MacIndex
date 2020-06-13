@@ -30,6 +30,12 @@
     <string name="menu_random">试试手气</string>
     <string name="menu_about_settings">关于与设置</string>
     <string name="menu_view">分类</string>
+    <string name="menu_view1">按分组浏览</string>
+    <string name="menu_view2">按处理器浏览</string>
+    <string name="menu_view3">按年代浏览</string>
+    <string name="menu_group">分组</string>
+    <string name="menu_group1">苹果台式电脑</string>
+    <string name="menu_group2">苹果笔记本电脑</string>
     <string name="menu">菜单</string>
     <string name="total_1">共加载了&#160;</string>
     <string name="total_2">&#160;个机型与配置</string>

@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch(final String searchInput) {
         try {
             textResult.setVisibility(View.VISIBLE);
-            int[][] positions = thisMachineHelper.searchHelper(getOption(), searchInput);
+            int[] positions = thisMachineHelper.searchHelper(getOption(), searchInput, "appledesktop");
             int resultCount = positions.length;
             if (positions.length == 0) {
                 textResult.setText(R.string.search_noResult);
@@ -139,7 +139,7 @@ public class SearchActivity extends AppCompatActivity {
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
-                final int machineID = thisMachineHelper.findByPosition(positions[i]);
+                final int machineID = positions[i];
 
                 // Find information necessary for interface.
                 final String thisName = thisMachineHelper.getName(machineID);

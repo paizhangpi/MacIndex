@@ -36,12 +36,15 @@ import java.lang.reflect.Field;
 import java.util.Random;
 
 /**
- * MacIndex/2.
+ * MacIndex.
  * University of Illinois, CS125 FA19 Final Project
  * University of Illinois, CS199 Kotlin SP20 Final Project
  * https://paizhang.info/MacIndexCN
  * https://paizhang.info/MacIndex
  * https://github.com/paizhangpi/MacIndex
+ *
+ * 1st Major Update May 12, 2020 at Champaign, Illinois, U.S.A.
+ * 2nd Major Update June 13, 2020 at Shenyang, Liaoning, P.R.C.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -53,15 +56,24 @@ public class MainActivity extends AppCompatActivity {
 
     private static Resources resources = null;
 
+    private String thisManufacturer = null;
+
+    private String thisFilter = null;
+
+    private String[][] thisFilterString = {};
+
+    private int[][] loadPositions = {};
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
         resources = getResources();
+        thisManufacturer = prefs.getString("thisManufacturer", "appledesktop");
+        thisFilter = prefs.getString("thisFilter", "names");
         initDatabase();
         initMenu();
-        // To change the loading method.
         initInterface();
     }
 
@@ -135,23 +147,66 @@ public class MainActivity extends AppCompatActivity {
             mEdgeSize.setInt(draggerObj, edge * 10);
 
             // Initialize the navigation bar
+            /* Set the groups here */
+            final String[] groupContent = {getString(R.string.menu_group1),
+                    getString(R.string.menu_group2)};
             /* Set the filters here*/
-            final String[] viewContent = {"By Categories","By Processor", "By Year"};
+            final String[] viewContent = {getString(R.string.menu_view1),
+                    getString(R.string.menu_view2), getString(R.string.menu_view3)};
+            /* Main menu */
             final String[] menuContent = {getString(R.string.menu_search),
-                    getString(R.string.menu_random),
-                    getString(R.string.menu_about_settings)};
+                    getString(R.string.menu_random), getString(R.string.menu_about_settings)};
 
+            ListView groupList = findViewById(R.id.group_list);
             ListView viewList = findViewById(R.id.view_list);
             ListView menuList = findViewById(R.id.menu_list);
 
+            groupList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groupContent));
             viewList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, viewContent));
             menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuContent));
+
+            groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (position) {
+                        case 0:
+                            thisManufacturer = "appledesktop";
+                            prefs.edit().putString("thisManufacturer", "appledesktop").apply();
+                            break;
+                        case 1:
+                            thisManufacturer = "applelaptop";
+                            prefs.edit().putString("thisManufacturer", "applelaptop").apply();
+                            break;
+                        default:
+                            Log.w("MainDrawerGroup", "This should not happen.");
+
+                    }
+                    mDrawerLayout.closeDrawers();
+                    refresh();
+                }
+            });
 
             viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // Not available now
+                    switch (position) {
+                        case 0:
+                            thisFilter = "names";
+                            prefs.edit().putString("thisFilter", "names").apply();
+                            break;
+                        case 1:
+                            thisFilter = "processors";
+                            prefs.edit().putString("thisFilter", "processors").apply();
+                            break;
+                        case 2:
+                            thisFilter = "years";
+                            prefs.edit().putString("thisFilter", "years").apply();
+                            break;
+                        default:
+                            Log.w("MainDrawerFilter", "This should not happen.");
+                    }
                     mDrawerLayout.closeDrawers();
+                    refresh();
                 }
             });
 
@@ -171,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(aboutIntent);
                             break;
                         default:
+                            Log.w("MainDrawerMenu", "This should not happen.");
                     }
                     mDrawerLayout.closeDrawers();
                 }
@@ -186,47 +242,56 @@ public class MainActivity extends AppCompatActivity {
         try {
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+            categoryContainer.removeAllViews();
+            // Get filter string and positions.
+            thisFilterString = machineHelper.getFilterString(thisFilter, thisManufacturer);
+            loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
             // Set up each category.
-            for (int i = 0; i <= machineHelper.getCategoryTotalCount(); i++) {
+            for (int i = 0; i < loadPositions.length; i++) {
                 final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
                 final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
                 final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
-                categoryName.setText(getResources().getString(machineHelper.getCategoryName(i)));
+                if (loadPositions[i].length == 0) {
+                    // No result to display.
+                    categoryChunkLayout.removeAllViews();
+                } else {
+                    categoryName.setText(thisFilterString[2][i]);
 
-                // Never change the old code from my teammate.
-                for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                    View v = categoryChunkLayout.getChildAt(j);
-                    v.setClickable(true);
-                    v.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View v) {
-                            int visa = 0;
+                    // Never change the old code from my teammate.
+                    for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                        View v = categoryChunkLayout.getChildAt(j);
+                        v.setClickable(true);
+                        v.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(final View v) {
+                                int visa = 0;
 
-                            for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                                View vi = categoryChunkLayout.getChildAt(j);
-                                if (vi.getVisibility() == View.VISIBLE) {
-                                    visa++;
+                                for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
+                                    View vi = categoryChunkLayout.getChildAt(j);
+                                    if (vi.getVisibility() == View.VISIBLE) {
+                                        visa++;
+                                    }
+                                }
+
+                                if (visa > 2) {
+                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                        View vi = categoryChunkLayout.getChildAt(j);
+                                        vi.setVisibility(View.GONE);
+                                    }
+                                } else {
+                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                        View vi = categoryChunkLayout.getChildAt(j);
+                                        vi.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
-
-                            if (visa > 2) {
-                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                    View vi = categoryChunkLayout.getChildAt(j);
-                                    vi.setVisibility(View.GONE);
-                                }
-                            } else {
-                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                    View vi = categoryChunkLayout.getChildAt(j);
-                                    vi.setVisibility(View.VISIBLE);
-                                }
-                            }
-                        }
-                    });
+                        });
+                    }
+                    initCategory(categoryChunkLayout, i);
+                    categoryContainer.addView(categoryChunk);
+                    categoryContainer.addView(dividerChunk);
                 }
-                initCategory(categoryChunkLayout, i);
-                categoryContainer.addView(categoryChunk);
-                categoryContainer.addView(dividerChunk);
             }
             // Remove the last divider.
             categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
@@ -242,15 +307,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
-            for (int i = 0; i < machineHelper.getCategoryCount(category); i++) {
+            for (int i = 0; i < loadPositions[category].length; i++) {
                 View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
                 TextView machineName = mainChunk.findViewById(R.id.machineName);
                 TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
                 // Adapt MachineHelper.
-                final int[] position = {category, i};
-                final int machineID = machineHelper.findByPosition(position);
+                final int machineID = loadPositions[category][i];
 
                 // Find information necessary for interface.
                 final String thisName = machineHelper.getName(machineID);
@@ -406,6 +470,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void refresh() {
+        Log.i("MainActivity", "Reloading");
+        initInterface();
     }
 
     public static MachineHelper getMachineHelper() {
