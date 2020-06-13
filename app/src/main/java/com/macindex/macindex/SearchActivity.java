@@ -125,7 +125,7 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch(final String searchInput) {
         try {
             textResult.setVisibility(View.VISIBLE);
-            int[] positions = thisMachineHelper.searchHelper(getOption(), searchInput, "appledesktop");
+            final int[] positions = thisMachineHelper.searchHelper(getOption(), searchInput, "all");
             int resultCount = positions.length;
             if (positions.length == 0) {
                 textResult.setText(R.string.search_noResult);
@@ -155,7 +155,7 @@ public class SearchActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(machineID);
+                            sendIntent(positions, machineID);
                         }
                     }
                 });
@@ -166,7 +166,7 @@ public class SearchActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(machineID);
+                            sendIntent(positions, machineID);
                         }
                     }
                 });
@@ -181,8 +181,9 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     // Keep compatible with MainActivity.
-    private void sendIntent(final int thisMachineID) {
+    private void sendIntent(final int[] thisCategory, final int thisMachineID) {
         Intent intent = new Intent(this, SpecsActivity.class);
+        intent.putExtra("thisCategory", thisCategory);
         intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
     }

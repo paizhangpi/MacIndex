@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
         resources = getResources();
-        thisManufacturer = prefs.getString("thisManufacturer", "appledesktop");
+        thisManufacturer = prefs.getString("thisManufacturer", "all");
         thisFilter = prefs.getString("thisFilter", "names");
         initDatabase();
         initMenu();
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initMenu() {
         try {
+            Log.i("initMenu", "Initializing");
             // Set the edge size of drawer.
             final DrawerLayout mDrawerLayout = findViewById(R.id.mainContainer);
             Field mDragger = mDrawerLayout.getClass().getDeclaredField(
@@ -148,58 +150,70 @@ public class MainActivity extends AppCompatActivity {
 
             // Initialize the navigation bar
             /* Set the groups here */
-            final String[] groupContent = {getString(R.string.menu_group1),
-                    getString(R.string.menu_group2)};
+            String[] groupContent = {getString(R.string.menu_group0),
+                        getString(R.string.menu_group1), getString(R.string.menu_group2)};
             /* Set the filters here*/
-            final String[] viewContent = {getString(R.string.menu_view1),
+            String[] viewContent = {getString(R.string.menu_view1),
                     getString(R.string.menu_view2), getString(R.string.menu_view3)};
             /* Main menu */
-            final String[] menuContent = {getString(R.string.menu_search),
+            String[] menuContent = {getString(R.string.menu_search),
                     getString(R.string.menu_random), getString(R.string.menu_about_settings)};
 
-            ListView groupList = findViewById(R.id.group_list);
-            ListView viewList = findViewById(R.id.view_list);
-            ListView menuList = findViewById(R.id.menu_list);
+            final ListView groupList = findViewById(R.id.group_list);
+            final ListView viewList = findViewById(R.id.view_list);
+            final ListView menuList = findViewById(R.id.menu_list);
 
             groupList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groupContent));
             viewList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, viewContent));
             menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuContent));
 
+            // Set listView listeners accordingly.
             groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     switch (position) {
                         case 0:
-                            thisManufacturer = "appledesktop";
-                            prefs.edit().putString("thisManufacturer", "appledesktop").apply();
+                            thisManufacturer = "all";
+                            prefs.edit().putString("thisManufacturer", "all").apply();
+                            prefs.edit().putInt("groupPosition", position).apply();
+                            prefs.edit().putInt("MainTitle", R.string.menu_group0).apply();
                             break;
                         case 1:
+                            thisManufacturer = "appledesktop";
+                            prefs.edit().putString("thisManufacturer", "appledesktop").apply();
+                            prefs.edit().putInt("groupPosition", position).apply();
+                            prefs.edit().putInt("MainTitle", R.string.menu_group1).apply();
+                            break;
+                        case 2:
                             thisManufacturer = "applelaptop";
                             prefs.edit().putString("thisManufacturer", "applelaptop").apply();
+                            prefs.edit().putInt("groupPosition", position).apply();
+                            prefs.edit().putInt("MainTitle", R.string.menu_group2).apply();
                             break;
                         default:
                             Log.w("MainDrawerGroup", "This should not happen.");
-
                     }
                     mDrawerLayout.closeDrawers();
                     refresh();
                 }
             });
-
             viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     switch (position) {
                         case 0:
                             thisFilter = "names";
+                            prefs.edit().putInt("viewPosition", position).apply();
                             prefs.edit().putString("thisFilter", "names").apply();
                             break;
                         case 1:
                             thisFilter = "processors";
+                            prefs.edit().putInt("viewPosition", position).apply();
                             prefs.edit().putString("thisFilter", "processors").apply();
                             break;
                         case 2:
                             thisFilter = "years";
+                            prefs.edit().putInt("viewPosition", position).apply();
                             prefs.edit().putString("thisFilter", "years").apply();
                             break;
                         default:
@@ -209,7 +223,6 @@ public class MainActivity extends AppCompatActivity {
                     refresh();
                 }
             });
-
             menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -231,6 +244,66 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
+
+            // Set a drawer listener to change title and color.
+            mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+                @Override
+                public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                    // No action
+                }
+
+                @Override
+                public void onDrawerOpened(@NonNull View drawerView) {
+                    setTitle(R.string.app_name);
+                }
+
+                @Override
+                public void onDrawerClosed(@NonNull View drawerView) {
+                    setTitle(prefs.getInt("MainTitle", R.string.menu_group0));
+                }
+
+                @Override
+                public void onDrawerStateChanged(int newState) {
+                    for (int i = 0; i < groupList.getChildCount(); i++) {
+                        if (prefs.getInt("groupPosition", 0) == i) {
+                            View v = groupList.getChildAt(i);
+                            v.setClickable(true);
+                            v.setBackgroundColor(getColor(R.color.colorPrimary));
+                            TextView tv = v.findViewById(android.R.id.text1);
+                            tv.setTextColor(Color.WHITE);
+                        } else {
+                            View v = groupList.getChildAt(i);
+                            v.setClickable(false);
+                            v.setBackgroundColor(Color.TRANSPARENT);
+                            TextView tv = v.findViewById(android.R.id.text1);
+                            tv.setTextColor(Color.BLACK);
+                        }
+                    }
+                    for (int i = 0; i < viewList.getChildCount(); i++) {
+                        if (prefs.getInt("viewPosition", 0) == i) {
+                            View v = viewList.getChildAt(i);
+                            v.setClickable(true);
+                            v.setBackgroundColor(getColor(R.color.colorPrimary));
+                            TextView tv = v.findViewById(android.R.id.text1);
+                            tv.setTextColor(Color.WHITE);
+                        } else {
+                            View v = viewList.getChildAt(i);
+                            v.setClickable(false);
+                            v.setBackgroundColor(Color.TRANSPARENT);
+                            TextView tv = v.findViewById(android.R.id.text1);
+                            tv.setTextColor(Color.BLACK);
+                        }
+                    }
+                    // If EveryMac enabled, random should be disabled
+                    if (prefs.getBoolean("isOpenEveryMac", false)) {
+                        menuList.getChildAt(1).setEnabled(false);
+                        menuList.getChildAt(1).setClickable(true);
+                    } else {
+                        menuList.getChildAt(1).setEnabled(true);
+                        menuList.getChildAt(1).setClickable(false);
+                    }
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
@@ -240,11 +313,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initInterface() {
         try {
+            // Set Activity title.
+            setTitle(prefs.getInt("MainTitle", R.string.menu_group0));
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             categoryContainer.removeAllViews();
             // Get filter string and positions.
-            thisFilterString = machineHelper.getFilterString(thisFilter, thisManufacturer);
+            thisFilterString = machineHelper.getFilterString(thisFilter);
             loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
             // Set up each category.
             for (int i = 0; i < loadPositions.length; i++) {
@@ -274,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
 
-                                if (visa > 2) {
+                                if (visa > 1) {
                                     for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
                                         View vi = categoryChunkLayout.getChildAt(j);
                                         vi.setVisibility(View.GONE);
@@ -295,7 +370,6 @@ public class MainActivity extends AppCompatActivity {
             }
             // Remove the last divider.
             categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
-            Log.i("InitInterface", machineHelper.getMachineCount() + " loaded");
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
         } catch (Exception e) {
             e.printStackTrace();
@@ -330,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(machineID);
+                            sendIntent(loadPositions[category], machineID);
                         }
                     }
                 });
@@ -341,7 +415,7 @@ public class MainActivity extends AppCompatActivity {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
                             loadLinks(thisName, thisLinks);
                         } else {
-                            sendIntent(machineID);
+                            sendIntent(loadPositions[category], machineID);
                         }
                     }
                 });
@@ -357,8 +431,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Keep compatible with SearchActivity.
-    private void sendIntent(final int thisMachineID) {
+    private void sendIntent(final int[] thisCategory, final int thisMachineID) {
         Intent intent = new Intent(this, SpecsActivity.class);
+        intent.putExtra("thisCategory", thisCategory);
         intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
     }
@@ -446,24 +521,33 @@ public class MainActivity extends AppCompatActivity {
                 throw new IllegalArgumentException();
             }
             if (prefs.getBoolean("isOpenEveryMac", false)) {
-                final int configID = new Random().nextInt(machineHelper.getConfigCount());
-                final int[] configPosition = machineHelper.findByConfig(configID);
-                final String configString = machineHelper.getConfig(configPosition[0]);
-                if (configString.equals("N")) {
-                    // If this does happen: random machine have no link and open EveryMac checked
-                    Log.w("RandomAccess", "No link present! retrying");
-                    openRandom();
-                    return;
-                }
-                Log.i("RandomAccess", "Link direct, Config ID " + configID
-                        + ", Machine ID " + configPosition[0] + ", Link No. " + configPosition[1]);
-                final String[] linkGroup = configString.split(";");
-                startBrowser(linkGroup[configPosition[1]].split(",")[0],
-                        linkGroup[configPosition[1]].split(",")[1]);
+                // This should not happen.
+                throw new IllegalStateException();
             } else {
-                int machineID = new Random().nextInt(machineHelper.getMachineCount());
+                int machineID = 0;
+                if (!prefs.getBoolean("isRandomAll", false)) {
+                    // Random All mode.
+                    machineID = new Random().nextInt(machineHelper.getMachineCount());
+                    Log.i("RandomAccess", "Random All mode, get total " + machineHelper.getMachineCount() + " , ID " + machineID);
+                } else {
+                    // Limited Random mode.
+                    int totalLoadad = 0;
+                    for (int[] i : loadPositions) {
+                        totalLoadad += i.length;
+                    }
+                    int randomCode = new Random().nextInt(totalLoadad + 1);
+                    Log.i("RandomAccess", "Limit Random mode, get total " + totalLoadad + " , ID " + randomCode);
+                    for (int i = 0; i < loadPositions.length; i++) {
+                        if (randomCode >= loadPositions[i].length) {
+                            randomCode -= loadPositions[i].length;
+                        } else {
+                            machineID = loadPositions[i][randomCode];
+                            break;
+                        }
+                    }
+                }
                 Log.i("RandomAccess", "Machine ID " + machineID);
-                sendIntent(machineID);
+                sendIntent(new int[]{machineID}, machineID);
             }
         } catch (Exception e) {
             e.printStackTrace();

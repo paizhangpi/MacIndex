@@ -32,7 +32,9 @@ public class SpecsActivity extends AppCompatActivity {
 
     private int machineID = -1;
 
-    private int[] categoryStartEnd = {0, 0};
+    private int[] categoryStartEnd = {};
+
+    private int machineIDPosition = 0;
 
     private boolean startup = true;
 
@@ -51,6 +53,14 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             final Intent intent = getIntent();
             machineID = intent.getIntExtra("machineID", -1);
+            categoryStartEnd = intent.getIntArrayExtra("thisCategory");
+            // Find the current position.
+            for (int i = 0; i < categoryStartEnd.length; i++) {
+                if (categoryStartEnd[i] == machineID) {
+                    machineIDPosition = i;
+                    break;
+                }
+            }
             mainView = findViewById(R.id.mainView);
             mainScrollView = findViewById(R.id.mainScrollView);
             initialize();
@@ -72,7 +82,6 @@ public class SpecsActivity extends AppCompatActivity {
             if (machineID == -1) {
                 throw new IllegalArgumentException();
             }
-            categoryStartEnd = thisMachineHelper.getCategoryStartEnd(thisMachineHelper.getPosition(machineID)[0]);
             initSpecs();
             initImage();
             initLinks();
@@ -87,8 +96,7 @@ public class SpecsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
-        Log.i("SpecsInitialize", "Machine ID " + machineID
-                + ", Category Starts " + categoryStartEnd[0] + ", Category Ends " + categoryStartEnd[1]);
+        Log.i("SpecsInitialize", "Machine ID " + machineID);
     }
 
     private void release() {
@@ -341,7 +349,7 @@ public class SpecsActivity extends AppCompatActivity {
             buttonView.setVisibility(View.VISIBLE);
 
             // Previous button.
-            if (machineID == categoryStartEnd[0]) {
+            if (machineIDPosition == 0) {
                 // First one, disable the prev button
                 previous.setEnabled(false);
                 previous.setText(getResources().getString(R.string.first_one));
@@ -357,7 +365,7 @@ public class SpecsActivity extends AppCompatActivity {
                 });
             }
             // Next button.
-            if (machineID + 1 == categoryStartEnd[1]) {
+            if (machineIDPosition == categoryStartEnd.length - 1) {
                 // Last one, disable the next button
                 next.setEnabled(false);
                 next.setText(getResources().getString(R.string.last_one));
@@ -381,7 +389,25 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initGestures() {
         Log.i("SpecGestures", "Loading");
-        if (machineID == categoryStartEnd[0]) {
+        if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
+            // Can NOT do BOTH
+            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+                }
+                public void onSwipeLeft() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+                }
+            });
+            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+                }
+                public void onSwipeLeft() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+                }
+            });
+        } else if (machineIDPosition == 0) {
             // Can only swipe Right (NEXT)
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
@@ -401,7 +427,7 @@ public class SpecsActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
                 }
             });
-        } else if (machineID + 1 == categoryStartEnd[1]) {
+        } else if (machineIDPosition == categoryStartEnd.length - 1) {
             // Can only swipe Left (PREV)
             mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
                 public void onSwipeRight() {
@@ -453,16 +479,17 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void navPrev() {
-        machineID--;
+        machineIDPosition--;
         refresh();
     }
 
     private void navNext() {
-        machineID++;
+        machineIDPosition++;
         refresh();
     }
 
     private void refresh() {
+        machineID = categoryStartEnd[machineIDPosition];
         if (MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
             // Old method - not creating a new Activity
             release();
@@ -473,6 +500,7 @@ public class SpecsActivity extends AppCompatActivity {
             // New method
             Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
             newMachine.putExtra("machineID", machineID);
+            newMachine.putExtra("thisCategory", categoryStartEnd);
             startActivity(newMachine);
             finish();
         }

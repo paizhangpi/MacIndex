@@ -9,7 +9,7 @@
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="setting_everymac">Open directly in EveryMac</string>
-    <string name="setting_everymac_description">MacIndex will open the specific EveryMac page of the model directly.\nMacIndex will ask you for specific configuration if the model has more than one configurations unless you are accessing randomly.</string>
+    <string name="setting_everymac_description">If you turn this on, MacIndex will open the specific EveryMac page of the model directly. MacIndex will ask you for specific configuration if the model has more than one configurations. Random access will no longer available.</string>
     <string name="setting_deathsound">Enable death Sound</string>
     <string name="setting_deathsound_deathsound_description">By default, MacIndex will play startup and death sound alternatively. However, if you would not prefer to hear death sound, you can turn it off.</string>
     <string name="setting_gestures">Enable gestures</string>
@@ -18,6 +18,8 @@
     <string name="setting_navbuttons_description">You may also enable old-fashioned navigate buttons with or without gestures.</string>
     <string name="setting_quicknav">Quick Navigation</string>
     <string name="setting_quicknav_description">Use an alternative method to make navigation faster between machines.</string>
+    <string name="setting_randomall">Limit Random Range</string>
+    <string name="setting_randomall_description">By default, MacIndex will pick random machines in all categories. If you turn this on, MacIndex will only pick random machines inside the current category group.</string>
     <string name="setting_defaults">Restore defaults&#8230;</string>
     <string name="setting_saved">Settings saved</string>
     <string name="search_nameOption">Name</string>
@@ -29,14 +31,15 @@
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
-    <string name="menu_view">Categories</string>
+    <string name="menu_view">View By</string>
     <string name="menu_view1">By Categories</string>
     <string name="menu_view2">By Processors</string>
     <string name="menu_view3">By Years</string>
-    <string name="menu_group">Groups</string>
+    <string name="menu_group">Category Groups</string>
+    <string name="menu_group0">All Categories</string>
     <string name="menu_group1">Apple Desktop Computers</string>
     <string name="menu_group2">Apple Laptops</string>
-    <string name="menu">Menu</string>
+    <string name="menu">Main Menu</string>
     <string name="total_1"></string>
     <string name="total_2">&#160;machines and configurations loaded</string>
     <string name="category0" translatable="false">Compact Macintosh</string>

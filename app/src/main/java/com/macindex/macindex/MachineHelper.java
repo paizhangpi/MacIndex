@@ -21,8 +21,7 @@ class MachineHelper {
      * (1) Update the following number if needed
      * (2) Update the MainActivity drawer code and string.
      * (3) Update the MH manufacturer method accordingly.
-     * (4) Update the MH filter method.
-     * (5) Add a new table to database and make other changes if needed.
+     * (4) Add a new table to database and make other changes if needed.
      *
      * Updating filters (Ver. 4.0)
      * (1) Update the MainActivity drawer code and string.
@@ -48,6 +47,7 @@ class MachineHelper {
     /* Machine ID starts from 0, ends total -1. */
     private int[] categoryIndividualCount;
 
+    /* starts from 0, actual total -1. */
     private int totalMachine = 0;
 
     private int totalConfig = 0;
@@ -107,17 +107,6 @@ class MachineHelper {
     }
     /* Category start and end was removed since Ver. 4.0 */
 
-    // Get start and end ID of a category. [start, end)
-    int[] getCategoryStartEnd(final int thisCategory) {
-        int start = 0;
-        for (int i = 0; i < thisCategory; i++) {
-            start += categoryIndividualCount[i];
-        }
-        int end = start + getCategoryCount(thisCategory);
-        int[] toReturn = {start, end};
-        return toReturn;
-    }
-
     // Get specific position of a machine ID.
     int[] getPosition(final int thisMachine) {
         // Category ID / Remainder
@@ -160,8 +149,8 @@ class MachineHelper {
                 return configPosition;
             }
         }
-        Log.e("MachineHelperFndByCfg", "Can't find such ID, returning null.");
-        return null;
+        Log.e("MachineHelperFndByCfg", "Can't find such ID, returning empty position.");
+        return new int[] {};
     }
 
     String getName(final int thisMachine) {
@@ -476,46 +465,36 @@ class MachineHelper {
     }
 
     // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
-    String[][] getFilterString(final String thisFilter, final String thisManufacturer) {
-        final String[][] appledesktopNames = {{"sindex"}, {"*Macintosh", "Macintosh II",
+    String[][] getFilterString(final String thisFilter) {
+        final String[][] names = {{"sindex"}, {"*Macintosh", "Macintosh II",
                 "Macintosh LC", "Macintosh Centris", "Macintosh Quadra", "Macintosh Performa",
-                "^", "&Power", "iMac", "eMac", "Mac mini"}, {"Compact Macintosh",
-                "Macintosh II", "Macintosh LC", "Macintosh Centris", "Macintosh Quadra",
-                "Macintosh Performa", "Power Macintosh", "Power Mac G3/G4/G5", "iMac", "eMac",
-                "Mac mini"}};
-        final String[][] applelaptopNames = {{"sindex"}, {"@Macintosh", "Macintosh PowerBook Duo",
-                "PowerBook G", "iBook"}, {"Macintosh PowerBook", "Macintosh PowerBook Duo",
-                "PowerBook G3/G4", "iBook"}};
-        final String[][] vtgprocessors = {{"processor"}, {"68000", "68020", "68030", "040",
+                "^", "&Power", "iMac", "eMac", "Mac mini", "@Macintosh", "PowerBook Duo",
+                "PowerBook G", "iBook"}, {"Compact Macintosh", "Macintosh II", "Macintosh LC",
+                "Macintosh Centris", "Macintosh Quadra", "Macintosh Performa", "Power Macintosh",
+                "Power Mac G3/G4/G5", "iMac", "eMac", "Mac mini", "Macintosh PowerBook",
+                "Macintosh PowerBook Duo", "PowerBook G3/G4", "iBook"}};
+        final String[][] processors = {{"processor"}, {"68000", "68020", "68030", "040",
                 "PowerPC 601", "PowerPC 603", "PowerPC 604", "G3", "G4", "G5"}, {"Motorola 68000",
                 "Motorola 68020", "Motorola 68030", "Motorola 68040", "PowerPC 601",
                 "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4", "PowerPC G5"}};
-        final String[][] allyears = {{"year"}, {"1984", "1985", "1986", "1987", "1988", "1989",
+        final String[][] years = {{"year"}, {"1984", "1985", "1986", "1987", "1988", "1989",
                 "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999",
                 "2000", "2001", "2002", "2003", "2004", "2005"}, {"1984", "1985", "1986",
                 "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996",
                 "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}};
-        Log.i("MHGetFilter", "Get parameters " + thisFilter + ", " + thisManufacturer);
+        Log.i("MHGetFilter", "Get parameters " + thisFilter);
         switch (thisFilter) {
             case "names":
-                switch (thisManufacturer) {
-                    case "appledesktop":
-                        return appledesktopNames;
-                    case "applelaptop":
-                        return applelaptopNames;
-                    default:
-                        break;
-                }
-                break;
+                return names;
             case "processors":
-                return vtgprocessors;
+                return processors;
             case "years":
-                return allyears;
+                return years;
             default:
                 break;
         }
         Log.w("MHGetFilter", "Invalid parameters");
-        return allyears;
+        return names;
     }
 
     // For search use. Return machine IDs. Adapted with category range.
@@ -570,7 +549,7 @@ class MachineHelper {
 
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
     int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer) {
-        final String[][] filterString = getFilterString(thisFilter, thisManufacturer);
+        final String[][] filterString = getFilterString(thisFilter);
         int[][] finalPositions = new int[filterString[1].length][];
         for (int i = 0; i < filterString[1].length; i++) {
             finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer);
