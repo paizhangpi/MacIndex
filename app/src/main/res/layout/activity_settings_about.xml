@@ -20,7 +20,7 @@
             android:layout_height="80dp"
             android:layout_gravity="center"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/logorev2" />
+            app:srcCompat="@drawable/macindexlogo" />
 
         <TextView
             android:id="@+id/versionText"
