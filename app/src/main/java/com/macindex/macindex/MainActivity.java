@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int[][] loadPositions = {};
 
+    private int machineLoadedCount = 0;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
         if (machineHelper != null) {
             machineHelper.suicide();
         }
-        database.close();
+        if (database != null) {
+            database.close();
+        }
         super.onDestroy();
     }
 
@@ -163,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
             final ListView viewList = findViewById(R.id.view_list);
             final ListView menuList = findViewById(R.id.menu_list);
 
-            groupList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, groupContent));
-            viewList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, viewContent));
-            menuList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, menuContent));
+            groupList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, groupContent));
+            viewList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, viewContent));
+            menuList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menuContent));
 
             // Set listView listeners accordingly.
             groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -176,19 +180,19 @@ public class MainActivity extends AppCompatActivity {
                             thisManufacturer = "all";
                             prefs.edit().putString("thisManufacturer", "all").apply();
                             prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putInt("MainTitle", R.string.menu_group0).apply();
+                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group0)).apply();
                             break;
                         case 1:
                             thisManufacturer = "appledesktop";
                             prefs.edit().putString("thisManufacturer", "appledesktop").apply();
                             prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putInt("MainTitle", R.string.menu_group1).apply();
+                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group1)).apply();
                             break;
                         case 2:
                             thisManufacturer = "applelaptop";
                             prefs.edit().putString("thisManufacturer", "applelaptop").apply();
                             prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putInt("MainTitle", R.string.menu_group2).apply();
+                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group2)).apply();
                             break;
                         default:
                             Log.w("MainDrawerGroup", "This should not happen.");
@@ -259,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerClosed(@NonNull View drawerView) {
-                    setTitle(prefs.getInt("MainTitle", R.string.menu_group0));
+                    setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
                 }
 
                 @Override
@@ -314,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(prefs.getInt("MainTitle", R.string.menu_group0));
+            setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             categoryContainer.removeAllViews();
@@ -371,6 +375,7 @@ public class MainActivity extends AppCompatActivity {
             // Remove the last divider.
             categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
+            Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
@@ -420,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
                 currentLayout.addView(mainChunk);
-
+                machineLoadedCount++;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -558,6 +563,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void refresh() {
         Log.i("MainActivity", "Reloading");
+        machineLoadedCount = 0;
         initInterface();
     }
 

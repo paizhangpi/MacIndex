@@ -8,13 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +39,6 @@ public class SearchActivity extends AppCompatActivity {
 
         textResult = findViewById(R.id.textResult);
         textIllegalInput = findViewById(R.id.textIllegalInput);
-
-        textResult.setVisibility(View.GONE);
         textIllegalInput.setVisibility(View.GONE);
 
         searchOptions = findViewById(R.id.searchOptions);
@@ -65,35 +62,39 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void initSearch() {
-        TextView searchText = findViewById(R.id.searchInput);
-        searchText.addTextChangedListener(new TextWatcher() {
+        SearchView searchText = findViewById(R.id.searchInput);
+        searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // No action
+            public boolean onQueryTextSubmit(String query) {
+                return startSearch(query);
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // No action
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                TextView illegalInput = findViewById(R.id.textIllegalInput);
-                illegalInput.setVisibility(View.GONE);
-                currentLayout.removeAllViews();
-                String searchInput = s.toString().trim();
-                if (!searchInput.equals("")) {
-                    if (validate(searchInput, getOption())) {
-                        performSearch(s.toString());
-                    } else {
-                        illegalInput.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    textResult.setVisibility(View.GONE);
-                }
+            public boolean onQueryTextChange(String newText) {
+                return startSearch(newText);
             }
         });
+    }
+
+    private boolean startSearch(final String s) {
+        textIllegalInput.setVisibility(View.GONE);
+        currentLayout.removeAllViews();
+        String searchInput = s.trim();
+        if (!searchInput.equals("")) {
+            if (validate(searchInput, getOption())) {
+                performSearch(s);
+                return true;
+            } else {
+                // Illegal input
+                textIllegalInput.setVisibility(View.VISIBLE);
+                textResult.setText(R.string.search_noResult);
+                return false;
+            }
+        } else {
+            // No input
+            textResult.setText(R.string.search_noResult);
+            return true;
+        }
     }
 
     public static boolean validate(final String validateInput, final String method) {
@@ -124,13 +125,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void performSearch(final String searchInput) {
         try {
-            textResult.setVisibility(View.VISIBLE);
             final int[] positions = thisMachineHelper.searchHelper(getOption(), searchInput, "all");
             int resultCount = positions.length;
             if (positions.length == 0) {
                 textResult.setText(R.string.search_noResult);
             } else {
-                textResult.setText(getString(R.string.search_found) + String.valueOf(resultCount) + getString(R.string.search_results));
+                textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
             }
 
             // Largely adapted MainActivity InitCategory. Should update both.

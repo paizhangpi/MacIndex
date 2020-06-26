@@ -18,14 +18,16 @@ class MachineHelper {
 
     /*
      * Updating categories (Ver. 4.0)
-     * (1) Update the following number if needed
-     * (2) Update the MainActivity drawer code and string.
-     * (3) Update the MH manufacturer method accordingly.
-     * (4) Add a new table to database and make other changes if needed.
+     * (1) Update the following number.
+     * (2) Update the MH manufacturer method.
+     * (3) Update the MainActivity and SearchActivity.
+     * (4) Make change to the database / make other changes.
+     * (5) Update the following information.
      *
      * Updating filters (Ver. 4.0)
-     * (1) Update the MainActivity drawer code and string.
-     * (2) Update the MH filter method.
+     * (1) Update the MH filter method.
+     * (2) Update the MainActivity and SearchActivity.
+     * (3) Update the following information.
      *
      * Updating columns
      * (1) Update MH to adapt the new column.
@@ -39,6 +41,42 @@ class MachineHelper {
      * Array Init should +1 to match actual quantity.
      */
     private static final int CATEGORIES_COUNT = 14;
+    /*
+     * getSound
+     * Available Parameters: 0 Macintosh 128k, mac128, no death sound
+     *                       1 Macintosh II, macii, macii_death
+     *                       2 Macintosh LC, maclc, maclc_death
+     *                       3 Macintosh Quadra w/o AV, 68k PowerBook, quadra, maclc_death
+     *                       4 Macintosh Quadra w/ AV, quadraav, quadraav_death
+     *                       5 First gen Power Macintosh, powermac6100, powermac6100_death
+     *                       6 NuBus Power Macintosh, powermac5000, powermac5000_death
+     *                       7 PCI Power Macintosh, powermac, powermac_death
+     *                       8 New World Macintosh, newmac, no death sound
+     *                       9 TAM, tam, powermac_death
+     *                       PB Old World PowerPC PowerBook, powermac(s), maclc_death(s)
+     *                       N no startup sound, no death sound
+     *
+     * getProcessorTypeImage
+     * Available Parameters: 68k, ppc
+     *
+     * getProcessorImage
+     * Available Parameters: G3 740, 750, 750cx, 750cxe, 755, 750fx
+     *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447
+     *                       G5 970, 970fx, 970mp
+     *
+     * getCategoryRange
+     * Available Manufacturer(Group) Strings: all, appledesktop, applelaptop
+     * Available Manufacturer(Group) Resources: R.string.menu_group0, R.string.menu_group1, R.string.menu_group2
+     *
+     * getFilterString
+     * Available Filter Strings: names, processors, years
+     * Available Filter Resources: R.string.view1, R.string.view2, R.string.view3
+     *
+     *
+     * Methods above should be manually updated.
+     *
+     * ------------ Don't change class variables below this line ------------
+     */
 
     private SQLiteDatabase database;
 
@@ -72,7 +110,8 @@ class MachineHelper {
         for (int i = 0; i < totalMachine; i++) {
             totalConfig += getThisConfigCount(i);
         }
-        Log.i("MachineHelperTotCfg", "Initialized with " + totalConfig + " configurations.");
+        Log.w("MachineHelper", "Initialized with " + totalMachine + " machines.");
+        Log.w("MachineHelper", "Initialized with " + totalConfig + " configurations.");
     }
     /* SelfCheck was removed since Ver 4.0 */
 
@@ -442,7 +481,7 @@ class MachineHelper {
         }
     }
 
-    // Get category range by manufacturer. Should be updated accordingly. Return[start, end].
+    // Get category range by manufacturer. Should be updated accordingly.
     private int[] getCategoryRange(final String thisManufacturer) {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
         final int[] appledesktop = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -452,12 +491,12 @@ class MachineHelper {
             all[i] = i;
         }
         switch (thisManufacturer) {
+            case "all":
+                return all;
             case "appledesktop":
                 return appledesktop;
             case "applelaptop":
                 return applelaptop;
-            case "all":
-                return all;
             default:
                 Log.w("MHRange", "Invalid parameter");
                 return all;

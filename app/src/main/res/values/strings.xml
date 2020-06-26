@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial Website: paizhang.info/MacIndex</string>
-    <string name="information_about_website_title">Acknowledgment</string>
-    <string name="information_about_website">This open-source application is dedicated to education and internal use.\n\nMotorola, and PowerPC logo are registered trademarks.\n\nProcessor images by Henriok are used under CC0 license, accuracy is not guaranteed.\n\nMachine sounds and images by Apple, accuracy is not guaranteed.\n\nPlease check out the official website for updates, comments, and other information.</string>
-    <string name="information_about_open">Open Website</string>
-    <string name="information_about_close">Close</string>
+    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial website: paizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
@@ -20,13 +16,15 @@
     <string name="setting_quicknav_description">Use an alternative method to make navigation faster between machines.</string>
     <string name="setting_randomall">Limit Random Range</string>
     <string name="setting_randomall_description">By default, MacIndex will pick random machines in all categories. If you turn this on, MacIndex will only pick random machines inside the current category group.</string>
-    <string name="setting_defaults">Restore defaults&#8230;</string>
+    <string name="setting_defaults">Restore defaults</string>
+    <string name="setting_website">Official website</string>
+    <string name="setting_website_decsription">Acknowledgments, updates, bug reports, and comments</string>
     <string name="setting_saved">Settings saved</string>
     <string name="search_nameOption">Name</string>
     <string name="search_modelOption">Model Number</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
-    <string name="search_results">&#160;result(s)</string>
+    <string name="search_results">&#160;results</string>
     <string name="search_illegal">Invalid Input</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
@@ -40,8 +38,6 @@
     <string name="menu_group1">Apple Desktop Computers</string>
     <string name="menu_group2">Apple Laptops</string>
     <string name="menu">Main Menu</string>
-    <string name="total_1"></string>
-    <string name="total_2">&#160;machines and configurations loaded</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
     <string name="category1" translatable="false">Macintosh II</string>
     <string name="category2" translatable="false">Macintosh LC</string>
@@ -73,8 +69,7 @@
     <string name="link_opening">Opening in EveryMac:&#160;</string>
     <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="link_message_confirm">Only the following configuration is found for this model. Please review then confirm.</string>
-    <string name="error">Sorry, an error occurred. Please restart the app. If still not resolved, please report the error and the procedure to me.</string>
+    <string name="error">Sorry, an error occurred. Please restart the app. If the error persists, please report the bug.</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
 </resources>

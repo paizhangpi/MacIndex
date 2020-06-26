@@ -1,9 +1,7 @@
 package com.macindex.macindex;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -16,6 +14,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.Locale;
 
@@ -65,44 +65,24 @@ public class SettingsAboutActivity extends AppCompatActivity {
             TextView versionText = findViewById(R.id.versionText);
             versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
             // Set Website Logo clickable
-            View aboutView = findViewById(R.id.aboutLayout);
-            aboutView.setOnClickListener(new View.OnClickListener() {
+            TextView textWebsite = findViewById(R.id.textWebsite);
+            textWebsite.setTextColor(getColor(R.color.colorPrimaryDark));
+            textWebsite.setPaintFlags(textWebsite.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+            textWebsite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-                    try {
-                        AlertDialog.Builder webSiteLuncher = new AlertDialog.Builder(SettingsAboutActivity.this);
-                        webSiteLuncher.setTitle(getResources().getString(R.string.information_about_website_title));
-                        webSiteLuncher.setMessage(getResources().getString(R.string.information_about_website));
-                        webSiteLuncher.setPositiveButton(getResources().getString(R.string.information_about_open), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                Intent browser = new Intent(Intent.ACTION_VIEW);
-                                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                                    browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
-                                } else {
-                                    browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
-                                }
-                                startActivity(browser);
-                            }
-                        });
-                        webSiteLuncher.setNegativeButton(getResources().getString(R.string.information_about_close), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                // CANCELLED.
-                            }
-                        });
-                        webSiteLuncher.show();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(),
-                                getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                    if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                        browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
+                    } else {
+                        browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
                     }
+                    startActivity(browser);
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            Log.e("initDatabase", "Initialize failed!!");
         }
     }
 
