@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,7 +43,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private MediaPlayer deathSound = null;
 
-    private View mainView = null;
+    private ViewGroup mainView = null;
 
     private ScrollView mainScrollView = null;
 
@@ -50,6 +51,10 @@ public class SpecsActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specs);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         try {
             final Intent intent = getIntent();
             machineID = intent.getIntExtra("machineID", -1);
@@ -75,6 +80,12 @@ public class SpecsActivity extends AppCompatActivity {
     protected void onDestroy() {
         release();
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private void initialize() {
@@ -339,12 +350,19 @@ public class SpecsActivity extends AppCompatActivity {
     private void initButtons() {
         try {
             Log.i("SpecNavButtons", "Loading");
+            // Reset the padding
+            LinearLayout basicInfoLayout = findViewById(R.id.basicInfoLayout);
+            float density = getResources().getDisplayMetrics().density;
+            basicInfoLayout.setPadding((int)(10 * density), (int)(10 * density),(int)(10 * density), 0);
+
             View buttonView = findViewById(R.id.buttonView);
             final Button previous = findViewById(R.id.buttonPrevious);
             final Button next = findViewById(R.id.buttonNext);
+
             // Reset the listener
             previous.setOnClickListener(null);
             next.setOnClickListener(null);
+
             // GONE by default, let it show up
             buttonView.setVisibility(View.VISIBLE);
 
@@ -364,6 +382,7 @@ public class SpecsActivity extends AppCompatActivity {
                     }
                 });
             }
+
             // Next button.
             if (machineIDPosition == categoryStartEnd.length - 1) {
                 // Last one, disable the next button
@@ -389,86 +408,65 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initGestures() {
         Log.i("SpecGestures", "Loading");
+        OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
+            public void onSwipeRight() {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+            }
+
+            public void onSwipeLeft() {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+            }
+        };
+        OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
+            public void onSwipeRight() {
+                releaseGestures();
+                navNext();
+            }
+
+            public void onSwipeLeft() {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+            }
+        };
+        OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
+            public void onSwipeRight() {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+            }
+            public void onSwipeLeft() {
+                releaseGestures();
+                navPrev();
+            }
+        };
+        OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
+            public void onSwipeRight() {
+                releaseGestures();
+                navNext();
+            }
+            public void onSwipeLeft() {
+                releaseGestures();
+                navPrev();
+            }
+        };
+
         if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
             // Can NOT do BOTH
-            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            });
-            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            });
+            for (int i = 0; i < mainView.getChildCount(); i++) {
+                mainView.getChildAt(i).setOnTouchListener(listenerNotAvailable);
+            }
         } else if (machineIDPosition == 0) {
             // Can only swipe Right (NEXT)
-            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            });
-            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            });
+            for (int i = 0; i < mainView.getChildCount(); i++) {
+                mainView.getChildAt(i).setOnTouchListener(listenerOnlyNext);
+            }
         } else if (machineIDPosition == categoryStartEnd.length - 1) {
             // Can only swipe Left (PREV)
-            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            });
-            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            });
+            for (int i = 0; i < mainView.getChildCount(); i++) {
+                mainView.getChildAt(i).setOnTouchListener(listenerOnlyPrev);
+            }
         } else {
             // Can do BOTH
-            mainView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            });
-            mainScrollView.setOnTouchListener(new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            });
+            for (int i = 0; i < mainView.getChildCount(); i++) {
+                mainView.getChildAt(i).setOnTouchListener(listenerCanBoth);
+            }
         }
     }
 
@@ -495,7 +493,6 @@ public class SpecsActivity extends AppCompatActivity {
             release();
             startup = true;
             initialize();
-            mainView.invalidate();
         } else {
             // New method
             Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);

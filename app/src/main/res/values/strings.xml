@@ -20,6 +20,7 @@
     <string name="setting_website">Official website</string>
     <string name="setting_website_decsription">Acknowledgments, updates, bug reports, and comments</string>
     <string name="setting_saved">Settings saved</string>
+    <string name="search_searchBy">Search By</string>
     <string name="search_nameOption">Name</string>
     <string name="search_modelOption">Model Number</string>
     <string name="search_noResult">No result</string>
@@ -30,10 +31,10 @@
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="menu_view">View By</string>
-    <string name="menu_view1">By Categories</string>
-    <string name="menu_view2">By Processors</string>
-    <string name="menu_view3">By Years</string>
-    <string name="menu_group">Category Groups</string>
+    <string name="menu_view1">Categories</string>
+    <string name="menu_view2">Processors</string>
+    <string name="menu_view3">Introduction Years</string>
+    <string name="menu_group">Categories Filter</string>
     <string name="menu_group0">All Categories</string>
     <string name="menu_group1">Apple Desktop Computers</string>
     <string name="menu_group2">Apple Laptops</string>

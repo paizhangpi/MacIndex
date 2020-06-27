@@ -1,7 +1,10 @@
 package com.macindex.macindex;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -16,6 +19,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static Resources resources = null;
 
+    private DrawerLayout mDrawerLayout = null;
+
     private String thisManufacturer = null;
 
     private String thisFilter = null;
@@ -75,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         resources = getResources();
         thisManufacturer = prefs.getString("thisManufacturer", "all");
         thisFilter = prefs.getString("thisFilter", "names");
+
         initDatabase();
         initMenu();
         initInterface();
@@ -96,14 +103,6 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        switch (item.getItemId()) {
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void initDatabase() {
@@ -139,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
     private void initMenu() {
         try {
             Log.i("initMenu", "Initializing");
+            // Set the slide menu.
             // Set the edge size of drawer.
-            final DrawerLayout mDrawerLayout = findViewById(R.id.mainContainer);
+            mDrawerLayout = findViewById(R.id.mainContainer);
             Field mDragger = mDrawerLayout.getClass().getDeclaredField(
                     "mLeftDragger");
             mDragger.setAccessible(true);
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // Set a drawer listener to change title and color.
-            mDrawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
+            mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
                 @Override
                 public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
                     // No action
@@ -308,10 +308,42 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            // Set the toolbar.
+            Toolbar mainToolbar = findViewById(R.id.mainToolbar);
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mainToolbar, 0, 0);
+            mDrawerLayout.addDrawerListener(drawerToggle);
+            drawerToggle.syncState();
+            setSupportActionBar(mainToolbar);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            finish();
         }
     }
 

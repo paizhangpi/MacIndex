@@ -38,6 +38,10 @@ public class SettingsAboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_about);
         this.setTitle(getResources().getString(R.string.menu_about_settings));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         initAbout();
         initSettings();
         checkChange();
@@ -55,6 +59,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.setting_saved, Toast.LENGTH_LONG).show();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        return true;
     }
 
     private void initAbout() {
