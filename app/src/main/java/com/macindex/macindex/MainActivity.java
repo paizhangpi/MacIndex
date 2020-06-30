@@ -19,7 +19,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
             // Set listView listeners accordingly.
             groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                     switch (position) {
                         case 0:
                             thisManufacturer = "all";
@@ -195,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                             prefs.edit().putString("MainTitleII", getString(R.string.menu_group2)).apply();
                             break;
                         default:
-                            Log.w("MainDrawerGroup", "This should not happen.");
+                            Log.e("MainDrawerGroup", "This should not happen.");
                     }
                     mDrawerLayout.closeDrawers();
                     refresh();
@@ -203,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
             });
             viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                     switch (position) {
                         case 0:
                             thisFilter = "names";
@@ -221,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                             prefs.edit().putString("thisFilter", "years").apply();
                             break;
                         default:
-                            Log.w("MainDrawerFilter", "This should not happen.");
+                            Log.e("MainDrawerFilter", "This should not happen.");
                     }
                     mDrawerLayout.closeDrawers();
                     refresh();
@@ -229,21 +228,21 @@ public class MainActivity extends AppCompatActivity {
             });
             menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                     switch (position) {
                         case 0:
-                            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                            final Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
                             startActivity(searchIntent);
                             break;
                         case 1:
                             openRandom();
                             break;
                         case 2:
-                            Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
+                            final Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
                             startActivity(aboutIntent);
                             break;
                         default:
-                            Log.w("MainDrawerMenu", "This should not happen.");
+                            Log.e("MainDrawerMenu", "This should not happen.");
                     }
                     mDrawerLayout.closeDrawers();
                 }
@@ -252,49 +251,49 @@ public class MainActivity extends AppCompatActivity {
             // Set a drawer listener to change title and color.
             mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
                 @Override
-                public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                public void onDrawerSlide(@NonNull final View drawerView, final float slideOffset) {
                     // No action
                 }
 
                 @Override
-                public void onDrawerOpened(@NonNull View drawerView) {
+                public void onDrawerOpened(@NonNull final View drawerView) {
                     setTitle(R.string.app_name);
                 }
 
                 @Override
-                public void onDrawerClosed(@NonNull View drawerView) {
+                public void onDrawerClosed(@NonNull final View drawerView) {
                     setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
                 }
 
                 @Override
-                public void onDrawerStateChanged(int newState) {
+                public void onDrawerStateChanged(final int newState) {
                     for (int i = 0; i < groupList.getChildCount(); i++) {
                         if (prefs.getInt("groupPosition", 0) == i) {
-                            View v = groupList.getChildAt(i);
+                            final View v = groupList.getChildAt(i);
                             v.setClickable(true);
                             v.setBackgroundColor(getColor(R.color.colorPrimary));
-                            TextView tv = v.findViewById(android.R.id.text1);
+                            final TextView tv = v.findViewById(android.R.id.text1);
                             tv.setTextColor(Color.WHITE);
                         } else {
-                            View v = groupList.getChildAt(i);
+                            final View v = groupList.getChildAt(i);
                             v.setClickable(false);
                             v.setBackgroundColor(Color.TRANSPARENT);
-                            TextView tv = v.findViewById(android.R.id.text1);
+                            final TextView tv = v.findViewById(android.R.id.text1);
                             tv.setTextColor(Color.BLACK);
                         }
                     }
                     for (int i = 0; i < viewList.getChildCount(); i++) {
                         if (prefs.getInt("viewPosition", 0) == i) {
-                            View v = viewList.getChildAt(i);
+                            final View v = viewList.getChildAt(i);
                             v.setClickable(true);
                             v.setBackgroundColor(getColor(R.color.colorPrimary));
-                            TextView tv = v.findViewById(android.R.id.text1);
+                            final TextView tv = v.findViewById(android.R.id.text1);
                             tv.setTextColor(Color.WHITE);
                         } else {
-                            View v = viewList.getChildAt(i);
+                            final View v = viewList.getChildAt(i);
                             v.setClickable(false);
                             v.setBackgroundColor(Color.TRANSPARENT);
-                            TextView tv = v.findViewById(android.R.id.text1);
+                            final TextView tv = v.findViewById(android.R.id.text1);
                             tv.setTextColor(Color.BLACK);
                         }
                     }
@@ -310,8 +309,8 @@ public class MainActivity extends AppCompatActivity {
             });
 
             // Set the toolbar.
-            Toolbar mainToolbar = findViewById(R.id.mainToolbar);
-            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mainToolbar, 0, 0);
+            final Toolbar mainToolbar = findViewById(R.id.mainToolbar);
+            final ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mainToolbar, 0, 0);
             mDrawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
             setSupportActionBar(mainToolbar);
@@ -339,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -369,9 +368,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     categoryName.setText(thisFilterString[2][i]);
 
-                    // Never change the old code from my teammate.
+                    /*
+                     *  Here's some old code from my teammate.
+                     *  We worked together in UGL in the midnight; I won't forget you.
+                     *  Hopefully we will meet again...
+                     */
                     for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                        View v = categoryChunkLayout.getChildAt(j);
+                        final View v = categoryChunkLayout.getChildAt(j);
                         v.setClickable(true);
                         v.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -379,7 +382,7 @@ public class MainActivity extends AppCompatActivity {
                                 int visa = 0;
 
                                 for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                                    View vi = categoryChunkLayout.getChildAt(j);
+                                    final View vi = categoryChunkLayout.getChildAt(j);
                                     if (vi.getVisibility() == View.VISIBLE) {
                                         visa++;
                                     }
@@ -387,12 +390,12 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (visa > 1) {
                                     for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        View vi = categoryChunkLayout.getChildAt(j);
+                                        final View vi = categoryChunkLayout.getChildAt(j);
                                         vi.setVisibility(View.GONE);
                                     }
                                 } else {
                                     for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        View vi = categoryChunkLayout.getChildAt(j);
+                                        final View vi = categoryChunkLayout.getChildAt(j);
                                         vi.setVisibility(View.VISIBLE);
                                     }
                                 }
@@ -419,10 +422,10 @@ public class MainActivity extends AppCompatActivity {
     private void initCategory(final LinearLayout currentLayout, final int category) {
         try {
             for (int i = 0; i < loadPositions[category].length; i++) {
-                View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
+                final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 mainChunk.setVisibility(View.GONE);
-                TextView machineName = mainChunk.findViewById(R.id.machineName);
-                TextView machineYear = mainChunk.findViewById(R.id.machineYear);
+                final TextView machineName = mainChunk.findViewById(R.id.machineName);
+                final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
                 // Adapt MachineHelper.
                 final int machineID = loadPositions[category][i];
@@ -488,14 +491,14 @@ public class MainActivity extends AppCompatActivity {
                 // Only one option, launch EveryMac directly.
                 startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
-                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                final AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
                 linkDialog.setMessage(getResources().getString(R.string.link_message));
                 // Setup each option in dialog.
-                View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+                final View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
                 final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
                 for (int i = 0; i < linkGroup.length; i++) {
-                    RadioButton linkOption = new RadioButton(this);
+                    final RadioButton linkOption = new RadioButton(this);
                     linkOption.setText(linkGroup[i].split(",")[0]);
                     linkOption.setId(i);
                     if (i == 0) {
@@ -540,7 +543,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startBrowser(final String thisName, final String url) {
         try {
-            Intent browser = new Intent(Intent.ACTION_VIEW);
+            final Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();

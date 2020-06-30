@@ -27,15 +27,15 @@ import java.io.File;
 
 public class SpecsActivity extends AppCompatActivity {
 
-    private MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
+    private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private SharedPreferences thisPrefs = MainActivity.getPrefs();
+    private final SharedPreferences thisPrefs = MainActivity.getPrefs();
 
     private int machineID = -1;
 
     private int[] categoryStartEnd = {};
 
-    private int machineIDPosition = 0;
+    private int machineIDPosition = -1;
 
     private boolean startup = true;
 
@@ -59,6 +59,9 @@ public class SpecsActivity extends AppCompatActivity {
             final Intent intent = getIntent();
             machineID = intent.getIntExtra("machineID", -1);
             categoryStartEnd = intent.getIntArrayExtra("thisCategory");
+            if (categoryStartEnd == null || machineID == -1) {
+                throw new IllegalArgumentException();
+            }
             // Find the current position.
             for (int i = 0; i < categoryStartEnd.length; i++) {
                 if (categoryStartEnd[i] == machineID) {
@@ -83,23 +86,20 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
 
     private void initialize() {
         try {
-            if (machineID == -1) {
-                throw new IllegalArgumentException();
-            }
             initSpecs();
             initImage();
             initLinks();
-            if (thisPrefs.getBoolean("isUseNavButtons", false)) {
+            if (thisPrefs.getBoolean("isUseNavButtons", false) && categoryStartEnd.length > 1) {
                 initButtons();
             }
-            if (thisPrefs.getBoolean("isUseGestures", true)) {
+            if (thisPrefs.getBoolean("isUseGestures", true) && categoryStartEnd.length > 1) {
                 initGestures();
             }
         } catch (Exception e) {
@@ -158,18 +158,18 @@ public class SpecsActivity extends AppCompatActivity {
            (2) Try getting specific image. Will load if specific image(s) is/are present.
            (3) No action. The case is not applicable for both loading process.
          */
-        LinearLayout processorAllImagesContainer = findViewById(R.id.processorAllImages);
-        ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
-        LinearLayout processorImages = findViewById(R.id.processorImageLayout);
+        final LinearLayout processorAllImagesContainer = findViewById(R.id.processorAllImages);
+        final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
+        final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
         // Default states are all hidden.
         processorAllImagesContainer.setVisibility(View.GONE);
         processorTypeImage.setVisibility(View.GONE);
         processorImages.setVisibility(View.GONE);
 
-        int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
+        final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
         if (processorTypeImageRes == 0) {
             // Not applicable for type image loading, trying specific image.
-            int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
+            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
             if (processorImageRes[0][0] != 0) {
                 // Got specific images. Now loading.
                 processorImages.setVisibility(View.VISIBLE);
@@ -178,9 +178,9 @@ public class SpecsActivity extends AppCompatActivity {
                 processorImages.removeAllViews();
                 for (int[] processorImageResGroup : processorImageRes) {
                     for (final int thisProcessorImageRes : processorImageResGroup) {
-                        View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
-                        View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
-                        ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
+                        final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
+                        final View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
+                        final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
                         thisProcessorImage.setImageResource(thisProcessorImageRes);
                         processorImages.addView(imageChunk);
                         processorImages.addView(spaceChunk);
@@ -199,8 +199,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initImage() {
         // Init image
-        ImageView image = findViewById(R.id.pic);
-        File imageFile = thisMachineHelper.getPicture(machineID);
+        final ImageView image = findViewById(R.id.pic);
+        final File imageFile = thisMachineHelper.getPicture(machineID);
         if (imageFile.exists()) {
             Log.i("SpecsAct", "Image exists");
             image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getPath()));
@@ -208,10 +208,10 @@ public class SpecsActivity extends AppCompatActivity {
         imageFile.delete();
 
         // Init startup and death sound
-        int[] sound = thisMachineHelper.getSound(machineID);
-        int startupID = sound[0];
-        int deathID = sound[1];
-        TextView informationLabel = findViewById(R.id.information);
+        final int[] sound = thisMachineHelper.getSound(machineID);
+        final int startupID = sound[0];
+        final int deathID = sound[1];
+        final TextView informationLabel = findViewById(R.id.information);
         if (startupID != 0 && deathID != 0
                 && thisPrefs.getBoolean("isPlayDeathSound", true)) {
             // Startup sound exists, death sound exists, and user prefers both
@@ -261,7 +261,7 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void initLinks() {
-        ImageView link = findViewById(R.id.everymac);
+        final ImageView link = findViewById(R.id.everymac);
         link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -283,14 +283,14 @@ public class SpecsActivity extends AppCompatActivity {
                 // Only one option, launch EveryMac directly.
                 startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
-                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                final AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
                 linkDialog.setMessage(getResources().getString(R.string.link_message));
                 // Setup each option in dialog.
-                View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+                final View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
                 final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
                 for (int i = 0; i < linkGroup.length; i++) {
-                    RadioButton linkOption = new RadioButton(this);
+                    final RadioButton linkOption = new RadioButton(this);
                     linkOption.setText(linkGroup[i].split(",")[0]);
                     linkOption.setId(i);
                     if (i == 0) {
@@ -335,7 +335,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void startBrowser(final String thisName, final String url) {
         try {
-            Intent browser = new Intent(Intent.ACTION_VIEW);
+            final Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
@@ -351,11 +351,11 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             Log.i("SpecNavButtons", "Loading");
             // Reset the padding
-            LinearLayout basicInfoLayout = findViewById(R.id.basicInfoLayout);
-            float density = getResources().getDisplayMetrics().density;
-            basicInfoLayout.setPadding((int)(10 * density), (int)(10 * density),(int)(10 * density), 0);
+            final LinearLayout basicInfoLayout = findViewById(R.id.basicInfoLayout);
+            final float density = getResources().getDisplayMetrics().density;
+            basicInfoLayout.setPadding((int) (10 * density), (int) (10 * density), (int) (10 * density), 0);
 
-            View buttonView = findViewById(R.id.buttonView);
+            final View buttonView = findViewById(R.id.buttonView);
             final Button previous = findViewById(R.id.buttonPrevious);
             final Button next = findViewById(R.id.buttonNext);
 
@@ -408,7 +408,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initGestures() {
         Log.i("SpecGestures", "Loading");
-        OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
+        final OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
             public void onSwipeRight() {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
             }
@@ -417,7 +417,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
             }
         };
-        OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
+        final OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
             public void onSwipeRight() {
                 releaseGestures();
                 navNext();
@@ -427,7 +427,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
             }
         };
-        OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
+        final OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
             public void onSwipeRight() {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
             }
@@ -436,7 +436,7 @@ public class SpecsActivity extends AppCompatActivity {
                 navPrev();
             }
         };
-        OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
+        final OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
             public void onSwipeRight() {
                 releaseGestures();
                 navNext();
@@ -449,31 +449,28 @@ public class SpecsActivity extends AppCompatActivity {
 
         if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
             // Can NOT do BOTH
-            for (int i = 0; i < mainView.getChildCount(); i++) {
-                mainView.getChildAt(i).setOnTouchListener(listenerNotAvailable);
-            }
+            setListenerForView(listenerNotAvailable);
         } else if (machineIDPosition == 0) {
             // Can only swipe Right (NEXT)
-            for (int i = 0; i < mainView.getChildCount(); i++) {
-                mainView.getChildAt(i).setOnTouchListener(listenerOnlyNext);
-            }
+            setListenerForView(listenerOnlyNext);
         } else if (machineIDPosition == categoryStartEnd.length - 1) {
             // Can only swipe Left (PREV)
-            for (int i = 0; i < mainView.getChildCount(); i++) {
-                mainView.getChildAt(i).setOnTouchListener(listenerOnlyPrev);
-            }
+            setListenerForView(listenerOnlyPrev);
         } else {
             // Can do BOTH
-            for (int i = 0; i < mainView.getChildCount(); i++) {
-                mainView.getChildAt(i).setOnTouchListener(listenerCanBoth);
-            }
+            setListenerForView(listenerCanBoth);
         }
     }
 
     private void releaseGestures() {
-        mainView.setOnTouchListener(null);
-        mainScrollView.setOnTouchListener(null);
+        setListenerForView(null);
         Log.i("SpecGestures", "Released");
+    }
+
+    private void setListenerForView(final OnSwipeTouchListener listenerForView) {
+        for (int i = 0; i < mainView.getChildCount(); i++) {
+            mainView.getChildAt(i).setOnTouchListener(listenerForView);
+        }
     }
 
     private void navPrev() {
@@ -495,7 +492,7 @@ public class SpecsActivity extends AppCompatActivity {
             initialize();
         } else {
             // New method
-            Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
+            final Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
             newMachine.putExtra("machineID", machineID);
             newMachine.putExtra("thisCategory", categoryStartEnd);
             startActivity(newMachine);

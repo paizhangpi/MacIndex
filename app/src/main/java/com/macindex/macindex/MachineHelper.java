@@ -548,7 +548,7 @@ class MachineHelper {
         try {
             for (int i = 0; i < thisCategoryCount; i++) {
                 Cursor thisSearchIndividualCursor = database.query("category" + thisCategoryRange[i],
-                        null, columnName +" LIKE ? ",
+                        null, columnName + " LIKE ? ",
                         new String[]{"%" + searchInput + "%"},
                         null, null, null);
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];

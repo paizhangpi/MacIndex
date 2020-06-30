@@ -61,7 +61,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
 
         manufacturerOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.allGroup:
                         currentManufacturer = "all";
@@ -99,7 +99,7 @@ public class SearchActivity extends AppCompatActivity {
         });
         searchOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+            public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.nameOption:
                         currentOption = "sindex";
@@ -127,12 +127,12 @@ public class SearchActivity extends AppCompatActivity {
 
         searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 return startSearch(query);
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(final String newText) {
                 return startSearch(newText);
             }
         });
