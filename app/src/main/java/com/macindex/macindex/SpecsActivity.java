@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,8 +44,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private ViewGroup mainView = null;
 
-    private ScrollView mainScrollView = null;
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +67,6 @@ public class SpecsActivity extends AppCompatActivity {
                 }
             }
             mainView = findViewById(R.id.mainView);
-            mainScrollView = findViewById(R.id.mainScrollView);
             initialize();
         } catch (Exception e) {
             e.printStackTrace();

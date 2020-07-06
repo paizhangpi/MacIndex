@@ -92,7 +92,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:animateLayoutChanges="true">
 
             <LinearLayout
                 android:id="@+id/yearLayout"
@@ -360,6 +361,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:animateLayoutChanges="true"
             android:orientation="vertical"
             android:padding="10dp">
 

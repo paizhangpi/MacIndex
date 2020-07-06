@@ -2,6 +2,7 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,6 +44,10 @@ public class SearchActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        final LinearLayout mainLayout = findViewById(R.id.mainLayout);
+        LayoutTransition layoutTransition = mainLayout.getLayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
         initOptions();
         initSearch();

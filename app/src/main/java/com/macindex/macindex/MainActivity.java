@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -197,8 +198,9 @@ public class MainActivity extends AppCompatActivity {
                         default:
                             Log.e("MainDrawerGroup", "This should not happen.");
                     }
-                    mDrawerLayout.closeDrawers();
+
                     refresh();
+                    mDrawerLayout.closeDrawers();
                 }
             });
 
@@ -225,8 +227,9 @@ public class MainActivity extends AppCompatActivity {
                         default:
                             Log.e("MainDrawerFilter", "This should not happen.");
                     }
-                    mDrawerLayout.closeDrawers();
+
                     refresh();
+                    mDrawerLayout.closeDrawers();
                 }
             });
 
@@ -355,6 +358,9 @@ public class MainActivity extends AppCompatActivity {
             setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+            // Fix an animation bug here
+            LayoutTransition layoutTransition = categoryContainer.getLayoutTransition();
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             categoryContainer.removeAllViews();
             // Get filter string and positions.
             thisFilterString = machineHelper.getFilterString(thisFilter);
@@ -365,46 +371,27 @@ public class MainActivity extends AppCompatActivity {
                 final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
                 final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
-                if (loadPositions[i].length == 0) {
-                    // No result to display.
-                    categoryChunkLayout.removeAllViews();
-                } else {
+                if (loadPositions[i].length != 0) {
                     categoryName.setText(thisFilterString[2][i]);
 
-                    /*
-                     *  Here's some old code from my teammate.
-                     *  We worked together in UGL in the midnight; I won't forget you.
-                     *  Hopefully we will meet again...
-                     */
-                    for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                        final View v = categoryChunkLayout.getChildAt(j);
-                        v.setClickable(true);
-                        v.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(final View v) {
-                                int visa = 0;
-
-                                for (int j = 0; j < categoryChunkLayout.getChildCount(); j++) {
-                                    final View vi = categoryChunkLayout.getChildAt(j);
-                                    if (vi.getVisibility() == View.VISIBLE) {
-                                        visa++;
-                                    }
+                    /* Remake my teammate's code */
+                    categoryName.setOnClickListener(new View.OnClickListener() {
+                        private boolean thisVisibility = false;
+                        @Override
+                        public void onClick(final View view) {
+                            if (thisVisibility) {
+                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                    categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                    thisVisibility = false;
                                 }
-
-                                if (visa > 1) {
-                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        final View vi = categoryChunkLayout.getChildAt(j);
-                                        vi.setVisibility(View.GONE);
-                                    }
-                                } else {
-                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        final View vi = categoryChunkLayout.getChildAt(j);
-                                        vi.setVisibility(View.VISIBLE);
-                                    }
+                            } else {
+                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                    categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                    thisVisibility = true;
                                 }
                             }
-                        });
-                    }
+                        }
+                    });
                     initCategory(categoryChunkLayout, i);
                     categoryContainer.addView(categoryChunk);
                     categoryContainer.addView(dividerChunk);
@@ -426,9 +413,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             for (int i = 0; i < loadPositions[category].length; i++) {
                 final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
-                mainChunk.setVisibility(View.GONE);
                 final TextView machineName = mainChunk.findViewById(R.id.machineName);
                 final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
+                final LinearLayout mainChunkToClick = mainChunk.findViewById(R.id.main_chunk_clickable);
+
+                mainChunk.setVisibility(View.GONE);
 
                 // Adapt MachineHelper.
                 final int machineID = loadPositions[category][i];
@@ -441,18 +430,7 @@ public class MainActivity extends AppCompatActivity {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
-                machineName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View unused) {
-                        if (prefs.getBoolean("isOpenEveryMac", false)) {
-                            loadLinks(thisName, thisLinks);
-                        } else {
-                            sendIntent(loadPositions[category], machineID);
-                        }
-                    }
-                });
-
-                machineYear.setOnClickListener(new View.OnClickListener() {
+                mainChunkToClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
                         if (prefs.getBoolean("isOpenEveryMac", false)) {
