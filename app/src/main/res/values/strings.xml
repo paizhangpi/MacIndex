@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about">By: paizhangpi, Victor Jiao, 2019, 2020\nOfficial website: paizhang.info/MacIndex</string>
+    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, 2019, 2020\npaizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
@@ -16,7 +16,11 @@
     <string name="setting_quicknav_description">Use an alternative method to make navigation faster between machines.</string>
     <string name="setting_randomall">Limit Random Range</string>
     <string name="setting_randomall_description">By default, MacIndex will pick random machines in all categories. If you turn this on, MacIndex will only pick random machines inside the current category group.</string>
-    <string name="setting_defaults">Restore defaults</string>
+    <string name="setting_defaults">Clear user data</string>
+    <string name="setting_defaults_decsription">Restore default settings, clear usage records</string>
+    <string name="setting_defaults_warning_title">Warning</string>
+    <string name="setting_defaults_warning_content">Saved preference file will be cleared, and MacIndex will quit.</string>
+    <string name="setting_defaults_cleared">User data cleared</string>
     <string name="setting_website">Official website</string>
     <string name="setting_website_decsription">Acknowledgments, updates, bug reports, and comments</string>
     <string name="setting_saved">Settings saved</string>

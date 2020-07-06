@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             menuList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menuContent));
 
             // Set listView listeners accordingly.
+            // Manufacturer menu item listeners.
             groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -200,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
                     refresh();
                 }
             });
+
+            // Filter menu item listeners.
             viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
@@ -226,20 +229,20 @@ public class MainActivity extends AppCompatActivity {
                     refresh();
                 }
             });
+
+            // Main menu item listeners.
             menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                     switch (position) {
                         case 0:
-                            final Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
-                            startActivity(searchIntent);
+                            startActivity(new Intent(MainActivity.this, SearchActivity.class));
                             break;
                         case 1:
                             openRandom();
                             break;
                         case 2:
-                            final Intent aboutIntent = new Intent(MainActivity.this, SettingsAboutActivity.class);
-                            startActivity(aboutIntent);
+                            startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
                             break;
                         default:
                             Log.e("MainDrawerMenu", "This should not happen.");

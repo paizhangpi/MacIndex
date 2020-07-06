@@ -315,6 +315,20 @@
 
         <Space
             android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <TextView
+            android:id="@+id/textDefaultsDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/setting_defaults_decsription"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
             android:layout_height="10dp" />
 
         <TextView
@@ -332,7 +346,7 @@
             android:layout_height="5dp" />
 
         <TextView
-            android:id="@+id/textAcknowledgment"
+            android:id="@+id/textWebsiteDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

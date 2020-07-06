@@ -19,9 +19,9 @@ import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
+    private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private SharedPreferences prefs = MainActivity.getPrefs();
+    private final SharedPreferences prefs = MainActivity.getPrefs();
 
     private SearchView searchText = null;
 
@@ -31,9 +31,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private LinearLayout currentLayout = null;
 
-    private String currentManufacturer;
+    private String currentManufacturer = null;
 
-    private String currentOption;
+    private String currentOption = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -70,8 +70,8 @@ public class SearchActivity extends AppCompatActivity {
         currentManufacturer = prefs.getString("searchManufacturer", "all");
         currentOption = prefs.getString("searchOption", "sindex");
 
-        RadioGroup manufacturerOptions = findViewById(R.id.groupsOptions);
-        RadioGroup searchOptions = findViewById(R.id.searchOptions);
+        final RadioGroup manufacturerOptions = findViewById(R.id.groupsOptions);
+        final RadioGroup searchOptions = findViewById(R.id.searchOptions);
         manufacturerOptions.check(prefs.getInt("searchManufacturerSelection", R.id.allGroup));
         searchOptions.check(prefs.getInt("searchOptionSelection", R.id.nameOption));
 
@@ -193,7 +193,7 @@ public class SearchActivity extends AppCompatActivity {
             Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
                     + currentManufacturer + ", Current Option: " + currentOption);
             final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer);
-            int resultCount = positions.length;
+            final int resultCount = positions.length;
             if (positions.length == 0) {
                 textResult.setText(R.string.search_noResult);
             } else {
@@ -202,9 +202,9 @@ public class SearchActivity extends AppCompatActivity {
 
             // Largely adapted MainActivity InitCategory. Should update both.
             for (int i = 0; i < resultCount; i++) {
-                View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
-                TextView machineName = mainChunk.findViewById(R.id.machineName);
-                TextView machineYear = mainChunk.findViewById(R.id.machineYear);
+                final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
+                final TextView machineName = mainChunk.findViewById(R.id.machineName);
+                final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
                 final int machineID = positions[i];
 
@@ -238,7 +238,6 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
                 currentLayout.addView(mainChunk);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -249,7 +248,7 @@ public class SearchActivity extends AppCompatActivity {
 
     // Keep compatible with MainActivity.
     private void sendIntent(final int[] thisCategory, final int thisMachineID) {
-        Intent intent = new Intent(this, SpecsActivity.class);
+        final Intent intent = new Intent(this, SpecsActivity.class);
         intent.putExtra("thisCategory", thisCategory);
         intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
@@ -268,14 +267,14 @@ public class SearchActivity extends AppCompatActivity {
                 // Only one option, launch EveryMac directly.
                 startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
             } else {
-                AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
+                final AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
                 linkDialog.setTitle(thisName);
                 linkDialog.setMessage(getResources().getString(R.string.link_message));
                 // Setup each option in dialog.
-                View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
+                final View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
                 final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
                 for (int i = 0; i < linkGroup.length; i++) {
-                    RadioButton linkOption = new RadioButton(this);
+                    final RadioButton linkOption = new RadioButton(this);
                     linkOption.setText(linkGroup[i].split(",")[0]);
                     linkOption.setId(i);
                     if (i == 0) {
@@ -320,7 +319,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void startBrowser(final String thisName, final String url) {
         try {
-            Intent browser = new Intent(Intent.ACTION_VIEW);
+            final Intent browser = new Intent(Intent.ACTION_VIEW);
             browser.setData(Uri.parse(url));
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
