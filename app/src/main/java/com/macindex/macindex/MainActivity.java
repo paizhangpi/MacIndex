@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,10 +23,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -153,103 +149,102 @@ public class MainActivity extends AppCompatActivity {
             mEdgeSize.setInt(draggerObj, edge * 10);
 
             // Initialize the navigation bar
-            /* Set the groups here */
-            String[] groupContent = {getString(R.string.menu_group0),
-                        getString(R.string.menu_group1), getString(R.string.menu_group2)};
-            /* Set the filters here*/
-            String[] viewContent = {getString(R.string.menu_view1),
-                    getString(R.string.menu_view2), getString(R.string.menu_view3)};
-            /* Main menu */
-            String[] menuContent = {getString(R.string.menu_search),
-                    getString(R.string.menu_random), getString(R.string.menu_about_settings)};
 
-            final ListView groupList = findViewById(R.id.group_list);
-            final ListView viewList = findViewById(R.id.view_list);
-            final ListView menuList = findViewById(R.id.menu_list);
-
-            groupList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, groupContent));
-            viewList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, viewContent));
-            menuList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menuContent));
-
-            // Set listView listeners accordingly.
-            // Manufacturer menu item listeners.
-            groupList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // Manufacturer Menu
+            // Manufacturer 0: all (Default)
+            findViewById(R.id.group0MenuItem).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                    switch (position) {
-                        case 0:
-                            thisManufacturer = "all";
-                            prefs.edit().putString("thisManufacturer", "all").apply();
-                            prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group0)).apply();
-                            break;
-                        case 1:
-                            thisManufacturer = "appledesktop";
-                            prefs.edit().putString("thisManufacturer", "appledesktop").apply();
-                            prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group1)).apply();
-                            break;
-                        case 2:
-                            thisManufacturer = "applelaptop";
-                            prefs.edit().putString("thisManufacturer", "applelaptop").apply();
-                            prefs.edit().putInt("groupPosition", position).apply();
-                            prefs.edit().putString("MainTitleII", getString(R.string.menu_group2)).apply();
-                            break;
-                        default:
-                            Log.e("MainDrawerGroup", "This should not happen.");
-                    }
-
+                public void onClick(final View view) {
+                    thisManufacturer = "all";
+                    prefs.edit().putString("thisManufacturer", "all").apply();
+                    prefs.edit().putInt("ManufacturerMenu", R.id.group0MenuItem).apply();
+                    prefs.edit().putString("MainTitle", getString(R.string.menu_group0)).apply();
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Manufacturer 1: appledesktop
+            findViewById(R.id.group1MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisManufacturer = "appledesktop";
+                    prefs.edit().putString("thisManufacturer", "appledesktop").apply();
+                    prefs.edit().putInt("ManufacturerMenu", R.id.group1MenuItem).apply();
+                    prefs.edit().putString("MainTitle", getString(R.string.menu_group1)).apply();
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Manufacturer 2: applelaptop
+            findViewById(R.id.group2MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisManufacturer = "applelaptop";
+                    prefs.edit().putString("thisManufacturer", "applelaptop").apply();
+                    prefs.edit().putInt("ManufacturerMenu", R.id.group2MenuItem).apply();
+                    prefs.edit().putString("MainTitle", getString(R.string.menu_group2)).apply();
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
             });
 
-            // Filter menu item listeners.
-            viewList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // Filter Menu
+            // Filter 1: names (Default)
+            findViewById(R.id.view1MenuItem).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                    switch (position) {
-                        case 0:
-                            thisFilter = "names";
-                            prefs.edit().putInt("viewPosition", position).apply();
-                            prefs.edit().putString("thisFilter", "names").apply();
-                            break;
-                        case 1:
-                            thisFilter = "processors";
-                            prefs.edit().putInt("viewPosition", position).apply();
-                            prefs.edit().putString("thisFilter", "processors").apply();
-                            break;
-                        case 2:
-                            thisFilter = "years";
-                            prefs.edit().putInt("viewPosition", position).apply();
-                            prefs.edit().putString("thisFilter", "years").apply();
-                            break;
-                        default:
-                            Log.e("MainDrawerFilter", "This should not happen.");
-                    }
-
+                public void onClick(final View view) {
+                    thisFilter = "names";
+                    prefs.edit().putInt("FilterMenu", R.id.view1MenuItem).apply();
+                    prefs.edit().putString("thisFilter", "names").apply();
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Filter 2: processors
+            findViewById(R.id.view2MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisFilter = "processors";
+                    prefs.edit().putInt("FilterMenu", R.id.view2MenuItem).apply();
+                    prefs.edit().putString("thisFilter", "processors").apply();
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Filter 3: years
+            findViewById(R.id.view3MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisFilter = "years";
+                    prefs.edit().putInt("FilterMenu", R.id.view3MenuItem).apply();
+                    prefs.edit().putString("thisFilter", "years").apply();
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
             });
 
-            // Main menu item listeners.
-            menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            // Main Menu
+            // SearchActivity Entrance
+            findViewById(R.id.searchMenuItem).setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-                    switch (position) {
-                        case 0:
-                            startActivity(new Intent(MainActivity.this, SearchActivity.class));
-                            break;
-                        case 1:
-                            openRandom();
-                            break;
-                        case 2:
-                            startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
-                            break;
-                        default:
-                            Log.e("MainDrawerMenu", "This should not happen.");
-                    }
+                public void onClick(final View view) {
+                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Random Access
+            findViewById(R.id.randomMenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    openRandom();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // SettingsAboutActivity Entrance
+            findViewById(R.id.aboutMenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
                     mDrawerLayout.closeDrawers();
                 }
             });
@@ -268,48 +263,46 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerClosed(@NonNull final View drawerView) {
-                    setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
+                    setTitle(prefs.getString("MainTitle", getString(R.string.menu_group0)));
                 }
 
                 @Override
                 public void onDrawerStateChanged(final int newState) {
-                    for (int i = 0; i < groupList.getChildCount(); i++) {
-                        if (prefs.getInt("groupPosition", 0) == i) {
-                            final View v = groupList.getChildAt(i);
-                            v.setClickable(true);
-                            v.setBackgroundColor(getColor(R.color.colorPrimary));
-                            final TextView tv = v.findViewById(android.R.id.text1);
-                            tv.setTextColor(Color.WHITE);
-                        } else {
-                            final View v = groupList.getChildAt(i);
-                            v.setClickable(false);
-                            v.setBackgroundColor(Color.TRANSPARENT);
-                            final TextView tv = v.findViewById(android.R.id.text1);
-                            tv.setTextColor(Color.BLACK);
+                    // Manufacturer Menu
+                    final LinearLayout manufacturerLayout = findViewById(R.id.groupLayout);
+                    for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
+                        if (manufacturerLayout.getChildAt(i) instanceof TextView) {
+                            final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
+                            if (currentChild == findViewById(prefs.getInt("ManufacturerMenu", R.id.group0MenuItem))) {
+                                currentChild.setEnabled(false);
+                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
+                            } else {
+                                currentChild.setEnabled(true);
+                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                            }
                         }
                     }
-                    for (int i = 0; i < viewList.getChildCount(); i++) {
-                        if (prefs.getInt("viewPosition", 0) == i) {
-                            final View v = viewList.getChildAt(i);
-                            v.setClickable(true);
-                            v.setBackgroundColor(getColor(R.color.colorPrimary));
-                            final TextView tv = v.findViewById(android.R.id.text1);
-                            tv.setTextColor(Color.WHITE);
-                        } else {
-                            final View v = viewList.getChildAt(i);
-                            v.setClickable(false);
-                            v.setBackgroundColor(Color.TRANSPARENT);
-                            final TextView tv = v.findViewById(android.R.id.text1);
-                            tv.setTextColor(Color.BLACK);
+
+                    // Filter Menu
+                    final LinearLayout filterLayout = findViewById(R.id.viewLayout);
+                    for (int i = 1; i < filterLayout.getChildCount(); i++) {
+                        if (filterLayout.getChildAt(i) instanceof TextView) {
+                            final TextView currentChild = (TextView) filterLayout.getChildAt(i);
+                            if (currentChild == findViewById(prefs.getInt("FilterMenu", R.id.view1MenuItem))) {
+                                currentChild.setEnabled(false);
+                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
+                            } else {
+                                currentChild.setEnabled(true);
+                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                            }
                         }
                     }
+
                     // If EveryMac enabled, random should be disabled
                     if (prefs.getBoolean("isOpenEveryMac", false)) {
-                        menuList.getChildAt(1).setEnabled(false);
-                        menuList.getChildAt(1).setClickable(true);
+                        findViewById(R.id.randomMenuItem).setEnabled(false);
                     } else {
-                        menuList.getChildAt(1).setEnabled(true);
-                        menuList.getChildAt(1).setClickable(false);
+                        findViewById(R.id.randomMenuItem).setEnabled(true);
                     }
                 }
             });
@@ -355,7 +348,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(prefs.getString("MainTitleII", getString(R.string.menu_group0)));
+            setTitle(prefs.getString("MainTitle", getString(R.string.menu_group0)));
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             // Fix an animation bug here

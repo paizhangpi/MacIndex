@@ -374,6 +374,22 @@ class MachineHelper {
             case "68k":
                 return R.drawable.motorola;
             case "ppc":
+            case "740":
+            case "750":
+            case "750cx":
+            case "750cxe":
+            case "755":
+            case "750fx":
+            case "7400":
+            case "7410":
+            case "7440":
+            case "7445":
+            case "7450":
+            case "7455":
+            case "7447":
+            case "970":
+            case "970fx":
+            case "970mp":
                 return R.drawable.powerpc;
             default:
                 Log.i("MHGetProcessorImageType", "No processor image for ID " + thisProcessorImage);

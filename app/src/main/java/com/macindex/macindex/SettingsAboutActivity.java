@@ -6,10 +6,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -42,13 +42,11 @@ public class SettingsAboutActivity extends AppCompatActivity {
     private void initAbout() {
         try {
             final TextView versionText = findViewById(R.id.versionText);
-            final TextView textWebsite = findViewById(R.id.textWebsite);
-            final TextView restoreDefaults = findViewById(R.id.textDefaults);
+            final Button textWebsite = findViewById(R.id.buttonWebsite);
+            final Button restoreDefaults = findViewById(R.id.buttonDefaults);
 
             versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
 
-            textWebsite.setTextColor(getColor(R.color.colorPrimaryDark));
-            textWebsite.setPaintFlags(textWebsite.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             textWebsite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     Intent browser = new Intent(Intent.ACTION_VIEW);
@@ -61,8 +59,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 }
             });
 
-            restoreDefaults.setTextColor(getColor(R.color.colorPrimaryDark));
-            restoreDefaults.setPaintFlags(restoreDefaults.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             restoreDefaults.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {

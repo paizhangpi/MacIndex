@@ -153,46 +153,43 @@ public class SpecsActivity extends AppCompatActivity {
         /*
            Processor Images dynaLoad.
 
-           (1) Try getting type image. If type image is present, will only load from it.
+           (1) Try getting type image. Will load if the type image is present.
            (2) Try getting specific image. Will load if specific image(s) is/are present.
            (3) No action. The case is not applicable for both loading process.
          */
-        final LinearLayout processorAllImagesContainer = findViewById(R.id.processorAllImages);
+        final LinearLayout processorTypeImageLayout = findViewById(R.id.processorTypeImageLayout);
         final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
+        final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);
         final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
+        final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
+
         // Default states are all hidden.
-        processorAllImagesContainer.setVisibility(View.GONE);
-        processorTypeImage.setVisibility(View.GONE);
-        processorImages.setVisibility(View.GONE);
+        processorTypeImageLayout.setVisibility(View.GONE);
+        processorImageLayoutContainer.setVisibility(View.GONE);
 
         final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
-        if (processorTypeImageRes == 0) {
-            // Not applicable for type image loading, trying specific image.
-            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
-            if (processorImageRes[0][0] != 0) {
-                // Got specific images. Now loading.
-                processorImages.setVisibility(View.VISIBLE);
-                processorAllImagesContainer.setVisibility(View.VISIBLE);
-                // Clear all existing children.
-                processorImages.removeAllViews();
-                for (int[] processorImageResGroup : processorImageRes) {
-                    for (final int thisProcessorImageRes : processorImageResGroup) {
-                        final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
-                        final View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
-                        final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
-                        thisProcessorImage.setImageResource(thisProcessorImageRes);
-                        processorImages.addView(imageChunk);
-                        processorImages.addView(spaceChunk);
-                    }
-                }
-                // Remove the last space.
-                processorImages.removeViewAt(processorImages.getChildCount() - 1);
-            }
-        } else {
+        if (processorTypeImageRes != 0) {
             // Got type image. Now loading.
-            processorTypeImage.setVisibility(View.VISIBLE);
-            processorAllImagesContainer.setVisibility(View.VISIBLE);
+            processorTypeImageLayout.setVisibility(View.VISIBLE);
             processorTypeImage.setImageResource(processorTypeImageRes);
+        }
+        if (processorImageRes[0][0] != 0) {
+            // Got specific images. Now loading.
+            processorImageLayoutContainer.setVisibility(View.VISIBLE);
+            // Clear all existing children.
+            processorImages.removeAllViews();
+            for (int[] processorImageResGroup : processorImageRes) {
+                for (final int thisProcessorImageRes : processorImageResGroup) {
+                    final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
+                    final View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
+                    final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
+                    thisProcessorImage.setImageResource(thisProcessorImageRes);
+                    processorImages.addView(imageChunk);
+                    processorImages.addView(spaceChunk);
+                }
+            }
+            // Remove the last space.
+            processorImages.removeViewAt(processorImages.getChildCount() - 1);
         }
     }
 

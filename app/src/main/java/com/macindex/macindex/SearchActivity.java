@@ -126,6 +126,7 @@ public class SearchActivity extends AppCompatActivity {
     private void initSearch() {
         searchText = findViewById(R.id.searchInput);
         textResult = findViewById(R.id.textResult);
+        textResult.setVisibility(View.GONE);
         textIllegalInput = findViewById(R.id.textIllegalInput);
         textIllegalInput.setVisibility(View.GONE);
         currentLayout = findViewById(R.id.resultFullContainer);
@@ -155,13 +156,13 @@ public class SearchActivity extends AppCompatActivity {
                 return true;
             } else {
                 // Illegal input
+                textResult.setVisibility(View.GONE);
                 textIllegalInput.setVisibility(View.VISIBLE);
-                textResult.setText(R.string.search_noResult);
                 return false;
             }
         } else {
             // No input
-            textResult.setText(R.string.search_noResult);
+            textResult.setVisibility(View.GONE);
             return true;
         }
     }
@@ -199,6 +200,7 @@ public class SearchActivity extends AppCompatActivity {
                     + currentManufacturer + ", Current Option: " + currentOption);
             final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer);
             final int resultCount = positions.length;
+            textResult.setVisibility(View.VISIBLE);
             if (positions.length == 0) {
                 textResult.setText(R.string.search_noResult);
             } else {
