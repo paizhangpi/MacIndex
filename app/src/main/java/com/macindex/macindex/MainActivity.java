@@ -368,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
             // Set up each category.
             for (int i = 0; i < loadPositions.length; i++) {
                 final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
-                final View dividerChunk = getLayoutInflater().inflate(R.layout.chunk_divider, null);
                 final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
                 if (loadPositions[i].length != 0) {
@@ -380,21 +379,24 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(final View view) {
                             if (thisVisibility) {
-                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                // Make machines invisible.
+                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
                                     categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
                                     thisVisibility = false;
                                 }
+                                categoryChunkLayout.getChildAt(1).setVisibility(View.VISIBLE);
                             } else {
-                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                // Make machines visible.
+                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
                                     categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
                                     thisVisibility = true;
                                 }
+                                categoryChunkLayout.getChildAt(1).setVisibility(View.GONE);
                             }
                         }
                     });
                     initCategory(categoryChunkLayout, i);
                     categoryContainer.addView(categoryChunk);
-                    categoryContainer.addView(dividerChunk);
                 }
             }
             // Remove the last divider.

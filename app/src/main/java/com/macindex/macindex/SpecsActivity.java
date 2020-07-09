@@ -2,6 +2,7 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,6 +68,8 @@ public class SpecsActivity extends AppCompatActivity {
                 }
             }
             mainView = findViewById(R.id.mainView);
+            LayoutTransition layoutTransition = mainView.getLayoutTransition();
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             initialize();
         } catch (Exception e) {
             e.printStackTrace();
