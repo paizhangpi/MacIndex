@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ import java.util.Locale;
 
 public class SettingsAboutActivity extends AppCompatActivity {
 
-    private final SharedPreferences prefs = MainActivity.getPrefs();
+    private final PrefsHelper prefs = MainActivity.getPrefs();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -68,7 +67,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     defaultsWarningDialog.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, final int i) {
-                            prefs.edit().clear().apply();
+                            prefs.clearPrefs();
                             Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
                             finishAffinity();
                         }
@@ -97,41 +96,78 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swQuickNav = findViewById(R.id.switchQuickNav);
         final Switch swRandomAll = findViewById(R.id.switchRandomAll);
 
-        swEveryMac.setChecked(prefs.getBoolean("isOpenEveryMac", false));
-        swDeathSound.setChecked(prefs.getBoolean("isPlayDeathSound", true));
-        swGestures.setChecked(prefs.getBoolean("isUseGestures", true));
-        swNavButtons.setChecked(prefs.getBoolean("isUseNavButtons", false));
-        swQuickNav.setChecked(prefs.getBoolean("isQuickNav", false));
-        swRandomAll.setChecked(prefs.getBoolean("isRandomAll", false));
+        final Boolean everyMacSelection = prefs.getBooleanPrefs("isOpenEveryMac");
+        swEveryMac.setChecked(everyMacSelection);
+        swDeathSound.setChecked(prefs.getBooleanPrefs("isPlayDeathSound"));
+        swGestures.setChecked(prefs.getBooleanPrefs("isUseGestures"));
+        swNavButtons.setChecked(prefs.getBooleanPrefs("isUseNavButtons"));
+        swQuickNav.setChecked(prefs.getBooleanPrefs("isQuickNav"));
+        swRandomAll.setChecked(prefs.getBooleanPrefs("isRandomAll"));
+
+        // If EveryMac is checked, disable following settings.
+        if (everyMacSelection) {
+            swDeathSound.setEnabled(false);
+            swGestures.setEnabled(false);
+            swNavButtons.setEnabled(false);
+            swQuickNav.setEnabled(false);
+            swRandomAll.setEnabled(false);
+        } else {
+            swDeathSound.setEnabled(true);
+            swGestures.setEnabled(true);
+            swNavButtons.setEnabled(true);
+            swQuickNav.setEnabled(true);
+            swRandomAll.setEnabled(true);
+        }
 
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isOpenEveryMac", isChecked).apply();
+                if (isChecked) {
+                    final AlertDialog.Builder everyMacWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                    everyMacWarningDialog.setTitle(R.string.setting_defaults_warning_title);
+                    everyMacWarningDialog.setMessage(R.string.setting_everymac_warning_content);
+                    everyMacWarningDialog.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                            prefs.editPrefs("isOpenEveryMac", isChecked);
+                            initSettings();
+                        }
+                    });
+                    everyMacWarningDialog.setNegativeButton(R.string.link_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                            swEveryMac.setChecked(false);
+                        }
+                    });
+                    everyMacWarningDialog.show();
+                } else {
+                    prefs.editPrefs("isOpenEveryMac", isChecked);
+                    initSettings();
+                }
             }
         });
         swDeathSound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isPlayDeathSound", isChecked).apply();
+                prefs.editPrefs("isPlayDeathSound", isChecked);
             }
         });
         swGestures.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isUseGestures", isChecked).apply();
+                prefs.editPrefs("isUseGestures", isChecked);
             }
         });
         swNavButtons.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isUseNavButtons", isChecked).apply();
+                prefs.editPrefs("isUseNavButtons", isChecked);
             }
         });
         swQuickNav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isQuickNav", isChecked).apply();
+                prefs.editPrefs("isQuickNav", isChecked);
             }
         });
         swRandomAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-                prefs.edit().putBoolean("isRandomAll", isChecked).apply();
+                prefs.editPrefs("isRandomAll", isChecked);
             }
         });
     }

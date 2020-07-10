@@ -6,7 +6,6 @@ import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -29,7 +28,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private final SharedPreferences thisPrefs = MainActivity.getPrefs();
+    private final PrefsHelper thisPrefs = MainActivity.getPrefs();
 
     private int machineID = -1;
 
@@ -95,10 +94,10 @@ public class SpecsActivity extends AppCompatActivity {
             initSpecs();
             initImage();
             initLinks();
-            if (thisPrefs.getBoolean("isUseNavButtons", false) && categoryStartEnd.length > 1) {
+            if (thisPrefs.getBooleanPrefs("isUseNavButtons") && categoryStartEnd.length > 1) {
                 initButtons();
             }
-            if (thisPrefs.getBoolean("isUseGestures", true) && categoryStartEnd.length > 1) {
+            if (thisPrefs.getBooleanPrefs("isUseGestures") && categoryStartEnd.length > 1) {
                 initGestures();
             }
         } catch (Exception e) {
@@ -181,15 +180,13 @@ public class SpecsActivity extends AppCompatActivity {
             for (int[] processorImageResGroup : processorImageRes) {
                 for (final int thisProcessorImageRes : processorImageResGroup) {
                     final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
-                    final View spaceChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image_space, null);
                     final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
                     thisProcessorImage.setImageResource(thisProcessorImageRes);
                     processorImages.addView(imageChunk);
-                    processorImages.addView(spaceChunk);
                 }
             }
             // Remove the last space.
-            processorImages.removeViewAt(processorImages.getChildCount() - 1);
+            ((LinearLayout) processorImages.getChildAt(processorImages.getChildCount() - 1)).removeViewAt(1);
         }
     }
 
@@ -209,7 +206,7 @@ public class SpecsActivity extends AppCompatActivity {
         final int deathID = sound[1];
         final TextView informationLabel = findViewById(R.id.information);
         if (startupID != 0 && deathID != 0
-                && thisPrefs.getBoolean("isPlayDeathSound", true)) {
+                && thisPrefs.getBooleanPrefs("isPlayDeathSound")) {
             // Startup sound exists, death sound exists, and user prefers both
             informationLabel.setText(getResources().getString(R.string.information_specs_full));
             startupSound = MediaPlayer.create(this, startupID);
@@ -481,7 +478,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void refresh() {
         machineID = categoryStartEnd[machineIDPosition];
-        if (MainActivity.getPrefs().getBoolean("isQuickNav", false)) {
+        if (MainActivity.getPrefs().getBooleanPrefs("isQuickNav")) {
             // Old method - not creating a new Activity
             release();
             startup = true;

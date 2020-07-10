@@ -6,7 +6,6 @@ import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +21,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private final SharedPreferences prefs = MainActivity.getPrefs();
+    private final PrefsHelper prefs = MainActivity.getPrefs();
 
     private SearchView searchText = null;
 
@@ -40,7 +39,14 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        this.setTitle(getResources().getString(R.string.menu_search));
+
+        // If EveryMac enabled, a message should append.
+        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+            this.setTitle(getString(R.string.menu_search) + getString(R.string.menu_group_everymac));
+        } else {
+            this.setTitle(R.string.menu_search);
+        }
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -53,7 +59,7 @@ public class SearchActivity extends AppCompatActivity {
         initSearch();
 
         // Init search from last state
-        searchText.setQuery(prefs.getString("searchLastInput", ""), true);
+        searchText.setQuery(prefs.getStringPrefs("searchLastInput"), true);
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + currentManufacturer + ", Current Option: " + currentOption);
     }
@@ -61,7 +67,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // Remember last state
-        prefs.edit().putString("searchLastInput", searchText.getQuery().toString()).apply();
+        prefs.editPrefs("searchLastInput", searchText.getQuery().toString());
         super.onDestroy();
     }
 
@@ -72,13 +78,13 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void initOptions() {
-        currentManufacturer = prefs.getString("searchManufacturer", "all");
-        currentOption = prefs.getString("searchOption", "sindex");
+        currentManufacturer = prefs.getStringPrefs("searchManufacturer");
+        currentOption = prefs.getStringPrefs("searchOption");
 
         final RadioGroup manufacturerOptions = findViewById(R.id.groupsOptions);
         final RadioGroup searchOptions = findViewById(R.id.searchOptions);
-        manufacturerOptions.check(prefs.getInt("searchManufacturerSelection", R.id.allGroup));
-        searchOptions.check(prefs.getInt("searchOptionSelection", R.id.nameOption));
+        manufacturerOptions.check(prefs.getIntPrefs("searchManufacturerSelection"));
+        searchOptions.check(prefs.getIntPrefs("searchOptionSelection"));
 
         manufacturerOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -97,8 +103,8 @@ public class SearchActivity extends AppCompatActivity {
                         Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
                         currentManufacturer = "all";
                 }
-                prefs.edit().putString("searchManufacturer", currentManufacturer)
-                        .putInt("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId()).apply();
+                prefs.editPrefs("searchManufacturer", currentManufacturer);
+                prefs.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId());
                 startSearch(searchText.getQuery().toString());
             }
         });
@@ -116,8 +122,8 @@ public class SearchActivity extends AppCompatActivity {
                         Log.e("getOption", "Not a Valid Search Column Selection, This should NOT happen!!");
                         currentOption = "sindex";
                 }
-                prefs.edit().putString("searchOption", currentOption)
-                        .putInt("searchOptionSelection", radioGroup.getCheckedRadioButtonId()).apply();
+                prefs.editPrefs("searchOption", currentOption);
+                prefs.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId());
                 startSearch(searchText.getQuery().toString());
             }
         });
@@ -226,7 +232,7 @@ public class SearchActivity extends AppCompatActivity {
                 machineName.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        if (prefs.getBoolean("isOpenEveryMac", false)) {
+                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                             loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(positions, machineID);
@@ -237,7 +243,7 @@ public class SearchActivity extends AppCompatActivity {
                 machineYear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        if (prefs.getBoolean("isOpenEveryMac", false)) {
+                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                             loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(positions, machineID);

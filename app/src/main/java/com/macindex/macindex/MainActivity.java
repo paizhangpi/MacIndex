@@ -13,7 +13,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -53,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static MachineHelper machineHelper;
 
-    private static SharedPreferences prefs = null;
+    private static PrefsHelper prefs = null;
 
     private static Resources resources = null;
 
@@ -69,18 +68,43 @@ public class MainActivity extends AppCompatActivity {
 
     private int machineLoadedCount = 0;
 
+    private String everyMacAppend = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prefs = getSharedPreferences("MACINDEX_PREFS", Activity.MODE_PRIVATE);
+
+        // Open PrefsHelper
+        prefs = new PrefsHelper(getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE));
+        thisManufacturer = prefs.getStringPrefs("thisManufacturer");
+        thisFilter = prefs.getStringPrefs("thisFilter");
+
         resources = getResources();
-        thisManufacturer = prefs.getString("thisManufacturer", "all");
-        thisFilter = prefs.getString("thisFilter", "names");
+
+        // If EveryMac enabled, a message should append.
+        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+            everyMacAppend = getString(R.string.menu_group_everymac);
+        } else {
+            everyMacAppend = "";
+        }
 
         initDatabase();
         initMenu();
         initInterface();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // If EveryMac enabled, a message should append.
+        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+            everyMacAppend = getString(R.string.menu_group_everymac);
+        } else {
+            everyMacAppend = "";
+        }
+        setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
     }
 
     @Override
@@ -156,9 +180,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisManufacturer = "all";
-                    prefs.edit().putString("thisManufacturer", "all").apply();
-                    prefs.edit().putInt("ManufacturerMenu", R.id.group0MenuItem).apply();
-                    prefs.edit().putString("MainTitle", getString(R.string.menu_group0)).apply();
+                    prefs.editPrefs("thisManufacturer", "all");
+                    prefs.editPrefs("ManufacturerMenu", R.id.group0MenuItem);
+                    prefs.editPrefs("MainTitle", R.string.menu_group0);
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -168,9 +192,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisManufacturer = "appledesktop";
-                    prefs.edit().putString("thisManufacturer", "appledesktop").apply();
-                    prefs.edit().putInt("ManufacturerMenu", R.id.group1MenuItem).apply();
-                    prefs.edit().putString("MainTitle", getString(R.string.menu_group1)).apply();
+                    prefs.editPrefs("thisManufacturer", "appledesktop");
+                    prefs.editPrefs("ManufacturerMenu", R.id.group1MenuItem);
+                    prefs.editPrefs("MainTitle", R.string.menu_group1);
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -180,9 +204,9 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisManufacturer = "applelaptop";
-                    prefs.edit().putString("thisManufacturer", "applelaptop").apply();
-                    prefs.edit().putInt("ManufacturerMenu", R.id.group2MenuItem).apply();
-                    prefs.edit().putString("MainTitle", getString(R.string.menu_group2)).apply();
+                    prefs.editPrefs("thisManufacturer", "applelaptop");
+                    prefs.editPrefs("ManufacturerMenu", R.id.group2MenuItem);
+                    prefs.editPrefs("MainTitle", R.string.menu_group2);
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -194,8 +218,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisFilter = "names";
-                    prefs.edit().putInt("FilterMenu", R.id.view1MenuItem).apply();
-                    prefs.edit().putString("thisFilter", "names").apply();
+                    prefs.editPrefs("FilterMenu", R.id.view1MenuItem);
+                    prefs.editPrefs("thisFilter", "names");
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -205,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisFilter = "processors";
-                    prefs.edit().putInt("FilterMenu", R.id.view2MenuItem).apply();
-                    prefs.edit().putString("thisFilter", "processors").apply();
+                    prefs.editPrefs("FilterMenu", R.id.view2MenuItem);
+                    prefs.editPrefs("thisFilter", "processors");
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -216,8 +240,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     thisFilter = "years";
-                    prefs.edit().putInt("FilterMenu", R.id.view3MenuItem).apply();
-                    prefs.edit().putString("thisFilter", "years").apply();
+                    prefs.editPrefs("FilterMenu", R.id.view3MenuItem);
+                    prefs.editPrefs("thisFilter", "years");
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
@@ -263,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerClosed(@NonNull final View drawerView) {
-                    setTitle(prefs.getString("MainTitle", getString(R.string.menu_group0)));
+                    setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
                 }
 
                 @Override
@@ -273,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
                         if (manufacturerLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
-                            if (currentChild == findViewById(prefs.getInt("ManufacturerMenu", R.id.group0MenuItem))) {
+                            if (currentChild == findViewById(prefs.getIntPrefs("ManufacturerMenu"))) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -288,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < filterLayout.getChildCount(); i++) {
                         if (filterLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) filterLayout.getChildAt(i);
-                            if (currentChild == findViewById(prefs.getInt("FilterMenu", R.id.view1MenuItem))) {
+                            if (currentChild == findViewById(prefs.getIntPrefs("FilterMenu"))) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -299,10 +323,19 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // If EveryMac enabled, random should be disabled
-                    if (prefs.getBoolean("isOpenEveryMac", false)) {
+                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                         findViewById(R.id.randomMenuItem).setEnabled(false);
                     } else {
                         findViewById(R.id.randomMenuItem).setEnabled(true);
+                    }
+
+                    // If limit range enabled, a message should append
+                    if (prefs.getBooleanPrefs("isRandomAll")) {
+                        ((TextView) findViewById(R.id.randomMenuItem))
+                                .setText(getString(R.string.menu_random) + getString(R.string.menu_random_limited));
+                    } else {
+                        ((TextView) findViewById(R.id.randomMenuItem))
+                                .setText(getString(R.string.menu_random));
                     }
                 }
             });
@@ -348,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(prefs.getString("MainTitle", getString(R.string.menu_group0)));
+            setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             // Fix an animation bug here
@@ -365,10 +398,7 @@ public class MainActivity extends AppCompatActivity {
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
                 if (loadPositions[i].length != 0) {
                     categoryName.setText(thisFilterString[2][i]);
-                    // Remove the last divider.
-                    if (i == loadPositions.length - 1) {
-                        categoryChunkLayout.removeViewAt(1);
-                    }
+
                     /* Remake my teammate's code */
                     categoryName.setOnClickListener(new View.OnClickListener() {
                         private boolean thisVisibility = false;
@@ -414,6 +444,8 @@ public class MainActivity extends AppCompatActivity {
                     categoryContainer.addView(categoryChunk);
                 }
             }
+            // Remove the last divider.
+            ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
             Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {
@@ -448,7 +480,7 @@ public class MainActivity extends AppCompatActivity {
                 mainChunkToClick.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View unused) {
-                        if (prefs.getBoolean("isOpenEveryMac", false)) {
+                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                             loadLinks(thisName, thisLinks);
                         } else {
                             sendIntent(loadPositions[category], machineID);
@@ -556,12 +588,12 @@ public class MainActivity extends AppCompatActivity {
             if (machineHelper.getMachineCount() == 0) {
                 throw new IllegalArgumentException();
             }
-            if (prefs.getBoolean("isOpenEveryMac", false)) {
+            if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                 // This should not happen.
                 throw new IllegalStateException();
             } else {
                 int machineID = 0;
-                if (!prefs.getBoolean("isRandomAll", false)) {
+                if (!prefs.getBooleanPrefs("isRandomAll")) {
                     // Random All mode.
                     machineID = new Random().nextInt(machineHelper.getMachineCount());
                     Log.i("RandomAccess", "Random All mode, get total " + machineHelper.getMachineCount() + " , ID " + machineID);
@@ -602,7 +634,7 @@ public class MainActivity extends AppCompatActivity {
         return machineHelper;
     }
 
-    public static SharedPreferences getPrefs() {
+    public static PrefsHelper getPrefs() {
         return prefs;
     }
 

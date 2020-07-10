@@ -1,25 +1,26 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, 2019, 2020\npaizhang.info/MacIndex</string>
+    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, 2019, 2020</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="setting_everymac">Open directly in EveryMac</string>
-    <string name="setting_everymac_description">If you turn this on, MacIndex will open the specific EveryMac page of the model directly. MacIndex will ask you for specific configuration if the model has more than one configurations. Random access will no longer available.</string>
+    <string name="setting_everymac_description">Open the EveryMac page of the model directly instead of the specification page. Will ask for specific configuration if the model has more than one configurations.</string>
+    <string name="setting_everymac_warning_content">This is effective for both main page and search result. Random access will no longer available as well.</string>
     <string name="setting_deathsound">Enable death Sound</string>
-    <string name="setting_deathsound_deathsound_description">By default, MacIndex will play startup and death sound alternatively. However, if you would not prefer to hear death sound, you can turn it off.</string>
-    <string name="setting_gestures">Enable gestures</string>
-    <string name="setting_gestures_description">By default, you can use left and right swipes to navigate between models. However, if you don\'t like this function, you can turn it off as well.</string>
+    <string name="setting_deathsound_deathsound_description">Play startup and death sound alternatively, or play the startup sound only.</string>
+    <string name="setting_gestures">Enable navigation gestures</string>
+    <string name="setting_gestures_description">Enable left and right swipes to navigate between models.</string>
     <string name="setting_navbuttons">Enable navigation buttons</string>
-    <string name="setting_navbuttons_description">You may also enable old-fashioned navigate buttons with or without gestures.</string>
+    <string name="setting_navbuttons_description">Enable buttons to navigate between models.</string>
     <string name="setting_quicknav">Quick Navigation</string>
     <string name="setting_quicknav_description">Use an alternative method to make navigation faster between machines.</string>
     <string name="setting_randomall">Limit Random Range</string>
-    <string name="setting_randomall_description">By default, MacIndex will pick random machines in all categories. If you turn this on, MacIndex will only pick random machines inside the current category group.</string>
+    <string name="setting_randomall_description">Only pick random machines inside the current group instead of all categories.</string>
     <string name="setting_defaults">Clear user data</string>
     <string name="setting_defaults_decsription">Restore default settings, clear usage records</string>
     <string name="setting_defaults_warning_title">Warning</string>
-    <string name="setting_defaults_warning_content">Saved preference file will be cleared, and MacIndex will quit.</string>
+    <string name="setting_defaults_warning_content">Saved preference file will be cleared, and EveryMac will quit. This operation cannot be undone.</string>
     <string name="setting_defaults_cleared">User data cleared</string>
     <string name="setting_website">Official website</string>
     <string name="setting_website_decsription">Acknowledgments, updates, bug reports, and comments</string>
@@ -33,6 +34,7 @@
     <string name="search_illegal">Invalid Input</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
+    <string name="menu_random_limited">&#160;(Limited)</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Categories</string>
@@ -40,8 +42,9 @@
     <string name="menu_view3">Introduction Years</string>
     <string name="menu_group">Categories Filter</string>
     <string name="menu_group0">All Categories</string>
-    <string name="menu_group1">Apple Desktop Computers</string>
+    <string name="menu_group1">Apple Desktops</string>
     <string name="menu_group2">Apple Laptops</string>
+    <string name="menu_group_everymac">&#160;(Open EveryMac)</string>
     <string name="menu">Main Menu</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
     <string name="category1" translatable="false">Macintosh II</string>
@@ -72,9 +75,9 @@
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>
-    <string name="link_message">More than one configurations are found for this model. Please make a selection then confirm.</string>
+    <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="error">Sorry, an error occurred. Please restart the app. If the error persists, please report the bug.</string>
+    <string name="error">Error occurred, please refer to the official website for more information</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
 </resources>
