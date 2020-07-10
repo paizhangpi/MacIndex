@@ -314,24 +314,6 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/buttonDefaults"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_defaults"
-                    android:textAllCaps="false"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textDefaultsDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/setting_defaults_decsription"
-                    android:textAlignment="center" />
-
-                <Button
                     android:id="@+id/buttonWebsite"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
@@ -347,6 +329,24 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/setting_website_decsription"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/buttonDefaults"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_defaults"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textDefaultsDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/setting_defaults_decsription"
                     android:textAlignment="center" />
 
             </LinearLayout>

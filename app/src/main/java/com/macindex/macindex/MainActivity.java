@@ -365,26 +365,48 @@ public class MainActivity extends AppCompatActivity {
                 final TextView categoryName = categoryChunk.findViewById(R.id.category);
                 if (loadPositions[i].length != 0) {
                     categoryName.setText(thisFilterString[2][i]);
-
+                    // Remove the last divider.
+                    if (i == loadPositions.length - 1) {
+                        categoryChunkLayout.removeViewAt(1);
+                    }
                     /* Remake my teammate's code */
                     categoryName.setOnClickListener(new View.OnClickListener() {
                         private boolean thisVisibility = false;
                         @Override
                         public void onClick(final View view) {
+                            final View firstChild = categoryChunkLayout.getChildAt(1);
                             if (thisVisibility) {
                                 // Make machines invisible.
-                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                    categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
-                                    thisVisibility = false;
+                                if (!(firstChild instanceof LinearLayout)) {
+                                    // Have the divider
+                                    for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                        categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                        thisVisibility = false;
+                                    }
+                                    firstChild.setVisibility(View.VISIBLE);
+                                } else {
+                                    // Does not have the divider
+                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                        categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                        thisVisibility = false;
+                                    }
                                 }
-                                categoryChunkLayout.getChildAt(1).setVisibility(View.VISIBLE);
                             } else {
                                 // Make machines visible.
-                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                    categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
-                                    thisVisibility = true;
+                                if (!(firstChild instanceof LinearLayout)) {
+                                    // Have the divider
+                                    for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                        categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                        thisVisibility = true;
+                                    }
+                                    firstChild.setVisibility(View.GONE);
+                                } else {
+                                    // Does not have the divider
+                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                        categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                        thisVisibility = true;
+                                    }
                                 }
-                                categoryChunkLayout.getChildAt(1).setVisibility(View.GONE);
                             }
                         }
                     });
@@ -392,8 +414,6 @@ public class MainActivity extends AppCompatActivity {
                     categoryContainer.addView(categoryChunk);
                 }
             }
-            // Remove the last divider.
-            categoryContainer.removeViewAt(categoryContainer.getChildCount() - 1);
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
             Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {
