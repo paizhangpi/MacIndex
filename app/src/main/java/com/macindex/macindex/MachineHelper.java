@@ -58,6 +58,9 @@ class MachineHelper {
      *
      * getProcessorTypeImage
      * Available Parameters: 68k, ppc
+     *                       G3 740, 750, 750cx, 750cxe, 755, 750fx (ppc)
+     *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447 (ppc)
+     *                       G5 970, 970fx, 970mp (ppc)
      *
      * getProcessorImage
      * Available Parameters: G3 740, 750, 750cx, 750cxe, 755, 750fx
@@ -98,7 +101,7 @@ class MachineHelper {
         for (int i = 0; i <= CATEGORIES_COUNT; i++) {
             categoryIndividualCursor[i] = database.query("category" + i, null,
                     null, null, null, null, null);
-            int thisCursorCount = categoryIndividualCursor[i].getCount();
+            final int thisCursorCount = categoryIndividualCursor[i].getCount();
             categoryIndividualCount[i] = thisCursorCount;
             totalMachine += thisCursorCount;
             Log.i("MachineHelperInit", "Category cursor " + i

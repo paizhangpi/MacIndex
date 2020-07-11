@@ -14,8 +14,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Locale;
-
 public class SettingsAboutActivity extends AppCompatActivity {
 
     private final PrefsHelper prefs = MainActivity.getPrefs();
@@ -49,11 +47,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
             textWebsite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     Intent browser = new Intent(Intent.ACTION_VIEW);
-                    if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndexCN"));
-                    } else {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
-                    }
+                    browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
                     startActivity(browser);
                 }
             });
