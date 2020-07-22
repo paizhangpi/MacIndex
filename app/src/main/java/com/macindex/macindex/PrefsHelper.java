@@ -23,8 +23,11 @@ class PrefsHelper {
      * (Boolean) isUseNavButtons: true
      * (Boolean) isQuickNav: false
      * (Boolean) isRandomAll: false
+     * (Boolean) isSaveMainUsage: true
+     * (Boolean) isSaveSearchUsage: false
      *
      * User Usage
+     * (MainActivity - Int) isFirstLunch
      * (MainActivity - Int) MainTitle: current application title resource: R.string.menu_group0
      * (MainActivity - String) thisManufacturer: current selected category filter MH string: "all"
      * (MainActivity - String) thisFilter: current selected view method MH string: "names"
@@ -46,7 +49,10 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isUseNavButtons", Boolean.TRUE);
         DEFAULT_VALUES.put("isQuickNav", Boolean.FALSE);
         DEFAULT_VALUES.put("isRandomAll", Boolean.FALSE);
+        DEFAULT_VALUES.put("isSaveMainUsage", Boolean.TRUE);
+        DEFAULT_VALUES.put("isSaveSearchUsage", Boolean.TRUE);
 
+        DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
         DEFAULT_VALUES.put("MainTitle", R.string.menu_group0);
         DEFAULT_VALUES.put("thisManufacturer", "all");
         DEFAULT_VALUES.put("thisFilter", "names");
@@ -148,6 +154,10 @@ class PrefsHelper {
             Log.e("Preference Helper", "Unable to edit preference "
                     + thisPrefsName + " with value " + thisPrefsValue);
         }
+    }
+
+    void clearPrefs(final String thisPrefsName) {
+        editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName));
     }
 
     void clearPrefs() {

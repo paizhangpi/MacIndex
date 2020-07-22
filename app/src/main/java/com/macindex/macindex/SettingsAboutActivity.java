@@ -14,6 +14,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Locale;
+
 public class SettingsAboutActivity extends AppCompatActivity {
 
     private final PrefsHelper prefs = MainActivity.getPrefs();
@@ -47,7 +49,11 @@ public class SettingsAboutActivity extends AppCompatActivity {
             textWebsite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
                     Intent browser = new Intent(Intent.ACTION_VIEW);
-                    browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                    if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                        browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                    } else {
+                        browser.setData(Uri.parse("https://paizhang.info/MacIndex/2"));
+                    }
                     startActivity(browser);
                 }
             });
@@ -89,6 +95,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
         final Switch swQuickNav = findViewById(R.id.switchQuickNav);
         final Switch swRandomAll = findViewById(R.id.switchRandomAll);
+        final Switch swSaveMainUsage = findViewById(R.id.switchSaveMainUsage);
+        final Switch swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
 
         final Boolean everyMacSelection = prefs.getBooleanPrefs("isOpenEveryMac");
         swEveryMac.setChecked(everyMacSelection);
@@ -97,6 +105,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swNavButtons.setChecked(prefs.getBooleanPrefs("isUseNavButtons"));
         swQuickNav.setChecked(prefs.getBooleanPrefs("isQuickNav"));
         swRandomAll.setChecked(prefs.getBooleanPrefs("isRandomAll"));
+        swSaveMainUsage.setChecked(prefs.getBooleanPrefs("isSaveMainUsage"));
+        swSaveSearchUsage.setChecked(prefs.getBooleanPrefs("isSaveSearchUsage"));
 
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {
@@ -105,12 +115,16 @@ public class SettingsAboutActivity extends AppCompatActivity {
             swNavButtons.setEnabled(false);
             swQuickNav.setEnabled(false);
             swRandomAll.setEnabled(false);
+            swSaveMainUsage.setEnabled(false);
+            swSaveSearchUsage.setEnabled(false);
         } else {
             swDeathSound.setEnabled(true);
             swGestures.setEnabled(true);
             swNavButtons.setEnabled(true);
             swQuickNav.setEnabled(true);
             swRandomAll.setEnabled(true);
+            swSaveMainUsage.setEnabled(true);
+            swSaveSearchUsage.setEnabled(true);
         }
 
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -162,6 +176,16 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swRandomAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
                 prefs.editPrefs("isRandomAll", isChecked);
+            }
+        });
+        swSaveMainUsage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                prefs.editPrefs("isSaveMainUsage", isChecked);
+            }
+        });
+        swSaveSearchUsage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+                prefs.editPrefs("isSaveSearchUsage", isChecked);
             }
         });
     }

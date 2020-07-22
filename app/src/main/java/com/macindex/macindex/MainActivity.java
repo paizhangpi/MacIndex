@@ -75,12 +75,45 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i("MacIndex", "Welcome to MacIndex.");
+
         // Open PrefsHelper
         prefs = new PrefsHelper(getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE));
-        thisManufacturer = prefs.getStringPrefs("thisManufacturer");
-        thisFilter = prefs.getStringPrefs("thisFilter");
 
         resources = getResources();
+
+        // If MainActivity Usage is set to not be saved
+        if (!(prefs.getBooleanPrefs("isSaveMainUsage"))) {
+            prefs.clearPrefs("MainTitle");
+            prefs.clearPrefs("thisManufacturer");
+            prefs.clearPrefs("thisFilter");
+            prefs.clearPrefs("ManufacturerMenu");
+            prefs.clearPrefs("FilterMenu");
+        }
+
+        // If user lunched MacIndex for the first time, a message should show.
+        if (prefs.getBooleanPrefs("isFirstLunch")) {
+            final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
+            firstLunchGreet.setTitle(R.string.information_first_lunch_title);
+            firstLunchGreet.setMessage(R.string.information_first_lunch);
+            firstLunchGreet.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialogInterface, final int i) {
+                    startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
+                }
+            });
+            firstLunchGreet.setNegativeButton(R.string.link_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialogInterface, final int i) {
+                    // Cancelled, no action needed.
+                }
+            });
+            firstLunchGreet.show();
+            prefs.editPrefs("isFirstLunch", false);
+        }
+
+        thisManufacturer = prefs.getStringPrefs("thisManufacturer");
+        thisFilter = prefs.getStringPrefs("thisFilter");
 
         // If EveryMac enabled, a message should append.
         if (prefs.getBooleanPrefs("isOpenEveryMac")) {

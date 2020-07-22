@@ -40,15 +40,24 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        // If SearchActivity Usage is set to not be saved
+        if (!(prefs.getBooleanPrefs("isSaveSearchUsage"))) {
+            prefs.clearPrefs("searchLastInput");
+            prefs.clearPrefs("searchManufacturer");
+            prefs.clearPrefs("searchOption");
+            prefs.clearPrefs("searchManufacturerSelection");
+            prefs.clearPrefs("searchOptionSelection");
+        }
+
         // If EveryMac enabled, a message should append.
         if (prefs.getBooleanPrefs("isOpenEveryMac")) {
             this.setTitle(getString(R.string.menu_search) + getString(R.string.menu_group_everymac));
         } else {
             this.setTitle(R.string.menu_search);
-        }
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         final LinearLayout mainLayout = findViewById(R.id.mainLayout);
