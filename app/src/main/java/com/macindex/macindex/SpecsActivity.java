@@ -1,6 +1,8 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
@@ -157,8 +159,8 @@ public class SpecsActivity extends AppCompatActivity {
         model.setText(thisMachineHelper.getModel(machineID));
         id.setText(thisMachineHelper.getMid(machineID));
         bus.setText(thisMachineHelper.getBus(machineID));
-        graphics.setText(thisMachineHelper.getBus(machineID));
-        display.setText(thisMachineHelper.getBus(machineID));
+        graphics.setText(thisMachineHelper.getGraphics(machineID));
+        display.setText(thisMachineHelper.getDisplay(machineID));
         expansion.setText(thisMachineHelper.getExpansion(machineID));
 
         /*
@@ -340,11 +342,12 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void startBrowser(final String thisName, final String url) {
         try {
-            final Intent browser = new Intent(Intent.ACTION_VIEW);
-            browser.setData(Uri.parse(url));
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
-            startActivity(browser);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),

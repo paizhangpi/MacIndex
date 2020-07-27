@@ -91,11 +91,15 @@ class MachineHelper {
      *                       G3 740, 750, 750cx, 750cxe, 755, 750fx (ppc)
      *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447 (ppc)
      *                       G5 970, 970fx, 970mp (ppc)
+     *                       Apple Silicon A12Z (arm)
+     *                       Intel Pentium p4ht (intel)
      *
      * getProcessorImage
      * Available Parameters: G3 740, 750, 750cx, 750cxe, 755, 750fx
      *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447
      *                       G5 970, 970fx, 970mp
+     *                       Apple Silicon A12Z
+     *                       Intel Pentium p4ht
      *
      * getCategoryRange
      * Available Manufacturer(Group) Strings: all, apple68k, appleppc, appleintel, applearm
@@ -446,6 +450,10 @@ class MachineHelper {
             case "970fx":
             case "970mp":
                 return R.drawable.powerpc;
+            case "p4ht":
+                return R.drawable.intel;
+            case "A12Z":
+                return R.drawable.arm;
             default:
                 Log.i("MHGetProcessorImageType", "No processor image for ID " + thisProcessorImage);
         }
@@ -532,6 +540,14 @@ class MachineHelper {
                 case "970mp":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.ppc970mp;
+                    break;
+                case "p4ht":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.intelp4ht;
+                    break;
+                case "A12Z":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applea12z;
                     break;
                 default:
                     Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
@@ -628,7 +644,7 @@ class MachineHelper {
                  /* x86 Desktop */
                 "@", "[iMac", "[Mac mini",
                  /* ARM Desktop */
-                "]Mac mini",
+                "#",
                  /* 68K Laptop */
                 "<Macintosh Po", "{Macintosh PowerBook Duo",
                  /* PPC Laptop */
@@ -671,11 +687,11 @@ class MachineHelper {
                  /* ARM Server */}};
         final String[][] processors = {{"processor"},
                 {"68000", "68020", "68030", "040", "601", "603", "604", "G3", "G4", "G5",
-                "Pentium", "(Original)", "Duo", "i3", "i5", "i7", "Xeon", "Apple Silicon"},
+                "Pentium", "(Original)", "Duo", "i3", "i5", "i7", "Xeon", "Apple A"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                 "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
                 "PowerPC G5", "Intel Pentium", "Intel Core", "Intel Core 2", "Intel Core i3",
-                "Intel Core i5", "Intel Core i7", "Intel Xeon", "Apple A"}};
+                "Intel Core i5", "Intel Core i7", "Intel Xeon", "Apple Silicon"}};
         final String[][] years = {{"year"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                 "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",

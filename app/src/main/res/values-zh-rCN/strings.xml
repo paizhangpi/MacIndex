@@ -4,7 +4,7 @@
     <string name="information_specs_no_death">点击顶部图片来试听开机音效</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
-    <string name="information_first_lunch">请打开关于与设置页面来自定义您的体验。\n\n也请不要忘记访问网站来获得最新的重要信息。\n\n非常感谢！</string>
+    <string name="information_first_lunch">请打开关于与设置页面来自定义您的体验。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
     <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，随机模式将不再可用。</string>
@@ -53,7 +53,7 @@
     <string name="model">型号</string>
     <string name="id">标识符</string>
     <string name="processor">处理器</string>
-    <string name="bus">总线速度</string>
+    <string name="bus">性能参数</string>
     <string name="graphics">显示卡</string>
     <string name="display">屏幕</string>
     <string name="type">固件信息</string>

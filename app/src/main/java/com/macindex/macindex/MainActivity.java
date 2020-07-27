@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -309,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     startActivity(new Intent(MainActivity.this, SearchActivity.class));
-                    mDrawerLayout.closeDrawers();
                 }
             });
             // Random Access
@@ -317,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     openRandom();
-                    mDrawerLayout.closeDrawers();
                 }
             });
             // SettingsAboutActivity Entrance
@@ -325,7 +325,6 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(final View view) {
                     startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
-                    mDrawerLayout.closeDrawers();
                 }
             });
 
@@ -629,11 +628,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void startBrowser(final String thisName, final String url) {
         try {
-            final Intent browser = new Intent(Intent.ACTION_VIEW);
-            browser.setData(Uri.parse(url));
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
-            startActivity(browser);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),

@@ -1,6 +1,8 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.content.ContextCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -48,13 +50,14 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
             textWebsite.setOnClickListener(new View.OnClickListener() {
                 public void onClick(final View unused) {
-                    Intent browser = new Intent(Intent.ACTION_VIEW);
+                    CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                    builder.setToolbarColor(ContextCompat.getColor(SettingsAboutActivity.this, R.color.colorPrimary));
+                    CustomTabsIntent customTabsIntent = builder.build();
                     if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndex"));
+                        customTabsIntent.launchUrl(SettingsAboutActivity.this, Uri.parse("https://paizhang.info/MacIndex"));
                     } else {
-                        browser.setData(Uri.parse("https://paizhang.info/MacIndex/2"));
+                        customTabsIntent.launchUrl(SettingsAboutActivity.this, Uri.parse("https://paizhang.info/MacIndex/2"));
                     }
-                    startActivity(browser);
                 }
             });
 
