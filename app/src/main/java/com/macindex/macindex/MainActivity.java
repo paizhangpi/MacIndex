@@ -220,26 +220,50 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.closeDrawers();
                 }
             });
-            // Manufacturer 1: appledesktop
+            // Manufacturer 1: apple68k
             findViewById(R.id.group1MenuItem).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    thisManufacturer = "appledesktop";
-                    prefs.editPrefs("thisManufacturer", "appledesktop");
+                    thisManufacturer = "apple68k";
+                    prefs.editPrefs("thisManufacturer", "apple68k");
                     prefs.editPrefs("ManufacturerMenu", R.id.group1MenuItem);
                     prefs.editPrefs("MainTitle", R.string.menu_group1);
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }
             });
-            // Manufacturer 2: applelaptop
+            // Manufacturer 2: appleppc
             findViewById(R.id.group2MenuItem).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View view) {
-                    thisManufacturer = "applelaptop";
-                    prefs.editPrefs("thisManufacturer", "applelaptop");
+                    thisManufacturer = "appleppc";
+                    prefs.editPrefs("thisManufacturer", "appleppc");
                     prefs.editPrefs("ManufacturerMenu", R.id.group2MenuItem);
                     prefs.editPrefs("MainTitle", R.string.menu_group2);
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Manufacturer 3: appleintel
+            findViewById(R.id.group3MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisManufacturer = "appleintel";
+                    prefs.editPrefs("thisManufacturer", "appleintel");
+                    prefs.editPrefs("ManufacturerMenu", R.id.group3MenuItem);
+                    prefs.editPrefs("MainTitle", R.string.menu_group3);
+                    refresh();
+                    mDrawerLayout.closeDrawers();
+                }
+            });
+            // Manufacturer 4: applearm
+            findViewById(R.id.group4MenuItem).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View view) {
+                    thisManufacturer = "applearm";
+                    prefs.editPrefs("thisManufacturer", "applearm");
+                    prefs.editPrefs("ManufacturerMenu", R.id.group4MenuItem);
+                    prefs.editPrefs("MainTitle", R.string.menu_group4);
                     refresh();
                     mDrawerLayout.closeDrawers();
                 }

@@ -19,13 +19,13 @@ class MachineHelper {
     /*
      * Updating categories (Ver. 4.0)
      * (1) Update the following number.
-     * (2) Update the MH manufacturer method.
+     * (2) Update the MH manufacturer and filter method. Update String resources.
      * (3) Update the MainActivity and SearchActivity.
      * (4) Make change to the database / make other changes.
      * (5) Update the following information.
      *
      * Updating filters (Ver. 4.0)
-     * (1) Update the MH filter method.
+     * (1) Update the MH filter method. Update String resources.
      * (2) Update the MainActivity and SearchActivity.
      * (3) Update the following information.
      *
@@ -42,6 +42,38 @@ class MachineHelper {
      */
     private static final int CATEGORIES_COUNT = 14;
     /*
+     * Category List
+     * Category 0: Compact Mac
+     * Category 1: Mac II
+     * Category 2: Mac LC
+     * Category 3: Mac Centris
+     * Category 4: Mac Quadra
+     * Category 5: Mac Performa 68K
+     * Category 6: Power Mac
+     * Category 7: Power Mac G3/G4/G5
+     * Category 8: iMac PPC
+     * Category 9: eMac
+     * Category 90: Mac mini PPC
+     * Category 91: PowerBook 68K
+     * Category 92: PowerBook Duo 68K
+     * Category 93: PowerBook G3/G4/G5
+     * Category 94: iBook
+     * Category 95: Mac Performa PPC
+     * Category 96: PowerBook PPC
+     * Category 97: PowerBook Duo PPC
+     * Category 98: Macintosh Server 68K
+     * Category 99: Macintosh Server PPC
+     * Category 990: Macintosh Server G3/G4/G5
+     * Category 991: Xserve G4/G5
+     * Category 992: Xserve Intel
+     * Category 993: Mac Pro
+     * Category 994: iMac Intel
+     * Category 995: Mac mini Intel
+     * Category 996: MacBook Pro Intel
+     * Category 997: MacBook Intel
+     * Category 998: MacBook Air Intel
+     * Category 999: Mac mini ARM
+     *
      * getSound
      * Available Parameters: 0 Macintosh 128k, mac128, no death sound
      *                       1 Macintosh II, macii, macii_death
@@ -68,8 +100,10 @@ class MachineHelper {
      *                       G5 970, 970fx, 970mp
      *
      * getCategoryRange
-     * Available Manufacturer(Group) Strings: all, appledesktop, applelaptop
-     * Available Manufacturer(Group) Resources: R.string.menu_group0, R.string.menu_group1, R.string.menu_group2
+     * Available Manufacturer(Group) Strings: all, apple68k, appleppc, appleintel, applearm
+     * Available Manufacturer(Group) Resources: R.string.menu_group0, R.string.menu_group1,
+     *                                          R.string.menu_group2, R.string.menu_group3,
+     *                                          R.string.menu_group4
      *
      * getFilterString
      * Available Filter Strings: names, processors, years
@@ -503,8 +537,10 @@ class MachineHelper {
     // Get category range by manufacturer. Should be updated accordingly.
     private int[] getCategoryRange(final String thisManufacturer) {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
-        final int[] appledesktop = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        final int[] applelaptop = {11, 12, 13, 14};
+        final int[] apple68k = {0, 1, 2, 3, 4, 5, 91, 92, 98};
+        final int[] appleppc = {6, 7, 8, 9, 90, 93, 94, 95, 96, 97, 99, 990, 991};
+        final int[] appleintel = {992, 993, 994, 995, 996, 997, 998};
+        final int[] applearm = {999};
         int[] all = new int[CATEGORIES_COUNT + 1];
         for (int i = 0; i < all.length; i++) {
             all[i] = i;
@@ -512,10 +548,14 @@ class MachineHelper {
         switch (thisManufacturer) {
             case "all":
                 return all;
-            case "appledesktop":
-                return appledesktop;
-            case "applelaptop":
-                return applelaptop;
+            case "apple68k":
+                return apple68k;
+            case "appleppc":
+                return appleppc;
+            case "appleintel":
+                return appleintel;
+            case "applearm":
+                return applearm;
             default:
                 Log.w("MHRange", "Invalid parameter");
                 return all;

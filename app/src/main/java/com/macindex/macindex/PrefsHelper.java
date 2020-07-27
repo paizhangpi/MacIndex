@@ -62,7 +62,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchManufacturer", "all");
         DEFAULT_VALUES.put("searchOption", "sindex");
-        DEFAULT_VALUES.put("searchManufacturerSelection", R.id.allGroup);
+        DEFAULT_VALUES.put("searchManufacturerSelection", R.id.id0Group);
         DEFAULT_VALUES.put("searchOptionSelection", R.id.nameOption);
     }
 

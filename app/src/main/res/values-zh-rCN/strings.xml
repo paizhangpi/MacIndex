@@ -47,8 +47,6 @@
     <string name="menu_view3">按年代浏览</string>
     <string name="menu_group">分组筛选</string>
     <string name="menu_group0">所有分组</string>
-    <string name="menu_group1">苹果台式电脑</string>
-    <string name="menu_group2">苹果笔记本电脑</string>
     <string name="menu_group_everymac">（打开 EveryMac）</string>
     <string name="menu">主菜单</string>
     <string name="year">推出时间</string>

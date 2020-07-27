@@ -48,8 +48,10 @@
     <string name="menu_view3">Introduction Years</string>
     <string name="menu_group">Categories Filter</string>
     <string name="menu_group0">All Categories</string>
-    <string name="menu_group1">Apple Desktops</string>
-    <string name="menu_group2">Apple Laptops</string>
+    <string name="menu_group1" translatable="false">68K Macintosh</string>
+    <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
+    <string name="menu_group3" translatable="false">Intel Macintosh</string>
+    <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu_group_everymac">&#160;(Open EveryMac)</string>
     <string name="menu">Main Menu</string>
     <string name="category0" translatable="false">Compact Macintosh</string>

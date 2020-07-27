@@ -49,20 +49,19 @@
             android:paddingEnd="10dp">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/menu_group" />
 
             <RadioGroup
                 android:id="@+id/groupsOptions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <RadioButton
-                    android:id="@+id/allGroup"
+                    android:id="@+id/id0Group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -70,18 +69,32 @@
                     android:text="@string/menu_group0" />
 
                 <RadioButton
-                    android:id="@+id/appledesktopGroup"
+                    android:id="@+id/id1Group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/menu_group1" />
 
                 <RadioButton
-                    android:id="@+id/applelaptopGroup"
+                    android:id="@+id/id2Group"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/menu_group2" />
+
+                <RadioButton
+                    android:id="@+id/id3Group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/menu_group3" />
+
+                <RadioButton
+                    android:id="@+id/id4Group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/menu_group4" />
 
             </RadioGroup>
         </LinearLayout>
@@ -97,18 +110,16 @@
             android:paddingEnd="10dp">
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="@string/search_searchBy" />
 
             <RadioGroup
                 android:id="@+id/searchOptions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/nameOption"

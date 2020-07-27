@@ -99,14 +99,20 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
                 switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.allGroup:
+                    case R.id.id0Group:
                         currentManufacturer = "all";
                         break;
-                    case R.id.appledesktopGroup:
-                        currentManufacturer = "appledesktop";
+                    case R.id.id1Group:
+                        currentManufacturer = "apple68k";
                         break;
-                    case R.id.applelaptopGroup:
-                        currentManufacturer = "applelaptop";
+                    case R.id.id2Group:
+                        currentManufacturer = "appleppc";
+                        break;
+                    case R.id.id3Group:
+                        currentManufacturer = "appleintel";
+                        break;
+                    case R.id.id4Group:
+                        currentManufacturer = "applearm";
                         break;
                     default:
                         Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
