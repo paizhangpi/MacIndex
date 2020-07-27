@@ -525,12 +525,13 @@ class MachineHelper {
     // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
     String[][] getFilterString(final String thisFilter) {
         final String[][] names = {{"sindex"}, {"*Macintosh", "Macintosh II",
-                "Macintosh LC", "Macintosh Centris", "Macintosh Quadra", "Macintosh Performa",
-                "^", "&Power", "iMac", "eMac", "Mac mini", "@Macintosh", "PowerBook Duo",
-                "PowerBook G", "iBook"}, {"Compact Macintosh", "Macintosh II", "Macintosh LC",
-                "Macintosh Centris", "Macintosh Quadra", "Macintosh Performa", "Power Macintosh",
-                "Power Mac G3/G4/G5", "iMac", "eMac", "Mac mini", "Macintosh PowerBook",
-                "Macintosh PowerBook Duo", "PowerBook G3/G4", "iBook"}};
+                "Macintosh LC", "Macintosh Quadra", "<Macintosh Performa", "Macintosh Centris",
+                "^", ">Macintosh Performa", "&Power", "<iMac", "eMac", "<Mac mini", "@Macintosh",
+                "PowerBook Duo", "PowerBook G", "iBook"}, {"Compact Macintosh", "Macintosh II",
+                "Macintosh LC", "Macintosh Quadra", "Macintosh Performa (68K)", "Macintosh Centris",
+                "Power Macintosh", "Macintosh Performa (PPC)", "Power Mac G3/G4/G5", "iMac (PPC)",
+                "eMac", "Mac mini (PPC)", "Macintosh PowerBook", "Macintosh PowerBook Duo",
+                "PowerBook G3/G4", "iBook"}};
         final String[][] processors = {{"processor"}, {"68000", "68020", "68030", "040",
                 "PowerPC 601", "PowerPC 603", "PowerPC 604", "G3", "G4", "G5"}, {"Motorola 68000",
                 "Motorola 68020", "Motorola 68030", "Motorola 68040", "PowerPC 601",

@@ -115,16 +115,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
             swNavButtons.setEnabled(false);
             swQuickNav.setEnabled(false);
             swRandomAll.setEnabled(false);
-            swSaveMainUsage.setEnabled(false);
-            swSaveSearchUsage.setEnabled(false);
         } else {
             swDeathSound.setEnabled(true);
             swGestures.setEnabled(true);
             swNavButtons.setEnabled(true);
             swQuickNav.setEnabled(true);
             swRandomAll.setEnabled(true);
-            swSaveMainUsage.setEnabled(true);
-            swSaveSearchUsage.setEnabled(true);
         }
 
         swEveryMac.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
