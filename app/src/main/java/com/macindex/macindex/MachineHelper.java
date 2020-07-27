@@ -35,12 +35,10 @@ class MachineHelper {
      * (3) Add a new column to every table.
      */
 
-    /*
-     * Set to actual quantity - 1.
-     * Warning! In a loop should include itself.
-     * Array Init should +1 to match actual quantity.
-     */
-    private static final int CATEGORIES_COUNT = 14;
+    private static final int[] CATEGORIES_LIST = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 90, 91, 92, 93, 94,
+            95, 96, 97, 98, 99, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999};
+    //private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
+    //        995, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
     /*
      * Category List
      * Category 0: Compact Mac
@@ -129,16 +127,17 @@ class MachineHelper {
 
     MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
-        // Initialize cursors and perform a self check.
-        categoryIndividualCount = new int[CATEGORIES_COUNT + 1];
-        categoryIndividualCursor = new Cursor[CATEGORIES_COUNT + 1];
-        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
-            categoryIndividualCursor[i] = database.query("category" + i, null,
-                    null, null, null, null, null);
+
+        categoryIndividualCount = new int[CATEGORIES_LIST.length];
+        categoryIndividualCursor = new Cursor[CATEGORIES_LIST.length];
+        for (int i = 0; i < CATEGORIES_LIST.length; i++) {
+            categoryIndividualCursor[i] = database.query("category" + CATEGORIES_LIST[i],
+                    null, null, null, null, null,
+                    null);
             final int thisCursorCount = categoryIndividualCursor[i].getCount();
             categoryIndividualCount[i] = thisCursorCount;
             totalMachine += thisCursorCount;
-            Log.i("MachineHelperInit", "Category cursor " + i
+            Log.i("MachineHelperInit", "Category cursor " + CATEGORIES_LIST[i]
                     + " loaded with row count " + thisCursorCount
                     + ", accumulated total row count " + totalMachine);
         }
@@ -153,17 +152,18 @@ class MachineHelper {
     /* SelfCheck was removed since Ver 4.0 */
 
     void suicide() {
-        for (int i = 0; i <= CATEGORIES_COUNT; i++) {
+        for (int i = 0; i < CATEGORIES_LIST.length; i++) {
             if (categoryIndividualCursor[i] != null) {
                 categoryIndividualCursor[i].close();
-                Log.i("MachineHelperSuicide", "Category cursor " + i + " closed successfully.");
+                Log.i("MachineHelperSuicide", "Category cursor " + CATEGORIES_LIST[i]
+                        + " closed successfully.");
             }
         }
     }
 
     // Get the total count of categories
     int getCategoryTotalCount() {
-        return CATEGORIES_COUNT;
+        return CATEGORIES_LIST.length;
     }
 
     // Get total machines. For usage of random access.
@@ -187,7 +187,7 @@ class MachineHelper {
     int[] getPosition(final int thisMachine) {
         // Category ID / Remainder
         int[] position = {0, thisMachine};
-        while (position[0] <= CATEGORIES_COUNT) {
+        while (position[0] < CATEGORIES_LIST.length) {
             if (position[1] >= categoryIndividualCount[position[0]]) {
                 position[1] -= categoryIndividualCount[position[0]];
                 position[0]++;
@@ -203,10 +203,28 @@ class MachineHelper {
         return configGroup.length;
     }
 
+    // Convert Internal Database Category ID to MH Category ID
+    private int convertToMHCategoryID(final int toConvert) {
+        int toReturn = 0;
+        toReturn += (String.valueOf(toConvert).length() - 1) * 10;
+        toReturn += toConvert % 10;
+        return toReturn;
+    }
+
+    // Convert MH Category ID to Internal Database Category ID
+    private int convertToDatabaseCategoryID(final int toConvert) {
+        String toReturn = "";
+        for (int i = 0; i < toConvert / 10; i++) {
+            toReturn = toReturn.concat("9");
+        }
+        toReturn = toReturn.concat(String.valueOf(toConvert % 10));
+        return Integer.parseInt(toReturn);
+    }
+
     // Get machine ID by a specific position.
     int findByPosition(final int[] thisPosition) {
         int machineID = 0;
-        for (int i = 0; i < thisPosition[0]; i++) {
+        for (int i = 0; i < convertToMHCategoryID(thisPosition[0]); i++) {
             machineID += categoryIndividualCount[i];
         }
         return machineID + thisPosition[1];
@@ -525,6 +543,46 @@ class MachineHelper {
         return toReturn;
     }
 
+    String getMid(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("mid")));
+    }
+
+    String getBus(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("bus")));
+    }
+
+    String getGraphics(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("graphics")));
+    }
+
+    String getDisplay(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("display")));
+    }
+
+    String getExpansion(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("expansion")));
+    }
+
     // NullSafe
     private static String checkApplicability(final String thisSpec) {
         if (thisSpec == null || thisSpec.equals("N")) {
@@ -541,13 +599,9 @@ class MachineHelper {
         final int[] appleppc = {6, 7, 8, 9, 90, 93, 94, 95, 96, 97, 99, 990, 991};
         final int[] appleintel = {992, 993, 994, 995, 996, 997, 998};
         final int[] applearm = {999};
-        int[] all = new int[CATEGORIES_COUNT + 1];
-        for (int i = 0; i < all.length; i++) {
-            all[i] = i;
-        }
         switch (thisManufacturer) {
             case "all":
-                return all;
+                return CATEGORIES_LIST;
             case "apple68k":
                 return apple68k;
             case "appleppc":
@@ -558,29 +612,79 @@ class MachineHelper {
                 return applearm;
             default:
                 Log.w("MHRange", "Invalid parameter");
-                return all;
+                return CATEGORIES_LIST;
         }
     }
 
     // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
     String[][] getFilterString(final String thisFilter) {
-        final String[][] names = {{"sindex"}, {"*Macintosh", "Macintosh II",
-                "Macintosh LC", "Macintosh Quadra", "<Macintosh Performa", "Macintosh Centris",
-                "^", ">Macintosh Performa", "&Power", "<iMac", "eMac", "<Mac mini", "@Macintosh",
-                "PowerBook Duo", "PowerBook G", "iBook"}, {"Compact Macintosh", "Macintosh II",
-                "Macintosh LC", "Macintosh Quadra", "Macintosh Performa (68K)", "Macintosh Centris",
-                "Power Macintosh", "Macintosh Performa (PPC)", "Power Mac G3/G4/G5", "iMac (PPC)",
-                "eMac", "Mac mini (PPC)", "Macintosh PowerBook", "Macintosh PowerBook Duo",
-                "PowerBook G3/G4", "iBook"}};
-        final String[][] processors = {{"processor"}, {"68000", "68020", "68030", "040",
-                "PowerPC 601", "PowerPC 603", "PowerPC 604", "G3", "G4", "G5"}, {"Motorola 68000",
-                "Motorola 68020", "Motorola 68030", "Motorola 68040", "PowerPC 601",
-                "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4", "PowerPC G5"}};
-        final String[][] years = {{"year"}, {"1984", "1985", "1986", "1987", "1988", "1989",
-                "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999",
-                "2000", "2001", "2002", "2003", "2004", "2005"}, {"1984", "1985", "1986",
-                "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996",
-                "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005"}};
+        final String[][] names = {{"sindex"},
+                {/* 68K Desktop */
+                "*Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
+                "<Macintosh Performa", "Macintosh Centris",
+                 /* PPC Desktop */
+                "^", ">Macintosh Performa", "&Power Mac",
+                ">iMac", "eMac", ">Mac mini",
+                 /* x86 Desktop */
+                "@", "[iMac", "[Mac mini",
+                 /* ARM Desktop */
+                "]Mac mini",
+                 /* 68K Laptop */
+                "<Macintosh Po", "{Macintosh PowerBook Duo",
+                 /* PPC Laptop */
+                ">Macintosh Po", "}Macintosh PowerBook Duo",
+                "PowerBook G", "iBook",
+                 /* x86 Laptop */
+                "MacBook Pro", "[MacBook", "MacBook Air",
+                 /* ARM Laptop */
+                 /* 68K Server */
+                "<Workgroup Server",
+                 /* PPC Server */
+                "`", "Macintosh Server G", ">Xserve",
+                 /* x86 Server */
+                "[Xserve"
+                 /* ARM Server */},
+                {/* 68K Desktop */
+                "Compact Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
+                "Macintosh Performa (68K)", "Macintosh Centris",
+                 /* PPC Desktop */
+                "Power Macintosh", "Macintosh Performa (PPC)", "Power Mac G3/G4/G5",
+                "iMac (PPC)", "eMac", "Mac mini (PPC)",
+                 /* x86 Desktop */
+                "Mac Pro", "iMac (x86)", "Mac mini (x86)",
+                 /* ARM Desktop */
+                "Mac mini (ARM)",
+                 /* 68K Laptop */
+                "Macintosh PowerBook (68K)", "Macintosh PowerBook Duo (68K)",
+                 /* PPC Laptop */
+                "Macintosh PowerBook (PPC)", "Macintosh PowerBook Duo (PPC)",
+                "PowerBook G3/G4", "iBook",
+                 /* x86 Laptop */
+                "MacBook Pro", "MacBook", "MacBook Air",
+                 /* ARM Laptop */
+                 /* 68K Server */
+                "Macintosh Server (68K)",
+                 /* PPC Server */
+                 "Macintosh Server (PPC)", "Macintosh Server G3/G4/G5", "Xserve G4/G5",
+                 /* x86 Server */
+                 "Xserve (x86)"
+                 /* ARM Server */}};
+        final String[][] processors = {{"processor"},
+                {"68000", "68020", "68030", "040", "601", "603", "604", "G3", "G4", "G5",
+                "Pentium", "(Original)", "Duo", "i3", "i5", "i7", "Xeon", "Apple Silicon"},
+                {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
+                "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
+                "PowerPC G5", "Intel Pentium", "Intel Core", "Intel Core 2", "Intel Core i3",
+                "Intel Core i5", "Intel Core i7", "Intel Xeon", "Apple A"}};
+        final String[][] years = {{"year"},
+                {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
+                "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
+                "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
+                "2014", "2015", "2016", "2017", "2018", "2019", "2020"},
+                {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
+                "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
+                "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
+                "2014", "2015", "2016", "2017", "2018", "2019", "2020"}};
         Log.i("MHGetFilter", "Get parameters " + thisFilter);
         switch (thisFilter) {
             case "names":

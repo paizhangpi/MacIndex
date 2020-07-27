@@ -39,12 +39,11 @@ import java.util.Random;
  * MacIndex.
  * University of Illinois, CS125 FA19 Final Project
  * University of Illinois, CS199 Kotlin SP20 Final Project
- * https://paizhang.info/MacIndexCN
  * https://paizhang.info/MacIndex
  * https://github.com/paizhangpi/MacIndex
  *
- * 1st Major Update May 12, 2020 at Champaign, Illinois, U.S.A.
- * 2nd Major Update June 13, 2020 at Shenyang, Liaoning, P.R.C.
+ * 3.0 Update May 12, 2020 at Champaign, Illinois, U.S.A.
+ * 4.0 Update June 13, 2020 at Shenyang, Liaoning, China.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -502,7 +501,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // Remove the last divider.
-            ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
+            if (categoryContainer.getChildCount() != 0) {
+                ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
+            }
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
             Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {

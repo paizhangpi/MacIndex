@@ -51,7 +51,7 @@
     <string name="menu_group1" translatable="false">68K Macintosh</string>
     <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
-    <string name="menu_group4" translatable="false">ARM Macintosh</string>
+    <string name="menu_group4" translatable="false">Apple Silicon Macintosh</string>
     <string name="menu_group_everymac">&#160;(Open EveryMac)</string>
     <string name="menu">Main Menu</string>
     <string name="category0" translatable="false">Compact Macintosh</string>

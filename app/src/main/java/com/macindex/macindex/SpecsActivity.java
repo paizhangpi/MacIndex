@@ -22,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 
 public class SpecsActivity extends AppCompatActivity {
@@ -134,12 +136,17 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void initSpecs() {
-        TextView name = findViewById(R.id.nameText);
-        TextView type = findViewById(R.id.typeText);
-        TextView processor = findViewById(R.id.processorText);
-        TextView maxram = findViewById(R.id.maxramText);
-        TextView year = findViewById(R.id.yearText);
-        TextView model = findViewById(R.id.modelText);
+        final TextView name = findViewById(R.id.nameText);
+        final TextView type = findViewById(R.id.typeText);
+        final TextView processor = findViewById(R.id.processorText);
+        final TextView maxram = findViewById(R.id.maxramText);
+        final TextView year = findViewById(R.id.yearText);
+        final TextView model = findViewById(R.id.modelText);
+        final TextView id = findViewById(R.id.idText);
+        final TextView bus = findViewById(R.id.busText);
+        final TextView graphics = findViewById(R.id.graphicsText);
+        final TextView display = findViewById(R.id.displayText);
+        final TextView expansion = findViewById(R.id.expansionText);
 
         this.setTitle(thisMachineHelper.getName(machineID));
         name.setText(thisMachineHelper.getName(machineID));
@@ -148,6 +155,11 @@ public class SpecsActivity extends AppCompatActivity {
         maxram.setText(thisMachineHelper.getMaxRam(machineID));
         year.setText(thisMachineHelper.getYear(machineID));
         model.setText(thisMachineHelper.getModel(machineID));
+        id.setText(thisMachineHelper.getMid(machineID));
+        bus.setText(thisMachineHelper.getBus(machineID));
+        graphics.setText(thisMachineHelper.getBus(machineID));
+        display.setText(thisMachineHelper.getBus(machineID));
+        expansion.setText(thisMachineHelper.getExpansion(machineID));
 
         /*
            Processor Images dynaLoad.
