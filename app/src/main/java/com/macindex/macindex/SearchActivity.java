@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,6 +37,8 @@ public class SearchActivity extends AppCompatActivity {
     private String currentManufacturer = null;
 
     private String currentOption = null;
+
+    private Button optionsButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -66,7 +69,19 @@ public class SearchActivity extends AppCompatActivity {
         LayoutTransition layoutTransition = mainLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
-        initOptions();
+        currentManufacturer = prefs.getStringPrefs("searchManufacturer");
+        currentOption = prefs.getStringPrefs("searchOption");
+
+        optionsButton = findViewById(R.id.buttonShowFilters);
+        optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
+                + " / " + getString(prefs.getIntPrefs("currentOptionResource")));
+        optionsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                initOptions();
+            }
+        });
+
         initSearch();
 
         // Init search from last state
@@ -89,61 +104,88 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void initOptions() {
-        currentManufacturer = prefs.getStringPrefs("searchManufacturer");
-        currentOption = prefs.getStringPrefs("searchOption");
+        final AlertDialog.Builder optionsDialog = new AlertDialog.Builder(SearchActivity.this);
+        //optionsDialog.setTitle(R.string.search_filters);
+        optionsDialog.setCancelable(false);
+        optionsDialog.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface, final int i) {
+                optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
+                        + "/" + getString(prefs.getIntPrefs("currentOptionResource")));
+                startSearch(searchText.getQuery().toString());
+            }
+        });
 
-        final RadioGroup manufacturerOptions = findViewById(R.id.groupsOptions);
-        final RadioGroup searchOptions = findViewById(R.id.searchOptions);
+        final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
+        final RadioGroup manufacturerOptions = optionChunk.findViewById(R.id.groupsOptions);
+        final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
         manufacturerOptions.check(prefs.getIntPrefs("searchManufacturerSelection"));
         searchOptions.check(prefs.getIntPrefs("searchOptionSelection"));
-
         manufacturerOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
+                int toEditManufacturerResource;
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.id0Group:
                         currentManufacturer = "all";
+                        toEditManufacturerResource = R.string.menu_group0;
                         break;
                     case R.id.id1Group:
                         currentManufacturer = "apple68k";
+                        toEditManufacturerResource = R.string.menu_group1;
                         break;
                     case R.id.id2Group:
                         currentManufacturer = "appleppc";
+                        toEditManufacturerResource = R.string.menu_group2;
                         break;
                     case R.id.id3Group:
                         currentManufacturer = "appleintel";
+                        toEditManufacturerResource = R.string.menu_group3;
                         break;
                     case R.id.id4Group:
                         currentManufacturer = "applearm";
+                        toEditManufacturerResource = R.string.menu_group4;
                         break;
                     default:
                         Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
                         currentManufacturer = "all";
+                        toEditManufacturerResource = R.string.menu_group0;
                 }
                 prefs.editPrefs("searchManufacturer", currentManufacturer);
                 prefs.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId());
-                startSearch(searchText.getQuery().toString());
+                prefs.editPrefs("currentManufacturerResource", toEditManufacturerResource);
             }
         });
         searchOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
+                int toEditOptionResource;
                 switch (radioGroup.getCheckedRadioButtonId()) {
                     case R.id.nameOption:
                         currentOption = "sindex";
+                        toEditOptionResource = R.string.search_nameOption;
                         break;
                     case R.id.modelOption:
                         currentOption = "model";
+                        toEditOptionResource = R.string.search_modelOption;
+                        break;
+                    case R.id.midOption:
+                        currentOption = "mid";
+                        toEditOptionResource = R.string.search_idOption;
                         break;
                     default:
                         Log.e("getOption", "Not a Valid Search Column Selection, This should NOT happen!!");
                         currentOption = "sindex";
+                        toEditOptionResource = R.string.search_nameOption;
                 }
                 prefs.editPrefs("searchOption", currentOption);
                 prefs.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId());
-                startSearch(searchText.getQuery().toString());
+                prefs.editPrefs("currentOptionResource", toEditOptionResource);
             }
         });
+
+        optionsDialog.setView(optionChunk);
+        optionsDialog.show();
     }
 
     private void initSearch() {
@@ -195,6 +237,8 @@ public class SearchActivity extends AppCompatActivity {
         final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+";
         // Model Number: acceptable search input Aa, Mm, 0~9.
         final String legalCharactersModel = "AMam1234567890";
+        // Identification: acceptable search input A~Z, a~z, 0~9, comma.
+        final String legalCharactersIdentification = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,";
 
         String legalCharacters;
         // update
@@ -205,7 +249,11 @@ public class SearchActivity extends AppCompatActivity {
             case "model":
                 legalCharacters = legalCharactersModel;
                 break;
+            case "mid":
+                legalCharacters = legalCharactersIdentification;
+                break;
             default:
+                Log.e("validate", "Not a Valid Search Method, This should NOT happen!!");
                 legalCharacters = "";
         }
         boolean status = true;

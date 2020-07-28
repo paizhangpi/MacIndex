@@ -63,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String thisFilter = null;
 
-    private String[][] thisFilterString = {};
-
     private int[][] loadPositions = {};
 
     private int machineLoadedCount = 0;
@@ -444,7 +442,7 @@ public class MainActivity extends AppCompatActivity {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             categoryContainer.removeAllViews();
             // Get filter string and positions.
-            thisFilterString = machineHelper.getFilterString(thisFilter);
+            final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
             loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
             // Set up each category.
             for (int i = 0; i < loadPositions.length; i++) {

@@ -5,7 +5,7 @@
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
-    <string name="information_first_lunch"></string>
+    <string name="information_first_lunch">Please go to "About and Settings" page to customize your experience.</string>
     <string name="setting_everymac">Open directly in EveryMac</string>
     <string name="setting_everymac_description">Open the EveryMac page of the model directly instead of the specification page. Will ask for specific configuration if the model has more than one configurations.</string>
     <string name="setting_everymac_warning_content">This is effective for both main page and search result. Random access will no longer available as well.</string>
@@ -34,9 +34,10 @@
     <string name="search_searchBy">Search By</string>
     <string name="search_nameOption">Name</string>
     <string name="search_modelOption">Model Number</string>
+    <string name="search_idOption">Identification</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
-    <string name="search_results">&#160;results</string>
+    <string name="search_results">&#160;result(s)</string>
     <string name="search_illegal">Invalid Input</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
@@ -78,6 +79,7 @@
     <string name="display">Display</string>
     <string name="type">ROM Information</string>
     <string name="maxram">RAM Information</string>
+    <string name="storage">Storage</string>
     <string name="bus_expansion">Bus &amp; Expansion</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>

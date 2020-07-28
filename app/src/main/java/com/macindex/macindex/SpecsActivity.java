@@ -23,9 +23,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
-import org.w3c.dom.Text;
-
 import java.io.File;
 
 public class SpecsActivity extends AppCompatActivity {
@@ -149,6 +146,7 @@ public class SpecsActivity extends AppCompatActivity {
         final TextView graphics = findViewById(R.id.graphicsText);
         final TextView display = findViewById(R.id.displayText);
         final TextView expansion = findViewById(R.id.expansionText);
+        final TextView storage = findViewById(R.id.storageText);
 
         this.setTitle(thisMachineHelper.getName(machineID));
         name.setText(thisMachineHelper.getName(machineID));
@@ -162,6 +160,7 @@ public class SpecsActivity extends AppCompatActivity {
         graphics.setText(thisMachineHelper.getGraphics(machineID));
         display.setText(thisMachineHelper.getDisplay(machineID));
         expansion.setText(thisMachineHelper.getExpansion(machineID));
+        storage.setText(thisMachineHelper.getStorage(machineID));
 
         /*
            Processor Images dynaLoad.

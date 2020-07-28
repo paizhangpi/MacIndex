@@ -599,6 +599,14 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("expansion")));
     }
 
+    String getStorage(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("storage")));
+    }
+
     // NullSafe
     private static String checkApplicability(final String thisSpec) {
         if (thisSpec == null || thisSpec.equals("N")) {
