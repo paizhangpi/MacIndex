@@ -13,7 +13,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.animation.LayoutTransition;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -95,17 +94,9 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
             firstLunchGreet.setTitle(R.string.information_first_lunch_title);
             firstLunchGreet.setMessage(R.string.information_first_lunch);
-            firstLunchGreet.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(final DialogInterface dialogInterface, final int i) {
-                    startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
-                }
-            });
-            firstLunchGreet.setNegativeButton(R.string.link_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(final DialogInterface dialogInterface, final int i) {
-                    // Cancelled, no action needed.
-                }
+            firstLunchGreet.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class)));
+            firstLunchGreet.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                // Cancelled, no action needed.
             });
             firstLunchGreet.show();
             prefs.editPrefs("isFirstLunch", false);
@@ -180,9 +171,7 @@ public class MainActivity extends AppCompatActivity {
             // Open MachineHelper
             machineHelper = new MachineHelper(database);
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
             Log.e("initDatabase", "Initialize failed!!");
         }
     }
@@ -208,123 +197,84 @@ public class MainActivity extends AppCompatActivity {
 
             // Manufacturer Menu
             // Manufacturer 0: all (Default)
-            findViewById(R.id.group0MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisManufacturer = "all";
-                    prefs.editPrefs("thisManufacturer", "all");
-                    prefs.editPrefs("ManufacturerMenu", R.id.group0MenuItem);
-                    prefs.editPrefs("MainTitle", R.string.menu_group0);
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.group0MenuItem).setOnClickListener(view -> {
+                thisManufacturer = "all";
+                prefs.editPrefs("thisManufacturer", "all");
+                prefs.editPrefs("ManufacturerMenu", R.id.group0MenuItem);
+                prefs.editPrefs("MainTitle", R.string.menu_group0);
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 1: apple68k
-            findViewById(R.id.group1MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisManufacturer = "apple68k";
-                    prefs.editPrefs("thisManufacturer", "apple68k");
-                    prefs.editPrefs("ManufacturerMenu", R.id.group1MenuItem);
-                    prefs.editPrefs("MainTitle", R.string.menu_group1);
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.group1MenuItem).setOnClickListener(view -> {
+                thisManufacturer = "apple68k";
+                prefs.editPrefs("thisManufacturer", "apple68k");
+                prefs.editPrefs("ManufacturerMenu", R.id.group1MenuItem);
+                prefs.editPrefs("MainTitle", R.string.menu_group1);
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 2: appleppc
-            findViewById(R.id.group2MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisManufacturer = "appleppc";
-                    prefs.editPrefs("thisManufacturer", "appleppc");
-                    prefs.editPrefs("ManufacturerMenu", R.id.group2MenuItem);
-                    prefs.editPrefs("MainTitle", R.string.menu_group2);
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.group2MenuItem).setOnClickListener(view -> {
+                thisManufacturer = "appleppc";
+                prefs.editPrefs("thisManufacturer", "appleppc");
+                prefs.editPrefs("ManufacturerMenu", R.id.group2MenuItem);
+                prefs.editPrefs("MainTitle", R.string.menu_group2);
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 3: appleintel
-            findViewById(R.id.group3MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisManufacturer = "appleintel";
-                    prefs.editPrefs("thisManufacturer", "appleintel");
-                    prefs.editPrefs("ManufacturerMenu", R.id.group3MenuItem);
-                    prefs.editPrefs("MainTitle", R.string.menu_group3);
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.group3MenuItem).setOnClickListener(view -> {
+                thisManufacturer = "appleintel";
+                prefs.editPrefs("thisManufacturer", "appleintel");
+                prefs.editPrefs("ManufacturerMenu", R.id.group3MenuItem);
+                prefs.editPrefs("MainTitle", R.string.menu_group3);
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 4: applearm
-            findViewById(R.id.group4MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisManufacturer = "applearm";
-                    prefs.editPrefs("thisManufacturer", "applearm");
-                    prefs.editPrefs("ManufacturerMenu", R.id.group4MenuItem);
-                    prefs.editPrefs("MainTitle", R.string.menu_group4);
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.group4MenuItem).setOnClickListener(view -> {
+                thisManufacturer = "applearm";
+                prefs.editPrefs("thisManufacturer", "applearm");
+                prefs.editPrefs("ManufacturerMenu", R.id.group4MenuItem);
+                prefs.editPrefs("MainTitle", R.string.menu_group4);
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
 
             // Filter Menu
             // Filter 1: names (Default)
-            findViewById(R.id.view1MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisFilter = "names";
-                    prefs.editPrefs("FilterMenu", R.id.view1MenuItem);
-                    prefs.editPrefs("thisFilter", "names");
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.view1MenuItem).setOnClickListener(view -> {
+                thisFilter = "names";
+                prefs.editPrefs("FilterMenu", R.id.view1MenuItem);
+                prefs.editPrefs("thisFilter", "names");
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Filter 2: processors
-            findViewById(R.id.view2MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisFilter = "processors";
-                    prefs.editPrefs("FilterMenu", R.id.view2MenuItem);
-                    prefs.editPrefs("thisFilter", "processors");
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.view2MenuItem).setOnClickListener(view -> {
+                thisFilter = "processors";
+                prefs.editPrefs("FilterMenu", R.id.view2MenuItem);
+                prefs.editPrefs("thisFilter", "processors");
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
             // Filter 3: years
-            findViewById(R.id.view3MenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    thisFilter = "years";
-                    prefs.editPrefs("FilterMenu", R.id.view3MenuItem);
-                    prefs.editPrefs("thisFilter", "years");
-                    refresh();
-                    mDrawerLayout.closeDrawers();
-                }
+            findViewById(R.id.view3MenuItem).setOnClickListener(view -> {
+                thisFilter = "years";
+                prefs.editPrefs("FilterMenu", R.id.view3MenuItem);
+                prefs.editPrefs("thisFilter", "years");
+                refresh();
+                mDrawerLayout.closeDrawers();
             });
 
             // Main Menu
             // SearchActivity Entrance
-            findViewById(R.id.searchMenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    startActivity(new Intent(MainActivity.this, SearchActivity.class));
-                }
-            });
+            findViewById(R.id.searchMenuItem).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
             // Random Access
-            findViewById(R.id.randomMenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    openRandom();
-                }
-            });
+            findViewById(R.id.randomMenuItem).setOnClickListener(view -> openRandom());
             // SettingsAboutActivity Entrance
-            findViewById(R.id.aboutMenuItem).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
-                }
-            });
+            findViewById(R.id.aboutMenuItem).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class)));
 
             // Set a drawer listener to change title and color.
             mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -400,9 +350,7 @@ public class MainActivity extends AppCompatActivity {
             drawerToggle.syncState();
             setSupportActionBar(mainToolbar);
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -504,9 +452,7 @@ public class MainActivity extends AppCompatActivity {
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
             Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
             Log.e("initDatabase", "Initialize failed!!");
         }
     }
@@ -532,23 +478,18 @@ public class MainActivity extends AppCompatActivity {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
-                mainChunkToClick.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View unused) {
-                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                            loadLinks(thisName, thisLinks);
-                        } else {
-                            sendIntent(loadPositions[category], machineID);
-                        }
+                mainChunkToClick.setOnClickListener(unused -> {
+                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+                        loadLinks(thisName, thisLinks);
+                    } else {
+                        sendIntent(loadPositions[category], machineID);
                     }
                 });
                 currentLayout.addView(mainChunk);
                 machineLoadedCount++;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
             Log.e("initCategory", "Initialize Category " + category + " failed!!");
         }
     }
@@ -593,33 +534,23 @@ public class MainActivity extends AppCompatActivity {
 
                 // When user tapped confirm or cancel...
                 linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                try {
-                                    startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[1]);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                }
+                        (dialog, which) -> {
+                            try {
+                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[1]);
+                            } catch (Exception e) {
+                                ExceptionHelper.handleExceptionWithDialog(MainActivity.this, e);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                // Cancelled.
-                            }
+                        (dialog, which) -> {
+                            // Cancelled.
                         });
                 linkDialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
             Log.e("loadLinks", "Link loading failed!!");
         }
     }
@@ -633,9 +564,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -661,11 +590,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                     int randomCode = new Random().nextInt(totalLoadad + 1);
                     Log.i("RandomAccess", "Limit Random mode, get total " + totalLoadad + " , ID " + randomCode);
-                    for (int i = 0; i < loadPositions.length; i++) {
-                        if (randomCode >= loadPositions[i].length) {
-                            randomCode -= loadPositions[i].length;
+                    for (int[] loadPosition : loadPositions) {
+                        if (randomCode >= loadPosition.length) {
+                            randomCode -= loadPosition.length;
                         } else {
-                            machineID = loadPositions[i][randomCode];
+                            machineID = loadPosition[randomCode];
                             break;
                         }
                     }
@@ -674,9 +603,7 @@ public class MainActivity extends AppCompatActivity {
                 sendIntent(new int[]{machineID}, machineID);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 

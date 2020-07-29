@@ -6,7 +6,6 @@ import androidx.core.content.ContextCompat;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -72,9 +71,7 @@ public class SpecsActivity extends AppCompatActivity {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             initialize();
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -102,9 +99,7 @@ public class SpecsActivity extends AppCompatActivity {
                 initGestures();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
         Log.i("SpecsInitialize", "Machine ID " + machineID);
     }
@@ -128,9 +123,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("releaseSound", "Death sound released");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -224,16 +217,14 @@ public class SpecsActivity extends AppCompatActivity {
             informationLabel.setText(getResources().getString(R.string.information_specs_full));
             startupSound = MediaPlayer.create(this, startupID);
             deathSound = MediaPlayer.create(this, deathID);
-            image.setOnClickListener(new View.OnClickListener() {
-                public void onClick(final View unused) {
-                    if (!startupSound.isPlaying() && !deathSound.isPlaying()) {
-                        if (startup) {
-                            startupSound.start();
-                            startup = false;
-                        } else {
-                            deathSound.start();
-                            startup = true;
-                        }
+            image.setOnClickListener(unused -> {
+                if (!startupSound.isPlaying() && !deathSound.isPlaying()) {
+                    if (startup) {
+                        startupSound.start();
+                        startup = false;
+                    } else {
+                        deathSound.start();
+                        startup = true;
                     }
                 }
             });
@@ -246,11 +237,7 @@ public class SpecsActivity extends AppCompatActivity {
             deathSound = null;
             informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
             startupSound = MediaPlayer.create(this, startupID);
-            image.setOnClickListener(new View.OnClickListener() {
-                public void onClick(final View unused) {
-                    startupSound.start();
-                }
-            });
+            image.setOnClickListener(unused -> startupSound.start());
             image.setClickable(true);
             informationLabel.setVisibility(View.VISIBLE);
             Log.i("InitSound", "Startup sound loaded");
@@ -268,12 +255,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initLinks() {
         final ImageView link = findViewById(R.id.everymac);
-        link.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                loadLinks(thisMachineHelper.getName(machineID), thisMachineHelper.getConfig(machineID));
-            }
-        });
+        link.setOnClickListener(v -> loadLinks(thisMachineHelper.getName(machineID), thisMachineHelper.getConfig(machineID)));
     }
 
     // Keep compatible with MainActivity.
@@ -308,33 +290,23 @@ public class SpecsActivity extends AppCompatActivity {
 
                 // When user tapped confirm or cancel...
                 linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                try {
-                                    startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[1]);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                }
+                        (dialog, which) -> {
+                            try {
+                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[1]);
+                            } catch (Exception e) {
+                                ExceptionHelper.handleExceptionWithDialog(SpecsActivity.this, e);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                // Cancelled.
-                            }
+                        (dialog, which) -> {
+                            // Cancelled.
                         });
                 linkDialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
             Log.e("loadLinks", "Link loading failed!!");
         }
     }
@@ -348,9 +320,7 @@ public class SpecsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -381,12 +351,9 @@ public class SpecsActivity extends AppCompatActivity {
             } else {
                 previous.setEnabled(true);
                 previous.setText(MainActivity.getMachineHelper().getName(machineID - 1));
-                previous.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        previous.setEnabled(false);
-                        navPrev();
-                    }
+                previous.setOnClickListener(v -> {
+                    previous.setEnabled(false);
+                    navPrev();
                 });
             }
 
@@ -398,18 +365,13 @@ public class SpecsActivity extends AppCompatActivity {
             } else {
                 next.setEnabled(true);
                 next.setText(MainActivity.getMachineHelper().getName(machineID + 1));
-                next.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        next.setEnabled(false);
-                        navNext();
-                    }
+                next.setOnClickListener(v -> {
+                    next.setEnabled(false);
+                    navNext();
                 });
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 

@@ -75,12 +75,7 @@ public class SearchActivity extends AppCompatActivity {
         optionsButton = findViewById(R.id.buttonShowFilters);
         optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
                 + " / " + getString(prefs.getIntPrefs("currentOptionResource")));
-        optionsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                initOptions();
-            }
-        });
+        optionsButton.setOnClickListener(view -> initOptions());
 
         initSearch();
 
@@ -107,13 +102,10 @@ public class SearchActivity extends AppCompatActivity {
         final AlertDialog.Builder optionsDialog = new AlertDialog.Builder(SearchActivity.this);
         //optionsDialog.setTitle(R.string.search_filters);
         optionsDialog.setCancelable(false);
-        optionsDialog.setPositiveButton(R.string.link_confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialogInterface, final int i) {
-                optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
-                        + "/" + getString(prefs.getIntPrefs("currentOptionResource")));
-                startSearch(searchText.getQuery().toString());
-            }
+        optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
+                    + "/" + getString(prefs.getIntPrefs("currentOptionResource")));
+            startSearch(searchText.getQuery().toString());
         });
 
         final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
@@ -121,67 +113,61 @@ public class SearchActivity extends AppCompatActivity {
         final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
         manufacturerOptions.check(prefs.getIntPrefs("searchManufacturerSelection"));
         searchOptions.check(prefs.getIntPrefs("searchOptionSelection"));
-        manufacturerOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
-                int toEditManufacturerResource;
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.id0Group:
-                        currentManufacturer = "all";
-                        toEditManufacturerResource = R.string.menu_group0;
-                        break;
-                    case R.id.id1Group:
-                        currentManufacturer = "apple68k";
-                        toEditManufacturerResource = R.string.menu_group1;
-                        break;
-                    case R.id.id2Group:
-                        currentManufacturer = "appleppc";
-                        toEditManufacturerResource = R.string.menu_group2;
-                        break;
-                    case R.id.id3Group:
-                        currentManufacturer = "appleintel";
-                        toEditManufacturerResource = R.string.menu_group3;
-                        break;
-                    case R.id.id4Group:
-                        currentManufacturer = "applearm";
-                        toEditManufacturerResource = R.string.menu_group4;
-                        break;
-                    default:
-                        Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
-                        currentManufacturer = "all";
-                        toEditManufacturerResource = R.string.menu_group0;
-                }
-                prefs.editPrefs("searchManufacturer", currentManufacturer);
-                prefs.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId());
-                prefs.editPrefs("currentManufacturerResource", toEditManufacturerResource);
+        manufacturerOptions.setOnCheckedChangeListener((radioGroup, i) -> {
+            int toEditManufacturerResource;
+            switch (radioGroup.getCheckedRadioButtonId()) {
+                case R.id.id0Group:
+                    currentManufacturer = "all";
+                    toEditManufacturerResource = R.string.menu_group0;
+                    break;
+                case R.id.id1Group:
+                    currentManufacturer = "apple68k";
+                    toEditManufacturerResource = R.string.menu_group1;
+                    break;
+                case R.id.id2Group:
+                    currentManufacturer = "appleppc";
+                    toEditManufacturerResource = R.string.menu_group2;
+                    break;
+                case R.id.id3Group:
+                    currentManufacturer = "appleintel";
+                    toEditManufacturerResource = R.string.menu_group3;
+                    break;
+                case R.id.id4Group:
+                    currentManufacturer = "applearm";
+                    toEditManufacturerResource = R.string.menu_group4;
+                    break;
+                default:
+                    Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
+                    currentManufacturer = "all";
+                    toEditManufacturerResource = R.string.menu_group0;
             }
+            prefs.editPrefs("searchManufacturer", currentManufacturer);
+            prefs.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId());
+            prefs.editPrefs("currentManufacturerResource", toEditManufacturerResource);
         });
-        searchOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
-                int toEditOptionResource;
-                switch (radioGroup.getCheckedRadioButtonId()) {
-                    case R.id.nameOption:
-                        currentOption = "sindex";
-                        toEditOptionResource = R.string.search_nameOption;
-                        break;
-                    case R.id.modelOption:
-                        currentOption = "model";
-                        toEditOptionResource = R.string.search_modelOption;
-                        break;
-                    case R.id.midOption:
-                        currentOption = "mid";
-                        toEditOptionResource = R.string.search_idOption;
-                        break;
-                    default:
-                        Log.e("getOption", "Not a Valid Search Column Selection, This should NOT happen!!");
-                        currentOption = "sindex";
-                        toEditOptionResource = R.string.search_nameOption;
-                }
-                prefs.editPrefs("searchOption", currentOption);
-                prefs.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId());
-                prefs.editPrefs("currentOptionResource", toEditOptionResource);
+        searchOptions.setOnCheckedChangeListener((radioGroup, i) -> {
+            int toEditOptionResource;
+            switch (radioGroup.getCheckedRadioButtonId()) {
+                case R.id.nameOption:
+                    currentOption = "sindex";
+                    toEditOptionResource = R.string.search_nameOption;
+                    break;
+                case R.id.modelOption:
+                    currentOption = "model";
+                    toEditOptionResource = R.string.search_modelOption;
+                    break;
+                case R.id.midOption:
+                    currentOption = "mid";
+                    toEditOptionResource = R.string.search_idOption;
+                    break;
+                default:
+                    Log.e("getOption", "Not a Valid Search Column Selection, This should NOT happen!!");
+                    currentOption = "sindex";
+                    toEditOptionResource = R.string.search_nameOption;
             }
+            prefs.editPrefs("searchOption", currentOption);
+            prefs.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId());
+            prefs.editPrefs("currentOptionResource", toEditOptionResource);
         });
 
         optionsDialog.setView(optionChunk);
@@ -279,12 +265,12 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             // Largely adapted MainActivity InitCategory. Should update both.
-            for (int i = 0; i < resultCount; i++) {
+            for (int position : positions) {
                 final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 final TextView machineName = mainChunk.findViewById(R.id.machineName);
                 final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
 
-                final int machineID = positions[i];
+                final int machineID = position;
 
                 // Find information necessary for interface.
                 final String thisName = thisMachineHelper.getName(machineID);
@@ -294,25 +280,19 @@ public class SearchActivity extends AppCompatActivity {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
-                machineName.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View unused) {
-                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                            loadLinks(thisName, thisLinks);
-                        } else {
-                            sendIntent(positions, machineID);
-                        }
+                machineName.setOnClickListener(unused -> {
+                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+                        loadLinks(thisName, thisLinks);
+                    } else {
+                        sendIntent(positions, machineID);
                     }
                 });
 
-                machineYear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View unused) {
-                        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                            loadLinks(thisName, thisLinks);
-                        } else {
-                            sendIntent(positions, machineID);
-                        }
+                machineYear.setOnClickListener(unused -> {
+                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+                        loadLinks(thisName, thisLinks);
+                    } else {
+                        sendIntent(positions, machineID);
                     }
                 });
                 currentLayout.addView(mainChunk);
@@ -364,26 +344,20 @@ public class SearchActivity extends AppCompatActivity {
 
                 // When user tapped confirm or cancel...
                 linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                try {
-                                    startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                            .split(",")[1]);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getApplicationContext(),
-                                            getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-                                }
+                        (dialog, which) -> {
+                            try {
+                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",")[1]);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(),
+                                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                // Cancelled.
-                            }
+                        (dialog, which) -> {
+                            // Cancelled.
                         });
                 linkDialog.show();
             }

@@ -70,7 +70,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("currentOptionResource", R.string.search_nameOption);
     }
 
-    private SharedPreferences prefsFile = null;
+    private SharedPreferences prefsFile;
 
     PrefsHelper(final SharedPreferences thisPrefsFile) {
         prefsFile = thisPrefsFile;
@@ -87,6 +87,7 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Preference Helper", "Unable to get Int preference: " + thisPrefsName);
             return 0;
         }
@@ -103,6 +104,7 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Preference Helper", "Unable to get Boolean preference: " + thisPrefsName);
             return false;
         }
@@ -119,6 +121,7 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Preference Helper", "Unable to get String preference: " + thisPrefsName);
             return null;
         }
@@ -155,6 +158,7 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Preference Helper", "Unable to edit preference "
                     + thisPrefsName + " with value " + thisPrefsValue);
         }
@@ -169,6 +173,7 @@ class PrefsHelper {
             prefsFile.edit().clear().apply();
             Log.w("Preference Helper", "Preference file cleared");
         } catch (Exception e) {
+            e.printStackTrace();
             Log.e("Preference Helper", "Unable to clear preference");
         }
     }
