@@ -1,24 +1,18 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.content.ContextCompat;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -269,6 +263,7 @@ public class SearchActivity extends AppCompatActivity {
                 final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
                 final TextView machineName = mainChunk.findViewById(R.id.machineName);
                 final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
+                final LinearLayout mainChunkToClick = mainChunk.findViewById(R.id.main_chunk_clickable);
 
                 final int machineID = position;
 
@@ -280,17 +275,9 @@ public class SearchActivity extends AppCompatActivity {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
-                machineName.setOnClickListener(unused -> {
+                mainChunkToClick.setOnClickListener(unused -> {
                     if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                        loadLinks(thisName, thisLinks);
-                    } else {
-                        sendIntent(positions, machineID);
-                    }
-                });
-
-                machineYear.setOnClickListener(unused -> {
-                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                        loadLinks(thisName, thisLinks);
+                        LinkLoadingHelper.loadLinks(thisName, thisLinks, SearchActivity.this);
                     } else {
                         sendIntent(positions, machineID);
                     }
@@ -308,71 +295,5 @@ public class SearchActivity extends AppCompatActivity {
         intent.putExtra("thisCategory", thisCategory);
         intent.putExtra("machineID", thisMachineID);
         startActivity(intent);
-    }
-
-    // Copied from specsActivity, keep them compatible.
-    private void loadLinks(final String thisName, final String thisLinks) {
-        try {
-            if (thisLinks.equals("N")) {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
-                return;
-            }
-            final String[] linkGroup = thisLinks.split(";");
-            if (linkGroup.length == 1) {
-                // Only one option, launch EveryMac directly.
-                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
-            } else {
-                final AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
-                linkDialog.setTitle(thisName);
-                linkDialog.setMessage(getResources().getString(R.string.link_message));
-                // Setup each option in dialog.
-                final View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
-                final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
-                for (int i = 0; i < linkGroup.length; i++) {
-                    final RadioButton linkOption = new RadioButton(this);
-                    linkOption.setText(linkGroup[i].split(",")[0]);
-                    linkOption.setId(i);
-                    if (i == 0) {
-                        linkOption.setChecked(true);
-                    }
-                    linkOptions.addView(linkOption);
-                }
-                linkDialog.setView(linkChunk);
-
-                // When user tapped confirm or cancel...
-                linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                        (dialog, which) -> {
-                            try {
-                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[1]);
-                            } catch (Exception e) {
-                                ExceptionHelper.handleExceptionWithDialog(this, e);
-                            }
-                        });
-                linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                        (dialog, which) -> {
-                            // Cancelled.
-                        });
-                linkDialog.show();
-            }
-        } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
-                    "loadLinks", "Link loading failed!!");
-        }
-    }
-
-    private void startBrowser(final String thisName, final String url) {
-        try {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-        }
     }
 }

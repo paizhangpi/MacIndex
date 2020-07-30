@@ -1,15 +1,11 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.browser.customtabs.CustomTabsIntent;
-import androidx.core.content.ContextCompat;
 
 import android.animation.LayoutTransition;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -257,73 +251,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initLinks() {
         final ImageView link = findViewById(R.id.everymac);
-        link.setOnClickListener(v -> loadLinks(thisMachineHelper.getName(machineID), thisMachineHelper.getConfig(machineID)));
-    }
-
-    // Keep compatible with MainActivity.
-    private void loadLinks(final String thisName, final String thisLinks) {
-        try {
-            if (thisLinks.equals("N")) {
-                Toast.makeText(getApplicationContext(),
-                        getResources().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
-                return;
-            }
-            final String[] linkGroup = thisLinks.split(";");
-            if (linkGroup.length == 1) {
-                // Only one option, launch EveryMac directly.
-                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1]);
-            } else {
-                final AlertDialog.Builder linkDialog = new AlertDialog.Builder(this);
-                linkDialog.setTitle(thisName);
-                linkDialog.setMessage(getResources().getString(R.string.link_message));
-                // Setup each option in dialog.
-                final View linkChunk = getLayoutInflater().inflate(R.layout.chunk_links, null);
-                final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
-                for (int i = 0; i < linkGroup.length; i++) {
-                    final RadioButton linkOption = new RadioButton(this);
-                    linkOption.setText(linkGroup[i].split(",")[0]);
-                    linkOption.setId(i);
-                    if (i == 0) {
-                        linkOption.setChecked(true);
-                    }
-                    linkOptions.addView(linkOption);
-                }
-                linkDialog.setView(linkChunk);
-
-                // When user tapped confirm or cancel...
-                linkDialog.setPositiveButton(this.getResources().getString(R.string.link_confirm),
-                        (dialog, which) -> {
-                            try {
-                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[1]);
-                            } catch (Exception e) {
-                                ExceptionHelper.handleExceptionWithDialog(this, e);
-                            }
-                        });
-                linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
-                        (dialog, which) -> {
-                            // Cancelled.
-                        });
-                linkDialog.show();
-            }
-        } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
-                    "loadLinks", "Link loading failed!!");
-        }
-    }
-
-    private void startBrowser(final String thisName, final String url) {
-        try {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-        }
+        link.setOnClickListener(v -> LinkLoadingHelper.loadLinks(thisMachineHelper.getName(machineID),
+                thisMachineHelper.getConfig(machineID), SpecsActivity.this));
     }
 
     private void initButtons() {
