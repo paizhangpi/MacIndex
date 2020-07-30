@@ -99,7 +99,8 @@ public class SpecsActivity extends AppCompatActivity {
                 initGestures();
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "SpecsInitialize", "Failed, Machine ID " + machineID);
         }
         Log.i("SpecsInitialize", "Machine ID " + machineID);
     }
@@ -123,7 +124,8 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("releaseSound", "Death sound released");
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "SpecsActivity", "Unable to release sounds.");
         }
     }
 
@@ -296,7 +298,7 @@ public class SpecsActivity extends AppCompatActivity {
                                         .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",")[1]);
                             } catch (Exception e) {
-                                ExceptionHelper.handleExceptionWithDialog(SpecsActivity.this, e);
+                                ExceptionHelper.handleExceptionWithDialog(this, e);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
@@ -306,8 +308,8 @@ public class SpecsActivity extends AppCompatActivity {
                 linkDialog.show();
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-            Log.e("loadLinks", "Link loading failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "loadLinks", "Link loading failed!!");
         }
     }
 
@@ -371,63 +373,71 @@ public class SpecsActivity extends AppCompatActivity {
                 });
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "SpecsActivity", "Unable to init buttons.");
         }
     }
 
     private void initGestures() {
-        Log.i("SpecGestures", "Loading");
-        final OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
-            public void onSwipeRight() {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-            }
+        try {
+            Log.i("SpecGestures", "Loading");
+            final OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+                }
 
-            public void onSwipeLeft() {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-            }
-        };
-        final OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
-            public void onSwipeRight() {
-                releaseGestures();
-                navNext();
-            }
+                public void onSwipeLeft() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+                }
+            };
+            final OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    releaseGestures();
+                    navNext();
+                }
 
-            public void onSwipeLeft() {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-            }
-        };
-        final OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
-            public void onSwipeRight() {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-            }
-            public void onSwipeLeft() {
-                releaseGestures();
-                navPrev();
-            }
-        };
-        final OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
-            public void onSwipeRight() {
-                releaseGestures();
-                navNext();
-            }
-            public void onSwipeLeft() {
-                releaseGestures();
-                navPrev();
-            }
-        };
+                public void onSwipeLeft() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
+                }
+            };
+            final OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
+                }
 
-        if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
-            // Can NOT do BOTH
-            setListenerForView(listenerNotAvailable);
-        } else if (machineIDPosition == 0) {
-            // Can only swipe Right (NEXT)
-            setListenerForView(listenerOnlyNext);
-        } else if (machineIDPosition == categoryStartEnd.length - 1) {
-            // Can only swipe Left (PREV)
-            setListenerForView(listenerOnlyPrev);
-        } else {
-            // Can do BOTH
-            setListenerForView(listenerCanBoth);
+                public void onSwipeLeft() {
+                    releaseGestures();
+                    navPrev();
+                }
+            };
+            final OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
+                public void onSwipeRight() {
+                    releaseGestures();
+                    navNext();
+                }
+
+                public void onSwipeLeft() {
+                    releaseGestures();
+                    navPrev();
+                }
+            };
+
+            if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
+                // Can NOT do BOTH
+                setListenerForView(listenerNotAvailable);
+            } else if (machineIDPosition == 0) {
+                // Can only swipe Right (NEXT)
+                setListenerForView(listenerOnlyNext);
+            } else if (machineIDPosition == categoryStartEnd.length - 1) {
+                // Can only swipe Left (PREV)
+                setListenerForView(listenerOnlyPrev);
+            } else {
+                // Can do BOTH
+                setListenerForView(listenerCanBoth);
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "SpecsActivity", "Unable to init gestures.");
         }
     }
 

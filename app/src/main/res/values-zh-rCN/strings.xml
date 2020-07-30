@@ -68,7 +68,10 @@
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="error">出错了</string>
-    <string name="error_information">很抱歉。请参考官方网站以获得更多信息。</string>
+    <string name="error_information">请参考官方网站（paizhang.info/MacIndex）的“常见问题”部分。</string>
+    <string name="error_copy_button">复制信息</string>
+    <string name="error_copy_information">信息已复制</string>
+    <string name="error_dismiss">关闭</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
 </resources>

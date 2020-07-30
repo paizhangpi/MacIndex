@@ -298,9 +298,7 @@ public class SearchActivity extends AppCompatActivity {
                 currentLayout.addView(mainChunk);
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 
@@ -350,9 +348,7 @@ public class SearchActivity extends AppCompatActivity {
                                         .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",")[1]);
                             } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(),
-                                        getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+                                ExceptionHelper.handleExceptionWithDialog(this, e);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
@@ -362,10 +358,8 @@ public class SearchActivity extends AppCompatActivity {
                 linkDialog.show();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
-            Log.e("loadLinks", "Link loading failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "loadLinks", "Link loading failed!!");
         }
     }
 
@@ -378,9 +372,7 @@ public class SearchActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     getResources().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),
-                    getResources().getString(R.string.error), Toast.LENGTH_SHORT).show();
+            ExceptionHelper.handleExceptionWithDialog(this, e);
         }
     }
 }

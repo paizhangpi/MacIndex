@@ -88,7 +88,10 @@
     <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Error occurred</string>
-    <string name="error_information">Sorry. Please refer to the official website for more information.</string>
+    <string name="error_information">Please refer to the \"Frequently Asked Questions\" section of the official website (paizhang.info/MacIndex).</string>
+    <string name="error_copy_button">Copy Message</string>
+    <string name="error_copy_information">Message copied</string>
+    <string name="error_dismiss">Dismiss</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
 </resources>

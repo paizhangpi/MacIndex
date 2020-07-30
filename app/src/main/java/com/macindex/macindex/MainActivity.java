@@ -171,8 +171,8 @@ public class MainActivity extends AppCompatActivity {
             // Open MachineHelper
             machineHelper = new MachineHelper(database);
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-            Log.e("initDatabase", "Initialize failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "initDatabase", "Initialize failed!!");
         }
     }
 
@@ -350,7 +350,8 @@ public class MainActivity extends AppCompatActivity {
             drawerToggle.syncState();
             setSupportActionBar(mainToolbar);
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "initMenu", "Initialize failed!!");
         }
     }
 
@@ -452,8 +453,8 @@ public class MainActivity extends AppCompatActivity {
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
             Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-            Log.e("initDatabase", "Initialize failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "initInterface", "Initialize failed!!");
         }
     }
 
@@ -489,8 +490,8 @@ public class MainActivity extends AppCompatActivity {
                 machineLoadedCount++;
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-            Log.e("initCategory", "Initialize Category " + category + " failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "initCategory", "Initialize Category " + category + " failed!!");
         }
     }
 
@@ -540,7 +541,7 @@ public class MainActivity extends AppCompatActivity {
                                         .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",")[1]);
                             } catch (Exception e) {
-                                ExceptionHelper.handleExceptionWithDialog(MainActivity.this, e);
+                                ExceptionHelper.handleExceptionWithDialog(this, e);
                             }
                         });
                 linkDialog.setNegativeButton(this.getResources().getString(R.string.link_cancel),
@@ -550,8 +551,8 @@ public class MainActivity extends AppCompatActivity {
                 linkDialog.show();
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
-            Log.e("loadLinks", "Link loading failed!!");
+            ExceptionHelper.handleExceptionWithDialog(this, e,
+                    "loadLinks", "Link loading failed!!");
         }
     }
 
