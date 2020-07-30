@@ -27,12 +27,14 @@ class PrefsHelper {
      * (Boolean) isSaveSearchUsage: false
      *
      * User Usage
-     * (MainActivity - Int) isFirstLunch
+     * (MainActivity - Boolean) isFirstLunch
      * (MainActivity - Int) MainTitle: current application title resource: R.string.menu_group0
      * (MainActivity - String) thisManufacturer: current selected category filter MH string: "all"
      * (MainActivity - String) thisFilter: current selected view method MH string: "names"
      * (MainActivity - Int) ManufacturerMenu: current selected category filter menu item resource in menu: R.id.group0MenuItem
      * (MainActivity - Int) FilterMenu: current selected view method menu item resource in menu: R.id.view1MenuItem
+     *
+     * (SpecsActivity - Boolean) isThisTimeFirstLunch
      *
      * (SearchActivity - String) searchLastInput: last search string: ""
      * (SearchActivity - String) searchManufacturer: current selected category filter MH string: "all"
@@ -47,6 +49,7 @@ class PrefsHelper {
         DEFAULT_VALUES = new HashMap<>();
         DEFAULT_VALUES.put("isOpenEveryMac", Boolean.FALSE);
         DEFAULT_VALUES.put("isPlayDeathSound", Boolean.TRUE);
+        DEFAULT_VALUES.put("isEnableVolWarning", Boolean.TRUE);
         DEFAULT_VALUES.put("isUseGestures", Boolean.TRUE);
         DEFAULT_VALUES.put("isUseNavButtons", Boolean.TRUE);
         DEFAULT_VALUES.put("isQuickNav", Boolean.FALSE);
@@ -60,6 +63,8 @@ class PrefsHelper {
         DEFAULT_VALUES.put("thisFilter", "names");
         DEFAULT_VALUES.put("ManufacturerMenu", R.id.group0MenuItem);
         DEFAULT_VALUES.put("FilterMenu", R.id.view1MenuItem);
+
+        DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
 
         DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchManufacturer", "all");

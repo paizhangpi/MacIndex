@@ -3,8 +3,11 @@ package com.macindex.macindex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.LayoutTransition;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.AudioDeviceInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -207,45 +210,106 @@ public class SpecsActivity extends AppCompatActivity {
         final int startupID = sound[0];
         final int deathID = sound[1];
         final TextView informationLabel = findViewById(R.id.information);
-        if (startupID != 0 && deathID != 0
-                && thisPrefs.getBooleanPrefs("isPlayDeathSound")) {
-            // Startup sound exists, death sound exists, and user prefers both
-            informationLabel.setText(getResources().getString(R.string.information_specs_full));
-            startupSound = MediaPlayer.create(this, startupID);
-            deathSound = MediaPlayer.create(this, deathID);
+
+        if (startupID != 0 || deathID != 0) {
+            // Set Sound accordingly
+            if (startupID != 0 && deathID != 0
+                    && thisPrefs.getBooleanPrefs("isPlayDeathSound")) {
+                // Startup sound exists, death sound exists, and user prefers both
+                informationLabel.setText(getResources().getString(R.string.information_specs_full));
+                startupSound = MediaPlayer.create(this, startupID);
+                deathSound = MediaPlayer.create(this, deathID);
+                Log.i("InitSound", "Startup and death sound loaded");
+            } else {
+                // Startup sound exists, death sound not exist
+                // Fix IllegalStateException
+                informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
+                startupSound = MediaPlayer.create(this, startupID);
+                deathSound = null;
+                Log.i("InitSound", "Startup sound loaded");
+            }
+            informationLabel.setVisibility(View.VISIBLE);
+            // Should set a listener
             image.setOnClickListener(unused -> {
-                if (!startupSound.isPlaying() && !deathSound.isPlaying()) {
-                    if (startup) {
-                        startupSound.start();
-                        startup = false;
+                if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
+                    // Not playing any sound
+                    if (thisPrefs.getBooleanPrefs("isEnableVolWarningThisTime") &&
+                            thisPrefs.getBooleanPrefs("isEnableVolWarning")) {
+                        // High Volume Warning Enabled
+                        boolean currentOutputDevice = false;
+                        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                        if (audioManager != null) {
+                            for (AudioDeviceInfo deviceInfo : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
+                                final int thisType = deviceInfo.getType();
+                                Log.i("VolWarning", "Get type " + thisType);
+                                if (thisType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+                                        || thisType == AudioDeviceInfo.TYPE_WIRED_HEADSET
+                                        || thisType == AudioDeviceInfo.TYPE_USB_HEADSET
+                                        || thisType == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
+                                        || thisType == AudioDeviceInfo.TYPE_HEARING_AID) {
+                                    Log.i("VolWarning", "Earphone detected");
+                                    currentOutputDevice = true;
+                                    break;
+                                }
+                            }
+                        }
+                        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                        int currentVolumePercentage = 100 * currentVolume/maxVolume;
+                        Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage +
+                                " current output device " + currentOutputDevice);
+                        if (currentVolumePercentage >= 60 && currentOutputDevice) {
+                            Log.i("VolWarning", "Armed");
+                            final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
+                            volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
+                            volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                // Enabled, and popup a warning
+                                thisPrefs.editPrefs("isEnableVolWarningThisTime", false);
+                                playSound(startupSound, deathSound);
+                            });
+                            volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) ->{
+                                // Do nothing
+                            });
+                            volWarningDialog.show();
+                        } else {
+                            // Enabled, but should not popup a warning
+                            Log.i("VolWarning", "Unarmed");
+                            playSound(startupSound, deathSound);
+                        }
                     } else {
-                        deathSound.start();
-                        startup = true;
+                        // High Volume Warning Disabled
+                        Log.i("VolWarning", "Disabled");
+                        playSound(startupSound, deathSound);
                     }
                 }
             });
             image.setClickable(true);
-            informationLabel.setVisibility(View.VISIBLE);
-            Log.i("InitSound", "Startup and death sound loaded");
-        } else if (startupID != 0) {
-            // Startup sound exists, death sound not exist
-            // Fix IllegalStateException
-            deathSound = null;
-            informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
-            startupSound = MediaPlayer.create(this, startupID);
-            image.setOnClickListener(unused -> startupSound.start());
-            image.setClickable(true);
-            informationLabel.setVisibility(View.VISIBLE);
-            Log.i("InitSound", "Startup sound loaded");
         } else {
             // Exception for PowerBook DuoDock...
             // Fix IllegalStateException
             startupSound = null;
             deathSound = null;
+            Log.i("InitSound", "Startup and death sound do not exist");
             image.setOnClickListener(null);
             image.setClickable(false);
             informationLabel.setVisibility(View.GONE);
-            Log.i("InitSound", "Startup and death sound do not exist");
+        }
+    }
+
+    private void playSound(MediaPlayer startupSound, MediaPlayer deathSound) {
+        if (startupSound != null) {
+            // NullSafe
+            if (deathSound != null) {
+                if (startup) {
+                    startupSound.start();
+                    startup = false;
+                } else {
+                    deathSound.start();
+                    startup = true;
+                }
+            } else {
+                startupSound.start();
+            }
         }
     }
 

@@ -77,6 +77,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swRandomAll = findViewById(R.id.switchRandomAll);
         final Switch swSaveMainUsage = findViewById(R.id.switchSaveMainUsage);
         final Switch swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
+        final Switch swVolWarning = findViewById(R.id.switchVolWarning);
 
         final Boolean everyMacSelection = prefs.getBooleanPrefs("isOpenEveryMac");
         swEveryMac.setChecked(everyMacSelection);
@@ -87,6 +88,16 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swRandomAll.setChecked(prefs.getBooleanPrefs("isRandomAll"));
         swSaveMainUsage.setChecked(prefs.getBooleanPrefs("isSaveMainUsage"));
         swSaveSearchUsage.setChecked(prefs.getBooleanPrefs("isSaveSearchUsage"));
+        swVolWarning.setChecked(prefs.getBooleanPrefs("isEnableVolWarning"));
+
+        swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isPlayDeathSound", isChecked));
+        swGestures.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseGestures", isChecked));
+        swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseNavButtons", isChecked));
+        swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isQuickNav", isChecked));
+        swRandomAll.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isRandomAll", isChecked));
+        swSaveMainUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveMainUsage", isChecked));
+        swSaveSearchUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveSearchUsage", isChecked));
+        swVolWarning.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isEnableVolWarning", isChecked));
 
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {
@@ -95,12 +106,14 @@ public class SettingsAboutActivity extends AppCompatActivity {
             swNavButtons.setEnabled(false);
             swQuickNav.setEnabled(false);
             swRandomAll.setEnabled(false);
+            swVolWarning.setEnabled(false);
         } else {
             swDeathSound.setEnabled(true);
             swGestures.setEnabled(true);
             swNavButtons.setEnabled(true);
             swQuickNav.setEnabled(true);
             swRandomAll.setEnabled(true);
+            swVolWarning.setEnabled(true);
         }
 
         swEveryMac.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -119,12 +132,5 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 initSettings();
             }
         });
-        swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isPlayDeathSound", isChecked));
-        swGestures.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseGestures", isChecked));
-        swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseNavButtons", isChecked));
-        swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isQuickNav", isChecked));
-        swRandomAll.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isRandomAll", isChecked));
-        swSaveMainUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveMainUsage", isChecked));
-        swSaveSearchUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveSearchUsage", isChecked));
     }
 }

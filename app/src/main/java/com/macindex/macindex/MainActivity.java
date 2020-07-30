@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
             prefs.clearPrefs("FilterMenu");
         }
 
+        // Reset Volume Warning
+        prefs.clearPrefs("isEnableVolWarningThisTime");
+
         // If user lunched MacIndex for the first time, a message should show.
         if (prefs.getBooleanPrefs("isFirstLunch")) {
             final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
@@ -164,6 +167,12 @@ public class MainActivity extends AppCompatActivity {
 
             // Open MachineHelper
             machineHelper = new MachineHelper(database);
+            if (!machineHelper.selfCheck()) {
+                ExceptionHelper.handleExceptionWithDialog(this,
+                        "MachineHelperInit",
+                        "Columns count preset mismatch with actual quantity.");
+            }
+
         } catch (Exception e) {
             ExceptionHelper.handleExceptionWithDialog(this, e,
                     "initDatabase", "Initialize failed!!");

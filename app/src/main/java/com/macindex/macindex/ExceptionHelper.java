@@ -41,6 +41,19 @@ class ExceptionHelper {
         handleExceptionDialog(thisContext, exceptionInfo);
     }
 
+    public static void handleExceptionWithDialog(final Context thisContext,
+                                                 final String exceptionModule, final String exceptionMessage) {
+        final String exceptionInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
+                + "Android Version: " + Build.VERSION.RELEASE + "\n"
+                + "Hardware Brand: " + Build.BRAND + "\n"
+                + "Hardware Model: " + Build.MODEL + "\n"
+                + "Log Tag: " + exceptionModule + "\n"
+                + "Log Message: " + exceptionMessage +"\n"
+                + "\n" +"Exception Detail Not Applicable";
+        Log.e(exceptionModule, exceptionMessage);
+        handleExceptionDialog(thisContext, exceptionInfo);
+    }
+
     private static void handleExceptionDialog(final Context thisContext, final String exceptionInfo) {
         final AlertDialog.Builder exceptionDialog = new AlertDialog.Builder(thisContext);
         exceptionDialog.setTitle(R.string.error);

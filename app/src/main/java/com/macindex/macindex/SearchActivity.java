@@ -131,7 +131,9 @@ public class SearchActivity extends AppCompatActivity {
                     toEditManufacturerResource = R.string.menu_group4;
                     break;
                 default:
-                    Log.e("getOption", "Not a Valid Manufacturer Selection, This should NOT happen!!");
+                    ExceptionHelper.handleExceptionWithDialog(this,
+                            "getOption",
+                            "Not a Valid Manufacturer Selection, This should NOT happen!!");
                     currentManufacturer = "all";
                     toEditManufacturerResource = R.string.menu_group0;
             }
@@ -155,7 +157,9 @@ public class SearchActivity extends AppCompatActivity {
                     toEditOptionResource = R.string.search_idOption;
                     break;
                 default:
-                    Log.e("getOption", "Not a Valid Search Column Selection, This should NOT happen!!");
+                    ExceptionHelper.handleExceptionWithDialog(this,
+                            "getOption",
+                            "Not a Valid Search Column Selection, This should NOT happen!!");
                     currentOption = "sindex";
                     toEditOptionResource = R.string.search_nameOption;
             }
@@ -233,7 +237,9 @@ public class SearchActivity extends AppCompatActivity {
                 legalCharacters = legalCharactersIdentification;
                 break;
             default:
-                Log.e("validate", "Not a Valid Search Method, This should NOT happen!!");
+                ExceptionHelper.handleExceptionWithDialog(this,
+                        "validate",
+                        "Not a Valid Search Method, This should NOT happen!!");
                 legalCharacters = "";
         }
         boolean status = true;

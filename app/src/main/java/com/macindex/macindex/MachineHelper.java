@@ -39,6 +39,9 @@ class MachineHelper {
             95, 96, 97, 98, 99, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999};
     //private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
     //        995, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
+
+    private static final int COLUMNS_COUNT = 0;
+
     /*
      * Category List
      * Category 0: Compact Mac
@@ -124,6 +127,8 @@ class MachineHelper {
     /* Machine ID starts from 0, ends total -1. */
     private int[] categoryIndividualCount;
 
+    private boolean status = true;
+
     /* starts from 0, actual total -1. */
     private int totalMachine = 0;
 
@@ -138,6 +143,11 @@ class MachineHelper {
             categoryIndividualCursor[i] = database.query("category" + CATEGORIES_LIST[i],
                     null, null, null, null, null,
                     null);
+            // SelfCheck
+            if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
+                status = false;
+            }
+
             final int thisCursorCount = categoryIndividualCursor[i].getCount();
             categoryIndividualCount[i] = thisCursorCount;
             totalMachine += thisCursorCount;
@@ -153,7 +163,10 @@ class MachineHelper {
         Log.w("MachineHelper", "Initialized with " + totalMachine + " machines.");
         Log.w("MachineHelper", "Initialized with " + totalConfig + " configurations.");
     }
-    /* SelfCheck was removed since Ver 4.0 */
+
+    boolean selfCheck() {
+        return status;
+    }
 
     void suicide() {
         for (int i = 0; i < CATEGORIES_LIST.length; i++) {
@@ -163,6 +176,7 @@ class MachineHelper {
                         + " closed successfully.");
             }
         }
+        database.close();
     }
 
     // Get the total count of categories
