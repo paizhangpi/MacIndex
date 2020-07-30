@@ -486,7 +486,7 @@ public class MainActivity extends AppCompatActivity {
                     if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                         LinkLoadingHelper.loadLinks(thisName, thisLinks, this);
                     } else {
-                        sendIntent(loadPositions[category], machineID);
+                        SpecsIntentHelper.sendIntent(loadPositions[category], machineID, MainActivity.this);
                     }
                 });
                 currentLayout.addView(mainChunk);
@@ -499,12 +499,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Keep compatible with SearchActivity.
-    private void sendIntent(final int[] thisCategory, final int thisMachineID) {
-        Intent intent = new Intent(this, SpecsActivity.class);
-        intent.putExtra("thisCategory", thisCategory);
-        intent.putExtra("machineID", thisMachineID);
-        startActivity(intent);
-    }
+
 
     private void openRandom() {
         try {
@@ -538,7 +533,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 Log.i("RandomAccess", "Machine ID " + machineID);
-                sendIntent(new int[]{machineID}, machineID);
+                SpecsIntentHelper.sendIntent(new int[]{machineID}, machineID, this);
             }
         } catch (Exception e) {
             ExceptionHelper.handleExceptionWithDialog(this, e);

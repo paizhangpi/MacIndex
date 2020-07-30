@@ -17,30 +17,33 @@ import java.io.FileOutputStream;
 class MachineHelper {
 
     /*
-     * Updating categories (Ver. 4.0)
-     * (1) Update the following number.
-     * (2) Update the MH manufacturer and filter method. Update String resources.
-     * (3) Update the MainActivity and SearchActivity.
-     * (4) Make change to the database / make other changes.
-     * (5) Update the following information.
+     * Updating categories
+     * (1) Update the following array by order.
+     * (2) Update the MH manufacturer method.
+     * (3) Update the MH filter method.
+     * (4) Update String resources.
+     * (5) Update the MainActivity.
+     * (6) Update the SearchActivity.
+     * (7) Make change to the database.
+     * (8) Update the following information.
      *
-     * Updating filters (Ver. 4.0)
-     * (1) Update the MH filter method. Update String resources.
-     * (2) Update the MainActivity and SearchActivity.
-     * (3) Update the following information.
+     * Updating filters
+     * (1) Update the MH filter method.
+     * (2) Update String resources.
+     * (3) Update the MainActivity.
+     * (4) Update the SearchActivity.
+     * (5) Update the following information.
      *
      * Updating columns
      * (1) Update MH to adapt the new column.
-     * (2) Update SpecActivity code and string to get the data.
-     * (3) Add a new column to every table.
+     * (2) Update String resources.
+     * (3) Update SpecActivity to get the data.
+     * (4) Add a new column to every table.
      */
 
-    private static final int[] CATEGORIES_LIST = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 90, 91, 92, 93, 94,
-            95, 96, 97, 98, 99, 990, 991, 992, 993, 994, 995, 996, 997, 998, 999};
-    //private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
-    //        995, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
-
-    private static final int COLUMNS_COUNT = 0;
+    private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
+            995, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
+    private static final int COLUMNS_COUNT = 18;
 
     /*
      * Category List
@@ -146,6 +149,7 @@ class MachineHelper {
             // SelfCheck
             if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
                 status = false;
+                Log.e("MachineHelperInit", "Error found on category " + CATEGORIES_LIST[i]);
             }
 
             final int thisCursorCount = categoryIndividualCursor[i].getCount();
@@ -223,9 +227,14 @@ class MachineHelper {
 
     // Convert Internal Database Category ID to MH Category ID
     private int convertToMHCategoryID(final int toConvert) {
+        // Array out bound bug fix
         int toReturn = 0;
-        toReturn += (String.valueOf(toConvert).length() - 1) * 10;
-        toReturn += toConvert % 10;
+        for (int thisDBCategoryID : CATEGORIES_LIST) {
+            if (toConvert == thisDBCategoryID) {
+                break;
+            }
+            toReturn++;
+        }
         return toReturn;
     }
 
@@ -633,9 +642,9 @@ class MachineHelper {
     // Get category range by manufacturer. Should be updated accordingly.
     private int[] getCategoryRange(final String thisManufacturer) {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
-        final int[] apple68k = {0, 1, 2, 3, 4, 5, 91, 92, 98};
-        final int[] appleppc = {6, 7, 8, 9, 90, 93, 94, 95, 96, 97, 99, 990, 991};
-        final int[] appleintel = {992, 993, 994, 995, 996, 997, 998};
+        final int[] apple68k = {0, 1, 2, 4, 5, 3, 91, 92, 98};
+        final int[] appleppc = {6, 95, 7, 8, 9, 90, 96, 97, 93, 94, 99, 990, 991};
+        final int[] appleintel = {993, 994, 995, 996, 997, 998, 992};
         final int[] applearm = {999};
         switch (thisManufacturer) {
             case "all":
@@ -781,7 +790,7 @@ class MachineHelper {
         for (int j = 0; j < thisCategoryCount; j++) {
             for (int k = 0; k < rawResults[j].length; k++) {
                 finalPositions[previousCount] = findByPosition(new int[] {
-                        getCategoryRange(thisManufacturer)[j], rawResults[j][k]});
+                        thisCategoryRange[j], rawResults[j][k]});
                 previousCount++;
             }
         }

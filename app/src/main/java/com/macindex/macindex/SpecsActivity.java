@@ -233,8 +233,8 @@ public class SpecsActivity extends AppCompatActivity {
             image.setOnClickListener(unused -> {
                 if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
                     // Not playing any sound
-                    if (thisPrefs.getBooleanPrefs("isEnableVolWarningThisTime") &&
-                            thisPrefs.getBooleanPrefs("isEnableVolWarning")) {
+                    if (thisPrefs.getBooleanPrefs("isEnableVolWarningThisTime")
+                            && thisPrefs.getBooleanPrefs("isEnableVolWarning")) {
                         // High Volume Warning Enabled
                         boolean currentOutputDevice = false;
                         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -252,34 +252,40 @@ public class SpecsActivity extends AppCompatActivity {
                                     break;
                                 }
                             }
-                        }
-                        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                        int currentVolumePercentage = 100 * currentVolume/maxVolume;
-                        Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage +
-                                " current output device " + currentOutputDevice);
-                        if (currentVolumePercentage >= 60 && currentOutputDevice) {
-                            Log.i("VolWarning", "Armed");
-                            final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
-                            volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
-                            volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                                // Enabled, and popup a warning
-                                thisPrefs.editPrefs("isEnableVolWarningThisTime", false);
-                                playSound(startupSound, deathSound);
-                            });
-                            volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) ->{
-                                // Do nothing
-                            });
-                            volWarningDialog.show();
+                            int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                            int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                            int currentVolumePercentage = 100 * currentVolume / maxVolume;
+                            Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage
+                                    + " current output device " + currentOutputDevice);
+                            if (currentVolumePercentage >= 60 && currentOutputDevice) {
+                                Log.i("VolWarning", "Armed");
+                                final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
+                                volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
+                                volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                    // Enabled, and popup a warning
+                                    thisPrefs.editPrefs("isEnableVolWarningThisTime", false);
+                                    playSound();
+                                });
+                                volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                    // Do nothing
+                                });
+                                volWarningDialog.show();
+                            } else {
+                                // Enabled, but should not popup a warning
+                                Log.i("VolWarning", "Unarmed");
+                                playSound();
+                            }
                         } else {
-                            // Enabled, but should not popup a warning
-                            Log.i("VolWarning", "Unarmed");
-                            playSound(startupSound, deathSound);
+                            // Enabled, but audio service not available
+                            ExceptionHelper.handleExceptionWithDialog(this,
+                                    "VolWarning",
+                                    "Audio Service Not Available.");
+                            playSound();
                         }
                     } else {
                         // High Volume Warning Disabled
                         Log.i("VolWarning", "Disabled");
-                        playSound(startupSound, deathSound);
+                        playSound();
                     }
                 }
             });
@@ -296,7 +302,7 @@ public class SpecsActivity extends AppCompatActivity {
         }
     }
 
-    private void playSound(MediaPlayer startupSound, MediaPlayer deathSound) {
+    private void playSound() {
         if (startupSound != null) {
             // NullSafe
             if (deathSound != null) {

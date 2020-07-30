@@ -22,7 +22,7 @@ class ExceptionHelper {
                 + "Hardware Brand: " + Build.BRAND + "\n"
                 + "Hardware Model: " + Build.MODEL + "\n"
                 + "Logging Not Applicable" + "\n"
-                + "\n" +"Exception Details:" + "\n" + getStackTrace(thisException);
+                + "\n" + "Exception Details:" + "\n" + getStackTrace(thisException);
         thisException.printStackTrace();
         handleExceptionDialog(thisContext, exceptionInfo);
     }
@@ -34,8 +34,8 @@ class ExceptionHelper {
                 + "Hardware Brand: " + Build.BRAND + "\n"
                 + "Hardware Model: " + Build.MODEL + "\n"
                 + "Log Tag: " + exceptionModule + "\n"
-                + "Log Message: " + exceptionMessage +"\n"
-                + "\n" +"Exception Details:" + "\n" + getStackTrace(thisException);
+                + "Log Message: " + exceptionMessage + "\n"
+                + "\n" + "Exception Details:" + "\n" + getStackTrace(thisException);
         thisException.printStackTrace();
         Log.e(exceptionModule, exceptionMessage);
         handleExceptionDialog(thisContext, exceptionInfo);
@@ -48,8 +48,8 @@ class ExceptionHelper {
                 + "Hardware Brand: " + Build.BRAND + "\n"
                 + "Hardware Model: " + Build.MODEL + "\n"
                 + "Log Tag: " + exceptionModule + "\n"
-                + "Log Message: " + exceptionMessage +"\n"
-                + "\n" +"Exception Detail Not Applicable";
+                + "Log Message: " + exceptionMessage + "\n"
+                + "\n" + "Exception Detail Not Applicable";
         Log.e(exceptionModule, exceptionMessage);
         handleExceptionDialog(thisContext, exceptionInfo);
     }

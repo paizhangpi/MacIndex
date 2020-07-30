@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -194,14 +193,14 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private boolean startSearch(final String s) {
-        Log.i("startSearch", "Current Input: " + s + ", Current Manufacturer: "
+        String searchInput = s.trim();
+        Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
                 + currentManufacturer + ", Current Option: " + currentOption);
         textIllegalInput.setVisibility(View.GONE);
         currentLayout.removeAllViews();
-        String searchInput = s.trim();
         if (!searchInput.equals("")) {
             if (validate(searchInput, currentOption)) {
-                performSearch(s);
+                performSearch(searchInput);
                 return true;
             } else {
                 // Illegal input
@@ -217,6 +216,11 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private boolean validate(final String validateInput, final String method) {
+        // If the input is too long, it is not valid.
+        if (validateInput.length() > 50) {
+            Log.i("validate", "Input is too long!");
+            return false;
+        }
         // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus.
         final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+";
         // Model Number: acceptable search input Aa, Mm, 0~9.
@@ -245,6 +249,7 @@ public class SearchActivity extends AppCompatActivity {
         boolean status = true;
         for (int i = 0; i < validateInput.length(); i++) {
             if (!legalCharacters.contains(String.valueOf(validateInput.charAt(i)))) {
+                Log.i("validate", "Illegal Char Detected!");
                 status = false;
             }
         }
@@ -285,7 +290,7 @@ public class SearchActivity extends AppCompatActivity {
                     if (prefs.getBooleanPrefs("isOpenEveryMac")) {
                         LinkLoadingHelper.loadLinks(thisName, thisLinks, SearchActivity.this);
                     } else {
-                        sendIntent(positions, machineID);
+                        SpecsIntentHelper.sendIntent(positions, machineID, SearchActivity.this);
                     }
                 });
                 currentLayout.addView(mainChunk);
@@ -293,13 +298,5 @@ public class SearchActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleExceptionWithDialog(this, e);
         }
-    }
-
-    // Keep compatible with MainActivity.
-    private void sendIntent(final int[] thisCategory, final int thisMachineID) {
-        final Intent intent = new Intent(this, SpecsActivity.class);
-        intent.putExtra("thisCategory", thisCategory);
-        intent.putExtra("machineID", thisMachineID);
-        startActivity(intent);
     }
 }
