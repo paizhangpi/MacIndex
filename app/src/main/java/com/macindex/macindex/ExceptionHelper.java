@@ -16,42 +16,33 @@ import java.io.StringWriter;
 
 class ExceptionHelper {
 
-    public static void handleExceptionWithDialog(final Context thisContext, final Exception thisException) {
-        final String exceptionInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
-                + "Android Version: " + Build.VERSION.RELEASE + "\n"
-                + "Hardware Brand: " + Build.BRAND + "\n"
-                + "Hardware Model: " + Build.MODEL + "\n"
-                + "Logging Not Applicable" + "\n"
-                + "\n" + "Exception Details:" + "\n" + getStackTrace(thisException);
-        thisException.printStackTrace();
-        handleExceptionDialog(thisContext, exceptionInfo);
-    }
-
-    public static void handleExceptionWithDialog(final Context thisContext, final Exception thisException,
+    public static void handleException(final Context thisContext, final Exception thisException,
                                                  final String exceptionModule, final String exceptionMessage) {
-        final String exceptionInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
-                + "Android Version: " + Build.VERSION.RELEASE + "\n"
-                + "Hardware Brand: " + Build.BRAND + "\n"
-                + "Hardware Model: " + Build.MODEL + "\n"
-                + "Log Tag: " + exceptionModule + "\n"
-                + "Log Message: " + exceptionMessage + "\n"
-                + "\n" + "Exception Details:" + "\n" + getStackTrace(thisException);
-        thisException.printStackTrace();
-        Log.e(exceptionModule, exceptionMessage);
-        handleExceptionDialog(thisContext, exceptionInfo);
-    }
+        if (thisContext != null) {
+            final String basicInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
+                    + "Android Version: " + Build.VERSION.RELEASE + "\n"
+                    + "Hardware Brand: " + Build.BRAND + "\n"
+                    + "Hardware Model: " + Build.MODEL + "\n";
 
-    public static void handleExceptionWithDialog(final Context thisContext,
-                                                 final String exceptionModule, final String exceptionMessage) {
-        final String exceptionInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
-                + "Android Version: " + Build.VERSION.RELEASE + "\n"
-                + "Hardware Brand: " + Build.BRAND + "\n"
-                + "Hardware Model: " + Build.MODEL + "\n"
-                + "Log Tag: " + exceptionModule + "\n"
-                + "Log Message: " + exceptionMessage + "\n"
-                + "\n" + "Exception Detail Not Applicable";
-        Log.e(exceptionModule, exceptionMessage);
-        handleExceptionDialog(thisContext, exceptionInfo);
+            final String exceptionDetails;
+            if (thisException == null) {
+                exceptionDetails = "Exception Detail Not Applicable";
+            } else {
+                thisException.printStackTrace();
+                exceptionDetails = "Exception Details:" + "\n" + getStackTrace(thisException);
+            }
+
+            final String exceptionLog;
+            if (exceptionModule != null && exceptionMessage != null) {
+                Log.e(exceptionModule, exceptionMessage);
+                exceptionLog = "Log Tag: " + exceptionModule + "\n"
+                        + "Log Message: " + exceptionMessage + "\n" + "\n";
+            } else {
+                exceptionLog = "Logging Not Applicable" + "\n" + "\n";
+            }
+
+            handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails);
+        }
     }
 
     private static void handleExceptionDialog(final Context thisContext, final String exceptionInfo) {

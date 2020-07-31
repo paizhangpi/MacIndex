@@ -51,7 +51,7 @@ class LinkLoadingHelper {
                                         .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",")[1], thisContext);
                             } catch (Exception e) {
-                                ExceptionHelper.handleExceptionWithDialog(thisContext, e);
+                                ExceptionHelper.handleException(thisContext, e, null, null);
                             }
                         });
                 linkDialog.setNegativeButton(MainActivity.getRes().getString(R.string.link_cancel),
@@ -61,7 +61,7 @@ class LinkLoadingHelper {
                 linkDialog.show();
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(thisContext, e,
+            ExceptionHelper.handleException(thisContext, e,
                     "loadLinks", "Link loading failed!!");
         }
     }
@@ -73,7 +73,7 @@ class LinkLoadingHelper {
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(thisContext, Uri.parse(url));
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(thisContext, e,
+            ExceptionHelper.handleException(thisContext, e,
                     "startBrowserCustomTabs", "Failed to open " + url);
         }
     }

@@ -9,7 +9,6 @@ import androidx.customview.widget.ViewDragHelper;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.LayoutTransition;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -46,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static MachineHelper machineHelper;
 
-    private static PrefsHelper prefs = null;
-
     private static Resources resources = null;
 
     private DrawerLayout mDrawerLayout = null;
@@ -69,25 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("MacIndex", "Welcome to MacIndex.");
 
-        // Open PrefsHelper
-        prefs = new PrefsHelper(getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE));
-
         resources = getResources();
 
         // If MainActivity Usage is set to not be saved
-        if (!(prefs.getBooleanPrefs("isSaveMainUsage"))) {
-            prefs.clearPrefs("MainTitle");
-            prefs.clearPrefs("thisManufacturer");
-            prefs.clearPrefs("thisFilter");
-            prefs.clearPrefs("ManufacturerMenu");
-            prefs.clearPrefs("FilterMenu");
+        if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
+            PrefsHelper.clearPrefs("MainTitle", this);
+            PrefsHelper.clearPrefs("thisManufacturer", this);
+            PrefsHelper.clearPrefs("thisFilter", this);
+            PrefsHelper.clearPrefs("ManufacturerMenu", this);
+            PrefsHelper.clearPrefs("FilterMenu", this);
         }
 
         // Reset Volume Warning
-        prefs.clearPrefs("isEnableVolWarningThisTime");
+        PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
 
         // If user lunched MacIndex for the first time, a message should show.
-        if (prefs.getBooleanPrefs("isFirstLunch")) {
+        if (PrefsHelper.getBooleanPrefs("isFirstLunch", this)) {
             final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
             firstLunchGreet.setTitle(R.string.information_first_lunch_title);
             firstLunchGreet.setMessage(R.string.information_first_lunch);
@@ -96,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
                 // Cancelled, no action needed.
             });
             firstLunchGreet.show();
-            prefs.editPrefs("isFirstLunch", false);
+            PrefsHelper.editPrefs("isFirstLunch", false, this);
         }
 
-        thisManufacturer = prefs.getStringPrefs("thisManufacturer");
-        thisFilter = prefs.getStringPrefs("thisFilter");
+        thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
+        thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
         // If EveryMac enabled, a message should append.
-        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
             everyMacAppend = getString(R.string.menu_group_everymac);
         } else {
             everyMacAppend = "";
@@ -119,12 +113,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         // If EveryMac enabled, a message should append.
-        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
             everyMacAppend = getString(R.string.menu_group_everymac);
         } else {
             everyMacAppend = "";
         }
-        setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
+        setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", this)) + everyMacAppend);
     }
 
     @Override
@@ -168,13 +162,13 @@ public class MainActivity extends AppCompatActivity {
             // Open MachineHelper
             machineHelper = new MachineHelper(database);
             if (!machineHelper.selfCheck()) {
-                ExceptionHelper.handleExceptionWithDialog(this,
+                ExceptionHelper.handleException(this, null,
                         "MachineHelperInit",
                         "Columns count preset mismatch with actual quantity.");
             }
 
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "initDatabase", "Initialize failed!!");
         }
     }
@@ -202,45 +196,45 @@ public class MainActivity extends AppCompatActivity {
             // Manufacturer 0: all (Default)
             findViewById(R.id.group0MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "all";
-                prefs.editPrefs("thisManufacturer", "all");
-                prefs.editPrefs("ManufacturerMenu", R.id.group0MenuItem);
-                prefs.editPrefs("MainTitle", R.string.menu_group0);
+                PrefsHelper.editPrefs("thisManufacturer", "all", this);
+                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group0MenuItem, this);
+                PrefsHelper.editPrefs("MainTitle", R.string.menu_group0, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 1: apple68k
             findViewById(R.id.group1MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "apple68k";
-                prefs.editPrefs("thisManufacturer", "apple68k");
-                prefs.editPrefs("ManufacturerMenu", R.id.group1MenuItem);
-                prefs.editPrefs("MainTitle", R.string.menu_group1);
+                PrefsHelper.editPrefs("thisManufacturer", "apple68k", this);
+                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group1MenuItem, this);
+                PrefsHelper.editPrefs("MainTitle", R.string.menu_group1, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 2: appleppc
             findViewById(R.id.group2MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleppc";
-                prefs.editPrefs("thisManufacturer", "appleppc");
-                prefs.editPrefs("ManufacturerMenu", R.id.group2MenuItem);
-                prefs.editPrefs("MainTitle", R.string.menu_group2);
+                PrefsHelper.editPrefs("thisManufacturer", "appleppc", this);
+                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group2MenuItem, this);
+                PrefsHelper.editPrefs("MainTitle", R.string.menu_group2, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 3: appleintel
             findViewById(R.id.group3MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleintel";
-                prefs.editPrefs("thisManufacturer", "appleintel");
-                prefs.editPrefs("ManufacturerMenu", R.id.group3MenuItem);
-                prefs.editPrefs("MainTitle", R.string.menu_group3);
+                PrefsHelper.editPrefs("thisManufacturer", "appleintel", this);
+                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group3MenuItem, this);
+                PrefsHelper.editPrefs("MainTitle", R.string.menu_group3, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 4: applearm
             findViewById(R.id.group4MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "applearm";
-                prefs.editPrefs("thisManufacturer", "applearm");
-                prefs.editPrefs("ManufacturerMenu", R.id.group4MenuItem);
-                prefs.editPrefs("MainTitle", R.string.menu_group4);
+                PrefsHelper.editPrefs("thisManufacturer", "applearm", this);
+                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group4MenuItem, this);
+                PrefsHelper.editPrefs("MainTitle", R.string.menu_group4, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -249,24 +243,24 @@ public class MainActivity extends AppCompatActivity {
             // Filter 1: names (Default)
             findViewById(R.id.view1MenuItem).setOnClickListener(view -> {
                 thisFilter = "names";
-                prefs.editPrefs("FilterMenu", R.id.view1MenuItem);
-                prefs.editPrefs("thisFilter", "names");
+                PrefsHelper.editPrefs("FilterMenu", R.id.view1MenuItem, this);
+                PrefsHelper.editPrefs("thisFilter", "names", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Filter 2: processors
             findViewById(R.id.view2MenuItem).setOnClickListener(view -> {
                 thisFilter = "processors";
-                prefs.editPrefs("FilterMenu", R.id.view2MenuItem);
-                prefs.editPrefs("thisFilter", "processors");
+                PrefsHelper.editPrefs("FilterMenu", R.id.view2MenuItem, this);
+                PrefsHelper.editPrefs("thisFilter", "processors", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
             // Filter 3: years
             findViewById(R.id.view3MenuItem).setOnClickListener(view -> {
                 thisFilter = "years";
-                prefs.editPrefs("FilterMenu", R.id.view3MenuItem);
-                prefs.editPrefs("thisFilter", "years");
+                PrefsHelper.editPrefs("FilterMenu", R.id.view3MenuItem, this);
+                PrefsHelper.editPrefs("thisFilter", "years", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -293,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerClosed(@NonNull final View drawerView) {
-                    setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
+                    setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", MainActivity.this)) + everyMacAppend);
                 }
 
                 @Override
@@ -303,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
                         if (manufacturerLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
-                            if (currentChild == findViewById(prefs.getIntPrefs("ManufacturerMenu"))) {
+                            if (currentChild == findViewById(PrefsHelper.getIntPrefs("ManufacturerMenu", MainActivity.this))) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -318,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < filterLayout.getChildCount(); i++) {
                         if (filterLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) filterLayout.getChildAt(i);
-                            if (currentChild == findViewById(prefs.getIntPrefs("FilterMenu"))) {
+                            if (currentChild == findViewById(PrefsHelper.getIntPrefs("FilterMenu", MainActivity.this))) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -329,14 +323,14 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     // If EveryMac enabled, random should be disabled
-                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+                    if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
                         findViewById(R.id.randomMenuItem).setEnabled(false);
                     } else {
                         findViewById(R.id.randomMenuItem).setEnabled(true);
                     }
 
                     // If limit range enabled, a message should append
-                    if (prefs.getBooleanPrefs("isRandomAll")) {
+                    if (PrefsHelper.getBooleanPrefs("isRandomAll", MainActivity.this)) {
                         ((TextView) findViewById(R.id.randomMenuItem))
                                 .setText(getString(R.string.menu_random) + getString(R.string.menu_random_limited));
                     } else {
@@ -353,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
             drawerToggle.syncState();
             setSupportActionBar(mainToolbar);
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "initMenu", "Initialize failed!!");
         }
     }
@@ -386,7 +380,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(getString(prefs.getIntPrefs("MainTitle")) + everyMacAppend);
+            setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", this)) + everyMacAppend);
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             // Fix an animation bug here
@@ -445,7 +439,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    initCategory(categoryChunkLayout, i);
+                    Log.i("initCategory", "Loading category " + i);
+                    machineLoadedCount += SpecsIntentHelper
+                            .initCategory(categoryChunkLayout, loadPositions[i], false, this);
                     categoryContainer.addView(categoryChunk);
                 }
             }
@@ -454,64 +450,24 @@ public class MainActivity extends AppCompatActivity {
                 ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
             }
             // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
-            Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines.");
+            Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "initInterface", "Initialize failed!!");
         }
     }
-
-    private void initCategory(final LinearLayout currentLayout, final int category) {
-        try {
-            for (int i = 0; i < loadPositions[category].length; i++) {
-                final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
-                final TextView machineName = mainChunk.findViewById(R.id.machineName);
-                final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
-                final LinearLayout mainChunkToClick = mainChunk.findViewById(R.id.main_chunk_clickable);
-
-                mainChunk.setVisibility(View.GONE);
-
-                // Adapt MachineHelper.
-                final int machineID = loadPositions[category][i];
-
-                // Find information necessary for interface.
-                final String thisName = machineHelper.getName(machineID);
-                final String thisYear = machineHelper.getYear(machineID);
-                final String thisLinks = machineHelper.getConfig(machineID);
-
-                machineName.setText(thisName);
-                machineYear.setText(thisYear);
-
-                mainChunkToClick.setOnClickListener(unused -> {
-                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                        LinkLoadingHelper.loadLinks(thisName, thisLinks, this);
-                    } else {
-                        SpecsIntentHelper.sendIntent(loadPositions[category], machineID, MainActivity.this);
-                    }
-                });
-                currentLayout.addView(mainChunk);
-                machineLoadedCount++;
-            }
-        } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
-                    "initCategory", "Initialize Category " + category + " failed!!");
-        }
-    }
-
-    // Keep compatible with SearchActivity.
-
 
     private void openRandom() {
         try {
             if (machineHelper.getMachineCount() == 0) {
                 throw new IllegalArgumentException();
             }
-            if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
                 // This should not happen.
                 throw new IllegalStateException();
             } else {
                 int machineID = 0;
-                if (!prefs.getBooleanPrefs("isRandomAll")) {
+                if (!PrefsHelper.getBooleanPrefs("isRandomAll", this)) {
                     // Random All mode.
                     machineID = new Random().nextInt(machineHelper.getMachineCount());
                     Log.i("RandomAccess", "Random All mode, get total " + machineHelper.getMachineCount() + " , ID " + machineID);
@@ -536,7 +492,7 @@ public class MainActivity extends AppCompatActivity {
                 SpecsIntentHelper.sendIntent(new int[]{machineID}, machineID, this);
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleException(this, e, null, null);
         }
     }
 
@@ -548,10 +504,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static MachineHelper getMachineHelper() {
         return machineHelper;
-    }
-
-    public static PrefsHelper getPrefs() {
-        return prefs;
     }
 
     public static Resources getRes() {

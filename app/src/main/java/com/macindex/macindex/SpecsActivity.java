@@ -25,8 +25,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private final PrefsHelper thisPrefs = MainActivity.getPrefs();
-
     private int machineID = -1;
 
     private int[] categoryStartEnd = {};
@@ -68,7 +66,7 @@ public class SpecsActivity extends AppCompatActivity {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             initialize();
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleException(this, e, null, null);
         }
     }
 
@@ -89,14 +87,14 @@ public class SpecsActivity extends AppCompatActivity {
             initSpecs();
             initImage();
             initLinks();
-            if (thisPrefs.getBooleanPrefs("isUseNavButtons") && categoryStartEnd.length > 1) {
+            if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
                 initButtons();
             }
-            if (thisPrefs.getBooleanPrefs("isUseGestures") && categoryStartEnd.length > 1) {
+            if (PrefsHelper.getBooleanPrefs("isUseGestures", this) && categoryStartEnd.length > 1) {
                 initGestures();
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "SpecsInitialize", "Failed, Machine ID " + machineID);
         }
         Log.i("SpecsInitialize", "Machine ID " + machineID);
@@ -121,7 +119,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("releaseSound", "Death sound released");
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "SpecsActivity", "Unable to release sounds.");
         }
     }
@@ -214,7 +212,7 @@ public class SpecsActivity extends AppCompatActivity {
         if (startupID != 0 || deathID != 0) {
             // Set Sound accordingly
             if (startupID != 0 && deathID != 0
-                    && thisPrefs.getBooleanPrefs("isPlayDeathSound")) {
+                    && PrefsHelper.getBooleanPrefs("isPlayDeathSound", this)) {
                 // Startup sound exists, death sound exists, and user prefers both
                 informationLabel.setText(getResources().getString(R.string.information_specs_full));
                 startupSound = MediaPlayer.create(this, startupID);
@@ -233,8 +231,8 @@ public class SpecsActivity extends AppCompatActivity {
             image.setOnClickListener(unused -> {
                 if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
                     // Not playing any sound
-                    if (thisPrefs.getBooleanPrefs("isEnableVolWarningThisTime")
-                            && thisPrefs.getBooleanPrefs("isEnableVolWarning")) {
+                    if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
+                            && PrefsHelper.getBooleanPrefs("isEnableVolWarning", this)) {
                         // High Volume Warning Enabled
                         boolean currentOutputDevice = false;
                         AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -263,7 +261,7 @@ public class SpecsActivity extends AppCompatActivity {
                                 volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
                                 volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                                     // Enabled, and popup a warning
-                                    thisPrefs.editPrefs("isEnableVolWarningThisTime", false);
+                                    PrefsHelper.editPrefs("isEnableVolWarningThisTime", false, this);
                                     playSound();
                                 });
                                 volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
@@ -277,7 +275,7 @@ public class SpecsActivity extends AppCompatActivity {
                             }
                         } else {
                             // Enabled, but audio service not available
-                            ExceptionHelper.handleExceptionWithDialog(this,
+                            ExceptionHelper.handleException(this, null,
                                     "VolWarning",
                                     "Audio Service Not Available.");
                             playSound();
@@ -372,7 +370,7 @@ public class SpecsActivity extends AppCompatActivity {
                 });
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "SpecsActivity", "Unable to init buttons.");
         }
     }
@@ -435,7 +433,7 @@ public class SpecsActivity extends AppCompatActivity {
                 setListenerForView(listenerCanBoth);
             }
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e,
+            ExceptionHelper.handleException(this, e,
                     "SpecsActivity", "Unable to init gestures.");
         }
     }
@@ -463,7 +461,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void refresh() {
         machineID = categoryStartEnd[machineIDPosition];
-        if (MainActivity.getPrefs().getBooleanPrefs("isQuickNav")) {
+        if (PrefsHelper.getBooleanPrefs("isQuickNav", this)) {
             // Old method - not creating a new Activity
             release();
             startup = true;

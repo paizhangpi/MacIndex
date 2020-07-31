@@ -12,7 +12,7 @@
     <string name="setting_deathsound">启用宕机音</string>
     <string name="setting_deathsound_deathsound_description">在参数页面中交替播放启动和宕机音，或仅播放启动音。</string>
     <string name="setting_high_vol_warning">高音量警告</string>
-    <string name="setting_high_vol_warning_description">在参数页面中启动高音量警告。</string>
+    <string name="setting_high_vol_warning_description">在参数页面中启用高音量警告。</string>
     <string name="setting_gestures">启用导航手势</string>
     <string name="setting_gestures_description">在参数页面中启用左右滑动手势以便在不同机型中导航。</string>
     <string name="setting_navbuttons">启用导航按钮</string>
@@ -57,13 +57,13 @@
     <string name="model">型号</string>
     <string name="id">标识符</string>
     <string name="processor">处理器</string>
-    <string name="bus">性能参数</string>
+    <string name="bus">处理器性能</string>
     <string name="graphics">显示卡</string>
     <string name="display">屏幕</string>
     <string name="type">固件信息</string>
     <string name="maxram">内存信息</string>
     <string name="storage">存储</string>
-    <string name="bus_expansion">总线与扩展</string>
+    <string name="bus_expansion">功能与扩展</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>

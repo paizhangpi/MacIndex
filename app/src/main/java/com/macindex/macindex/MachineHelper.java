@@ -42,7 +42,7 @@ class MachineHelper {
      */
 
     private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
-            995, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
+            995, 9990, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
     private static final int COLUMNS_COUNT = 18;
 
     /*
@@ -77,6 +77,7 @@ class MachineHelper {
      * Category 997: MacBook Intel
      * Category 998: MacBook Air Intel
      * Category 999: Mac mini ARM
+     * Category 9990: iMac Pro
      *
      * getSound
      * Available Parameters: 0 Macintosh 128k, mac128, no death sound
@@ -180,7 +181,6 @@ class MachineHelper {
                         + " closed successfully.");
             }
         }
-        database.close();
     }
 
     // Get the total count of categories
@@ -474,6 +474,7 @@ class MachineHelper {
             case "970mp":
                 return R.drawable.powerpc;
             case "p4ht":
+            case "coreduo":
                 return R.drawable.intel;
             case "A12Z":
                 return R.drawable.arm;
@@ -568,6 +569,10 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.intelp4ht;
                     break;
+                case "coreduo":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.intelcoreduo;
+                    break;
                 case "A12Z":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.applea12z;
@@ -644,7 +649,7 @@ class MachineHelper {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
         final int[] apple68k = {0, 1, 2, 4, 5, 3, 91, 92, 98};
         final int[] appleppc = {6, 95, 7, 8, 9, 90, 96, 97, 93, 94, 99, 990, 991};
-        final int[] appleintel = {993, 994, 995, 996, 997, 998, 992};
+        final int[] appleintel = {993, 994, 995, 9990, 996, 997, 998, 992};
         final int[] applearm = {999};
         switch (thisManufacturer) {
             case "all":
@@ -658,7 +663,7 @@ class MachineHelper {
             case "applearm":
                 return applearm;
             default:
-                Log.w("MHRange", "Invalid parameter");
+                Log.e("MHRange", "Invalid parameter");
                 return CATEGORIES_LIST;
         }
     }
@@ -673,7 +678,7 @@ class MachineHelper {
                 "^", ">Macintosh Performa", "&Power Mac",
                 ">iMac", "eMac", ">Mac mini",
                  /* x86 Desktop */
-                "@", "[iMac", "[Mac mini",
+                "@", "[iMac", "[Mac mini", "$iMac",
                  /* ARM Desktop */
                 "#",
                  /* 68K Laptop */
@@ -698,7 +703,7 @@ class MachineHelper {
                 "Power Macintosh", "Macintosh Performa (PPC)", "Power Mac G3/G4/G5",
                 "iMac (PPC)", "eMac", "Mac mini (PPC)",
                  /* x86 Desktop */
-                "Mac Pro", "iMac (x86)", "Mac mini (x86)",
+                "Mac Pro", "iMac (x86)", "Mac mini (x86)", "iMac Pro",
                  /* ARM Desktop */
                 "Mac mini (ARM)",
                  /* 68K Laptop */
@@ -718,7 +723,7 @@ class MachineHelper {
                  /* ARM Server */}};
         final String[][] processors = {{"processor"},
                 {"68000", "68020", "68030", "040", "601", "603", "604", "G3", "G4", "G5",
-                "Pentium", "(Original)", "Duo", "i3", "i5", "i7", "Xeon", "Apple A"},
+                "Pentium", "Core Duo", "Core 2 Duo", "i3", "i5", "i7", "Xeon", "Apple A"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                 "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
                 "PowerPC G5", "Intel Pentium", "Intel Core", "Intel Core 2", "Intel Core i3",
@@ -743,7 +748,7 @@ class MachineHelper {
             default:
                 break;
         }
-        Log.w("MHGetFilter", "Invalid parameters");
+        Log.e("MHGetFilter", "Invalid parameters");
         return names;
     }
 

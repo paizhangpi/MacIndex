@@ -13,8 +13,6 @@ import java.util.Locale;
 
 public class SettingsAboutActivity extends AppCompatActivity {
 
-    private final PrefsHelper prefs = MainActivity.getPrefs();
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +52,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    prefs.clearPrefs();
+                    PrefsHelper.clearPrefs(this);
                     Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
                     finishAffinity();
                 });
@@ -64,7 +62,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 defaultsWarningDialog.show();
             });
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleException(this, e, "AboutInit", "About info initialization failed");
         }
     }
 
@@ -79,25 +77,25 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
         final Switch swVolWarning = findViewById(R.id.switchVolWarning);
 
-        final Boolean everyMacSelection = prefs.getBooleanPrefs("isOpenEveryMac");
+        final Boolean everyMacSelection = PrefsHelper.getBooleanPrefs("isOpenEveryMac", this);
         swEveryMac.setChecked(everyMacSelection);
-        swDeathSound.setChecked(prefs.getBooleanPrefs("isPlayDeathSound"));
-        swGestures.setChecked(prefs.getBooleanPrefs("isUseGestures"));
-        swNavButtons.setChecked(prefs.getBooleanPrefs("isUseNavButtons"));
-        swQuickNav.setChecked(prefs.getBooleanPrefs("isQuickNav"));
-        swRandomAll.setChecked(prefs.getBooleanPrefs("isRandomAll"));
-        swSaveMainUsage.setChecked(prefs.getBooleanPrefs("isSaveMainUsage"));
-        swSaveSearchUsage.setChecked(prefs.getBooleanPrefs("isSaveSearchUsage"));
-        swVolWarning.setChecked(prefs.getBooleanPrefs("isEnableVolWarning"));
+        swDeathSound.setChecked(PrefsHelper.getBooleanPrefs("isPlayDeathSound", this));
+        swGestures.setChecked(PrefsHelper.getBooleanPrefs("isUseGestures", this));
+        swNavButtons.setChecked(PrefsHelper.getBooleanPrefs("isUseNavButtons", this));
+        swQuickNav.setChecked(PrefsHelper.getBooleanPrefs("isQuickNav", this));
+        swRandomAll.setChecked(PrefsHelper.getBooleanPrefs("isRandomAll", this));
+        swSaveMainUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this));
+        swSaveSearchUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this));
+        swVolWarning.setChecked(PrefsHelper.getBooleanPrefs("isEnableVolWarning", this));
 
-        swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isPlayDeathSound", isChecked));
-        swGestures.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseGestures", isChecked));
-        swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isUseNavButtons", isChecked));
-        swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isQuickNav", isChecked));
-        swRandomAll.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isRandomAll", isChecked));
-        swSaveMainUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveMainUsage", isChecked));
-        swSaveSearchUsage.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isSaveSearchUsage", isChecked));
-        swVolWarning.setOnCheckedChangeListener((buttonView, isChecked) -> prefs.editPrefs("isEnableVolWarning", isChecked));
+        swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isPlayDeathSound", isChecked, this));
+        swGestures.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseGestures", isChecked, this));
+        swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseNavButtons", isChecked, this));
+        swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isQuickNav", isChecked, this));
+        swRandomAll.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isRandomAll", isChecked, this));
+        swSaveMainUsage.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSaveMainUsage", isChecked, this));
+        swSaveSearchUsage.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSaveSearchUsage", isChecked, this));
+        swVolWarning.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isEnableVolWarning", isChecked, this));
 
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {
@@ -122,13 +120,13 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 everyMacWarningDialog.setTitle(R.string.setting_defaults_warning_title);
                 everyMacWarningDialog.setMessage(R.string.setting_everymac_warning_content);
                 everyMacWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    prefs.editPrefs("isOpenEveryMac", true);
+                    PrefsHelper.editPrefs("isOpenEveryMac", true, this);
                     initSettings();
                 });
                 everyMacWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> swEveryMac.setChecked(false));
                 everyMacWarningDialog.show();
             } else {
-                prefs.editPrefs("isOpenEveryMac", false);
+                PrefsHelper.editPrefs("isOpenEveryMac", false, this);
                 initSettings();
             }
         });

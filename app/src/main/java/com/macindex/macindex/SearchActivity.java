@@ -17,8 +17,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
 
-    private final PrefsHelper prefs = MainActivity.getPrefs();
-
     private SearchView searchText = null;
 
     private TextView textResult = null;
@@ -43,16 +41,16 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         // If SearchActivity Usage is set to not be saved
-        if (!(prefs.getBooleanPrefs("isSaveSearchUsage"))) {
-            prefs.clearPrefs("searchLastInput");
-            prefs.clearPrefs("searchManufacturer");
-            prefs.clearPrefs("searchOption");
-            prefs.clearPrefs("searchManufacturerSelection");
-            prefs.clearPrefs("searchOptionSelection");
+        if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
+            PrefsHelper.clearPrefs("searchLastInput", this);
+            PrefsHelper.clearPrefs("searchManufacturer", this);
+            PrefsHelper.clearPrefs("searchOption", this);
+            PrefsHelper.clearPrefs("searchManufacturerSelection", this);
+            PrefsHelper.clearPrefs("searchOptionSelection", this);
         }
 
         // If EveryMac enabled, a message should append.
-        if (prefs.getBooleanPrefs("isOpenEveryMac")) {
+        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
             this.setTitle(getString(R.string.menu_search) + getString(R.string.menu_group_everymac));
         } else {
             this.setTitle(R.string.menu_search);
@@ -62,18 +60,18 @@ public class SearchActivity extends AppCompatActivity {
         LayoutTransition layoutTransition = mainLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
-        currentManufacturer = prefs.getStringPrefs("searchManufacturer");
-        currentOption = prefs.getStringPrefs("searchOption");
+        currentManufacturer = PrefsHelper.getStringPrefs("searchManufacturer", this);
+        currentOption = PrefsHelper.getStringPrefs("searchOption", this);
 
         optionsButton = findViewById(R.id.buttonShowFilters);
-        optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
-                + " / " + getString(prefs.getIntPrefs("currentOptionResource")));
+        optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
+                + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
         optionsButton.setOnClickListener(view -> initOptions());
 
         initSearch();
 
         // Init search from last state
-        searchText.setQuery(prefs.getStringPrefs("searchLastInput"), true);
+        searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), true);
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + currentManufacturer + ", Current Option: " + currentOption);
     }
@@ -81,7 +79,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         // Remember last state
-        prefs.editPrefs("searchLastInput", searchText.getQuery().toString());
+        PrefsHelper.editPrefs("searchLastInput", searchText.getQuery().toString(), this);
         super.onDestroy();
     }
 
@@ -96,16 +94,16 @@ public class SearchActivity extends AppCompatActivity {
         //optionsDialog.setTitle(R.string.search_filters);
         optionsDialog.setCancelable(false);
         optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-            optionsButton.setText(getString(prefs.getIntPrefs("currentManufacturerResource"))
-                    + "/" + getString(prefs.getIntPrefs("currentOptionResource")));
+            optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
+                    + "/" + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
             startSearch(searchText.getQuery().toString());
         });
 
         final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
         final RadioGroup manufacturerOptions = optionChunk.findViewById(R.id.groupsOptions);
         final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
-        manufacturerOptions.check(prefs.getIntPrefs("searchManufacturerSelection"));
-        searchOptions.check(prefs.getIntPrefs("searchOptionSelection"));
+        manufacturerOptions.check(PrefsHelper.getIntPrefs("searchManufacturerSelection", this));
+        searchOptions.check(PrefsHelper.getIntPrefs("searchOptionSelection", this));
         manufacturerOptions.setOnCheckedChangeListener((radioGroup, i) -> {
             int toEditManufacturerResource;
             switch (radioGroup.getCheckedRadioButtonId()) {
@@ -130,15 +128,15 @@ public class SearchActivity extends AppCompatActivity {
                     toEditManufacturerResource = R.string.menu_group4;
                     break;
                 default:
-                    ExceptionHelper.handleExceptionWithDialog(this,
+                    ExceptionHelper.handleException(this, null,
                             "getOption",
                             "Not a Valid Manufacturer Selection, This should NOT happen!!");
                     currentManufacturer = "all";
                     toEditManufacturerResource = R.string.menu_group0;
             }
-            prefs.editPrefs("searchManufacturer", currentManufacturer);
-            prefs.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId());
-            prefs.editPrefs("currentManufacturerResource", toEditManufacturerResource);
+            PrefsHelper.editPrefs("searchManufacturer", currentManufacturer, this);
+            PrefsHelper.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId(), this);
+            PrefsHelper.editPrefs("currentManufacturerResource", toEditManufacturerResource, this);
         });
         searchOptions.setOnCheckedChangeListener((radioGroup, i) -> {
             int toEditOptionResource;
@@ -156,15 +154,15 @@ public class SearchActivity extends AppCompatActivity {
                     toEditOptionResource = R.string.search_idOption;
                     break;
                 default:
-                    ExceptionHelper.handleExceptionWithDialog(this,
+                    ExceptionHelper.handleException(this, null,
                             "getOption",
                             "Not a Valid Search Column Selection, This should NOT happen!!");
                     currentOption = "sindex";
                     toEditOptionResource = R.string.search_nameOption;
             }
-            prefs.editPrefs("searchOption", currentOption);
-            prefs.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId());
-            prefs.editPrefs("currentOptionResource", toEditOptionResource);
+            PrefsHelper.editPrefs("searchOption", currentOption, this);
+            PrefsHelper.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId(), this);
+            PrefsHelper.editPrefs("currentOptionResource", toEditOptionResource, this);
         });
 
         optionsDialog.setView(optionChunk);
@@ -241,7 +239,7 @@ public class SearchActivity extends AppCompatActivity {
                 legalCharacters = legalCharactersIdentification;
                 break;
             default:
-                ExceptionHelper.handleExceptionWithDialog(this,
+                ExceptionHelper.handleException(this, null,
                         "validate",
                         "Not a Valid Search Method, This should NOT happen!!");
                 legalCharacters = "";
@@ -268,35 +266,10 @@ public class SearchActivity extends AppCompatActivity {
             } else {
                 textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
             }
-
-            // Largely adapted MainActivity InitCategory. Should update both.
-            for (int position : positions) {
-                final View mainChunk = getLayoutInflater().inflate(R.layout.chunk_main, null);
-                final TextView machineName = mainChunk.findViewById(R.id.machineName);
-                final TextView machineYear = mainChunk.findViewById(R.id.machineYear);
-                final LinearLayout mainChunkToClick = mainChunk.findViewById(R.id.main_chunk_clickable);
-
-                final int machineID = position;
-
-                // Find information necessary for interface.
-                final String thisName = thisMachineHelper.getName(machineID);
-                final String thisYear = thisMachineHelper.getYear(machineID);
-                final String thisLinks = thisMachineHelper.getConfig(machineID);
-
-                machineName.setText(thisName);
-                machineYear.setText(thisYear);
-
-                mainChunkToClick.setOnClickListener(unused -> {
-                    if (prefs.getBooleanPrefs("isOpenEveryMac")) {
-                        LinkLoadingHelper.loadLinks(thisName, thisLinks, SearchActivity.this);
-                    } else {
-                        SpecsIntentHelper.sendIntent(positions, machineID, SearchActivity.this);
-                    }
-                });
-                currentLayout.addView(mainChunk);
-            }
+            Log.i("performSearch", SpecsIntentHelper.initCategory(currentLayout, positions,
+                    true, this) + " Results loaded");
         } catch (Exception e) {
-            ExceptionHelper.handleExceptionWithDialog(this, e);
+            ExceptionHelper.handleException(this, e, null, null);
         }
     }
 }

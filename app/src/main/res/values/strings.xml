@@ -77,13 +77,13 @@
     <string name="model">Model Number</string>
     <string name="id">Identification</string>
     <string name="processor">Processor</string>
-    <string name="bus">Performance</string>
+    <string name="bus">Processor Performance</string>
     <string name="graphics">Graphics</string>
     <string name="display">Display</string>
     <string name="type">ROM Information</string>
     <string name="maxram">RAM Information</string>
     <string name="storage">Storage</string>
-    <string name="bus_expansion">Bus &amp; Expansion</string>
+    <string name="bus_expansion">Feature &amp; Expansion</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>

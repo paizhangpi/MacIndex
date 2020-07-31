@@ -1,5 +1,7 @@
 package com.macindex.macindex;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -75,14 +77,9 @@ class PrefsHelper {
         DEFAULT_VALUES.put("currentOptionResource", R.string.search_nameOption);
     }
 
-    private SharedPreferences prefsFile;
-
-    PrefsHelper(final SharedPreferences thisPrefsFile) {
-        prefsFile = thisPrefsFile;
-    }
-
-    int getIntPrefs(final String thisPrefsName) {
+    public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {
         try {
+            final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof Integer)) {
                 int value = prefsFile.getInt(thisPrefsName, (Integer) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got Int preference " + thisPrefsName
@@ -92,14 +89,14 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Preference Helper", "Unable to get Int preference: " + thisPrefsName);
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to get Int preference: " + thisPrefsName);
             return 0;
         }
     }
 
-    Boolean getBooleanPrefs(final String thisPrefsName) {
+    public static Boolean getBooleanPrefs(final String thisPrefsName, final Context thisContext) {
         try {
+            final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof Boolean)) {
                 Boolean value = prefsFile.getBoolean(thisPrefsName, (Boolean) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got Boolean preference: " + thisPrefsName
@@ -109,14 +106,14 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Preference Helper", "Unable to get Boolean preference: " + thisPrefsName);
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to get Boolean preference: " + thisPrefsName);
             return false;
         }
     }
 
-    String getStringPrefs(final String thisPrefsName) {
+    public static String getStringPrefs(final String thisPrefsName, final Context thisContext) {
         try {
+            final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof String)) {
                 String value = prefsFile.getString(thisPrefsName, (String) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got String preference: " + thisPrefsName
@@ -126,14 +123,14 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Preference Helper", "Unable to get String preference: " + thisPrefsName);
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to get String preference: " + thisPrefsName);
             return null;
         }
     }
 
-    void editPrefs(final String thisPrefsName, final Object thisPrefsValue) {
+    public static void editPrefs(final String thisPrefsName, final Object thisPrefsValue, final Context thisContext) {
         try {
+            final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             if (DEFAULT_VALUES.containsKey(thisPrefsName)) {
                 if (thisPrefsValue instanceof Integer) {
                     if (!(DEFAULT_VALUES.get(thisPrefsName) instanceof Integer)) {
@@ -163,23 +160,23 @@ class PrefsHelper {
                 throw new IllegalArgumentException();
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Preference Helper", "Unable to edit preference "
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper",
+                    "Unable to edit preference "
                     + thisPrefsName + " with value " + thisPrefsValue);
         }
     }
 
-    void clearPrefs(final String thisPrefsName) {
-        editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName));
+    public static void clearPrefs(final String thisPrefsName, final Context thisContext) {
+        editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName), thisContext);
     }
 
-    void clearPrefs() {
+    public static void clearPrefs(final Context thisContext) {
         try {
+            final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             prefsFile.edit().clear().apply();
             Log.w("Preference Helper", "Preference file cleared");
         } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Preference Helper", "Unable to clear preference");
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to clear preference");
         }
     }
 }
