@@ -117,6 +117,27 @@
                 android:layout_weight="1"
                 android:text="@string/search_idOption" />
 
+            <RadioButton
+                android:id="@+id/gestaltOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_gestaltOption" />
+
+            <RadioButton
+                android:id="@+id/orderOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_orderOption" />
+
+            <RadioButton
+                android:id="@+id/emcOption"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_emcOption" />
+
 
         </RadioGroup>
     </LinearLayout>

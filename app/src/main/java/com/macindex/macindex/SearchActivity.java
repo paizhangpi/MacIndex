@@ -142,16 +142,28 @@ public class SearchActivity extends AppCompatActivity {
             int toEditOptionResource;
             switch (radioGroup.getCheckedRadioButtonId()) {
                 case R.id.nameOption:
-                    currentOption = "sindex";
+                    currentOption = "sname";
                     toEditOptionResource = R.string.search_nameOption;
                     break;
                 case R.id.modelOption:
-                    currentOption = "model";
+                    currentOption = "smodel";
                     toEditOptionResource = R.string.search_modelOption;
                     break;
                 case R.id.midOption:
-                    currentOption = "mid";
+                    currentOption = "sident";
                     toEditOptionResource = R.string.search_idOption;
+                    break;
+                case R.id.gestaltOption:
+                    currentOption = "sgestalt";
+                    toEditOptionResource = R.string.search_gestaltOption;
+                    break;
+                case R.id.orderOption:
+                    currentOption = "sorder";
+                    toEditOptionResource = R.string.search_orderOption;
+                    break;
+                case R.id.emcOption:
+                    currentOption = "semc";
+                    toEditOptionResource = R.string.search_emcOption;
                     break;
                 default:
                     ExceptionHelper.handleException(this, null,

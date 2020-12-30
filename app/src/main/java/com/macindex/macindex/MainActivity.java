@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -288,7 +289,11 @@ public class MainActivity extends AppCompatActivity {
             });
             // Online Help
             findViewById(R.id.onlineHelpMenuItem).setOnClickListener(view -> {
-                LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp", MainActivity.this);
+                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp", MainActivity.this);
+                } else {
+                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp/2", MainActivity.this);
+                }
                 mDrawerLayout.closeDrawers();
             });
 

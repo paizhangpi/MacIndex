@@ -37,6 +37,9 @@
     <string name="search_nameOption">按名称</string>
     <string name="search_modelOption">按型号</string>
     <string name="search_idOption">按标识符</string>
+    <string name="search_gestaltOption">按形态标识符</string>
+    <string name="search_orderOption">按订单编号</string>
+    <string name="search_emcOption">按 EMC 编号</string>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
@@ -52,7 +55,7 @@
     <string name="menu_view2">按处理器浏览</string>
     <string name="menu_view3">按年代浏览</string>
     <string name="menu_group">分组筛选</string>
-    <string name="menu_group0">所有分组</string>
+    <string name="menu_group0">所有的 Macintosh</string>
     <string name="menu_group_everymac">（打开 EveryMac）</string>
     <string name="menu">主菜单</string>
     <string name="year">推出时间</string>
@@ -77,7 +80,7 @@
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="error">出错了</string>
-    <string name="error_information">请参考官方网站（paizhang.info/MacIndex）的“常见问题”部分。</string>
+    <string name="error_information">请参考在线帮助的“常见问题”部分。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
     <string name="error_dismiss">关闭</string>

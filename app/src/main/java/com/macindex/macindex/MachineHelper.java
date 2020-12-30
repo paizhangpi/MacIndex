@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.util.Pair;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,44 +42,16 @@ class MachineHelper {
      * (4) Add a new column to every table.
      */
 
-    private static final int[] CATEGORIES_LIST = {0, 1, 2, 4, 5, 3, 6, 95, 7, 8, 9, 90, 993, 994,
-            995, 9990, 999, 91, 92, 96, 97, 93, 94, 996, 997, 998, 98, 99, 990, 991, 992};
-    private static final int COLUMNS_COUNT = 18;
+    private static final String[] CATEGORIES_LIST = {"compact_mac", "mac_ii", "mac_lc", "mac_quadra",
+            "mac_performa_68k", "mac_centris", "mac_server_68k", "powerbook_68k", "powerbook_duo_68k",
+            "power_mac_classic", "mac_performa_ppc", "mac_server_ppc_classic", "powerbook_ppc_classic",
+            "powerbook_duo_ppc", "power_mac", "imac_ppc", "emac", "mac_mini_ppc", "mac_server_ppc",
+            "xserve_ppc", "powerbook_ppc", "ibook", "mac_pro_intel", "imac_intel", "mac_pro_intel",
+            "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel",
+            "mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm", "macbook_pro_arm", "macbook_air_arm"};
+    private static final int COLUMNS_COUNT = 30;
 
     /*
-     * Category List
-     * Category 0: Compact Mac
-     * Category 1: Mac II
-     * Category 2: Mac LC
-     * Category 3: Mac Centris
-     * Category 4: Mac Quadra
-     * Category 5: Mac Performa 68K
-     * Category 6: Power Mac
-     * Category 7: Power Mac G3/G4/G5
-     * Category 8: iMac PPC
-     * Category 9: eMac
-     * Category 90: Mac mini PPC
-     * Category 91: PowerBook 68K
-     * Category 92: PowerBook Duo 68K
-     * Category 93: PowerBook G3/G4/G5
-     * Category 94: iBook
-     * Category 95: Mac Performa PPC
-     * Category 96: PowerBook PPC
-     * Category 97: PowerBook Duo PPC
-     * Category 98: Macintosh Server 68K
-     * Category 99: Macintosh Server PPC
-     * Category 990: Macintosh Server G3/G4/G5
-     * Category 991: Xserve G4/G5
-     * Category 992: Xserve Intel
-     * Category 993: Mac Pro
-     * Category 994: iMac Intel
-     * Category 995: Mac mini Intel
-     * Category 996: MacBook Pro Intel
-     * Category 997: MacBook Intel
-     * Category 998: MacBook Air Intel
-     * Category 999: Mac mini ARM
-     * Category 9990: iMac Pro
-     *
      * getSound
      * Available Parameters: 0 Macintosh 128k, mac128, no death sound
      *                       1 Macintosh II, macii, macii_death
@@ -144,7 +117,7 @@ class MachineHelper {
         categoryIndividualCount = new int[CATEGORIES_LIST.length];
         categoryIndividualCursor = new Cursor[CATEGORIES_LIST.length];
         for (int i = 0; i < CATEGORIES_LIST.length; i++) {
-            categoryIndividualCursor[i] = database.query("category" + CATEGORIES_LIST[i],
+            categoryIndividualCursor[i] = database.query(CATEGORIES_LIST[i],
                     null, null, null, null, null,
                     null);
             // SelfCheck
@@ -226,11 +199,11 @@ class MachineHelper {
     }
 
     // Convert Internal Database Category ID to MH Category ID
-    private int convertToMHCategoryID(final int toConvert) {
+    private int convertToMHCategoryID(final String toConvert) {
         // Array out bound bug fix
         int toReturn = 0;
-        for (int thisDBCategoryID : CATEGORIES_LIST) {
-            if (toConvert == thisDBCategoryID) {
+        for (String thisDBCategoryID : CATEGORIES_LIST) {
+            if (toConvert.equals(thisDBCategoryID)) {
                 break;
             }
             toReturn++;
@@ -238,23 +211,15 @@ class MachineHelper {
         return toReturn;
     }
 
-    // Convert MH Category ID to Internal Database Category ID
-    private int convertToDatabaseCategoryID(final int toConvert) {
-        String toReturn = "";
-        for (int i = 0; i < toConvert / 10; i++) {
-            toReturn = toReturn.concat("9");
-        }
-        toReturn = toReturn.concat(String.valueOf(toConvert % 10));
-        return Integer.parseInt(toReturn);
-    }
+    /* convertToDatabaseCategoryID was removed since Ver. 4.5 */
 
-    // Get machine ID by a specific position.
-    int findByPosition(final int[] thisPosition) {
+    // Get machine ID by a specific position. Updated to adapt String type.
+    int findByPosition(final Pair<String, Integer> thisPosition) {
         int machineID = 0;
-        for (int i = 0; i < convertToMHCategoryID(thisPosition[0]); i++) {
+        for (int i = 0; i < convertToMHCategoryID(thisPosition.first); i++) {
             machineID += categoryIndividualCount[i];
         }
-        return machineID + thisPosition[1];
+        return machineID + thisPosition.second;
     }
 
     // Get config position by this config number. Return null if this config number is invalid.
@@ -371,7 +336,7 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("maxram")));
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("ram")));
     }
 
     String getYear(final int thisMachine) {
@@ -436,7 +401,7 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("type")));
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("rom")));
     }
 
     // Refer to SpecsActivity for a documentation.
@@ -597,15 +562,7 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("mid")));
-    }
-
-    String getBus(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("bus")));
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("ident")));
     }
 
     String getGraphics(final int thisMachine) {
@@ -614,14 +571,6 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("graphics")));
-    }
-
-    String getDisplay(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("display")));
     }
 
     String getExpansion(final int thisMachine) {
@@ -672,6 +621,14 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("design")));
     }
 
+    String getSupport(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("support")));
+    }
+
     // NullSafe
     private static String checkApplicability(final String thisSpec) {
         if (thisSpec == null || thisSpec.equals("N")) {
@@ -682,12 +639,17 @@ class MachineHelper {
     }
 
     // Get category range by manufacturer. Should be updated accordingly.
-    private int[] getCategoryRange(final String thisManufacturer) {
+    private String[] getCategoryRange(final String thisManufacturer) {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
-        final int[] apple68k = {0, 1, 2, 4, 5, 3, 91, 92, 98};
-        final int[] appleppc = {6, 95, 7, 8, 9, 90, 96, 97, 93, 94, 99, 990, 991};
-        final int[] appleintel = {993, 994, 995, 9990, 996, 997, 998, 992};
-        final int[] applearm = {999};
+        final String[] apple68k = {"compact_mac", "mac_ii", "mac_lc", "mac_quadra",
+                "mac_performa_68k", "mac_centris", "mac_server_68k", "powerbook_68k", "powerbook_duo_68k"};
+        final String[] appleppc = {"power_mac_classic", "mac_performa_ppc", "mac_server_ppc_classic",
+                "powerbook_ppc_classic", "powerbook_duo_ppc", "power_mac", "imac_ppc", "emac",
+                "mac_mini_ppc", "mac_server_ppc", "xserve_ppc", "powerbook_ppc", "ibook"};
+        final String[] appleintel = {"mac_pro_intel", "imac_intel", "mac_pro_intel",
+                "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel"};
+        final String[] applearm = {"mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm",
+                "macbook_pro_arm", "macbook_air_arm"};
         switch (thisManufacturer) {
             case "all":
                 return CATEGORIES_LIST;
@@ -707,73 +669,33 @@ class MachineHelper {
 
     // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
     String[][] getFilterString(final String thisFilter) {
-        final String[][] names = {{"sindex"},
-                {/* 68K Desktop */
-                "*Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
-                "<Macintosh Performa", "Macintosh Centris",
-                 /* PPC Desktop */
-                "^", ">Macintosh Performa", "&Power Mac",
-                ">iMac", "eMac", ">Mac mini",
-                 /* x86 Desktop */
-                "@", "[iMac", "[Mac mini", "$iMac",
-                 /* ARM Desktop */
-                "#",
-                 /* 68K Laptop */
-                "<Macintosh Po", "{Macintosh PowerBook Duo",
-                 /* PPC Laptop */
-                ">Macintosh Po", "}Macintosh PowerBook Duo",
-                "PowerBook G", "iBook",
-                 /* x86 Laptop */
-                "MacBook Pro", "[MacBook", "MacBook Air",
-                 /* ARM Laptop */
-                 /* 68K Server */
-                "<Workgroup Server",
-                 /* PPC Server */
-                "`", "Macintosh Server G", ">Xserve",
-                 /* x86 Server */
-                "[Xserve"
-                 /* ARM Server */},
-                {/* 68K Desktop */
-                "Compact Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
-                "Macintosh Performa (68K)", "Macintosh Centris",
-                 /* PPC Desktop */
-                "Power Macintosh", "Macintosh Performa (PPC)", "Power Mac G3/G4/G5",
-                "iMac (PPC)", "eMac", "Mac mini (PPC)",
-                 /* x86 Desktop */
-                "Mac Pro", "iMac (x86)", "Mac mini (x86)", "iMac Pro",
-                 /* ARM Desktop */
-                "Mac mini (ARM)",
-                 /* 68K Laptop */
-                "Macintosh PowerBook (68K)", "Macintosh PowerBook Duo (68K)",
-                 /* PPC Laptop */
-                "Macintosh PowerBook (PPC)", "Macintosh PowerBook Duo (PPC)",
-                "PowerBook G3/G4", "iBook",
-                 /* x86 Laptop */
-                "MacBook Pro", "MacBook", "MacBook Air",
-                 /* ARM Laptop */
-                 /* 68K Server */
-                "Macintosh Server (68K)",
-                 /* PPC Server */
-                 "Macintosh Server (PPC)", "Macintosh Server G3/G4/G5", "Xserve G4/G5",
-                 /* x86 Server */
-                 "Xserve (x86)"
-                 /* ARM Server */}};
-        final String[][] processors = {{"processor"},
-                {"68000", "68020", "68030", "040", "601", "603", "604", "G3", "G4", "G5",
-                "Pentium", "Core Duo", "Core 2 Duo", "i3", "i5", "i7", "Xeon", "Apple A"},
+        final String[][] names = {{"stype"},
+                {"compact_mac", "mac_ii", "mac_lc", "mac_quadra", "mac_performa", "mac_centris",
+                 "mac_server", "power_mac", "imac", "emac", "xserve", "mac_mini", "nmac_pro", "imac_pro",
+                 "powerbook_normal", "powerbook_duo", "ibook", "macbook_pro", "macbook_normal", "macbook_air"},
+                {"Compact Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
+                 "Macintosh Performa", "Macintosh Centris", "Macintosh Server", "Power Macintosh",
+                 "iMac", "eMac", "Xserve", "Mac mini", "Mac Pro", "iMac Pro", "Macintosh PowerBook",
+                 "Macintosh PowerBook Duo", "iBook", "MacBook Pro", "MacBook", "MacBook Air"}};
+        final String[][] processors = {{"sprocessor"},
+                {"68000", "68020", "68030", "68040", "601", "603", "604", "g3", "g4", "g5",
+                 "netburst", "p6", "core", "penryn", "nehalem", "westmere", "snb", "ivb", "haswell",
+                 "broadwell", "skylake", "kabylake", "coffeelake", "a12", "m1"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
-                "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
-                "PowerPC G5", "Intel Pentium", "Intel Core", "Intel Core 2", "Intel Core i3",
-                "Intel Core i5", "Intel Core i7", "Intel Xeon", "Apple Silicon"}};
-        final String[][] years = {{"year"},
+                 "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
+                 "PowerPC G5", "Intel NetBurst", "Intel P6", "Intel Core", "Intel Penryn",
+                 "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge", "Intel Ivy Bridge",
+                 "Intel Haswell", "Intel Broadwell", "Intel Skylake", "Intel Kaby Lake",
+                 "Intel Coffee Lake", "Apple A12", "Apple M1"}};
+        final String[][] years = {{"syear"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
-                "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
-                "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                "2014", "2015", "2016", "2017", "2018", "2019", "2020"},
+                 "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
+                 "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
-                "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
-                "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                "2014", "2015", "2016", "2017", "2018", "2019", "2020"}};
+                 "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
+                 "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020"}};
         Log.i("MHGetFilter", "Get parameters " + thisFilter);
         switch (thisFilter) {
             case "names":
@@ -793,14 +715,14 @@ class MachineHelper {
     int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer) {
         Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
         // Raw results (categoryID/remainders)
-        final int[] thisCategoryRange = getCategoryRange(thisManufacturer);
+        final String[] thisCategoryRange = getCategoryRange(thisManufacturer);
         final int thisCategoryCount = thisCategoryRange.length;
         int[][] rawResults = new int[thisCategoryCount][];
 
         // Setup temp cursor of each category for a query.
         try {
             for (int i = 0; i < thisCategoryCount; i++) {
-                Cursor thisSearchIndividualCursor = database.query("category" + thisCategoryRange[i],
+                Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i],
                         null, columnName + " LIKE ? ",
                         new String[]{"%" + searchInput + "%"},
                         null, null, null);
@@ -831,8 +753,7 @@ class MachineHelper {
         int previousCount = 0;
         for (int j = 0; j < thisCategoryCount; j++) {
             for (int k = 0; k < rawResults[j].length; k++) {
-                finalPositions[previousCount] = findByPosition(new int[] {
-                        thisCategoryRange[j], rawResults[j][k]});
+                finalPositions[previousCount] = findByPosition(new Pair<>(thisCategoryRange[j], rawResults[j][k]));
                 previousCount++;
             }
         }
