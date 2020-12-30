@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -81,19 +82,6 @@ public class MainActivity extends AppCompatActivity {
         // Reset Volume Warning
         PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
 
-        // If user lunched MacIndex for the first time, a message should show.
-        if (PrefsHelper.getBooleanPrefs("isFirstLunch", this)) {
-            final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
-            firstLunchGreet.setTitle(R.string.information_first_lunch_title);
-            firstLunchGreet.setMessage(R.string.information_first_lunch);
-            firstLunchGreet.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class)));
-            firstLunchGreet.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-                // Cancelled, no action needed.
-            });
-            firstLunchGreet.show();
-            PrefsHelper.editPrefs("isFirstLunch", false, this);
-        }
-
         thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
         thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
@@ -107,6 +95,33 @@ public class MainActivity extends AppCompatActivity {
         initDatabase();
         initMenu();
         initInterface();
+
+        // If user lunched MacIndex for the first time, a message should show.
+        if (PrefsHelper.getBooleanPrefs("isFirstLunch", this)) {
+            final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
+            firstLunchGreet.setTitle(R.string.information_first_lunch_title);
+            firstLunchGreet.setMessage(R.string.information_first_lunch);
+            firstLunchGreet.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
+            firstLunchGreet.setCancelable(false);
+            firstLunchGreet.show();
+            PrefsHelper.editPrefs("isFirstLunch", false, this);
+        }
+
+        // If just gone through a major update, we'll need to invalidate prefs file.
+        if (PrefsHelper.getIntPrefs("lastVersionCode", this) != BuildConfig.VERSION_CODE) {
+            Log.w("MacIndex Update", "Version code mismatch ("
+                    + PrefsHelper.getIntPrefs("lastVersionCode", this) + " != " + BuildConfig.VERSION_CODE + ").");
+            final AlertDialog.Builder goneUpdate = new AlertDialog.Builder(this);
+            goneUpdate.setTitle(R.string.information_new_major_version_title);
+            goneUpdate.setMessage(R.string.information_new_major_version);
+            goneUpdate.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                PrefsHelper.invalidatePrefs(MainActivity.this);
+                Toast.makeText(MainActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
+                finishAffinity();
+            });
+            goneUpdate.setCancelable(false);
+            goneUpdate.show();
+        }
     }
 
     @Override

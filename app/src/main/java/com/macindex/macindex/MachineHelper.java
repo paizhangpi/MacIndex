@@ -589,6 +589,14 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("storage")));
     }
 
+    String getGestalt(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("gestalt")));
+    }
+
     String getOrder(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();

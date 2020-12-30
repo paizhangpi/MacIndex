@@ -136,9 +136,11 @@ public class SpecsActivity extends AppCompatActivity {
         final TextView expansion = findViewById(R.id.expansionText);
         final TextView storage = findViewById(R.id.storageText);
         final TextView order = findViewById(R.id.orderText);
+        final TextView gestalt = findViewById(R.id.gestaltText);
         final TextView emc = findViewById(R.id.emcText);
         final TextView software = findViewById(R.id.softwareText);
         final TextView design = findViewById(R.id.designText);
+        final TextView support = findViewById(R.id.supportText);
 
         this.setTitle(thisMachineHelper.getName(machineID));
         name.setText(thisMachineHelper.getName(machineID));
@@ -151,6 +153,12 @@ public class SpecsActivity extends AppCompatActivity {
         graphics.setText(thisMachineHelper.getGraphics(machineID));
         expansion.setText(thisMachineHelper.getExpansion(machineID));
         storage.setText(thisMachineHelper.getStorage(machineID));
+        order.setText(thisMachineHelper.getOrder(machineID));
+        gestalt.setText(thisMachineHelper.getGestalt(machineID));
+        emc.setText(thisMachineHelper.getEMC(machineID));
+        software.setText(thisMachineHelper.getSoftware(machineID));
+        design.setText(thisMachineHelper.getDesign(machineID));
+        support.setText(thisMachineHelper.getSupport(machineID));
 
         /*
            Processor Images dynaLoad.

@@ -459,6 +459,24 @@
                     android:textAlignment="center" />
 
                 <Button
+                    android:id="@+id/buttonInvalidate"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:text="@string/setting_invalidate"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textInvalidateDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/setting_invalidate_decsription"
+                    android:textAlignment="center" />
+
+                <Button
                     android:id="@+id/buttonDefaults"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"

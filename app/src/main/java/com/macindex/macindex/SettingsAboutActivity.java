@@ -36,6 +36,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
             final TextView versionText = findViewById(R.id.versionText);
             final Button textWebsite = findViewById(R.id.buttonWebsite);
             final Button restoreDefaults = findViewById(R.id.buttonDefaults);
+            final Button invalidate = findViewById(R.id.buttonInvalidate);
 
             versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
 
@@ -53,6 +54,21 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs(this);
+                    Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
+                    finishAffinity();
+                });
+                defaultsWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                    // Cancelled, nothing to do.
+                });
+                defaultsWarningDialog.show();
+            });
+
+            invalidate.setOnClickListener(v -> {
+                final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
+                defaultsWarningDialog.setMessage(R.string.setting_invalidate_warning_content);
+                defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    PrefsHelper.invalidatePrefs(this);
                     Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
                     finishAffinity();
                 });

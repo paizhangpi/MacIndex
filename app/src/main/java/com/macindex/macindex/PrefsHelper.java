@@ -40,11 +40,13 @@ class PrefsHelper {
      *
      * (SearchActivity - String) searchLastInput: last search string: ""
      * (SearchActivity - String) searchManufacturer: current selected category filter MH string: "all"
-     * (SearchActivity - String) searchOption: current selected search filter MH string: "sindex"
+     * (SearchActivity - String) searchOption: current selected search filter MH string: "names"
      * (SearchActivity - Int) searchManufacturerSelection: current selected category filter radio button resource: R.id.allGroup
      * (SearchActivity - Int) searchOptionSelection: current selected search filter radio button resource: R.id.nameOption
      * (SearchActivity - Int) currentManufacturerResource: current selected category filter string resource: R.string.menu_group0
      * (SearchActivity - Int) currentOptionResource: R.string.search_nameOption
+     *
+     * (Special - Int) lastVersionCode: last app version code: BuildConfig.VERSION_CODE
      */
     private static final Map<String, Object> DEFAULT_VALUES;
     static {
@@ -70,11 +72,13 @@ class PrefsHelper {
 
         DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchManufacturer", "all");
-        DEFAULT_VALUES.put("searchOption", "sindex");
+        DEFAULT_VALUES.put("searchOption", "sname");
         DEFAULT_VALUES.put("searchManufacturerSelection", R.id.id0Group);
         DEFAULT_VALUES.put("searchOptionSelection", R.id.nameOption);
         DEFAULT_VALUES.put("currentManufacturerResource", R.string.menu_group0);
         DEFAULT_VALUES.put("currentOptionResource", R.string.search_nameOption);
+
+        DEFAULT_VALUES.put("lastVersionCode", BuildConfig.VERSION_CODE);
     }
 
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {
@@ -168,6 +172,28 @@ class PrefsHelper {
 
     public static void clearPrefs(final String thisPrefsName, final Context thisContext) {
         editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName), thisContext);
+    }
+
+    public static void invalidatePrefs(final Context thisContext) {
+        try {
+            clearPrefs("MainTitle", thisContext);
+            clearPrefs("thisManufacturer", thisContext);
+            clearPrefs("thisFilter", thisContext);
+            clearPrefs("ManufacturerMenu", thisContext);
+            clearPrefs("FilterMenu", thisContext);
+            clearPrefs("isEnableVolWarningThisTime", thisContext);
+            clearPrefs("searchLastInput", thisContext);
+            clearPrefs("searchManufacturer", thisContext);
+            clearPrefs("searchOption", thisContext);
+            clearPrefs("searchManufacturerSelection", thisContext);
+            clearPrefs("searchOptionSelection", thisContext);
+            clearPrefs("currentManufacturerResource", thisContext);
+            clearPrefs("currentOptionResource", thisContext);
+            clearPrefs("lastVersionCode", thisContext);
+            Log.w("Preference Helper", "Preference file invalidated");
+        } catch (Exception e) {
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to invalidate preference");
+        }
     }
 
     public static void clearPrefs(final Context thisContext) {
