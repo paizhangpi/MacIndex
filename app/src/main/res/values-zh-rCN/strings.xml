@@ -57,7 +57,7 @@
     <string name="model">型号</string>
     <string name="id">标识符</string>
     <string name="processor">处理器</string>
-    <string name="bus">处理器性能</string>
+    <string name="bus">处理器参数</string>
     <string name="graphics">显示卡</string>
     <string name="display">屏幕</string>
     <string name="type">固件信息</string>

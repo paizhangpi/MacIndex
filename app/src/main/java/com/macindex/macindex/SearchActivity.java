@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
         optionsDialog.setCancelable(false);
         optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
-                    + "/" + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
+                    + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
             startSearch(searchText.getQuery().toString());
         });
 

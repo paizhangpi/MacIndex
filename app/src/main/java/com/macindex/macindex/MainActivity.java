@@ -267,11 +267,20 @@ public class MainActivity extends AppCompatActivity {
 
             // Main Menu
             // SearchActivity Entrance
-            findViewById(R.id.searchMenuItem).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
+            findViewById(R.id.searchMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
             // Random Access
-            findViewById(R.id.randomMenuItem).setOnClickListener(view -> openRandom());
+            findViewById(R.id.randomMenuItem).setOnClickListener(view -> {
+                openRandom();
+                mDrawerLayout.closeDrawers();
+            });
             // SettingsAboutActivity Entrance
-            findViewById(R.id.aboutMenuItem).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class)));
+            findViewById(R.id.aboutMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
 
             // Set a drawer listener to change title and color.
             mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
