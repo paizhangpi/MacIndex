@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -102,6 +103,7 @@ public class SearchActivity extends AppCompatActivity {
         final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
         final RadioGroup manufacturerOptions = optionChunk.findViewById(R.id.groupsOptions);
         final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
+        disableCheck(optionChunk, searchOptions);
         manufacturerOptions.check(PrefsHelper.getIntPrefs("searchManufacturerSelection", this));
         searchOptions.check(PrefsHelper.getIntPrefs("searchOptionSelection", this));
         manufacturerOptions.setOnCheckedChangeListener((radioGroup, i) -> {
@@ -110,22 +112,27 @@ public class SearchActivity extends AppCompatActivity {
                 case R.id.id0Group:
                     currentManufacturer = "all";
                     toEditManufacturerResource = R.string.menu_group0;
+                    disableCheck(optionChunk, searchOptions);
                     break;
                 case R.id.id1Group:
                     currentManufacturer = "apple68k";
                     toEditManufacturerResource = R.string.menu_group1;
+                    disableCheck(optionChunk, searchOptions);
                     break;
                 case R.id.id2Group:
                     currentManufacturer = "appleppc";
                     toEditManufacturerResource = R.string.menu_group2;
+                    disableCheck(optionChunk, searchOptions);
                     break;
                 case R.id.id3Group:
                     currentManufacturer = "appleintel";
                     toEditManufacturerResource = R.string.menu_group3;
+                    disableCheck(optionChunk, searchOptions);
                     break;
                 case R.id.id4Group:
                     currentManufacturer = "applearm";
                     toEditManufacturerResource = R.string.menu_group4;
+                    disableCheck(optionChunk, searchOptions);
                     break;
                 default:
                     ExceptionHelper.handleException(this, null,
@@ -179,6 +186,53 @@ public class SearchActivity extends AppCompatActivity {
 
         optionsDialog.setView(optionChunk);
         optionsDialog.show();
+    }
+
+    private void disableCheck(final View optionChunk, final RadioGroup searchOptions) {
+        final RadioButton identOption = optionChunk.findViewById(R.id.midOption);
+        final RadioButton gestaltOption = optionChunk.findViewById(R.id.gestaltOption);
+        final RadioButton emcOption = optionChunk.findViewById(R.id.emcOption);
+        if (currentManufacturer.equals("apple68k")) {
+            Log.i("SearchHelper", "Disabling Identification and EMC Option");
+            if (currentOption.equals("sident") || currentOption.equals("semc")) {
+                final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
+                disableDialog.setMessage(R.string.search_disable_identification);
+                disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Confirmed
+                });
+                disableDialog.show();
+                searchOptions.check(R.id.gestaltOption);
+                currentOption = "sgestalt";
+                PrefsHelper.editPrefs("searchOption", currentOption, this);
+                PrefsHelper.editPrefs("searchOptionSelection", searchOptions.getCheckedRadioButtonId(), this);
+                PrefsHelper.editPrefs("currentOptionResource", R.string.search_gestaltOption, this);
+            }
+            identOption.setEnabled(false);
+            gestaltOption.setEnabled(true);
+            emcOption.setEnabled(false);
+        } else if (currentManufacturer.equals("appleintel") || currentManufacturer.equals("applearm")) {
+            Log.i("SearchHelper", "Disabling Gestalt ID Option");
+            if (currentOption.equals("sgestalt")) {
+                final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
+                disableDialog.setMessage(R.string.search_disable_gestalt);
+                disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Confirmed
+                });
+                disableDialog.show();
+                searchOptions.check(R.id.midOption);
+                currentOption = "sident";
+                PrefsHelper.editPrefs("searchOption", currentOption, this);
+                PrefsHelper.editPrefs("searchOptionSelection", searchOptions.getCheckedRadioButtonId(), this);
+                PrefsHelper.editPrefs("currentOptionResource", R.string.search_idOption, this);
+            }
+            identOption.setEnabled(true);
+            gestaltOption.setEnabled(false);
+            emcOption.setEnabled(true);
+        } else {
+            identOption.setEnabled(true);
+            gestaltOption.setEnabled(true);
+            emcOption.setEnabled(true);
+        }
     }
 
     private void initSearch() {
@@ -237,18 +291,33 @@ public class SearchActivity extends AppCompatActivity {
         final String legalCharactersModel = "AMam1234567890";
         // Identification: acceptable search input A~Z, a~z, 0~9, comma.
         final String legalCharactersIdentification = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,";
+        // Gestalt: acceptable search input 0~9.
+        final String legalCharactersGestalt = "0123456789";
+        // Order Number: acceptable search input A~Z, a~z, 0~9, /.
+        final String legalCharactersOrder = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,";
+        // EMC Number: acceptable search input Cc, 0~9, -.
+        final String legalCharactersEMC = "Cc0123456789-";
 
         String legalCharacters;
         // update
         switch (method) {
-            case "sindex":
+            case "sname":
                 legalCharacters = legalCharactersName;
                 break;
-            case "model":
+            case "smodel":
                 legalCharacters = legalCharactersModel;
                 break;
-            case "mid":
+            case "sident":
                 legalCharacters = legalCharactersIdentification;
+                break;
+            case "sgestalt":
+                legalCharacters = legalCharactersGestalt;
+                break;
+            case "sorder":
+                legalCharacters = legalCharactersOrder;
+                break;
+            case "semc":
+                legalCharacters = legalCharactersEMC;
                 break;
             default:
                 ExceptionHelper.handleException(this, null,

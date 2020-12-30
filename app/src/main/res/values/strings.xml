@@ -45,6 +45,8 @@
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
     <string name="search_illegal">Invalid Input</string>
+    <string name="search_disable_identification">Old world Macintosh does not have a Identification and EMC Number. Please use the Gestalt ID instead.</string>
+    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead.</string>
     <string name="menu_search">Search</string>
     <string name="menu_search_everymac">EveryMac Lookup</string>
     <string name="menu_random">I\'m Feeling Lucky</string>

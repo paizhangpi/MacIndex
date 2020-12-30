@@ -36,7 +36,7 @@
     <string name="search_searchBy">搜索方式</string>
     <string name="search_nameOption">按名称</string>
     <string name="search_modelOption">按型号</string>
-    <string name="search_idOption">按标识符</string>
+    <string name="search_idOption">按型号标识符</string>
     <string name="search_gestaltOption">按形态标识符</string>
     <string name="search_orderOption">按订单编号</string>
     <string name="search_emcOption">按 EMC 编号</string>
@@ -44,6 +44,8 @@
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
     <string name="search_illegal">无效输入</string>
+    <string name="search_disable_identification">Old world Macintosh 没有型号标识符和 EMC 编号。请以形态标识符代替。</string>
+    <string name="search_disable_gestalt">New world Macintosh 没有形态标识符。请以型号标识符代替。</string>
     <string name="menu_search">搜索</string>
     <string name="menu_search_everymac">EveryMac 查找</string>
     <string name="menu_random">试试手气</string>
