@@ -43,8 +43,10 @@
     <string name="search_results">&#160;result(s)</string>
     <string name="search_illegal">Invalid Input</string>
     <string name="menu_search">Search</string>
+    <string name="menu_search_everymac">EveryMac Lookup</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
+    <string name="menu_help">Online Help</string>
     <string name="menu_about_settings">About and Settings</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Categories</string>
@@ -55,7 +57,7 @@
     <string name="menu_group1" translatable="false">68K Macintosh</string>
     <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
-    <string name="menu_group4" translatable="false">Apple Silicon Macintosh</string>
+    <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu_group_everymac">&#160;(Open EveryMac)</string>
     <string name="menu">Main Menu</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
@@ -76,14 +78,18 @@
     <string name="year">Introduction</string>
     <string name="model">Model Number</string>
     <string name="id">Identification</string>
+    <string name="gestalt">Gestalt ID</string>
+    <string name="order">Order Number</string>
+    <string name="emc">EMC Number</string>
     <string name="processor">Processor</string>
-    <string name="bus">Processor Performance</string>
-    <string name="graphics">Graphics</string>
-    <string name="display">Display</string>
+    <string name="graphics">Graphics &amp; Display</string>
     <string name="type">ROM Information</string>
     <string name="maxram">RAM Information</string>
+    <string name="software">Software Support</string>
     <string name="storage">Storage</string>
     <string name="bus_expansion">Feature &amp; Expansion</string>
+    <string name="design">Design</string>
+    <string name="support">Support Status</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>

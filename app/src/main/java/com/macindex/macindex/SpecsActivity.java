@@ -132,11 +132,13 @@ public class SpecsActivity extends AppCompatActivity {
         final TextView year = findViewById(R.id.yearText);
         final TextView model = findViewById(R.id.modelText);
         final TextView id = findViewById(R.id.idText);
-        final TextView bus = findViewById(R.id.busText);
         final TextView graphics = findViewById(R.id.graphicsText);
-        final TextView display = findViewById(R.id.displayText);
         final TextView expansion = findViewById(R.id.expansionText);
         final TextView storage = findViewById(R.id.storageText);
+        final TextView order = findViewById(R.id.orderText);
+        final TextView emc = findViewById(R.id.emcText);
+        final TextView software = findViewById(R.id.softwareText);
+        final TextView design = findViewById(R.id.designText);
 
         this.setTitle(thisMachineHelper.getName(machineID));
         name.setText(thisMachineHelper.getName(machineID));
@@ -146,9 +148,7 @@ public class SpecsActivity extends AppCompatActivity {
         year.setText(thisMachineHelper.getYear(machineID));
         model.setText(thisMachineHelper.getModel(machineID));
         id.setText(thisMachineHelper.getMid(machineID));
-        bus.setText(thisMachineHelper.getBus(machineID));
         graphics.setText(thisMachineHelper.getGraphics(machineID));
-        display.setText(thisMachineHelper.getDisplay(machineID));
         expansion.setText(thisMachineHelper.getExpansion(machineID));
         storage.setText(thisMachineHelper.getStorage(machineID));
 

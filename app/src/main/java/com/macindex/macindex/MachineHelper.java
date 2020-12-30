@@ -98,14 +98,14 @@ class MachineHelper {
      *                       G3 740, 750, 750cx, 750cxe, 755, 750fx (ppc)
      *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447 (ppc)
      *                       G5 970, 970fx, 970mp (ppc)
-     *                       Apple Silicon A12Z (arm)
+     *                       Apple Silicon A12Z, m1 (arm)
      *                       Intel Pentium p4ht (intel)
      *
      * getProcessorImage
      * Available Parameters: G3 740, 750, 750cx, 750cxe, 755, 750fx
      *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447
      *                       G5 970, 970fx, 970mp
-     *                       Apple Silicon A12Z
+     *                       Apple Silicon A12Z, m1
      *                       Intel Pentium p4ht
      *
      * getCategoryRange
@@ -477,6 +477,7 @@ class MachineHelper {
             case "coreduo":
                 return R.drawable.intel;
             case "A12Z":
+            case "m1":
                 return R.drawable.arm;
             default:
                 Log.i("MHGetProcessorImageType", "No processor image for ID " + thisProcessorImage);
@@ -577,6 +578,10 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.applea12z;
                     break;
+                case "m1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applem1;
+                    break;
                 default:
                     Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
                     toReturn[i] = new int[1];
@@ -633,6 +638,38 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("storage")));
+    }
+
+    String getOrder(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("order")));
+    }
+
+    String getEMC(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("emc")));
+    }
+
+    String getSoftware(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("software")));
+    }
+
+    String getDesign(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("design")));
     }
 
     // NullSafe

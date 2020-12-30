@@ -274,6 +274,22 @@
                                 android:background="?android:attr/listDivider" />
 
                             <TextView
+                                android:id="@+id/everymacSearchMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_search_everymac"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
                                 android:id="@+id/randomMenuItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -298,6 +314,22 @@
                                 android:focusable="true"
                                 android:padding="10dp"
                                 android:text="@string/menu_about_settings"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
+                                android:id="@+id/onlineHelpMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_help"
                                 android:textSize="16sp" />
 
                             <View

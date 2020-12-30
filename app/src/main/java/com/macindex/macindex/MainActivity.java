@@ -271,6 +271,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 mDrawerLayout.closeDrawers();
             });
+            // Search on EveryMac
+            findViewById(R.id.everymacSearchMenuItem).setOnClickListener(view -> {
+                LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", MainActivity.this);
+                mDrawerLayout.closeDrawers();
+            });
             // Random Access
             findViewById(R.id.randomMenuItem).setOnClickListener(view -> {
                 openRandom();
@@ -279,6 +284,11 @@ public class MainActivity extends AppCompatActivity {
             // SettingsAboutActivity Entrance
             findViewById(R.id.aboutMenuItem).setOnClickListener(view -> {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
+            // Online Help
+            findViewById(R.id.onlineHelpMenuItem).setOnClickListener(view -> {
+                LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp", MainActivity.this);
                 mDrawerLayout.closeDrawers();
             });
 
