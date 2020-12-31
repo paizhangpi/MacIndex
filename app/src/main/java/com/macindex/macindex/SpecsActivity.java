@@ -6,6 +6,7 @@ import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -161,13 +162,22 @@ public class SpecsActivity extends AppCompatActivity {
             design.setText(thisMachineHelper.getDesign(machineID));
             support.setText(thisMachineHelper.getSupport(machineID));
 
-        /*
-           Processor Images dynaLoad.
+            // Set Support Box Text Color.
+            if (support.getText().equals("Obsolete")) {
+                support.setTextColor(Color.RED);
+            } else if (support.getText().equals("Vintage")) {
+                support.setTextColor(Color.YELLOW);
+            } else if (support.getText().equals("Supported")) {
+                support.setTextColor(Color.GREEN);
+            }
 
-           (1) Try getting type image. Will load if the type image is present.
-           (2) Try getting specific image. Will load if specific image(s) is/are present.
-           (3) No action. The case is not applicable for both loading process.
-         */
+            /*
+                Processor Images dynaLoad.
+
+                (1) Try getting type image. Will load if the type image is present.
+                (2) Try getting specific image. Will load if specific image(s) is/are present.
+                (3) No action. The case is not applicable for both loading process.
+            */
             final LinearLayout processorTypeImageLayout = findViewById(R.id.processorTypeImageLayout);
             final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
             final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);

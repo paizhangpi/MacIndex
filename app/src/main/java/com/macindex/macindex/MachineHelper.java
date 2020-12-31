@@ -66,20 +66,14 @@ class MachineHelper {
      *                       PB Old World PowerPC PowerBook, powermac(s), maclc_death(s)
      *                       N no startup sound, no death sound
      *
-     * getProcessorTypeImage
+     * Processor Image
      * Available Parameters: 68k, ppc
      *                       G3 740, 750, 750cx, 750cxe, 755, 750fx (ppc)
      *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447 (ppc)
      *                       G5 970, 970fx, 970mp (ppc)
      *                       Apple Silicon A12Z, m1 (arm)
-     *                       Intel Pentium p4ht (intel)
-     *
-     * getProcessorImage
-     * Available Parameters: G3 740, 750, 750cx, 750cxe, 755, 750fx
-     *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447
-     *                       G5 970, 970fx, 970mp
-     *                       Apple Silicon A12Z, m1
-     *                       Intel Pentium p4ht
+     *                       Intel Pentium p4ht, coreduo, core2duo, core2ex
+     *                       corei5, corei7, corei3_1, corei5_1, corei7_1, corei5_2, corei7_2(intel)
      *
      * getCategoryRange
      * Available Manufacturer(Group) Strings: all, apple68k, appleppc, appleintel, applearm
@@ -440,6 +434,15 @@ class MachineHelper {
                 return R.drawable.powerpc;
             case "p4ht":
             case "coreduo":
+            case "core2duo":
+            case "core2ex":
+            case "corei5":
+            case "corei7":
+            case "corei3_1":
+            case "corei5_1":
+            case "corei7_1":
+            case "corei5_2":
+            case "corei7_2":
                 return R.drawable.intel;
             case "A12Z":
             case "m1":
@@ -538,6 +541,42 @@ class MachineHelper {
                 case "coreduo":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.intelcoreduo;
+                    break;
+                case "core2duo":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.core2duo;
+                    break;
+                case "core2ex":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.core2ex;
+                    break;
+                case "corei5":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5;
+                    break;
+                case "corei7":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7;
+                    break;
+                case "corei3_1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei3_1;
+                    break;
+                case "corei5_1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_1;
+                    break;
+                case "corei7_1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_1;
+                    break;
+                case "corei5_2":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_2;
+                    break;
+                case "corei7_2":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_2;
                     break;
                 case "A12Z":
                     toReturn[i] = new int[1];
@@ -687,7 +726,7 @@ class MachineHelper {
     String[][] getFilterString(final String thisFilter) {
         final String[][] names = {{"stype"},
                 {"compact_mac", "mac_ii", "mac_lc", "mac_quadra", "mac_performa", "mac_centris",
-                 "mac_server", "power_mac", "imac", "emac", "xserve", "mac_mini", "nmac_pro", "imac_pro",
+                 "mac_server", "power_mac", "imac_normal", "emac", "xserve", "mac_mini", "nmac_pro", "imac_pro",
                  "powerbook_normal", "powerbook_duo", "ibook", "macbook_pro", "macbook_normal", "macbook_air"},
                 {"Compact Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
                  "Macintosh Performa", "Macintosh Centris", "Macintosh Server", "Power Macintosh",
