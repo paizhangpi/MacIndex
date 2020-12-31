@@ -5,7 +5,7 @@
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
-    <string name="information_first_lunch">您好！这是一个测试版本。</string>
+    <string name="information_first_lunch">自古至今，融于掌中。打开抽屉来探索更多。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
     <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的设置将保留。 在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
@@ -34,7 +34,7 @@
     <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括使用记录和设置。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
     <string name="setting_website">官方网站</string>
-    <string name="setting_website_decsription">鸣谢，软件更新，Bug 反馈，以及评论</string>
+    <string name="setting_website_decsription">查看鸣谢信息，软件更新，Bug 反馈，以及评论</string>
     <string name="setting_saved">设置已保存</string>
     <string name="search_searchBy">搜索方式</string>
     <string name="search_nameOption">按名称</string>
@@ -91,4 +91,5 @@
     <string name="error_dismiss">关闭</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
+    <string name="get_started">开始使用</string>
 </resources>

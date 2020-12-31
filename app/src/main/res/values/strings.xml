@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, 2019, 2020, 2021\npaizhang.info/MacIndex</string>
+    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, Mation Wang\n2019, 2020, 2021\npaizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_specs_high_vol_warning">The current volume is high. Do you want to continue playing?\n Select \"Confirm\" to turn this warning off temporarily.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
-    <string name="information_first_lunch">Hi there! This is a beta version.</string>
+    <string name="information_first_lunch">Antique to advanced, history in your hand. Open the drawer to access more.</string>
     <string name="information_new_major_version_title">MacIndex Update</string>
     <string name="information_new_major_version">Sorry, a preference file invalidate is necessary after a major update. Your usage record parameters that mainly used by the program will be cleared, but your settings will be kept. After you confirm, MacIndex will quit. Then you can use it normally.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
@@ -111,4 +111,5 @@
     <string name="error_dismiss">Dismiss</string>
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
+    <string name="get_started">Get Started</string>
 </resources>

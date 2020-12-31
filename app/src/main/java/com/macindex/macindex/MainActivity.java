@@ -101,8 +101,7 @@ public class MainActivity extends AppCompatActivity {
             final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
             firstLunchGreet.setTitle(R.string.information_first_lunch_title);
             firstLunchGreet.setMessage(R.string.information_first_lunch);
-            firstLunchGreet.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
-            firstLunchGreet.setCancelable(false);
+            firstLunchGreet.setPositiveButton(R.string.get_started, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
             firstLunchGreet.show();
             PrefsHelper.editPrefs("isFirstLunch", false, this);
         }
