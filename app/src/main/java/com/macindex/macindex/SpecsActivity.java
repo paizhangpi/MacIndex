@@ -125,40 +125,41 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     private void initSpecs() {
-        final TextView name = findViewById(R.id.nameText);
-        final TextView type = findViewById(R.id.typeText);
-        final TextView processor = findViewById(R.id.processorText);
-        final TextView maxram = findViewById(R.id.maxramText);
-        final TextView year = findViewById(R.id.yearText);
-        final TextView model = findViewById(R.id.modelText);
-        final TextView id = findViewById(R.id.idText);
-        final TextView graphics = findViewById(R.id.graphicsText);
-        final TextView expansion = findViewById(R.id.expansionText);
-        final TextView storage = findViewById(R.id.storageText);
-        final TextView order = findViewById(R.id.orderText);
-        final TextView gestalt = findViewById(R.id.gestaltText);
-        final TextView emc = findViewById(R.id.emcText);
-        final TextView software = findViewById(R.id.softwareText);
-        final TextView design = findViewById(R.id.designText);
-        final TextView support = findViewById(R.id.supportText);
+        try {
+            final TextView name = findViewById(R.id.nameText);
+            final TextView type = findViewById(R.id.typeText);
+            final TextView processor = findViewById(R.id.processorText);
+            final TextView maxram = findViewById(R.id.maxramText);
+            final TextView year = findViewById(R.id.yearText);
+            final TextView model = findViewById(R.id.modelText);
+            final TextView id = findViewById(R.id.idText);
+            final TextView graphics = findViewById(R.id.graphicsText);
+            final TextView expansion = findViewById(R.id.expansionText);
+            final TextView storage = findViewById(R.id.storageText);
+            final TextView order = findViewById(R.id.orderText);
+            final TextView gestalt = findViewById(R.id.gestaltText);
+            final TextView emc = findViewById(R.id.emcText);
+            final TextView software = findViewById(R.id.softwareText);
+            final TextView design = findViewById(R.id.designText);
+            final TextView support = findViewById(R.id.supportText);
 
-        this.setTitle(thisMachineHelper.getName(machineID));
-        name.setText(thisMachineHelper.getName(machineID));
-        type.setText(thisMachineHelper.getType(machineID));
-        processor.setText(thisMachineHelper.getProcessor(machineID));
-        maxram.setText(thisMachineHelper.getMaxRam(machineID));
-        year.setText(thisMachineHelper.getYear(machineID));
-        model.setText(thisMachineHelper.getModel(machineID));
-        id.setText(thisMachineHelper.getMid(machineID));
-        graphics.setText(thisMachineHelper.getGraphics(machineID));
-        expansion.setText(thisMachineHelper.getExpansion(machineID));
-        storage.setText(thisMachineHelper.getStorage(machineID));
-        order.setText(thisMachineHelper.getOrder(machineID));
-        gestalt.setText(thisMachineHelper.getGestalt(machineID));
-        emc.setText(thisMachineHelper.getEMC(machineID));
-        software.setText(thisMachineHelper.getSoftware(machineID));
-        design.setText(thisMachineHelper.getDesign(machineID));
-        support.setText(thisMachineHelper.getSupport(machineID));
+            this.setTitle(thisMachineHelper.getName(machineID));
+            name.setText(thisMachineHelper.getName(machineID));
+            type.setText(thisMachineHelper.getType(machineID));
+            processor.setText(thisMachineHelper.getProcessor(machineID));
+            maxram.setText(thisMachineHelper.getMaxRam(machineID));
+            year.setText(thisMachineHelper.getYear(machineID));
+            model.setText(thisMachineHelper.getModel(machineID));
+            id.setText(thisMachineHelper.getMid(machineID));
+            graphics.setText(thisMachineHelper.getGraphics(machineID));
+            expansion.setText(thisMachineHelper.getExpansion(machineID));
+            storage.setText(thisMachineHelper.getStorage(machineID));
+            order.setText(thisMachineHelper.getOrder(machineID));
+            gestalt.setText(thisMachineHelper.getGestalt(machineID));
+            emc.setText(thisMachineHelper.getEMC(machineID));
+            software.setText(thisMachineHelper.getSoftware(machineID));
+            design.setText(thisMachineHelper.getDesign(machineID));
+            support.setText(thisMachineHelper.getSupport(machineID));
 
         /*
            Processor Images dynaLoad.
@@ -167,161 +168,175 @@ public class SpecsActivity extends AppCompatActivity {
            (2) Try getting specific image. Will load if specific image(s) is/are present.
            (3) No action. The case is not applicable for both loading process.
          */
-        final LinearLayout processorTypeImageLayout = findViewById(R.id.processorTypeImageLayout);
-        final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
-        final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);
-        final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
-        final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
+            final LinearLayout processorTypeImageLayout = findViewById(R.id.processorTypeImageLayout);
+            final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
+            final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);
+            final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
+            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
 
-        // Default states are all hidden.
-        processorTypeImageLayout.setVisibility(View.GONE);
-        processorImageLayoutContainer.setVisibility(View.GONE);
+            // Default states are all hidden.
+            processorTypeImageLayout.setVisibility(View.GONE);
+            processorImageLayoutContainer.setVisibility(View.GONE);
 
-        final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
-        if (processorTypeImageRes != 0) {
-            // Got type image. Now loading.
-            processorTypeImageLayout.setVisibility(View.VISIBLE);
-            processorTypeImage.setImageResource(processorTypeImageRes);
-        }
-        if (processorImageRes[0][0] != 0) {
-            // Got specific images. Now loading.
-            processorImageLayoutContainer.setVisibility(View.VISIBLE);
-            // Clear all existing children.
-            processorImages.removeAllViews();
-            for (int[] processorImageResGroup : processorImageRes) {
-                for (final int thisProcessorImageRes : processorImageResGroup) {
-                    final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
-                    final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
-                    thisProcessorImage.setImageResource(thisProcessorImageRes);
-                    processorImages.addView(imageChunk);
-                }
+            final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
+            if (processorTypeImageRes != 0) {
+                // Got type image. Now loading.
+                processorTypeImageLayout.setVisibility(View.VISIBLE);
+                processorTypeImage.setImageResource(processorTypeImageRes);
             }
-            // Remove the last space.
-            ((LinearLayout) processorImages.getChildAt(processorImages.getChildCount() - 1)).removeViewAt(1);
+            if (processorImageRes[0][0] != 0) {
+                // Got specific images. Now loading.
+                processorImageLayoutContainer.setVisibility(View.VISIBLE);
+                // Clear all existing children.
+                processorImages.removeAllViews();
+                for (int[] processorImageResGroup : processorImageRes) {
+                    for (final int thisProcessorImageRes : processorImageResGroup) {
+                        final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
+                        final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
+                        thisProcessorImage.setImageResource(thisProcessorImageRes);
+                        processorImages.addView(imageChunk);
+                    }
+                }
+                // Remove the last space.
+                ((LinearLayout) processorImages.getChildAt(processorImages.getChildCount() - 1)).removeViewAt(1);
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e,
+                    "initSpecs", "Failed, Machine ID " + machineID);
         }
     }
 
     private void initImage() {
-        // Init image
-        final ImageView image = findViewById(R.id.pic);
-        final File imageFile = thisMachineHelper.getPicture(machineID);
-        if (imageFile.exists()) {
-            Log.i("SpecsAct", "Image exists");
-            image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getPath()));
-        }
-        imageFile.delete();
-
-        // Init startup and death sound
-        final int[] sound = thisMachineHelper.getSound(machineID);
-        final int startupID = sound[0];
-        final int deathID = sound[1];
-        final TextView informationLabel = findViewById(R.id.information);
-
-        if (startupID != 0 || deathID != 0) {
-            // Set Sound accordingly
-            if (startupID != 0 && deathID != 0
-                    && PrefsHelper.getBooleanPrefs("isPlayDeathSound", this)) {
-                // Startup sound exists, death sound exists, and user prefers both
-                informationLabel.setText(getResources().getString(R.string.information_specs_full));
-                startupSound = MediaPlayer.create(this, startupID);
-                deathSound = MediaPlayer.create(this, deathID);
-                Log.i("InitSound", "Startup and death sound loaded");
-            } else {
-                // Startup sound exists, death sound not exist
-                // Fix IllegalStateException
-                informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
-                startupSound = MediaPlayer.create(this, startupID);
-                deathSound = null;
-                Log.i("InitSound", "Startup sound loaded");
+        try {
+            // Init image
+            final ImageView image = findViewById(R.id.pic);
+            final File imageFile = thisMachineHelper.getPicture(machineID);
+            if (imageFile.exists()) {
+                Log.i("SpecsAct", "Image exists");
+                image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getPath()));
             }
-            informationLabel.setVisibility(View.VISIBLE);
-            // Should set a listener
-            image.setOnClickListener(unused -> {
-                if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
-                    // Not playing any sound
-                    if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
-                            && PrefsHelper.getBooleanPrefs("isEnableVolWarning", this)) {
-                        // High Volume Warning Enabled
-                        boolean currentOutputDevice = false;
-                        AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-                        if (audioManager != null) {
-                            for (AudioDeviceInfo deviceInfo : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
-                                final int thisType = deviceInfo.getType();
-                                Log.i("VolWarning", "Get type " + thisType);
-                                if (thisType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
-                                        || thisType == AudioDeviceInfo.TYPE_WIRED_HEADSET
-                                        || thisType == AudioDeviceInfo.TYPE_USB_HEADSET
-                                        || thisType == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
-                                        || thisType == AudioDeviceInfo.TYPE_HEARING_AID) {
-                                    Log.i("VolWarning", "Earphone detected");
-                                    currentOutputDevice = true;
-                                    break;
+            imageFile.delete();
+
+            // Init startup and death sound
+            final int[] sound = thisMachineHelper.getSound(machineID);
+            final int startupID = sound[0];
+            final int deathID = sound[1];
+            final TextView informationLabel = findViewById(R.id.information);
+
+            if (startupID != 0 || deathID != 0) {
+                // Set Sound accordingly
+                if (startupID != 0 && deathID != 0
+                        && PrefsHelper.getBooleanPrefs("isPlayDeathSound", this)) {
+                    // Startup sound exists, death sound exists, and user prefers both
+                    informationLabel.setText(getResources().getString(R.string.information_specs_full));
+                    startupSound = MediaPlayer.create(this, startupID);
+                    deathSound = MediaPlayer.create(this, deathID);
+                    Log.i("InitSound", "Startup and death sound loaded");
+                } else {
+                    // Startup sound exists, death sound not exist
+                    // Fix IllegalStateException
+                    informationLabel.setText(getResources().getString(R.string.information_specs_no_death));
+                    startupSound = MediaPlayer.create(this, startupID);
+                    deathSound = null;
+                    Log.i("InitSound", "Startup sound loaded");
+                }
+                informationLabel.setVisibility(View.VISIBLE);
+                // Should set a listener
+                image.setOnClickListener(unused -> {
+                    if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
+                        // Not playing any sound
+                        if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
+                                && PrefsHelper.getBooleanPrefs("isEnableVolWarning", this)) {
+                            // High Volume Warning Enabled
+                            boolean currentOutputDevice = false;
+                            AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                            if (audioManager != null) {
+                                for (AudioDeviceInfo deviceInfo : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
+                                    final int thisType = deviceInfo.getType();
+                                    Log.i("VolWarning", "Get type " + thisType);
+                                    if (thisType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+                                            || thisType == AudioDeviceInfo.TYPE_WIRED_HEADSET
+                                            || thisType == AudioDeviceInfo.TYPE_USB_HEADSET
+                                            || thisType == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
+                                            || thisType == AudioDeviceInfo.TYPE_HEARING_AID) {
+                                        Log.i("VolWarning", "Earphone detected");
+                                        currentOutputDevice = true;
+                                        break;
+                                    }
                                 }
-                            }
-                            int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                            int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                            int currentVolumePercentage = 100 * currentVolume / maxVolume;
-                            Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage
-                                    + " current output device " + currentOutputDevice);
-                            if (currentVolumePercentage >= 60 && currentOutputDevice) {
-                                Log.i("VolWarning", "Armed");
-                                final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
-                                volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
-                                volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                                    // Enabled, and popup a warning
-                                    PrefsHelper.editPrefs("isEnableVolWarningThisTime", false, this);
+                                int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                                int currentVolumePercentage = 100 * currentVolume / maxVolume;
+                                Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage
+                                        + " current output device " + currentOutputDevice);
+                                if (currentVolumePercentage >= 60 && currentOutputDevice) {
+                                    Log.i("VolWarning", "Armed");
+                                    final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
+                                    volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
+                                    volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                        // Enabled, and popup a warning
+                                        PrefsHelper.editPrefs("isEnableVolWarningThisTime", false, this);
+                                        playSound();
+                                    });
+                                    volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                        // Do nothing
+                                    });
+                                    volWarningDialog.show();
+                                } else {
+                                    // Enabled, but should not popup a warning
+                                    Log.i("VolWarning", "Unarmed");
                                     playSound();
-                                });
-                                volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-                                    // Do nothing
-                                });
-                                volWarningDialog.show();
+                                }
                             } else {
-                                // Enabled, but should not popup a warning
-                                Log.i("VolWarning", "Unarmed");
+                                // Enabled, but audio service not available
+                                ExceptionHelper.handleException(this, null,
+                                        "VolWarning",
+                                        "Audio Service Not Available.");
                                 playSound();
                             }
                         } else {
-                            // Enabled, but audio service not available
-                            ExceptionHelper.handleException(this, null,
-                                    "VolWarning",
-                                    "Audio Service Not Available.");
+                            // High Volume Warning Disabled
+                            Log.i("VolWarning", "Disabled");
                             playSound();
                         }
-                    } else {
-                        // High Volume Warning Disabled
-                        Log.i("VolWarning", "Disabled");
-                        playSound();
                     }
-                }
-            });
-            image.setClickable(true);
-        } else {
-            // Exception for PowerBook DuoDock...
-            // Fix IllegalStateException
-            startupSound = null;
-            deathSound = null;
-            Log.i("InitSound", "Startup and death sound do not exist");
-            image.setOnClickListener(null);
-            image.setClickable(false);
-            informationLabel.setVisibility(View.GONE);
+                });
+                image.setClickable(true);
+            } else {
+                // Exception for PowerBook DuoDock...
+                // Fix IllegalStateException
+                startupSound = null;
+                deathSound = null;
+                Log.i("InitSound", "Startup and death sound do not exist");
+                image.setOnClickListener(null);
+                image.setClickable(false);
+                informationLabel.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e,
+                    "initImage", "Failed, Machine ID " + machineID);
         }
     }
 
     private void playSound() {
-        if (startupSound != null) {
-            // NullSafe
-            if (deathSound != null) {
-                if (startup) {
-                    startupSound.start();
-                    startup = false;
+        try {
+            if (startupSound != null) {
+                // NullSafe
+                if (deathSound != null) {
+                    if (startup) {
+                        startupSound.start();
+                        startup = false;
+                    } else {
+                        deathSound.start();
+                        startup = true;
+                    }
                 } else {
-                    deathSound.start();
-                    startup = true;
+                    startupSound.start();
                 }
-            } else {
-                startupSound.start();
             }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e,
+                    "playSound", "Unable to play sound.");
         }
     }
 
