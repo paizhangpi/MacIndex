@@ -311,6 +311,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mDrawerLayout.closeDrawers();
             });
+            // Website
+            findViewById(R.id.websiteMenuItem).setOnClickListener(view -> {
+                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex", MainActivity.this);
+                } else {
+                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex/2", MainActivity.this);
+                }
+                mDrawerLayout.closeDrawers();
+            });
 
             // Set a drawer listener to change title and color.
             mDrawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -499,7 +508,7 @@ public class MainActivity extends AppCompatActivity {
     private void openRandom() {
         try {
             if (machineHelper.getMachineCount() == 0) {
-                throw new IllegalArgumentException();
+                throw new IllegalStateException();
             }
             if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
                 // This should not happen.
@@ -515,6 +524,9 @@ public class MainActivity extends AppCompatActivity {
                     int totalLoadad = 0;
                     for (int[] i : loadPositions) {
                         totalLoadad += i.length;
+                    }
+                    if (totalLoadad == 0) {
+                        throw new IllegalStateException();
                     }
                     int randomCode = new Random().nextInt(totalLoadad + 1);
                     Log.i("RandomAccess", "Limit Random mode, get total " + totalLoadad + " , ID " + randomCode);

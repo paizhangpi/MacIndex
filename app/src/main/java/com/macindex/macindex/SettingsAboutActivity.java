@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,18 +35,27 @@ public class SettingsAboutActivity extends AppCompatActivity {
     private void initAbout() {
         try {
             final TextView versionText = findViewById(R.id.versionText);
-            final Button textWebsite = findViewById(R.id.buttonWebsite);
+            final TextView infoText = findViewById(R.id.infoText);
             final Button restoreDefaults = findViewById(R.id.buttonDefaults);
             final Button invalidate = findViewById(R.id.buttonInvalidate);
 
             versionText.setText(getResources().getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
 
-            textWebsite.setOnClickListener(unused -> {
-                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex", SettingsAboutActivity.this);
-                } else {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex/2", SettingsAboutActivity.this);
-                }
+            infoText.setOnClickListener(unused -> {
+                final AlertDialog.Builder websiteDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                websiteDialog.setTitle(R.string.setting_website);
+                websiteDialog.setMessage(R.string.setting_website_decsription);
+                websiteDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                        LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex", SettingsAboutActivity.this);
+                    } else {
+                        LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex/2", SettingsAboutActivity.this);
+                    }
+                });
+                websiteDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                    // Cancelled, nothing to do.
+                });
+                websiteDialog.show();
             });
 
             restoreDefaults.setOnClickListener(v -> {

@@ -14,7 +14,7 @@
         android:focusable="true"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:textSize="22sp"
         android:textStyle="bold" />
 

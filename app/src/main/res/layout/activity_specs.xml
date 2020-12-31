@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/colorAccent"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -126,7 +126,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/year"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -169,7 +169,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/model"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -212,7 +212,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/id"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -255,7 +255,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/gestalt"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -298,7 +298,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/order"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -341,7 +341,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/emc"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -384,7 +384,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/processor"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -455,7 +455,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/graphics"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -498,7 +498,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/maxram"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -541,7 +541,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/type"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -583,7 +583,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/software"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -626,7 +626,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/storage"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -669,7 +669,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/bus_expansion"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -712,7 +712,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/design"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -755,7 +755,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:text="@string/support"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/colorAccent"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

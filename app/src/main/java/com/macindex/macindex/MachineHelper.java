@@ -637,9 +637,17 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("support")));
     }
 
+    String getSYear(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        categoryIndividualCursor[position[0]].moveToFirst();
+        categoryIndividualCursor[position[0]].move(position[1]);
+        return checkApplicability(categoryIndividualCursor[position[0]]
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("syear")));
+    }
+
     // NullSafe
     private static String checkApplicability(final String thisSpec) {
-        if (thisSpec == null || thisSpec.equals("N")) {
+        if (thisSpec == null) {
             return MainActivity.getRes().getString(R.string.not_applicable);
         } else {
             return thisSpec;

@@ -25,7 +25,7 @@ class SpecsIntentHelper {
 
                 // Find information necessary for interface.
                 final String thisName = MainActivity.getMachineHelper().getName(thisMachineID);
-                final String thisYear = MainActivity.getMachineHelper().getYear(thisMachineID);
+                final String thisYear = MainActivity.getMachineHelper().getSYear(thisMachineID);
                 final String thisLinks = MainActivity.getMachineHelper().getConfig(thisMachineID);
 
                 machineName.setText(thisName);

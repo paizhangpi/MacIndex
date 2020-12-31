@@ -79,7 +79,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
                                 android:text="@string/menu_group"
-                                android:textColor="@color/colorPrimaryDark"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -180,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
                                 android:text="@string/menu_view"
-                                android:textColor="@color/colorPrimaryDark"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -248,7 +248,7 @@
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
                                 android:text="@string/menu"
-                                android:textColor="@color/colorPrimaryDark"
+                                android:textColor="@color/colorAccent"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
 
@@ -330,6 +330,22 @@
                                 android:focusable="true"
                                 android:padding="10dp"
                                 android:text="@string/menu_help"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
+                                android:id="@+id/websiteMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/setting_website"
                                 android:textSize="16sp" />
 
                             <View

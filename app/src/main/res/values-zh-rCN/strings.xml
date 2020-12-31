@@ -7,7 +7,7 @@
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
     <string name="information_first_lunch">您好！这是一个测试版本。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
-    <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录将会被清除，但您的设置将保存。在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
+    <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的设置将保留。 在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
     <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，随机模式将不再可用。</string>
@@ -28,12 +28,10 @@
     <string name="setting_save_search">保存搜索使用记录</string>
     <string name="setting_save_search_description">保存上次使用的搜索词和筛选器。</string>
     <string name="setting_invalidate">刷新设置文件</string>
-    <string name="setting_invalidate_decsription">清除使用记录</string>
     <string name="setting_defaults">清除设置文件</string>
-    <string name="setting_defaults_decsription">清除设置和使用记录</string>
     <string name="setting_defaults_warning_title">警告</string>
-    <string name="setting_invalidate_warning_content">您的使用记录将会被清除，但您的设置将保存。 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
-    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，且 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
+    <string name="setting_invalidate_warning_content">您的使用记录参数（主要由程序使用）将会被清除，但您的设置将保留。 在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能被撤销。</string>
+    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括使用记录和设置。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
     <string name="setting_website">官方网站</string>
     <string name="setting_website_decsription">鸣谢，软件更新，Bug 反馈，以及评论</string>
