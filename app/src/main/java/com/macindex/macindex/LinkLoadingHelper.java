@@ -24,7 +24,7 @@ class LinkLoadingHelper {
             final String[] linkGroup = thisLinks.split(";");
             if (linkGroup.length == 1) {
                 // Only one option, launch EveryMac directly.
-                startBrowser(linkGroup[0].split(",")[0], linkGroup[0].split(",")[1], thisContext);
+                startBrowser(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
             } else {
                 final AlertDialog.Builder linkDialog = new AlertDialog.Builder(thisContext);
                 linkDialog.setTitle(thisName);
@@ -34,7 +34,7 @@ class LinkLoadingHelper {
                 final RadioGroup linkOptions = linkChunk.findViewById(R.id.option);
                 for (int i = 0; i < linkGroup.length; i++) {
                     final RadioButton linkOption = new RadioButton(thisContext);
-                    linkOption.setText(linkGroup[i].split(",")[0]);
+                    linkOption.setText(linkGroup[i].split(",http")[0]);
                     linkOption.setId(i);
                     if (i == 0) {
                         linkOption.setChecked(true);
@@ -48,8 +48,8 @@ class LinkLoadingHelper {
                         (dialog, which) -> {
                             try {
                                 startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[0], linkGroup[linkOptions.getCheckedRadioButtonId()]
-                                        .split(",")[1], thisContext);
+                                        .split(",http")[0], "http" + linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                        .split(",http")[1], thisContext);
                             } catch (Exception e) {
                                 ExceptionHelper.handleException(thisContext, e, null, null);
                             }

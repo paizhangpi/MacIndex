@@ -382,7 +382,7 @@ public class SpecsActivity extends AppCompatActivity {
                 previous.setText(getResources().getString(R.string.first_one));
             } else {
                 previous.setEnabled(true);
-                previous.setText(MainActivity.getMachineHelper().getName(machineID - 1));
+                previous.setText(MainActivity.getMachineHelper().getName(categoryStartEnd[machineIDPosition - 1]));
                 previous.setOnClickListener(v -> {
                     previous.setEnabled(false);
                     navPrev();
@@ -396,7 +396,7 @@ public class SpecsActivity extends AppCompatActivity {
                 next.setText(getResources().getString(R.string.last_one));
             } else {
                 next.setEnabled(true);
-                next.setText(MainActivity.getMachineHelper().getName(machineID + 1));
+                next.setText(MainActivity.getMachineHelper().getName(categoryStartEnd[machineIDPosition + 1]));
                 next.setOnClickListener(v -> {
                     next.setEnabled(false);
                     navNext();

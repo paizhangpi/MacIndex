@@ -55,7 +55,7 @@
 
                 <ImageView
                     android:id="@+id/processorTypeImage"
-                    android:layout_width="120dp"
+                    android:layout_width="130dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center" />
             </LinearLayout>
@@ -123,7 +123,7 @@
 
                 <TextView
                     android:id="@+id/yearTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/year"
                     android:textColor="@color/colorAccent"
@@ -166,7 +166,7 @@
 
                 <TextView
                     android:id="@+id/modelTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/model"
                     android:textColor="@color/colorAccent"
@@ -209,7 +209,7 @@
 
                 <TextView
                     android:id="@+id/idTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/id"
                     android:textColor="@color/colorAccent"
@@ -252,7 +252,7 @@
 
                 <TextView
                     android:id="@+id/gestaltTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/gestalt"
                     android:textColor="@color/colorAccent"
@@ -295,7 +295,7 @@
 
                 <TextView
                     android:id="@+id/orderTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/order"
                     android:textColor="@color/colorAccent"
@@ -338,7 +338,7 @@
 
                 <TextView
                     android:id="@+id/emcTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/emc"
                     android:textColor="@color/colorAccent"
@@ -381,7 +381,7 @@
 
                 <TextView
                     android:id="@+id/processorTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/processor"
                     android:textColor="@color/colorAccent"
@@ -452,7 +452,7 @@
 
                 <TextView
                     android:id="@+id/graphicsTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/graphics"
                     android:textColor="@color/colorAccent"
@@ -495,7 +495,7 @@
 
                 <TextView
                     android:id="@+id/maxramTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/maxram"
                     android:textColor="@color/colorAccent"
@@ -538,7 +538,7 @@
 
                 <TextView
                     android:id="@+id/typeTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/type"
                     android:textColor="@color/colorAccent"
@@ -580,7 +580,7 @@
 
                 <TextView
                     android:id="@+id/softwareTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/software"
                     android:textColor="@color/colorAccent"
@@ -623,7 +623,7 @@
 
                 <TextView
                     android:id="@+id/storageTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/storage"
                     android:textColor="@color/colorAccent"
@@ -666,7 +666,7 @@
 
                 <TextView
                     android:id="@+id/expansionTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/bus_expansion"
                     android:textColor="@color/colorAccent"
@@ -709,7 +709,7 @@
 
                 <TextView
                     android:id="@+id/designTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/design"
                     android:textColor="@color/colorAccent"
@@ -752,7 +752,7 @@
 
                 <TextView
                     android:id="@+id/supportTitle"
-                    android:layout_width="150dp"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:text="@string/support"
                     android:textColor="@color/colorAccent"
