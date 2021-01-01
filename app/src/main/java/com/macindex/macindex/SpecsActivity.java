@@ -78,27 +78,35 @@ public class SpecsActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        release();
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        // Restart Sound System.
+        initImage();
+        super.onRestart();
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
 
     private void initialize() {
-        try {
-            initSpecs();
-            initImage();
-            initLinks();
-            if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
-                initButtons();
-            }
-            if (PrefsHelper.getBooleanPrefs("isUseGestures", this) && categoryStartEnd.length > 1) {
-                initGestures();
-            }
-        } catch (Exception e) {
-            ExceptionHelper.handleException(this, e,
-                    "SpecsInitialize", "Failed, Machine ID " + machineID);
-        }
         Log.i("SpecsInitialize", "Machine ID " + machineID);
+        initSpecs();
+        initImage();
+        initLinks();
+        if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
+            initButtons();
+        }
+        if (PrefsHelper.getBooleanPrefs("isUseGestures", this) && categoryStartEnd.length > 1) {
+            initGestures();
+        }
     }
 
     private void release() {
@@ -253,62 +261,68 @@ public class SpecsActivity extends AppCompatActivity {
                 informationLabel.setVisibility(View.VISIBLE);
                 // Should set a listener
                 image.setOnClickListener(unused -> {
-                    if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
-                        // Not playing any sound
-                        if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
-                                && PrefsHelper.getBooleanPrefs("isEnableVolWarning", this)) {
-                            // High Volume Warning Enabled
-                            boolean currentOutputDevice = false;
-                            AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-                            if (audioManager != null) {
-                                for (AudioDeviceInfo deviceInfo : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
-                                    final int thisType = deviceInfo.getType();
-                                    Log.i("VolWarning", "Get type " + thisType);
-                                    if (thisType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
-                                            || thisType == AudioDeviceInfo.TYPE_WIRED_HEADSET
-                                            || thisType == AudioDeviceInfo.TYPE_USB_HEADSET
-                                            || thisType == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
-                                            || thisType == AudioDeviceInfo.TYPE_HEARING_AID) {
-                                        Log.i("VolWarning", "Earphone detected");
-                                        currentOutputDevice = true;
-                                        break;
+                    // Initialize Sound.
+                    try {
+                        if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
+                            // Not playing any sound
+                            if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
+                                    && PrefsHelper.getBooleanPrefs("isEnableVolWarning", this)) {
+                                // High Volume Warning Enabled
+                                boolean currentOutputDevice = false;
+                                AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+                                if (audioManager != null) {
+                                    for (AudioDeviceInfo deviceInfo : audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)) {
+                                        final int thisType = deviceInfo.getType();
+                                        Log.i("VolWarning", "Get type " + thisType);
+                                        if (thisType == AudioDeviceInfo.TYPE_WIRED_HEADPHONES
+                                                || thisType == AudioDeviceInfo.TYPE_WIRED_HEADSET
+                                                || thisType == AudioDeviceInfo.TYPE_USB_HEADSET
+                                                || thisType == AudioDeviceInfo.TYPE_BLUETOOTH_SCO
+                                                || thisType == AudioDeviceInfo.TYPE_HEARING_AID) {
+                                            Log.i("VolWarning", "Earphone detected");
+                                            currentOutputDevice = true;
+                                            break;
+                                        }
                                     }
-                                }
-                                int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-                                int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-                                int currentVolumePercentage = 100 * currentVolume / maxVolume;
-                                Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage
-                                        + " current output device " + currentOutputDevice);
-                                if (currentVolumePercentage >= 60 && currentOutputDevice) {
-                                    Log.i("VolWarning", "Armed");
-                                    final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
-                                    volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
-                                    volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                                        // Enabled, and popup a warning
-                                        PrefsHelper.editPrefs("isEnableVolWarningThisTime", false, this);
+                                    int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+                                    int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                                    int currentVolumePercentage = 100 * currentVolume / maxVolume;
+                                    Log.i("VolWarning", "Enabled, current percentage " + currentVolumePercentage
+                                            + " current output device " + currentOutputDevice);
+                                    if (currentVolumePercentage >= 60 && currentOutputDevice) {
+                                        Log.i("VolWarning", "Armed");
+                                        final AlertDialog.Builder volWarningDialog = new AlertDialog.Builder(SpecsActivity.this);
+                                        volWarningDialog.setMessage(R.string.information_specs_high_vol_warning);
+                                        volWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                            // Enabled, and popup a warning
+                                            PrefsHelper.editPrefs("isEnableVolWarningThisTime", false, this);
+                                            playSound();
+                                        });
+                                        volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                            // Do nothing
+                                        });
+                                        volWarningDialog.show();
+                                    } else {
+                                        // Enabled, but should not popup a warning
+                                        Log.i("VolWarning", "Unarmed");
                                         playSound();
-                                    });
-                                    volWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-                                        // Do nothing
-                                    });
-                                    volWarningDialog.show();
+                                    }
                                 } else {
-                                    // Enabled, but should not popup a warning
-                                    Log.i("VolWarning", "Unarmed");
+                                    // Enabled, but audio service not available
+                                    ExceptionHelper.handleException(this, null,
+                                            "VolWarning",
+                                            "Audio Service Not Available.");
                                     playSound();
                                 }
                             } else {
-                                // Enabled, but audio service not available
-                                ExceptionHelper.handleException(this, null,
-                                        "VolWarning",
-                                        "Audio Service Not Available.");
+                                // High Volume Warning Disabled
+                                Log.i("VolWarning", "Disabled");
                                 playSound();
                             }
-                        } else {
-                            // High Volume Warning Disabled
-                            Log.i("VolWarning", "Disabled");
-                            playSound();
                         }
+                    } catch (Exception e) {
+                        ExceptionHelper.handleException(this, e,
+                                "initImage", "Unable to initialize sounds.");
                     }
                 });
                 image.setClickable(true);
@@ -324,7 +338,7 @@ public class SpecsActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
-                    "initImage", "Failed, Machine ID " + machineID);
+                    "initSound", "Failed, Machine ID " + machineID);
         }
     }
 

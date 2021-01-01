@@ -46,7 +46,7 @@ class MachineHelper {
             "mac_performa_68k", "mac_centris", "mac_server_68k", "powerbook_68k", "powerbook_duo_68k",
             "power_mac_classic", "mac_performa_ppc", "mac_server_ppc_classic", "powerbook_ppc_classic",
             "powerbook_duo_ppc", "power_mac", "imac_ppc", "emac", "mac_mini_ppc", "mac_server_ppc",
-            "xserve_ppc", "powerbook_ppc", "ibook", "mac_pro_intel", "imac_intel", "mac_pro_intel",
+            "xserve_ppc", "powerbook_ppc", "ibook", "mac_pro_intel", "imac_intel", "imac_pro_intel",
             "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel",
             "mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm", "macbook_pro_arm", "macbook_air_arm"};
     private static final int COLUMNS_COUNT = 30;
@@ -64,6 +64,7 @@ class MachineHelper {
      *                       8 New World Macintosh, newmac, no death sound
      *                       9 TAM, tam, powermac_death
      *                       PB Old World PowerPC PowerBook, powermac(s), maclc_death(s)
+     *                       T2 Big Sur startup sound, bigsur, no death sound
      *                       N no startup sound, no death sound
      *
      * Processor Image
@@ -76,7 +77,11 @@ class MachineHelper {
      *                       corei5, corei7, corei3_1, corei5_1, corei7_1,
      *                       corei3_2, corei5_2, corei7_2, corei3_4, corei5_4, corei7_4,
      *                       corei3_5, corei5_5, corei7_5, corei3_6, corei5_6, corei7_6,
-     *                       corei9_6
+     *                       corei9_6, corei3_10, corei5_10, corei7_10, corei9_10,
+     *                       corei3_11, corei5_11, corei7_11, corei9_11, xeon_a, xeon_b,
+     *                       xeon_1, xeon_2, xeon_4, xeon_5, xeon_6, xeon_11,
+     *                       xeonbronze_6, xeonsilver_6, xeongold_6, xeonplatinum_6,
+     *                       xeonbronze_11, xeonsilver_11, xeongold_11, xeonplatinum_11
      *
      * getCategoryRange
      * Available Manufacturer(Group) Strings: all, apple68k, appleppc, appleintel, applearm
@@ -94,12 +99,12 @@ class MachineHelper {
      * ------------ Don't change class variables below this line ------------
      */
 
-    private SQLiteDatabase database;
+    private final SQLiteDatabase database;
 
-    private Cursor[] categoryIndividualCursor;
+    private final Cursor[] categoryIndividualCursor;
 
     /* Machine ID starts from 0, ends total -1. */
-    private int[] categoryIndividualCount;
+    private final int[] categoryIndividualCount;
 
     private boolean status = true;
 
@@ -254,7 +259,7 @@ class MachineHelper {
         int[] sound = {0, 0};
         // NullSafe
         if (thisSound == null) {
-            return sound;
+            thisSound = "null";
         }
         Log.i("MachineHelperGetSound", "Get ID " + thisSound);
         switch (thisSound) {
@@ -289,8 +294,11 @@ class MachineHelper {
             case "9":
                 sound[0] = R.raw.tam;
                 break;
+            case "T2":
+                sound[0] = R.raw.bigsur;
+                break;
             default:
-                Log.i("MachineHelperGetSound", "No startup sound for ID " + thisSound);
+                Log.i("MachineHelperGetSound", "No startup sound for parameter " + thisSound);
         }
         switch (thisSound) {
             case "1":
@@ -315,7 +323,7 @@ class MachineHelper {
                 sound[1] = R.raw.powermac_death;
                 break;
             default:
-                Log.i("MachineHelperGetDthSnd", "No death sound for ID " + thisSound);
+                Log.i("MachineHelperGetDthSnd", "No death sound for parameter " + thisSound);
         }
         return sound;
     }
@@ -387,7 +395,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("links"));
         // NullSafe
         if (toReturn == null) {
-            return "N";
+            return "null";
         } else {
             return toReturn;
         }
@@ -407,63 +415,49 @@ class MachineHelper {
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         String thisProcessorImage = categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
+                .getString(categoryIndividualCursor[position[0]].getColumnIndex("sprocessor"));
         Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
-            return 0;
+            thisProcessorImage = "null";
         }
         String[] thisImages = thisProcessorImage.split(",");
         switch (thisImages[0]) {
-            case "68k":
+            case "68000":
+            case "68020":
+            case "68030":
+            case "68040":
                 return R.drawable.motorola;
-            case "ppc":
-            case "740":
-            case "750":
-            case "750cx":
-            case "750cxe":
-            case "755":
-            case "750fx":
-            case "7400":
-            case "7410":
-            case "7440":
-            case "7445":
-            case "7450":
-            case "7455":
-            case "7447":
-            case "970":
-            case "970fx":
-            case "970mp":
+            case "601":
+            case "603":
+            case "604":
+            case "g3":
+            case "g4":
+            case "g5":
                 return R.drawable.powerpc;
-            case "p4ht":
-            case "coreduo":
-            case "core2duo":
-            case "core2ex":
-            case "corei5":
-            case "corei7":
-            case "corei3_1":
-            case "corei5_1":
-            case "corei7_1":
-            case "corei3_2":
-            case "corei5_2":
-            case "corei7_2":
-            case "corei3_4":
-            case "corei5_4":
-            case "corei7_4":
-            case "corei3_5":
-            case "corei5_5":
-            case "corei7_5":
-            case "corem":
-            case "corei3_6":
-            case "corei5_6":
-            case "corei7_6":
-            case "corei9_6":
+            case "netburst":
+            case "p6":
+            case "core":
+            case "penryn":
+            case "nehalem":
+            case "westmere":
+            case "snb":
+            case "ivb":
+            case "haswell":
+            case "broadwell":
+            case "skylake":
+            case "kabylake":
+            case "coffeelake":
+            case "cascadelake":
+            case "cometlake":
+            case "icelake":
+            case "tigerlake":
                 return R.drawable.intel;
             case "A12Z":
             case "m1":
                 return R.drawable.arm;
             default:
-                Log.i("MHGetProcessorImageType", "No processor image for ID " + thisProcessorImage);
+                Log.i("MHGetProcessorImageType", "No processor type image for parameter " + thisProcessorImage);
         }
         return 0;
     }
@@ -477,7 +471,7 @@ class MachineHelper {
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
-            return new int[][] {{0}, {0}};
+            thisProcessorImage = "null";
         }
         String[] thisImages = thisProcessorImage.split(",");
         int[][] toReturn = new int[thisImages.length][];
@@ -621,10 +615,6 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_5;
                     break;
-                case "corem":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corem;
-                    break;
                 case "corei3_6":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei3_6;
@@ -641,6 +631,126 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei9_6;
                     break;
+                case "corei3_10":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei3_10;
+                    break;
+                case "corei5_10":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_10;
+                    break;
+                case "corei7_10":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_10;
+                    break;
+                case "corei9_10":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei9_10;
+                    break;
+                case "corei3_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei3_11;
+                    break;
+                case "corei5_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_11;
+                    break;
+                case "corei7_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_11;
+                    break;
+                case "corei9_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei9_11;
+                    break;
+                case "corem":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corem;
+                    break;
+                case "corem3":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corem3;
+                    break;
+                case "corem5":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corem5;
+                    break;
+                case "corem7":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corem7;
+                    break;
+                case "xeon_a":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_a;
+                    break;
+                case "xeon_b":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_b;
+                    break;
+                case "xeon_1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_1;
+                    break;
+                case "xeon_2":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_2;
+                    break;
+                case "xeon_4":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_4;
+                    break;
+                case "xeon_5":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_5;
+                    break;
+                case "xeon_6":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_6;
+                    break;
+                case "xeon_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeon_11;
+                    break;
+                case "xeonbronze_6":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonbronze_6;
+                    break;
+                case "xeonsilver_6":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonsilver_6;
+                    break;
+                case "xeongold_6":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeongold_6;
+                    break;
+                case "xeonplatinum_6":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonplatinum_6;
+                    break;
+                case "xeonbronze_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonbronze_11;
+                    break;
+                case "xeonsilver_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonsilver_11;
+                    break;
+                case "xeongold_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeongold_11;
+                    break;
+                case "xeonplatinum_11":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.xeonplatinum_11;
+                    break;
+                case "t1":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applet1;
+                    break;
+                case "t2":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applet2;
+                    break;
                 case "A12Z":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.applea12z;
@@ -650,7 +760,7 @@ class MachineHelper {
                     toReturn[i][0] = R.drawable.applem1;
                     break;
                 default:
-                    Log.i("MHGetProcessorImage", "No processor image for ID " + thisProcessorImage);
+                    Log.i("MHGetProcessorImage", "No processor image for parameter " + thisProcessorImage);
                     toReturn[i] = new int[1];
                     toReturn[i][0] = 0;
                     break;
@@ -764,7 +874,7 @@ class MachineHelper {
         final String[] appleppc = {"power_mac_classic", "mac_performa_ppc", "mac_server_ppc_classic",
                 "powerbook_ppc_classic", "powerbook_duo_ppc", "power_mac", "imac_ppc", "emac",
                 "mac_mini_ppc", "mac_server_ppc", "xserve_ppc", "powerbook_ppc", "ibook"};
-        final String[] appleintel = {"mac_pro_intel", "imac_intel", "mac_pro_intel",
+        final String[] appleintel = {"mac_pro_intel", "imac_intel", "imac_pro_intel",
                 "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel"};
         final String[] applearm = {"mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm",
                 "macbook_pro_arm", "macbook_air_arm"};
@@ -798,22 +908,24 @@ class MachineHelper {
         final String[][] processors = {{"sprocessor"},
                 {"68000", "68020", "68030", "68040", "601", "603", "604", "g3", "g4", "g5",
                  "netburst", "p6", "core", "penryn", "nehalem", "westmere", "snb", "ivb", "haswell",
-                 "broadwell", "skylake", "kabylake", "coffeelake", "a12", "m1"},
+                 "broadwell", "skylake", "kabylake", "coffeelake", "cascadelake", "cometlake", "icelake",
+                 "tigerlake", "a12", "m1"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                  "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
                  "PowerPC G5", "Intel NetBurst", "Intel P6", "Intel Core", "Intel Penryn",
                  "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge", "Intel Ivy Bridge",
                  "Intel Haswell", "Intel Broadwell", "Intel Skylake", "Intel Kaby Lake",
-                 "Intel Coffee Lake", "Apple A12", "Apple M1"}};
+                 "Intel Coffee Lake", "Intel Cascade Lake", "Intel Comet Lake", "Intel Ice Lake",
+                 "Intel Tiger Lake", "Apple A12", "Apple M1"}};
         final String[][] years = {{"syear"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
                  "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                 "2014", "2015", "2016", "2017", "2018", "2019", "2020"},
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
                  "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                 "2014", "2015", "2016", "2017", "2018", "2019", "2020"}};
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"}};
         Log.i("MHGetFilter", "Get parameters " + thisFilter);
         switch (thisFilter) {
             case "names":

@@ -16,6 +16,9 @@ class LinkLoadingHelper {
 
     public static void loadLinks(final String thisName, final String thisLinks, final Context thisContext) {
         try {
+            if (thisLinks.equals("null")) {
+                throw new IllegalArgumentException();
+            }
             if (thisLinks.equals("N")) {
                 Toast.makeText(thisContext,
                         MainActivity.getRes().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
