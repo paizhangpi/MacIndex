@@ -67,22 +67,6 @@ class MachineHelper {
      *                       T2 Big Sur startup sound, bigsur, no death sound
      *                       N no startup sound, no death sound
      *
-     * Processor Image
-     * Available Parameters: 68k, ppc
-     *                       G3 740, 750, 750cx, 750cxe, 755, 750fx
-     *                       G4 7400, 7410, 7440, 7445, 7450, 7455, 7447
-     *                       G5 970, 970fx, 970mp
-     *                       Apple Silicon A12Z, m1
-     *                       Intel p4ht, coreduo, core2duo, core2ex,
-     *                       corei5, corei7, corei3_1, corei5_1, corei7_1,
-     *                       corei3_2, corei5_2, corei7_2, corei3_4, corei5_4, corei7_4,
-     *                       corei3_5, corei5_5, corei7_5, corei3_6, corei5_6, corei7_6,
-     *                       corei9_6, corei3_10, corei5_10, corei7_10, corei9_10,
-     *                       corei3_11, corei5_11, corei7_11, corei9_11, xeon_a, xeon_b,
-     *                       xeon_1, xeon_2, xeon_4, xeon_5, xeon_6, xeon_11,
-     *                       xeonbronze_6, xeonsilver_6, xeongold_6, xeonplatinum_6,
-     *                       xeonbronze_11, xeonsilver_11, xeongold_11, xeonplatinum_11
-     *
      * getCategoryRange
      * Available Manufacturer(Group) Strings: all, apple68k, appleppc, appleintel, applearm
      * Available Manufacturer(Group) Resources: R.string.menu_group0, R.string.menu_group1,
@@ -627,9 +611,49 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_6;
                     break;
-                case "corei9_6":
+                case "corei3_7":
                     toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei9_6;
+                    toReturn[i][0] = R.drawable.corei3_7;
+                    break;
+                case "corei5_7":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_7;
+                    break;
+                case "corei7_7":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_7;
+                    break;
+                case "corei3_8":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei3_8;
+                    break;
+                case "corei5_8":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_8;
+                    break;
+                case "corei7_8":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_8;
+                    break;
+                case "corei9_8":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei9_8;
+                    break;
+                case "corei3_9":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei3_9;
+                    break;
+                case "corei5_9":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei5_9;
+                    break;
+                case "corei7_9":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei7_9;
+                    break;
+                case "corei9_9":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corei9_9;
                     break;
                 case "corei3_10":
                     toReturn[i] = new int[1];
@@ -667,17 +691,21 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corem;
                     break;
-                case "corem3":
+                case "corem3_6":
                     toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corem3;
+                    toReturn[i][0] = R.drawable.corem3_6;
                     break;
-                case "corem5":
+                case "corem5_6":
                     toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corem5;
+                    toReturn[i][0] = R.drawable.corem5_6;
                     break;
-                case "corem7":
+                case "corem7_6":
                     toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corem7;
+                    toReturn[i][0] = R.drawable.corem7_6;
+                    break;
+                case "corem3_7":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.corem3_7;
                     break;
                 case "xeon_a":
                     toReturn[i] = new int[1];
