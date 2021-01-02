@@ -24,7 +24,11 @@ class LinkLoadingHelper {
                         MainActivity.getRes().getString(R.string.link_not_available), Toast.LENGTH_LONG).show();
                 return;
             }
-            final String[] linkGroup = thisLinks.split(";");
+            final String[] linkGroup = thisLinks.split("html;");
+            // Fix ; and , split bug.
+            for (String thisLink : linkGroup) {
+                thisLink.concat("html");
+            }
             if (linkGroup.length == 1) {
                 // Only one option, launch EveryMac directly.
                 startBrowser(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
