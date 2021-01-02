@@ -84,7 +84,7 @@ class PrefsHelper {
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {
         try {
             final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
-            if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof Integer)) {
+            if (DEFAULT_VALUES.containsKey(thisPrefsName) && DEFAULT_VALUES.get(thisPrefsName) instanceof Integer) {
                 int value = prefsFile.getInt(thisPrefsName, (Integer) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got Int preference " + thisPrefsName
                         + " with value " + value);
@@ -101,7 +101,7 @@ class PrefsHelper {
     public static Boolean getBooleanPrefs(final String thisPrefsName, final Context thisContext) {
         try {
             final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
-            if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof Boolean)) {
+            if (DEFAULT_VALUES.containsKey(thisPrefsName) && DEFAULT_VALUES.get(thisPrefsName) instanceof Boolean) {
                 Boolean value = prefsFile.getBoolean(thisPrefsName, (Boolean) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got Boolean preference: " + thisPrefsName
                         + " with value " + value);

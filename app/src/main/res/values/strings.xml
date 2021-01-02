@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
-    <string name="information_about" translatable="false">paizhangpi, Victor Jiao, Mation Wang\n2019, 2020, 2021\npaizhang.info/MacIndex</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
@@ -8,7 +7,7 @@
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
     <string name="information_first_lunch">Antique to advanced, history in your hand. Thanks for installing MacIndex. Open the drawer to access more.</string>
     <string name="information_new_major_version_title">MacIndex Update</string>
-    <string name="information_new_major_version">Sorry, a preference file invalidate is necessary after a major update. Your usage record parameters that mainly used by the program will be cleared, but your settings will be kept. After you confirm, MacIndex will quit. Then you can use it normally.</string>
+    <string name="information_new_major_version">Sorry, a preference file invalidate is necessary after a major update. Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. Then you can use it normally.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
     <string name="setting_everymac_description">Open the EveryMac page of the model directly instead of the specification page. Will ask for specific configuration if the model has more than one configurations.</string>
     <string name="setting_everymac_warning_content">This is effective for both main page and search result. Random access will no longer available as well.</string>
@@ -31,12 +30,11 @@
     <string name="setting_invalidate">Invalidate Preference File</string>
     <string name="setting_defaults">Clear Preference File</string>
     <string name="setting_defaults_warning_title">Warning</string>
-    <string name="setting_invalidate_warning_content">Your usage record parameters that mainly used by the program will be cleared, but your settings will be kept. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
-    <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your usage records and settings. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
+    <string name="setting_invalidate_warning_content">Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
+    <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your usage records and preferences. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
-    <string name="setting_website">Official Website</string>
-    <string name="setting_website_decsription">Access our website for acknowledgments, updates, bug reports, and comments.</string>
-    <string name="setting_saved">Settings saved</string>
+    <string name="about_information">MacIndex is an open source software that dedicated to educational and informational purposes. The main contributors are paizhang, Victor Jiao, and Mation Wang, 2019, 2020, 2021. The logo was designed by Mation Wang, other use is prohibited unless the permission was granted. Please abide the open source licence.\n\nMachine information, images, and sounds are collected online, mainly from Mactracker, EveryMac, and Wikipedia. No copyrighted information is used, but if you have any questions, please contact the developer immediately. Apple Macintosh names, Intel names, and logos are registered trademarks.\n\nMacIndex does not guarantee that all content of the software is completely accurate, and does not guarantee its reliability. All consequences caused by the use of the software shall be borne by the user.\n\nPlease report error and give feedback to the developer. You can access more information including contact information, and get helps and updates on the Official Website (https://MacIndex.paizhang.info/v/English/).</string>
+    <string name="about_website">Official Website</string>
     <string name="search_searchBy">Search By</string>
     <string name="search_nameOption">Name</string>
     <string name="search_modelOption">Model Number</string>
@@ -47,17 +45,17 @@
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
-    <string name="search_illegal">Invalid Input (Please refer to the online help)</string>
-    <string name="search_disable_identification">Old world Macintosh does not have a Identification and EMC Number. Please use the Gestalt ID instead. Please also refer to the online help.</string>
-    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead. Please also refer to the online help.</string>
+    <string name="search_illegal">Invalid Input (Please refer to the Official Website)</string>
+    <string name="search_disable_identification">Old world Macintosh does not have Identification and EMC Number. Please use the Gestalt ID instead. Please also refer to the Official Website.</string>
+    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead. Please also refer to the Official Website.</string>
     <string name="menu_search">Search</string>
     <string name="menu_search_everymac">EveryMac Lookup</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
-    <string name="menu_help">Online Help</string>
-    <string name="menu_about_settings">About and Settings</string>
+    <string name="menu_about_settings">Preferences</string>
+    <string name="menu_new_about">About and Help</string>
     <string name="menu_view">View By</string>
-    <string name="menu_view1">Categories</string>
+    <string name="menu_view1">Product Series</string>
     <string name="menu_view2">Processors</string>
     <string name="menu_view3">Introduction Years</string>
     <string name="menu_group">Categories Filter</string>
@@ -105,7 +103,7 @@
     <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Error occurred</string>
-    <string name="error_information">Please refer to the \"Frequently Asked Questions\" section of the online help.</string>
+    <string name="error_information">We are sorry. Please report the bug to the developer. Refer to the Official Website for more information.</string>
     <string name="error_copy_button">Copy Message</string>
     <string name="error_copy_information">Message copied</string>
     <string name="error_dismiss">Dismiss</string>

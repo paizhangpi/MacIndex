@@ -28,7 +28,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -120,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
             });
             goneUpdate.setCancelable(false);
             goneUpdate.show();
+        } else {
+            PrefsHelper.editPrefs("lastVersionCode", BuildConfig.VERSION_CODE, this);
         }
     }
 
@@ -301,22 +302,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
                 mDrawerLayout.closeDrawers();
             });
-            // Online Help
-            findViewById(R.id.onlineHelpMenuItem).setOnClickListener(view -> {
-                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp", MainActivity.this);
-                } else {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndexHelp/2", MainActivity.this);
-                }
-                mDrawerLayout.closeDrawers();
-            });
-            // Website
-            findViewById(R.id.websiteMenuItem).setOnClickListener(view -> {
-                if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex", MainActivity.this);
-                } else {
-                    LinkLoadingHelper.startBrowser("https://paizhang.info/MacIndex/2", MainActivity.this);
-                }
+            // New About Entrance
+            findViewById(R.id.newAboutMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, NewAboutActivity.class));
                 mDrawerLayout.closeDrawers();
             });
 
