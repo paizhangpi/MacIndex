@@ -25,14 +25,15 @@ class LinkLoadingHelper {
                 return;
             }
             final String[] linkGroup = thisLinks.split("html;");
-            // Fix ; and , split bug.
-            for (String thisLink : linkGroup) {
-                thisLink.concat("html");
-            }
+
             if (linkGroup.length == 1) {
                 // Only one option, launch EveryMac directly.
                 startBrowser(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
             } else {
+                // Fix ; and , split bug.
+                for (int i = 0; i < linkGroup.length; i++) {
+                    linkGroup[i] = linkGroup[i] + "html";
+                }
                 final AlertDialog.Builder linkDialog = new AlertDialog.Builder(thisContext);
                 linkDialog.setTitle(thisName);
                 linkDialog.setMessage(MainActivity.getRes().getString(R.string.link_message));

@@ -251,7 +251,10 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                return startSearch(newText);
+                if (newText.equals("")) {
+                    return startSearch(newText);
+                }
+                return true;
             }
         });
     }

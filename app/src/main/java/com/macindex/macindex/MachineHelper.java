@@ -405,7 +405,7 @@ class MachineHelper {
         if (thisProcessorImage == null) {
             thisProcessorImage = "null";
         }
-        String[] thisImages = thisProcessorImage.split(",");
+        String[] thisImages = thisProcessorImage.split("~");
         switch (thisImages[0]) {
             case "68000":
             case "68020":
@@ -531,6 +531,10 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.intelp4ht;
                     break;
+                case "coresolo":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.coresolo;
+                    break;
                 case "coreduo":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.intelcoreduo;
@@ -538,6 +542,10 @@ class MachineHelper {
                 case "core2duo":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.core2duo;
+                    break;
+                case "core2quad":
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.core2quad;
                     break;
                 case "core2ex":
                     toReturn[i] = new int[1];
@@ -936,14 +944,14 @@ class MachineHelper {
         final String[][] processors = {{"sprocessor"},
                 {"68000", "68020", "68030", "68040", "601", "603", "604", "g3", "g4", "g5",
                  "netburst", "p6", "core", "penryn", "nehalem", "westmere", "snb", "ivb", "haswell",
-                 "broadwell", "skylake", "kabylake", "coffeelake", "cascadelake", "cometlake", "icelake",
+                 "broadwell", "skylake", "kabylake", "coffeelake", "cometlake", "cascadelake", "icelake",
                  "tigerlake", "a12", "m1"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                  "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
-                 "PowerPC G5", "Intel NetBurst", "Intel P6", "Intel Core", "Intel Penryn",
+                 "PowerPC G5", "Intel NetBurst", "Intel Yonah", "Intel Core", "Intel Penryn",
                  "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge", "Intel Ivy Bridge",
                  "Intel Haswell", "Intel Broadwell", "Intel Skylake", "Intel Kaby Lake",
-                 "Intel Coffee Lake", "Intel Cascade Lake", "Intel Comet Lake", "Intel Ice Lake",
+                 "Intel Coffee Lake", "Intel Comet Lake", "Intel Cascade Lake", "Intel Ice Lake",
                  "Intel Tiger Lake", "Apple A12", "Apple M1"}};
         final String[][] years = {{"syear"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",

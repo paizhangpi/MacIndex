@@ -33,7 +33,7 @@
     <string name="setting_invalidate_warning_content">Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your usage records and preferences. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
-    <string name="about_information">MacIndex is an open source software that dedicated to educational and informational purposes. The main contributors are paizhang, Victor Jiao, and Mation Wang, 2019, 2020, 2021. The logo was designed by Mation Wang, other use is prohibited unless the permission was granted. Please abide the open source licence.\n\nMachine information, images, and sounds are collected online, mainly from Mactracker, EveryMac, and Wikipedia. No copyrighted information is used, but if you have any questions, please contact the developer immediately. Apple Macintosh names, Intel names, and logos are registered trademarks.\n\nMacIndex does not guarantee that all content of the software is completely accurate, and does not guarantee its reliability. All consequences caused by the use of the software shall be borne by the user.\n\nPlease report error and give feedback to the developer. You can access more information including contact information, and get helps and updates on the Official Website (https://MacIndex.paizhang.info/v/English/).</string>
+    <string name="about_information">MacIndex is an non-profit, and open source software that dedicated to educational and informational purposes. The main contributors are paizhang, Victor Jiao, and Mation Wang, 2019, 2020, 2021. The logo was designed by Mation Wang, other use is prohibited unless the permission was granted. Please abide the open source licence.\n\nMachine information, images, and sounds are collected online, mainly from Mactracker, EveryMac, and Wikipedia. No copyrighted information is used, but if you have any questions, please contact the developer immediately. Apple Macintosh names, Intel names, and logos are registered trademarks.\n\nMacIndex does not guarantee that all content of the software is completely accurate, and does not guarantee its reliability. All consequences caused by the use of the software shall be borne by the user.\n\nPlease report error and give feedback to the developer. You can access more information including contact information, and get helps and updates on the Official Website (https://MacIndex.paizhang.info/v/English/).</string>
     <string name="about_website">Official Website</string>
     <string name="search_searchBy">Search By</string>
     <string name="search_nameOption">Name</string>
@@ -55,11 +55,11 @@
     <string name="menu_about_settings">Preferences</string>
     <string name="menu_new_about">About and Help</string>
     <string name="menu_view">View By</string>
-    <string name="menu_view1">Product Series</string>
+    <string name="menu_view1">Product Categories</string>
     <string name="menu_view2">Processors</string>
     <string name="menu_view3">Introduction Years</string>
     <string name="menu_group">Categories Filter</string>
-    <string name="menu_group0">All Macintosh</string>
+    <string name="menu_group0">All Categories</string>
     <string name="menu_group1" translatable="false">68K Macintosh</string>
     <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
@@ -102,8 +102,8 @@
     <string name="link_opening">Opening in EveryMac:&#160;</string>
     <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="error">Error occurred</string>
-    <string name="error_information">We are sorry. Please report the bug to the developer. Refer to the Official Website for more information.</string>
+    <string name="error">Sorry, an error occurred</string>
+    <string name="error_information">Please report the bug to the developer. Please refer to the Official Website for more information.</string>
     <string name="error_copy_button">Copy Message</string>
     <string name="error_copy_information">Message copied</string>
     <string name="error_dismiss">Dismiss</string>
