@@ -9,6 +9,8 @@
     <string name="information_first_lunch">自古至今，融于掌中。感谢您安装 MacIndex。打开抽屉来探索更多。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
     <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的偏好设置将保留。在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
+    <string name="setting_sort">重新按照时间排序</string>
+    <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
     <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，随机模式将不再可用。</string>
@@ -92,5 +94,5 @@
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
     <string name="get_started">开始使用</string>
-    <string name="loading">请稍候</string>
+    <string name="loading">正在加载</string>
 </resources>

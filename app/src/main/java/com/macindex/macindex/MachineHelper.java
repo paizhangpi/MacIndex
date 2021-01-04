@@ -949,7 +949,7 @@ class MachineHelper {
     }
 
     // For search use. Return machine IDs. Adapted with category range.
-    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer) {
+    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer, final Context thisContext) {
         Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
         // Raw results (categoryID/remainders)
         final String[] thisCategoryRange = getCategoryRange(thisManufacturer);
@@ -994,15 +994,16 @@ class MachineHelper {
                 previousCount++;
             }
         }
-
-        // Insertion sort for best runtime
-        for (int i = 0; i < resultTotalCount; i++) {
-            for (int j = i; j > 0; j--) {
-                if (getYearForSorting(columnName, searchInput, finalPositions[j])
-                        < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
-                    int shiftTemp = finalPositions[j];
-                    finalPositions[j] = finalPositions[j - 1];
-                    finalPositions[j - 1] = shiftTemp;
+        if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext)) {
+            // Insertion sort for best runtime
+            for (int i = 0; i < resultTotalCount; i++) {
+                for (int j = i; j > 0; j--) {
+                    if (getYearForSorting(columnName, searchInput, finalPositions[j])
+                            < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
+                        int shiftTemp = finalPositions[j];
+                        finalPositions[j] = finalPositions[j - 1];
+                        finalPositions[j - 1] = shiftTemp;
+                    }
                 }
             }
         }
@@ -1044,11 +1045,11 @@ class MachineHelper {
     }
 
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
-    public int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer) {
+    public int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer, final Context thisContext) {
         final String[][] filterString = getFilterString(thisFilter);
         int[][] finalPositions = new int[filterString[1].length][];
         for (int i = 0; i < filterString[1].length; i++) {
-            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer);
+            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext);
         }
         return finalPositions;
     }

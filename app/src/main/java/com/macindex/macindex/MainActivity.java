@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -399,7 +398,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
+                    loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer, MainActivity.this);
                     try {
                         runOnUiThread(new Runnable() {
                             @Override
@@ -499,7 +498,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }.start();
-            throw new IllegalArgumentException();
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initInterface", "Initialize failed!!");

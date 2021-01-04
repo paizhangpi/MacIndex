@@ -7,8 +7,8 @@ android {
         applicationId "com.macindex.macindex"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 12
-        versionName "4.5b4"
+        versionCode 14
+        versionName "4.5b5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

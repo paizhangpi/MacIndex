@@ -56,7 +56,7 @@
             <Button
                 android:id="@+id/buttonWebsite"
                 style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:text="@string/about_website"
                 android:textAllCaps="false"

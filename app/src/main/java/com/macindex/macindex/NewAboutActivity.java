@@ -8,6 +8,10 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+/**
+ * MacIndex NewAboutActivity.
+ * January 3, 2021
+ */
 public class NewAboutActivity extends AppCompatActivity {
 
     @Override

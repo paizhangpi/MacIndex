@@ -351,7 +351,7 @@ public class SearchActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer);
+                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer, SearchActivity.this);
                     try {
                         runOnUiThread(new Runnable() {
                             @Override

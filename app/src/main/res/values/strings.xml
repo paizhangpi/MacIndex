@@ -9,6 +9,8 @@
     <string name="information_first_lunch">Antique to advanced, history in your hand. Thanks for installing MacIndex. Open the drawer to access more.</string>
     <string name="information_new_major_version_title">MacIndex Update</string>
     <string name="information_new_major_version">Sorry, a preference file invalidate is necessary after a major update. Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. Then you can use it normally.</string>
+    <string name="setting_sort">Sort by Time Again</string>
+    <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
     <string name="setting_everymac_description">Open the EveryMac page of the model directly instead of the specification page. Will ask for specific configuration if the model has more than one configurations.</string>
     <string name="setting_everymac_warning_content">This is effective for both main page and search result. Random access will no longer available as well.</string>
@@ -111,5 +113,5 @@
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
     <string name="get_started">Get Started</string>
-    <string name="loading">Please wait</string>
+    <string name="loading">Now Loading</string>
 </resources>

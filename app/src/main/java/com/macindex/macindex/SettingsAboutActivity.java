@@ -63,6 +63,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
     }
 
     private void initSettings() {
+        final Switch swSort = findViewById(R.id.switchSort);
         final Switch swEveryMac = findViewById(R.id.switchEveryMac);
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
@@ -72,6 +73,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
         final Switch swVolWarning = findViewById(R.id.switchVolWarning);
 
+        swSort.setChecked(PrefsHelper.getBooleanPrefs("isSortAgain", this));
         final Boolean everyMacSelection = PrefsHelper.getBooleanPrefs("isOpenEveryMac", this);
         swEveryMac.setChecked(everyMacSelection);
         swDeathSound.setChecked(PrefsHelper.getBooleanPrefs("isPlayDeathSound", this));
@@ -82,6 +84,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swSaveSearchUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this));
         swVolWarning.setChecked(PrefsHelper.getBooleanPrefs("isEnableVolWarning", this));
 
+        swSort.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSortAgain", isChecked, this));
         swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isPlayDeathSound", isChecked, this));
         swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseNavButtons", isChecked, this));
         swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isQuickNav", isChecked, this));
