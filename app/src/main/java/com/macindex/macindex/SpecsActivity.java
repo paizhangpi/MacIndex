@@ -3,14 +3,21 @@ package com.macindex.macindex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +47,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private ViewGroup mainView = null;
 
+    private Vibrator vibrator = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +72,7 @@ public class SpecsActivity extends AppCompatActivity {
                 }
             }
             mainView = findViewById(R.id.mainView);
+            vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             LayoutTransition layoutTransition = mainView.getLayoutTransition();
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             initialize();
@@ -98,15 +108,12 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initialize() {
         Log.i("SpecsInitialize", "Machine ID " + machineID);
-        initSpecs();
-        initImage();
-        initLinks();
         if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
             initButtons();
         }
-        if (PrefsHelper.getBooleanPrefs("isUseGestures", this) && categoryStartEnd.length > 1) {
-            initGestures();
-        }
+        initSpecs();
+        initImage();
+        initLinks();
     }
 
     private void release() {
@@ -155,20 +162,140 @@ public class SpecsActivity extends AppCompatActivity {
             this.setTitle(thisMachineHelper.getName(machineID));
             name.setText(thisMachineHelper.getName(machineID));
             type.setText(thisMachineHelper.getType(machineID));
+            type.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("typeInfo", type.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             processor.setText(thisMachineHelper.getProcessor(machineID));
+            processor.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("processorInfo", processor.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             maxram.setText(thisMachineHelper.getMaxRam(machineID));
+            maxram.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("maxramInfo", maxram.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             year.setText(thisMachineHelper.getYear(machineID));
+            year.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("yearInfo", year.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             model.setText(thisMachineHelper.getModel(machineID));
+            model.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("modelInfo", model.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             id.setText(thisMachineHelper.getMid(machineID));
+            id.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("idInfo", id.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             graphics.setText(thisMachineHelper.getGraphics(machineID));
+            graphics.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("graphicsInfo", graphics.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             expansion.setText(thisMachineHelper.getExpansion(machineID));
+            expansion.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("expansionInfo", expansion.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             storage.setText(thisMachineHelper.getStorage(machineID));
+            storage.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("storageInfo", storage.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             order.setText(thisMachineHelper.getOrder(machineID));
+            order.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("orderInfo", order.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             gestalt.setText(thisMachineHelper.getGestalt(machineID));
+            gestalt.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("gestaltInfo", gestalt.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             emc.setText(thisMachineHelper.getEMC(machineID));
+            emc.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("emcInfo", emc.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             software.setText(thisMachineHelper.getSoftware(machineID));
+            software.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("softwareInfo", software.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             design.setText(thisMachineHelper.getDesign(machineID));
+            design.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("designInfo", design.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
             support.setText(thisMachineHelper.getSupport(machineID));
+            support.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("supportInfo", support.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
 
             // Set Support Box Text Color.
             if (support.getText().equals("Obsolete")) {
@@ -209,6 +336,7 @@ public class SpecsActivity extends AppCompatActivity {
                 processorImages.removeAllViews();
                 for (int[] processorImageResGroup : processorImageRes) {
                     for (final int thisProcessorImageRes : processorImageResGroup) {
+                        @SuppressLint("InflateParams")
                         final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
                         final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
                         thisProcessorImage.setImageResource(thisProcessorImageRes);
@@ -258,11 +386,15 @@ public class SpecsActivity extends AppCompatActivity {
                     deathSound = null;
                     Log.i("InitSound", "Startup sound loaded");
                 }
-                informationLabel.setVisibility(View.VISIBLE);
                 // Should set a listener
                 image.setOnClickListener(unused -> {
                     // Initialize Sound.
                     try {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
+                        } else {
+                            vibrator.vibrate(50);
+                        }
                         if (!startupSound.isPlaying() && (deathSound == null || !deathSound.isPlaying())) {
                             // Not playing any sound
                             if (PrefsHelper.getBooleanPrefs("isEnableVolWarningThisTime", this)
@@ -325,16 +457,22 @@ public class SpecsActivity extends AppCompatActivity {
                                 "initImage", "Unable to initialize sounds.");
                     }
                 });
-                image.setClickable(true);
             } else {
                 // Exception for PowerBook DuoDock...
                 // Fix IllegalStateException
                 startupSound = null;
                 deathSound = null;
                 Log.i("InitSound", "Startup and death sound do not exist");
-                image.setOnClickListener(null);
-                image.setClickable(false);
-                informationLabel.setVisibility(View.GONE);
+                image.setOnClickListener(v -> {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
+                    } else {
+                        vibrator.vibrate(50);
+                    }
+                    Toast.makeText(SpecsActivity.this, R.string.information_specs_no_sound,
+                            Toast.LENGTH_SHORT).show();
+                });
+                informationLabel.setText(R.string.information_specs_no_sound);
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
@@ -344,19 +482,19 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void playSound() {
         try {
-            if (startupSound != null) {
-                // NullSafe
-                if (deathSound != null) {
-                    if (startup) {
-                        startupSound.start();
-                        startup = false;
-                    } else {
-                        deathSound.start();
-                        startup = true;
-                    }
-                } else {
+            if (startupSound == null) {
+                throw new IllegalStateException();
+            }
+            if (deathSound != null) {
+                if (startup) {
                     startupSound.start();
+                    startup = false;
+                } else {
+                    deathSound.start();
+                    startup = true;
                 }
+            } else {
+                startupSound.start();
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
@@ -421,80 +559,7 @@ public class SpecsActivity extends AppCompatActivity {
                     "SpecsActivity", "Unable to init buttons.");
         }
     }
-
-    private void initGestures() {
-        try {
-            Log.i("SpecGestures", "Loading");
-            final OnSwipeTouchListener listenerNotAvailable = new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            };
-            final OnSwipeTouchListener listenerOnlyNext = new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-
-                public void onSwipeLeft() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.first_one), Toast.LENGTH_LONG).show();
-                }
-            };
-            final OnSwipeTouchListener listenerOnlyPrev = new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.last_one), Toast.LENGTH_LONG).show();
-                }
-
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            };
-            final OnSwipeTouchListener listenerCanBoth = new OnSwipeTouchListener(SpecsActivity.this) {
-                public void onSwipeRight() {
-                    releaseGestures();
-                    navNext();
-                }
-
-                public void onSwipeLeft() {
-                    releaseGestures();
-                    navPrev();
-                }
-            };
-
-            if (machineIDPosition == 0 && machineIDPosition == categoryStartEnd.length - 1) {
-                // Can NOT do BOTH
-                setListenerForView(listenerNotAvailable);
-            } else if (machineIDPosition == 0) {
-                // Can only swipe Right (NEXT)
-                setListenerForView(listenerOnlyNext);
-            } else if (machineIDPosition == categoryStartEnd.length - 1) {
-                // Can only swipe Left (PREV)
-                setListenerForView(listenerOnlyPrev);
-            } else {
-                // Can do BOTH
-                setListenerForView(listenerCanBoth);
-            }
-        } catch (Exception e) {
-            ExceptionHelper.handleException(this, e,
-                    "SpecsActivity", "Unable to init gestures.");
-        }
-    }
-
-    private void releaseGestures() {
-        setListenerForView(null);
-        Log.i("SpecGestures", "Released");
-    }
-
-    private void setListenerForView(final OnSwipeTouchListener listenerForView) {
-        for (int i = 0; i < mainView.getChildCount(); i++) {
-            mainView.getChildAt(i).setOnTouchListener(listenerForView);
-        }
-    }
+    /* Gestures were removed since Ver. 4.5b3 */
 
     private void navPrev() {
         machineIDPosition--;

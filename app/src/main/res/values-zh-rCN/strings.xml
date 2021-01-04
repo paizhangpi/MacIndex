@@ -2,6 +2,7 @@
 <resources>
     <string name="information_specs_full">点击顶部图片来试听开机和宕机音效</string>
     <string name="information_specs_no_death">点击顶部图片来试听开机音效</string>
+    <string name="information_specs_no_sound">这个机型没有开机或宕机音效</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>

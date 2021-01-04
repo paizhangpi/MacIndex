@@ -70,7 +70,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
     private void initSettings() {
         final Switch swEveryMac = findViewById(R.id.switchEveryMac);
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
-        final Switch swGestures = findViewById(R.id.switchGestures);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
         final Switch swQuickNav = findViewById(R.id.switchQuickNav);
         final Switch swRandomAll = findViewById(R.id.switchRandomAll);
@@ -81,7 +80,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Boolean everyMacSelection = PrefsHelper.getBooleanPrefs("isOpenEveryMac", this);
         swEveryMac.setChecked(everyMacSelection);
         swDeathSound.setChecked(PrefsHelper.getBooleanPrefs("isPlayDeathSound", this));
-        swGestures.setChecked(PrefsHelper.getBooleanPrefs("isUseGestures", this));
         swNavButtons.setChecked(PrefsHelper.getBooleanPrefs("isUseNavButtons", this));
         swQuickNav.setChecked(PrefsHelper.getBooleanPrefs("isQuickNav", this));
         swRandomAll.setChecked(PrefsHelper.getBooleanPrefs("isRandomAll", this));
@@ -90,7 +88,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swVolWarning.setChecked(PrefsHelper.getBooleanPrefs("isEnableVolWarning", this));
 
         swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isPlayDeathSound", isChecked, this));
-        swGestures.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseGestures", isChecked, this));
         swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseNavButtons", isChecked, this));
         swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isQuickNav", isChecked, this));
         swRandomAll.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isRandomAll", isChecked, this));
@@ -101,14 +98,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {
             swDeathSound.setEnabled(false);
-            swGestures.setEnabled(false);
             swNavButtons.setEnabled(false);
             swQuickNav.setEnabled(false);
             swRandomAll.setEnabled(false);
             swVolWarning.setEnabled(false);
         } else {
             swDeathSound.setEnabled(true);
-            swGestures.setEnabled(true);
             swNavButtons.setEnabled(true);
             swQuickNav.setEnabled(true);
             swRandomAll.setEnabled(true);

@@ -21,7 +21,6 @@ class PrefsHelper {
      * User Settings
      * (Boolean) isOpenEveryMac: false
      * (Boolean) isPlayDeathSound: true
-     * (Boolean) isUseGestures: true
      * (Boolean) isUseNavButtons: true
      * (Boolean) isQuickNav: false
      * (Boolean) isRandomAll: false
@@ -54,7 +53,6 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isOpenEveryMac", Boolean.FALSE);
         DEFAULT_VALUES.put("isPlayDeathSound", Boolean.TRUE);
         DEFAULT_VALUES.put("isEnableVolWarning", Boolean.TRUE);
-        DEFAULT_VALUES.put("isUseGestures", Boolean.TRUE);
         DEFAULT_VALUES.put("isUseNavButtons", Boolean.TRUE);
         DEFAULT_VALUES.put("isQuickNav", Boolean.FALSE);
         DEFAULT_VALUES.put("isRandomAll", Boolean.FALSE);
