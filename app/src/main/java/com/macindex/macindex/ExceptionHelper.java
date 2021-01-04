@@ -51,6 +51,7 @@ class ExceptionHelper {
         exceptionDialog.setMessage(R.string.error_information);
         exceptionDialog.setCancelable(false);
         exceptionDialog.setPositiveButton(R.string.error_dismiss, (dialogInterface, i) -> {
+            PrefsHelper.invalidatePrefs(thisContext);
         });
         exceptionDialog.setNegativeButton(R.string.error_copy_button, (dialogInterface, i) -> {
         });

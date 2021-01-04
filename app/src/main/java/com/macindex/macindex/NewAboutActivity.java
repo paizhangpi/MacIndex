@@ -11,7 +11,7 @@ import java.util.Locale;
 public class NewAboutActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_about);
         this.setTitle(getResources().getString(R.string.menu_new_about));

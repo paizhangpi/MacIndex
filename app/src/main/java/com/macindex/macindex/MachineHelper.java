@@ -1,5 +1,6 @@
 package com.macindex.macindex;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -76,11 +77,6 @@ class MachineHelper {
      * getFilterString
      * Available Filter Strings: names, processors, years
      * Available Filter Resources: R.string.view1, R.string.view2, R.string.view3
-     *
-     *
-     * Methods above should be manually updated.
-     *
-     * ------------ Don't change class variables below this line ------------
      */
 
     private final SQLiteDatabase database;
@@ -90,14 +86,12 @@ class MachineHelper {
     /* Machine ID starts from 0, ends total -1. */
     private final int[] categoryIndividualCount;
 
-    private boolean status = true;
-
     /* starts from 0, actual total -1. */
     private int totalMachine = 0;
 
     private int totalConfig = 0;
 
-    MachineHelper(final SQLiteDatabase thisDatabase) {
+    MachineHelper(final SQLiteDatabase thisDatabase, final Context thisContext) {
         database = thisDatabase;
 
         categoryIndividualCount = new int[CATEGORIES_LIST.length];
@@ -108,8 +102,8 @@ class MachineHelper {
                     null);
             // SelfCheck
             if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
-                status = false;
-                Log.e("MachineHelperInit", "Error found on category " + CATEGORIES_LIST[i]);
+                ExceptionHelper.handleException(thisContext, null,
+                        "MachineHelperInit", "Error found on category " + CATEGORIES_LIST[i]);
             }
 
             final int thisCursorCount = categoryIndividualCursor[i].getCount();
@@ -128,11 +122,7 @@ class MachineHelper {
         Log.w("MachineHelper", "Initialized with " + totalConfig + " configurations.");
     }
 
-    boolean selfCheck() {
-        return status;
-    }
-
-    void suicide() {
+    public void suicide() {
         for (int i = 0; i < CATEGORIES_LIST.length; i++) {
             if (categoryIndividualCursor[i] != null) {
                 categoryIndividualCursor[i].close();
@@ -143,29 +133,26 @@ class MachineHelper {
     }
 
     // Get the total count of categories
-    int getCategoryTotalCount() {
+    public int getCategoryTotalCount() {
         return CATEGORIES_LIST.length;
     }
 
     // Get total machines. For usage of random access.
-    int getMachineCount() {
+    public int getMachineCount() {
         return totalMachine;
     }
 
-    // Get total configurations. For usage of random access.
-    int getConfigCount() {
-        return totalConfig;
-    }
+    /* Config count was removed since Ver. 4.5 */
     /* Category name and description was removed since Ver. 4.0 */
 
     // Get total machines in a category.
-    int getCategoryCount(final int thisCategory) {
+    public int getCategoryCount(final int thisCategory) {
         return categoryIndividualCount[thisCategory];
     }
     /* Category start and end was removed since Ver. 4.0 */
 
     // Get specific position of a machine ID.
-    int[] getPosition(final int thisMachine) {
+    private int[] getPosition(final int thisMachine) {
         // Category ID / Remainder
         int[] position = {0, thisMachine};
         while (position[0] < CATEGORIES_LIST.length) {
@@ -200,32 +187,16 @@ class MachineHelper {
     /* convertToDatabaseCategoryID was removed since Ver. 4.5 */
 
     // Get machine ID by a specific position. Updated to adapt String type.
-    int findByPosition(final Pair<String, Integer> thisPosition) {
+    public int findByPosition(final Pair<String, Integer> thisPosition) {
         int machineID = 0;
         for (int i = 0; i < convertToMHCategoryID(thisPosition.first); i++) {
             machineID += categoryIndividualCount[i];
         }
         return machineID + thisPosition.second;
     }
+    /* Find by Config was removed since Ver. 4.5 */
 
-    // Get config position by this config number. Return null if this config number is invalid.
-    int[] findByConfig(final int thisConfig) {
-        // Machine ID / Remainder
-        int[] configPosition = {0, thisConfig};
-        while (configPosition[0] < totalMachine) {
-            int thisConfigCount = getThisConfigCount(configPosition[0]);
-            if (configPosition[1] >= thisConfigCount) {
-                configPosition[1] -= thisConfigCount;
-                configPosition[0]++;
-            } else {
-                return configPosition;
-            }
-        }
-        Log.e("MachineHelperFndByCfg", "Can't find such ID, returning empty position.");
-        return new int[] {};
-    }
-
-    String getName(final int thisMachine) {
+    public String getName(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -234,7 +205,7 @@ class MachineHelper {
     }
 
     // Integrated with SoundHelper
-    int[] getSound(final int thisMachine) {
+    public int[] getSound(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -312,7 +283,7 @@ class MachineHelper {
         return sound;
     }
 
-    String getProcessor(final int thisMachine) {
+    public String getProcessor(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -320,7 +291,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("processor")));
     }
 
-    String getMaxRam(final int thisMachine) {
+    public String getMaxRam(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -328,7 +299,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("ram")));
     }
 
-    String getYear(final int thisMachine) {
+    public String getYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -336,7 +307,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("year")));
     }
 
-    String getModel(final int thisMachine) {
+    public String getModel(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -344,7 +315,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("model")));
     }
 
-    File getPicture(final int thisMachine) {
+    public File getPicture(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -360,18 +331,18 @@ class MachineHelper {
                 try (FileOutputStream out = new FileOutputStream(file, false)) {
                     pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    ExceptionHelper.handleException(thisContext, e, null, null);
                 }
                 path = file.getPath();
             } catch (Exception e) {
-                e.printStackTrace();
+                ExceptionHelper.handleException(thisContext, e, null, null);
             }
         }
         return new File(path);
     }
 
     // Should return "N" if EveryMac link is not available.
-    String getConfig(final int thisMachine) {
+    public String getConfig(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -385,7 +356,7 @@ class MachineHelper {
         }
     }
 
-    String getType(final int thisMachine) {
+    public String getType(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -394,7 +365,7 @@ class MachineHelper {
     }
 
     // Refer to SpecsActivity for a documentation.
-    int getProcessorTypeImage(final int thisMachine) {
+    public int getProcessorTypeImage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -446,7 +417,7 @@ class MachineHelper {
         return 0;
     }
 
-    int[][] getProcessorImage(final int thisMachine) {
+    public int[][] getProcessorImage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -805,7 +776,7 @@ class MachineHelper {
         return toReturn;
     }
 
-    String getMid(final int thisMachine) {
+    public String getMid(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -813,7 +784,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("ident")));
     }
 
-    String getGraphics(final int thisMachine) {
+    public String getGraphics(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -821,7 +792,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("graphics")));
     }
 
-    String getExpansion(final int thisMachine) {
+    public String getExpansion(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -829,7 +800,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("expansion")));
     }
 
-    String getStorage(final int thisMachine) {
+    public String getStorage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -837,7 +808,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("storage")));
     }
 
-    String getGestalt(final int thisMachine) {
+    public String getGestalt(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -845,7 +816,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("gestalt")));
     }
 
-    String getOrder(final int thisMachine) {
+    public String getOrder(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -853,7 +824,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("order")));
     }
 
-    String getEMC(final int thisMachine) {
+    public String getEMC(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -861,7 +832,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("emc")));
     }
 
-    String getSoftware(final int thisMachine) {
+    public String getSoftware(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -869,7 +840,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("software")));
     }
 
-    String getDesign(final int thisMachine) {
+    public String getDesign(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -877,7 +848,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("design")));
     }
 
-    String getSupport(final int thisMachine) {
+    public String getSupport(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -885,7 +856,7 @@ class MachineHelper {
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("support")));
     }
 
-    String getSYear(final int thisMachine) {
+    public String getSYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -932,7 +903,7 @@ class MachineHelper {
     }
 
     // Get filter string[type(Search column/Search keywords/Display string), ID]. Should be updated accordingly.
-    String[][] getFilterString(final String thisFilter) {
+    public String[][] getFilterString(final String thisFilter) {
         final String[][] names = {{"stype"},
                 {"compact_mac", "mac_ii", "mac_lc", "mac_quadra", "mac_performa", "mac_centris",
                  "mac_server", "power_mac", "imac_normal", "emac", "xserve", "mac_mini", "nmac_pro", "imac_pro",
@@ -978,7 +949,7 @@ class MachineHelper {
     }
 
     // For search use. Return machine IDs. Adapted with category range.
-    int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer) {
+    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer) {
         Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
         // Raw results (categoryID/remainders)
         final String[] thisCategoryRange = getCategoryRange(thisManufacturer);
@@ -1023,11 +994,57 @@ class MachineHelper {
                 previousCount++;
             }
         }
+
+        // Insertion sort for best runtime
+        for (int i = 0; i < resultTotalCount; i++) {
+            for (int j = i; j > 0; j--) {
+                if (getYearForSorting(columnName, searchInput, finalPositions[j])
+                        < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
+                    int shiftTemp = finalPositions[j];
+                    finalPositions[j] = finalPositions[j - 1];
+                    finalPositions[j - 1] = shiftTemp;
+                }
+            }
+        }
         return finalPositions;
     }
 
+    private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine) {
+        try {
+            String[] rawYear = getSYear(thisMachine).split(", ");
+            int targetIndex = 0;
+            if (columnName.equals("syear") && rawYear.length > 1) {
+                for (int i = 0; i < rawYear.length; i++) {
+                    String[] rawYearSplited = rawYear[i].split("\\.");
+                    if (rawYearSplited.length != 2) {
+                        Log.e("getYearForSorting", "Error, columnName " + columnName
+                                + ", searchInput " + searchInput + ", Machine Name " + getName(thisMachine) + ", Raw Year " + getSYear(thisMachine));
+                        throw new IllegalArgumentException();
+                    }
+                    if (rawYearSplited[0].equals(searchInput)) {
+                        targetIndex = i;
+                        break;
+                    }
+                }
+            }
+            String[] targetYearSplited = rawYear[targetIndex].split("\\.");
+            if (targetYearSplited.length != 2) {
+                Log.e("getYearForSorting", "Error, columnName " + columnName
+                        + ", searchInput " + searchInput + ", Machine Name " + getName(thisMachine) + ", Raw Year " + getSYear(thisMachine));
+                throw new IllegalArgumentException();
+            }
+            double targetYearSplitedA = Integer.parseInt(targetYearSplited[0]);
+            double targetYearSplitedB = Integer.parseInt(targetYearSplited[1]);
+            targetYearSplitedB = targetYearSplitedB / 10;
+            return targetYearSplitedA + targetYearSplitedB;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0.0;
+        }
+    }
+
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
-    int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer) {
+    public int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer) {
         final String[][] filterString = getFilterString(thisFilter);
         int[][] finalPositions = new int[filterString[1].length][];
         for (int i = 0; i < filterString[1].length; i++) {

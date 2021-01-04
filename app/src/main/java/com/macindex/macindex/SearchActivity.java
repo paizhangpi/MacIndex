@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private String currentOption = null;
 
-    private Button optionsButton;
+    private Button optionsButton = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class SearchActivity extends AppCompatActivity {
         initSearch();
 
         // Init search from last state
-        searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), true);
+        searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), false);
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + currentManufacturer + ", Current Option: " + currentOption);
     }
@@ -246,6 +247,7 @@ public class SearchActivity extends AppCompatActivity {
         searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(final String query) {
+                searchText.clearFocus();
                 return startSearch(query);
             }
 
@@ -254,7 +256,7 @@ public class SearchActivity extends AppCompatActivity {
                 if (newText.equals("")) {
                     return startSearch(newText);
                 }
-                return true;
+                return false;
             }
         });
     }
@@ -342,16 +344,35 @@ public class SearchActivity extends AppCompatActivity {
         try {
             Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
                     + currentManufacturer + ", Current Option: " + currentOption);
-            final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer);
-            final int resultCount = positions.length;
-            textResult.setVisibility(View.VISIBLE);
-            if (positions.length == 0) {
-                textResult.setText(R.string.search_noResult);
-            } else {
-                textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
-            }
-            Log.i("performSearch", SpecsIntentHelper.initCategory(currentLayout, positions,
-                    true, this) + " Results loaded");
+            ProgressDialog waitDialog = new ProgressDialog(SearchActivity.this);
+            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setCancelable(false);
+            waitDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer);
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                waitDialog.dismiss();
+                                final int resultCount = positions.length;
+                                textResult.setVisibility(View.VISIBLE);
+                                if (positions.length == 0) {
+                                    textResult.setText(R.string.search_noResult);
+                                } else {
+                                    textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
+                                }
+                                Log.i("performSearch", SpecsIntentHelper.initCategory(currentLayout, positions,
+                                        true, SearchActivity.this) + " Results loaded");
+                            }
+                        });
+                    } catch (final Exception e) {
+                        ExceptionHelper.handleException(SearchActivity.this, e, null, null);
+                    }
+                }
+            }.start();
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
         }

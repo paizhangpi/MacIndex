@@ -10,6 +10,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -94,34 +95,6 @@ public class MainActivity extends AppCompatActivity {
         initDatabase();
         initMenu();
         initInterface();
-
-        // If user lunched MacIndex for the first time, a message should show.
-        if (PrefsHelper.getBooleanPrefs("isFirstLunch", this)) {
-            final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(this);
-            firstLunchGreet.setTitle(R.string.information_first_lunch_title);
-            firstLunchGreet.setMessage(R.string.information_first_lunch);
-            firstLunchGreet.setPositiveButton(R.string.get_started, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
-            firstLunchGreet.show();
-            PrefsHelper.editPrefs("isFirstLunch", false, this);
-        }
-
-        // If just gone through a major update, we'll need to invalidate prefs file.
-        if (PrefsHelper.getIntPrefs("lastVersionCode", this) != BuildConfig.VERSION_CODE) {
-            Log.w("MacIndex Update", "Version code mismatch ("
-                    + PrefsHelper.getIntPrefs("lastVersionCode", this) + " != " + BuildConfig.VERSION_CODE + ").");
-            final AlertDialog.Builder goneUpdate = new AlertDialog.Builder(this);
-            goneUpdate.setTitle(R.string.information_new_major_version_title);
-            goneUpdate.setMessage(R.string.information_new_major_version);
-            goneUpdate.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                PrefsHelper.invalidatePrefs(MainActivity.this);
-                Toast.makeText(MainActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
-                finishAffinity();
-            });
-            goneUpdate.setCancelable(false);
-            goneUpdate.show();
-        } else {
-            PrefsHelper.editPrefs("lastVersionCode", BuildConfig.VERSION_CODE, this);
-        }
     }
 
     @Override
@@ -176,12 +149,7 @@ public class MainActivity extends AppCompatActivity {
             database = dbHelper.getReadableDatabase();
 
             // Open MachineHelper
-            machineHelper = new MachineHelper(database);
-            if (!machineHelper.selfCheck()) {
-                ExceptionHelper.handleException(this, null,
-                        "MachineHelperInit",
-                        "Columns count preset mismatch with actual quantity.");
-            }
+            machineHelper = new MachineHelper(database, MainActivity.this);
 
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
@@ -424,68 +392,114 @@ public class MainActivity extends AppCompatActivity {
             categoryContainer.removeAllViews();
             // Get filter string and positions.
             final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
-            loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
-            // Set up each category.
-            for (int i = 0; i < loadPositions.length; i++) {
-                final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
-                final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
-                final TextView categoryName = categoryChunk.findViewById(R.id.category);
-                if (loadPositions[i].length != 0) {
-                    categoryName.setText(thisFilterString[2][i]);
+            ProgressDialog waitDialog = new ProgressDialog(MainActivity.this);
+            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setCancelable(false);
+            waitDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    loadPositions = machineHelper.filterSearchHelper(thisFilter, thisManufacturer);
+                    try {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                waitDialog.dismiss();
+                                // Set up each category.
+                                for (int i = 0; i < loadPositions.length; i++) {
+                                    final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
+                                    final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
+                                    final TextView categoryName = categoryChunk.findViewById(R.id.category);
+                                    if (loadPositions[i].length != 0) {
+                                        categoryName.setText(thisFilterString[2][i]);
 
-                    /* Remake my teammate's code */
-                    categoryName.setOnClickListener(new View.OnClickListener() {
-                        private boolean thisVisibility = false;
-                        @Override
-                        public void onClick(final View view) {
-                            final View firstChild = categoryChunkLayout.getChildAt(1);
-                            if (thisVisibility) {
-                                // Make machines invisible.
-                                if (!(firstChild instanceof LinearLayout)) {
-                                    // Have the divider
-                                    for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                        categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
-                                        thisVisibility = false;
-                                    }
-                                    firstChild.setVisibility(View.VISIBLE);
-                                } else {
-                                    // Does not have the divider
-                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
-                                        thisVisibility = false;
+                                        /* Remake my teammate's code */
+                                        categoryName.setOnClickListener(new View.OnClickListener() {
+                                            private boolean thisVisibility = false;
+                                            @Override
+                                            public void onClick(final View view) {
+                                                final View firstChild = categoryChunkLayout.getChildAt(1);
+                                                if (thisVisibility) {
+                                                    // Make machines invisible.
+                                                    if (!(firstChild instanceof LinearLayout)) {
+                                                        // Have the divider
+                                                        for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                                            categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                                            thisVisibility = false;
+                                                        }
+                                                        firstChild.setVisibility(View.VISIBLE);
+                                                    } else {
+                                                        // Does not have the divider
+                                                        for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                                            categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                                            thisVisibility = false;
+                                                        }
+                                                    }
+                                                } else {
+                                                    // Make machines visible.
+                                                    if (!(firstChild instanceof LinearLayout)) {
+                                                        // Have the divider
+                                                        for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                                            categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                                            thisVisibility = true;
+                                                        }
+                                                        firstChild.setVisibility(View.GONE);
+                                                    } else {
+                                                        // Does not have the divider
+                                                        for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                                            categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                                            thisVisibility = true;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        Log.i("initCategory", "Loading category " + i);
+                                        machineLoadedCount += SpecsIntentHelper
+                                                .initCategory(categoryChunkLayout, loadPositions[i], false, MainActivity.this);
+                                        categoryContainer.addView(categoryChunk);
                                     }
                                 }
-                            } else {
-                                // Make machines visible.
-                                if (!(firstChild instanceof LinearLayout)) {
-                                    // Have the divider
-                                    for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
-                                        categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
-                                        thisVisibility = true;
-                                    }
-                                    firstChild.setVisibility(View.GONE);
+                                // Remove the last divider.
+                                if (categoryContainer.getChildCount() != 0) {
+                                    ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
+                                }
+                                // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
+                                Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
+
+                                // If user lunched MacIndex for the first time, a message should show.
+                                if (PrefsHelper.getBooleanPrefs("isFirstLunch", MainActivity.this)) {
+                                    final AlertDialog.Builder firstLunchGreet = new AlertDialog.Builder(MainActivity.this);
+                                    firstLunchGreet.setTitle(R.string.information_first_lunch_title);
+                                    firstLunchGreet.setMessage(R.string.information_first_lunch);
+                                    firstLunchGreet.setPositiveButton(R.string.get_started, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
+                                    firstLunchGreet.show();
+                                    PrefsHelper.editPrefs("isFirstLunch", false, MainActivity.this);
+                                }
+
+                                // If just gone through a major update, we'll need to invalidate prefs file.
+                                if (PrefsHelper.getIntPrefs("lastVersionCode", MainActivity.this) != BuildConfig.VERSION_CODE) {
+                                    Log.w("MacIndex Update", "Version code mismatch ("
+                                            + PrefsHelper.getIntPrefs("lastVersionCode", MainActivity.this) + " != " + BuildConfig.VERSION_CODE + ").");
+                                    final AlertDialog.Builder goneUpdate = new AlertDialog.Builder(MainActivity.this);
+                                    goneUpdate.setTitle(R.string.information_new_major_version_title);
+                                    goneUpdate.setMessage(R.string.information_new_major_version);
+                                    goneUpdate.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                        PrefsHelper.invalidatePrefs(MainActivity.this);
+                                    });
+                                    goneUpdate.setCancelable(false);
+                                    goneUpdate.show();
                                 } else {
-                                    // Does not have the divider
-                                    for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
-                                        categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
-                                        thisVisibility = true;
-                                    }
+                                    PrefsHelper.editPrefs("lastVersionCode", BuildConfig.VERSION_CODE, MainActivity.this);
                                 }
                             }
-                        }
-                    });
-                    Log.i("initCategory", "Loading category " + i);
-                    machineLoadedCount += SpecsIntentHelper
-                            .initCategory(categoryChunkLayout, loadPositions[i], false, this);
-                    categoryContainer.addView(categoryChunk);
+                        });
+                    } catch (final Exception e) {
+                        ExceptionHelper.handleException(MainActivity.this, e, null, null);
+                    }
                 }
-            }
-            // Remove the last divider.
-            if (categoryContainer.getChildCount() != 0) {
-                ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
-            }
-            // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
-            Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
+            }.start();
+            throw new IllegalArgumentException();
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initInterface", "Initialize failed!!");

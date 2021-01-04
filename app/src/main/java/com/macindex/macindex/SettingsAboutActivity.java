@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Switch;
-import android.widget.Toast;
 
 public class SettingsAboutActivity extends AppCompatActivity {
 
@@ -39,8 +38,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs(this);
-                    Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
-                    finishAffinity();
                 });
                 defaultsWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
                     // Cancelled, nothing to do.
@@ -54,8 +51,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 defaultsWarningDialog.setMessage(R.string.setting_invalidate_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.invalidatePrefs(this);
-                    Toast.makeText(SettingsAboutActivity.this, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
-                    finishAffinity();
                 });
                 defaultsWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
                     // Cancelled, nothing to do.

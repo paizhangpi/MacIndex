@@ -8,7 +8,7 @@
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
     <string name="information_first_lunch">自古至今，融于掌中。感谢您安装 MacIndex。打开抽屉来探索更多。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
-    <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的偏好设置将保留。 在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
+    <string name="information_new_major_version">很抱歉，但是在重大更新后必须进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的偏好设置将保留。在您确认后 MacIndex 将会退出，然后您就可以正常使用了。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
     <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，随机模式将不再可用。</string>
@@ -85,11 +85,12 @@
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="error">对不起，出现错误</string>
-    <string name="error_information">请向开发者报告这个 Bug。请参考官方网站来获得更多信息。</string>
+    <string name="error_information">请向开发者报告这个 Bug。MacIndex 将会关闭，并进行设置文件刷新。您的使用记录参数（主要由程序使用）将会被清除，但您的偏好设置将保留。请参考官方网站来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
     <string name="error_dismiss">关闭</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
     <string name="get_started">开始使用</string>
+    <string name="loading">请稍候</string>
 </resources>

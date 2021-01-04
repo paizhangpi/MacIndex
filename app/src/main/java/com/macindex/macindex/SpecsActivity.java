@@ -135,8 +135,8 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("releaseSound", "Death sound released");
             }
         } catch (Exception e) {
-            ExceptionHelper.handleException(this, e,
-                    "SpecsActivity", "Unable to release sounds.");
+            e.printStackTrace();
+            Log.w("SpecsActivity", "Unable to release all sounds.");
         }
     }
 
@@ -356,7 +356,7 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             // Init image
             final ImageView image = findViewById(R.id.pic);
-            final File imageFile = thisMachineHelper.getPicture(machineID);
+            final File imageFile = thisMachineHelper.getPicture(machineID, SpecsActivity.this);
             if (imageFile.exists()) {
                 Log.i("SpecsAct", "Image exists");
                 image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getPath()));
@@ -391,7 +391,7 @@ public class SpecsActivity extends AppCompatActivity {
                     // Initialize Sound.
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
+                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK));
                         } else {
                             vibrator.vibrate(50);
                         }
@@ -465,7 +465,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("InitSound", "Startup and death sound do not exist");
                 image.setOnClickListener(v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK));
+                        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK));
                     } else {
                         vibrator.vibrate(50);
                     }
@@ -476,7 +476,7 @@ public class SpecsActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
-                    "initSound", "Failed, Machine ID " + machineID);
+                    "initSound", "Failed, Machine Name " + thisMachineHelper.getName(machineID));
         }
     }
 

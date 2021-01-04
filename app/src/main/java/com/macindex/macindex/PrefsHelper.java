@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -189,6 +190,8 @@ class PrefsHelper {
             clearPrefs("currentOptionResource", thisContext);
             clearPrefs("lastVersionCode", thisContext);
             Log.w("Preference Helper", "Preference file invalidated");
+            Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
+            System.exit(0);
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to invalidate preference");
         }
@@ -199,6 +202,8 @@ class PrefsHelper {
             final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
             prefsFile.edit().clear().apply();
             Log.w("Preference Helper", "Preference file cleared");
+            Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
+            System.exit(0);
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to clear preference");
         }
