@@ -230,6 +230,7 @@ class PrefsHelper {
             prefsFile.edit().clear().commit();
             Log.w("Preference Helper", "Preference file cleared");
             Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
+            System.exit(0);
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to clear preference");
         }

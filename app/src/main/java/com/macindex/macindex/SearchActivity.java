@@ -253,8 +253,16 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                if (newText.equals("")) {
-                    return startSearch(newText);
+                String searchInput = newText.trim();
+                textIllegalInput.setVisibility(View.GONE);
+                if (!searchInput.equals("")) {
+                    if (!validate(searchInput, currentOption)) {
+                        textResult.setVisibility(View.GONE);
+                        textIllegalInput.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    // No input
+                    startSearch(searchInput);
                 }
                 return false;
             }
@@ -280,7 +288,7 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             // No input
             textResult.setVisibility(View.GONE);
-            return true;
+            return false;
         }
     }
 
@@ -290,8 +298,8 @@ public class SearchActivity extends AppCompatActivity {
             Log.i("validate", "Input is too long!");
             return false;
         }
-        // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus.
-        final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+";
+        // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus, dot.
+        final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+.";
         // Model Number: acceptable search input Aa, Mm, 0~9.
         final String legalCharactersModel = "AMam1234567890";
         // Identification: acceptable search input A~Z, a~z, 0~9, comma.
