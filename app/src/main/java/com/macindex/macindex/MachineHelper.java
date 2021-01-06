@@ -15,6 +15,16 @@ import java.io.FileOutputStream;
  * MacIndex MachineHelper.
  * Helps with ID-based flexible database query.
  * First built May 12, 2020.
+ *
+ * Category name and description was removed since Ver. 4.0
+ * Category start and end was removed since Ver. 4.0
+ * Based on searching since Ver. 4.0
+ * Total configuration removed since Ver. 4.5
+ * Config count was removed since Ver. 4.5
+ * convertToDatabaseCategoryID was removed since Ver. 4.5
+ * Find by Config was removed since Ver. 4.5
+ * Category Individual Cursor was removed since Ver. 4.5
+ * Changed Cursor behavior since Ver. 4.5
  */
 class MachineHelper {
 
@@ -81,55 +91,37 @@ class MachineHelper {
 
     private final SQLiteDatabase database;
 
-    private final Cursor[] categoryIndividualCursor;
-
     /* Machine ID starts from 0, ends total -1. */
     private final int[] categoryIndividualCount;
 
     /* starts from 0, actual total -1. */
     private int totalMachine = 0;
 
-    private int totalConfig = 0;
-
     MachineHelper(final SQLiteDatabase thisDatabase, final Context thisContext) {
         database = thisDatabase;
 
         categoryIndividualCount = new int[CATEGORIES_LIST.length];
-        categoryIndividualCursor = new Cursor[CATEGORIES_LIST.length];
         for (int i = 0; i < CATEGORIES_LIST.length; i++) {
-            categoryIndividualCursor[i] = database.query(CATEGORIES_LIST[i],
+            Cursor tempCursor = database.query(CATEGORIES_LIST[i],
                     null, null, null, null, null,
                     null);
             // SelfCheck
-            if (categoryIndividualCursor[i].getColumnCount() != COLUMNS_COUNT) {
+            if (tempCursor.getColumnCount() != COLUMNS_COUNT) {
                 ExceptionHelper.handleException(thisContext, null,
                         "MachineHelperInit", "Error found on category " + CATEGORIES_LIST[i]);
             }
 
-            final int thisCursorCount = categoryIndividualCursor[i].getCount();
+            final int thisCursorCount = tempCursor.getCount();
             categoryIndividualCount[i] = thisCursorCount;
             totalMachine += thisCursorCount;
             Log.i("MachineHelperInit", "Category cursor " + CATEGORIES_LIST[i]
                     + " loaded with row count " + thisCursorCount
                     + ", accumulated total row count " + totalMachine);
-        }
 
-        // Initialize configurations
-        for (int i = 0; i < totalMachine; i++) {
-            totalConfig += getThisConfigCount(i);
+            tempCursor.close();
         }
         Log.w("MachineHelper", "Initialized with " + totalMachine + " machines.");
-        Log.w("MachineHelper", "Initialized with " + totalConfig + " configurations.");
-    }
 
-    public void suicide() {
-        for (int i = 0; i < CATEGORIES_LIST.length; i++) {
-            if (categoryIndividualCursor[i] != null) {
-                categoryIndividualCursor[i].close();
-                Log.i("MachineHelperSuicide", "Category cursor " + CATEGORIES_LIST[i]
-                        + " closed successfully.");
-            }
-        }
     }
 
     // Get the total count of categories
@@ -142,14 +134,13 @@ class MachineHelper {
         return totalMachine;
     }
 
-    /* Config count was removed since Ver. 4.5 */
-    /* Category name and description was removed since Ver. 4.0 */
+
 
     // Get total machines in a category.
     public int getCategoryCount(final int thisCategory) {
         return categoryIndividualCount[thisCategory];
     }
-    /* Category start and end was removed since Ver. 4.0 */
+
 
     // Get specific position of a machine ID.
     private int[] getPosition(final int thisMachine) {
@@ -166,11 +157,6 @@ class MachineHelper {
         return position;
     }
 
-    private int getThisConfigCount(final int thisMachine) {
-        final String[] configGroup = getConfig(thisMachine).split(";");
-        return configGroup.length;
-    }
-
     // Convert Internal Database Category ID to MH Category ID
     private int convertToMHCategoryID(final String toConvert) {
         // Array out bound bug fix
@@ -184,8 +170,6 @@ class MachineHelper {
         return toReturn;
     }
 
-    /* convertToDatabaseCategoryID was removed since Ver. 4.5 */
-
     // Get machine ID by a specific position. Updated to adapt String type.
     public int findByPosition(final Pair<String, Integer> thisPosition) {
         int machineID = 0;
@@ -194,23 +178,213 @@ class MachineHelper {
         }
         return machineID + thisPosition.second;
     }
-    /* Find by Config was removed since Ver. 4.5 */
 
     public String getName(final int thisMachine) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("name")));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "name"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("name"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getProcessor(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "processor"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("processor"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getMaxRam(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "ram"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ram"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getYear(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "year"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("year"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getModel(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "model"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("model"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getType(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "rom"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("rom"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getMid(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "ident"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ident"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getGraphics(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "graphics"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("graphics"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getExpansion(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "expansion"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("expansion"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getStorage(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "storage"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("storage"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getGestalt(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "gestalt"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("gestalt"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getOrder(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        // KEYWORD COLLISION! Temporary fix.
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                null, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("order"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getEMC(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "emc"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("emc"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getSoftware(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "software"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("software"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getDesign(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "design"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("design"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getSupport(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "support"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("support"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    public String getSYear(final int thisMachine) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "syear"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("syear"));
+        tempCursor.close();
+        return checkApplicability(tempResult);
+    }
+
+    // NullSafe
+    private static String checkApplicability(final String thisSpec) {
+        if (thisSpec == null) {
+            return MainActivity.getRes().getString(R.string.not_applicable);
+        } else {
+            return thisSpec;
+        }
     }
 
     // Integrated with SoundHelper
     public int[] getSound(final int thisMachine) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        String thisSound = categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("sound"));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "sound"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String thisSound = tempCursor.getString(tempCursor.getColumnIndex("sound"));
+        tempCursor.close();
         int[] sound = {0, 0};
         // NullSafe
         if (thisSound == null) {
@@ -283,44 +457,14 @@ class MachineHelper {
         return sound;
     }
 
-    public String getProcessor(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processor")));
-    }
-
-    public String getMaxRam(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("ram")));
-    }
-
-    public String getYear(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        //categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("year")));
-    }
-
-    public String getModel(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("model")));
-    }
-
     public File getPicture(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        byte[] thisBlob = categoryIndividualCursor[position[0]]
-                .getBlob(categoryIndividualCursor[position[0]].getColumnIndex("pic"));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "pic"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        byte[] thisBlob = tempCursor.getBlob(tempCursor.getColumnIndex("pic"));
+        tempCursor.close();
         // Old code from my old friend was not modified.
         String path = "/";
         if (thisBlob != null) {
@@ -344,33 +488,29 @@ class MachineHelper {
     // Should return "N" if EveryMac link is not available.
     public String getConfig(final int thisMachine) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        String toReturn = categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("links"));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "links"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex("links"));
+        tempCursor.close();
         // NullSafe
-        if (toReturn == null) {
+        if (tempResult == null) {
             return "null";
         } else {
-            return toReturn;
+            return tempResult;
         }
-    }
-
-    public String getType(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("rom")));
     }
 
     // Refer to SpecsActivity for a documentation.
     public int getProcessorTypeImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        String thisProcessorImage = categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("sprocessor"));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "sprocessor"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String thisProcessorImage = tempCursor.getString(tempCursor.getColumnIndex("sprocessor"));
+        tempCursor.close();
         Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
@@ -421,10 +561,12 @@ class MachineHelper {
 
     public int[][] getProcessorImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        String thisProcessorImage = categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("processorid"));
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", "processorid"}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String thisProcessorImage = tempCursor.getString(tempCursor.getColumnIndex("processorid"));
+        tempCursor.close();
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
@@ -777,103 +919,6 @@ class MachineHelper {
             }
         }
         return toReturn;
-    }
-
-    public String getMid(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("ident")));
-    }
-
-    public String getGraphics(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("graphics")));
-    }
-
-    public String getExpansion(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("expansion")));
-    }
-
-    public String getStorage(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("storage")));
-    }
-
-    public String getGestalt(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("gestalt")));
-    }
-
-    public String getOrder(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("order")));
-    }
-
-    public String getEMC(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("emc")));
-    }
-
-    public String getSoftware(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("software")));
-    }
-
-    public String getDesign(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("design")));
-    }
-
-    public String getSupport(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("support")));
-    }
-
-    public String getSYear(final int thisMachine) {
-        int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
-        categoryIndividualCursor[position[0]].move(position[1]);
-        return checkApplicability(categoryIndividualCursor[position[0]]
-                .getString(categoryIndividualCursor[position[0]].getColumnIndex("syear")));
-    }
-
-    // NullSafe
-    private static String checkApplicability(final String thisSpec) {
-        if (thisSpec == null) {
-            return MainActivity.getRes().getString(R.string.not_applicable);
-        } else {
-            return thisSpec;
-        }
     }
 
     // Get category range by manufacturer. Should be updated accordingly.

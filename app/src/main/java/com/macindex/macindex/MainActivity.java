@@ -111,9 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (machineHelper != null) {
-            machineHelper.suicide();
-        }
         if (database != null) {
             database.close();
         }
