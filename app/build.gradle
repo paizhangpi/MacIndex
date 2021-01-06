@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 14
-        versionName "4.5b5"
+        versionName "4.5.0 Prerelease"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

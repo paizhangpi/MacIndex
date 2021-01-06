@@ -301,7 +301,7 @@ class MachineHelper {
 
     public String getYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
-        categoryIndividualCursor[position[0]].moveToFirst();
+        //categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
         return checkApplicability(categoryIndividualCursor[position[0]]
                 .getString(categoryIndividualCursor[position[0]].getColumnIndex("year")));
@@ -365,7 +365,7 @@ class MachineHelper {
     }
 
     // Refer to SpecsActivity for a documentation.
-    public int getProcessorTypeImage(final int thisMachine) {
+    public int getProcessorTypeImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -374,7 +374,7 @@ class MachineHelper {
         Log.i("MHGetProcessorImageType", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
-            thisProcessorImage = "null";
+            return 0;
         }
         String[] thisImages = thisProcessorImage.split("~");
         switch (thisImages[0]) {
@@ -413,12 +413,13 @@ class MachineHelper {
             case "m1":
                 return R.drawable.arm;
             default:
-                Log.i("MHGetProcessorImageType", "No processor type image for parameter " + thisProcessorImage);
+                ExceptionHelper.handleException(thisContext, null,
+                        "MHGetProcessorImageType", "Illegal parameter " + thisProcessorImage);
         }
         return 0;
     }
 
-    public int[][] getProcessorImage(final int thisMachine) {
+    public int[][] getProcessorImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         categoryIndividualCursor[position[0]].moveToFirst();
         categoryIndividualCursor[position[0]].move(position[1]);
@@ -427,7 +428,7 @@ class MachineHelper {
         Log.i("MHGetProcessorImage", "Get ID " + thisProcessorImage);
         // NullSafe
         if (thisProcessorImage == null) {
-            thisProcessorImage = "null";
+            return new int[][] {{0}};
         }
         String[] thisImages = thisProcessorImage.split(",");
         int[][] toReturn = new int[thisImages.length][];
@@ -768,7 +769,8 @@ class MachineHelper {
                     toReturn[i][0] = R.drawable.applem1;
                     break;
                 default:
-                    Log.i("MHGetProcessorImage", "No processor image for parameter " + thisProcessorImage);
+                    ExceptionHelper.handleException(thisContext, null,
+                            "MHGetProcessorImage", "Illegal parameter " + thisProcessorImage);
                     toReturn[i] = new int[1];
                     toReturn[i][0] = 0;
                     break;

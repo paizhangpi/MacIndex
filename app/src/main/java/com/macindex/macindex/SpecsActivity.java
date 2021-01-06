@@ -317,13 +317,13 @@ public class SpecsActivity extends AppCompatActivity {
             final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
             final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);
             final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
-            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID);
+            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID, SpecsActivity.this);
 
             // Default states are all hidden.
             processorTypeImageLayout.setVisibility(View.GONE);
             processorImageLayoutContainer.setVisibility(View.GONE);
 
-            final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID);
+            final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID, SpecsActivity.this);
             if (processorTypeImageRes != 0) {
                 // Got type image. Now loading.
                 processorTypeImageLayout.setVisibility(View.VISIBLE);
