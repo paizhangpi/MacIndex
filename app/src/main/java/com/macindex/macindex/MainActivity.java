@@ -34,11 +34,13 @@ import java.util.Random;
  * MacIndex.
  * University of Illinois, CS125 FA19 Final Project
  * University of Illinois, CS199 Kotlin SP20 Final Project
- * https://paizhang.info/MacIndex
+ * https://MacIndex.paizhang.info/
  * https://github.com/paizhangpi/MacIndex
  *
+ * Basic functionality was finished on 16:12 CST, Dec 2, 2019.
  * 3.0 Update May 12, 2020 at Champaign, Illinois, U.S.A.
  * 4.0 Update June 13, 2020 at Shenyang, Liaoning, China.
+ * 4.5 Update January 7, 2021 at Jinzhong, Shanxi, China.
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -460,7 +462,6 @@ public class MainActivity extends AppCompatActivity {
                                 if (categoryContainer.getChildCount() != 0) {
                                     ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
                                 }
-                                // Basic functionality was finished on 16:12 CST, Dec 2, 2019.
                                 Log.w("MainActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
 
                                 // If user lunched MacIndex for the first time, a message should show.

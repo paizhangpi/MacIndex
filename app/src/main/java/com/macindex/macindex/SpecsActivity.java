@@ -364,7 +364,7 @@ public class SpecsActivity extends AppCompatActivity {
             imageFile.delete();
 
             // Init startup and death sound
-            final int[] sound = thisMachineHelper.getSound(machineID);
+            final int[] sound = thisMachineHelper.getSound(machineID, SpecsActivity.this);
             final int startupID = sound[0];
             final int deathID = sound[1];
             final TextView informationLabel = findViewById(R.id.information);

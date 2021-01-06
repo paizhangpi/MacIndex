@@ -377,7 +377,7 @@ class MachineHelper {
     }
 
     // Integrated with SoundHelper
-    public int[] getSound(final int thisMachine) {
+    public int[] getSound(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
                 new String[]{"id", "sound"}, "id = " + position[1], null, null, null,
@@ -388,9 +388,9 @@ class MachineHelper {
         int[] sound = {0, 0};
         // NullSafe
         if (thisSound == null) {
-            thisSound = "null";
+            return sound;
         }
-        Log.i("MachineHelperGetSound", "Get ID " + thisSound);
+        Log.i("MachineHelperGetSound", "Get parameter " + thisSound);
         switch (thisSound) {
             case "0":
                 sound[0] = R.raw.mac128;
@@ -427,7 +427,8 @@ class MachineHelper {
                 sound[0] = R.raw.bigsur;
                 break;
             default:
-                Log.i("MachineHelperGetSound", "No startup sound for parameter " + thisSound);
+                ExceptionHelper.handleException(thisContext, null,
+                        "MachineHelperGetSound", "Illegal parameter " + thisSound);
         }
         switch (thisSound) {
             case "1":
@@ -452,7 +453,7 @@ class MachineHelper {
                 sound[1] = R.raw.powermac_death;
                 break;
             default:
-                Log.i("MachineHelperGetDthSnd", "No death sound for parameter " + thisSound);
+                Log.w("MachineHelperGetDthSnd", "No death sound for parameter " + thisSound);
         }
         return sound;
     }
