@@ -1,9 +1,7 @@
 # MacIndex
 
-Mac computer specifications look-up on Android Devices.
+MacIndex provides specifications of Mac computers on the Android platform.
 
-Supports various specifications, filters, search, random access, various settings and navigation methods, and provide links to EveryMac pages.
+https://macindex.paizhang.info/
 
-Please checkout https://paizhang.info/MacIndex for introduction (screenshots), acknowledgements, download and updates, version history, etc.
-
-Available in Chinese and English.
+Final Project of CS 125 Fall 2019 at the University of Illinois at Urbana-Champaign.
