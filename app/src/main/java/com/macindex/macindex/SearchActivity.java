@@ -93,12 +93,10 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initOptions() {
         final AlertDialog.Builder optionsDialog = new AlertDialog.Builder(SearchActivity.this);
-        //optionsDialog.setTitle(R.string.search_filters);
         optionsDialog.setCancelable(false);
         optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
                     + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
-            startSearch(searchText.getQuery().toString());
         });
 
         final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);

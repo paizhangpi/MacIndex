@@ -20,7 +20,8 @@
         android:gravity="start|center_vertical"
         android:textAlignment="gravity"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/machineYear"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="start|center_vertical"
         android:textAlignment="gravity"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:maxLines="1" />
 
 </LinearLayout>

@@ -43,7 +43,8 @@
                     android:gravity="center_horizontal"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:maxLines="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +80,9 @@
                     android:elegantTextHeight="true"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
 
                 <Button
                     android:id="@+id/buttonNext"
@@ -91,7 +94,9 @@
                     android:elegantTextHeight="true"
                     android:gravity="center"
                     android:textAllCaps="false"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:maxLines="2"
+                    android:ellipsize="end" />
 
             </LinearLayout>
 

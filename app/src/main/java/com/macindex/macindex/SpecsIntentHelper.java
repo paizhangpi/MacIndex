@@ -2,11 +2,14 @@ package com.macindex.macindex;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.widget.TextViewCompat;
 
 import java.util.Arrays;
 
@@ -30,6 +33,12 @@ class SpecsIntentHelper {
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    machineName.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                } else {
+                    TextViewCompat.setAutoSizeTextTypeWithDefaults(machineName, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                }
 
                 mainChunkToClick.setOnClickListener(unused -> {
                     if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", thisContext)) {

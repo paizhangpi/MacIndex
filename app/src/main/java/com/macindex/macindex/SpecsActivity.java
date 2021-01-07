@@ -1,6 +1,7 @@
 package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.TextViewCompat;
 
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
@@ -161,6 +162,13 @@ public class SpecsActivity extends AppCompatActivity {
 
             this.setTitle(thisMachineHelper.getName(machineID));
             name.setText(thisMachineHelper.getName(machineID));
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            } else {
+                TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            }
+
             type.setText(thisMachineHelper.getType(machineID));
             type.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
