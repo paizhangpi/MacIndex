@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -67,7 +68,9 @@ public class SearchActivity extends AppCompatActivity {
 
         optionsButton = findViewById(R.id.buttonShowFilters);
         optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
-                + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
+                + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this))
+                + " / " + (PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this)
+                ? getString(R.string.search_exact_match) : getString(R.string.search_partial_match)));
         optionsButton.setOnClickListener(view -> initOptions());
 
         initSearch();
@@ -96,12 +99,17 @@ public class SearchActivity extends AppCompatActivity {
         optionsDialog.setCancelable(false);
         optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
-                    + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this)));
+                    + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this))
+                    + " / " + (PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this)
+                    ? getString(R.string.search_exact_match) : getString(R.string.search_partial_match)));
+            startValidate(searchText.getQuery().toString());
         });
 
         final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
         final RadioGroup manufacturerOptions = optionChunk.findViewById(R.id.groupsOptions);
         final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
+        final CheckBox isExactMatchCheckBox = optionChunk.findViewById(R.id.isExactMatch);
+
         disableCheck(optionChunk, searchOptions);
         manufacturerOptions.check(PrefsHelper.getIntPrefs("searchManufacturerSelection", this));
         searchOptions.check(PrefsHelper.getIntPrefs("searchOptionSelection", this));
@@ -183,6 +191,18 @@ public class SearchActivity extends AppCompatActivity {
             PrefsHelper.editPrefs("currentOptionResource", toEditOptionResource, this);
         });
 
+        // Is Exact Match?
+        isExactMatchCheckBox.setChecked(PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this));
+        isExactMatchCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+            if (isExactMatchCheckBox.isChecked()) {
+                isExactMatchCheckBox.setChecked(true);
+                PrefsHelper.editPrefs("searchExactMatch", true, SearchActivity.this);
+            } else {
+                isExactMatchCheckBox.setChecked(false);
+                PrefsHelper.editPrefs("searchExactMatch", false, SearchActivity.this);
+            }
+        });
+
         optionsDialog.setView(optionChunk);
         optionsDialog.show();
     }
@@ -191,6 +211,7 @@ public class SearchActivity extends AppCompatActivity {
         final RadioButton identOption = optionChunk.findViewById(R.id.midOption);
         final RadioButton gestaltOption = optionChunk.findViewById(R.id.gestaltOption);
         final RadioButton emcOption = optionChunk.findViewById(R.id.emcOption);
+
         if (currentManufacturer.equals("apple68k")) {
             Log.i("SearchHelper", "Disabling Identification and EMC Option");
             if (currentOption.equals("sident") || currentOption.equals("semc")) {
@@ -251,20 +272,24 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                String searchInput = newText.trim();
-                textIllegalInput.setVisibility(View.GONE);
-                if (!searchInput.equals("")) {
-                    if (!validate(searchInput, currentOption)) {
-                        textResult.setVisibility(View.GONE);
-                        textIllegalInput.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    // No input
-                    startSearch(searchInput);
-                }
+                startValidate(newText);
                 return false;
             }
         });
+    }
+
+    private void startValidate(final String s) {
+        String searchInput = s.trim();
+        textIllegalInput.setVisibility(View.GONE);
+        if (!searchInput.equals("")) {
+            if (!validate(searchInput, currentOption)) {
+                textResult.setVisibility(View.GONE);
+                textIllegalInput.setVisibility(View.VISIBLE);
+            }
+        } else {
+            // No input
+            startSearch(searchInput);
+        }
     }
 
     private boolean startSearch(final String s) {
@@ -305,7 +330,7 @@ public class SearchActivity extends AppCompatActivity {
         // Gestalt: acceptable search input 0~9.
         final String legalCharactersGestalt = "0123456789";
         // Order Number: acceptable search input A~Z, a~z, 0~9, /.
-        final String legalCharactersOrder = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,";
+        final String legalCharactersOrder = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789/";
         // EMC Number: acceptable search input Cc, 0~9, -.
         final String legalCharactersEMC = "Cc0123456789-";
 
@@ -357,7 +382,8 @@ public class SearchActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer, SearchActivity.this);
+                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer,
+                            SearchActivity.this, PrefsHelper.getBooleanPrefsSafe("searchExactMatch", SearchActivity.this));
                     try {
                         runOnUiThread(new Runnable() {
                             @Override

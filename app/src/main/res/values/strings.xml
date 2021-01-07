@@ -51,6 +51,8 @@
     <string name="search_illegal">Invalid Input (Please refer to the Official Website)</string>
     <string name="search_disable_identification">Old world Macintosh does not have Identification and EMC Number. Please use the Gestalt ID instead. Please also refer to the Official Website.</string>
     <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead. Please also refer to the Official Website.</string>
+    <string name="search_exact_match">Exact Match</string>
+    <string name="search_partial_match">Partial Match</string>
     <string name="menu_search">Search</string>
     <string name="menu_search_everymac">EveryMac Lookup</string>
     <string name="menu_random">I\'m Feeling Lucky</string>

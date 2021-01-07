@@ -53,6 +53,7 @@ class PrefsHelper {
      * (SearchActivity - Int) searchOptionSelection: current selected search filter radio button resource: R.id.nameOption
      * (SearchActivity - Int) currentManufacturerResource: current selected category filter string resource: R.string.menu_group0
      * (SearchActivity - Int) currentOptionResource: R.string.search_nameOption
+     * (SearchActivity - Boolean) searchExactMatch: false
      *
      * (Special - Int) lastVersionCode: last app version code: BuildConfig.VERSION_CODE
      */
@@ -85,6 +86,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("searchOptionSelection", R.id.nameOption);
         DEFAULT_VALUES.put("currentManufacturerResource", R.string.menu_group0);
         DEFAULT_VALUES.put("currentOptionResource", R.string.search_nameOption);
+        DEFAULT_VALUES.put("searchExactMatch", Boolean.FALSE);
 
         DEFAULT_VALUES.put("lastVersionCode", BuildConfig.VERSION_CODE);
     }

@@ -10,6 +10,8 @@ import android.util.Pair;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
+import java.util.Vector;
 
 /*
  * MacIndex MachineHelper.
@@ -374,6 +376,17 @@ class MachineHelper {
         } else {
             return thisSpec;
         }
+    }
+
+    private String getUndefined(final int thisMachine, final String thisColumn) {
+        int[] position = getPosition(thisMachine);
+        Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
+                new String[]{"id", thisColumn}, "id = " + position[1], null, null, null,
+                null);
+        tempCursor.moveToFirst();
+        String tempResult = tempCursor.getString(tempCursor.getColumnIndex(thisColumn));
+        tempCursor.close();
+        return tempResult;
     }
 
     // Integrated with SoundHelper
@@ -998,20 +1011,18 @@ class MachineHelper {
     }
 
     // For search use. Return machine IDs. Adapted with category range.
-    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer, final Context thisContext) {
-        Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
-        // Raw results (categoryID/remainders)
-        final String[] thisCategoryRange = getCategoryRange(thisManufacturer);
-        final int thisCategoryCount = thisCategoryRange.length;
-        int[][] rawResults = new int[thisCategoryCount][];
-
-        // Setup temp cursor of each category for a query.
+    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer, final Context thisContext, final boolean isExactMatch) {
         try {
+            Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
+            // Raw results (categoryID/remainders)
+            final String[] thisCategoryRange = getCategoryRange(thisManufacturer);
+            final int thisCategoryCount = thisCategoryRange.length;
+            int[][] rawResults = new int[thisCategoryCount][];
+
+            // Setup temp cursor of each category for a query.
             for (int i = 0; i < thisCategoryCount; i++) {
-                Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i],
-                        null, columnName + " LIKE ? ",
-                        new String[]{"%" + searchInput + "%"},
-                        null, null, null);
+                Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i], new String[]{"id", columnName}, columnName + " LIKE ? ",
+                        new String[]{"%" + searchInput + "%"}, null, null, null);;
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
                 Log.i("MHSearchHelper", "Category " + thisCategoryRange[i] + " got "
                         + thisSearchIndividualCursor.getCount() + " result(s).");
@@ -1023,42 +1034,68 @@ class MachineHelper {
                 }
                 thisSearchIndividualCursor.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        // Convert raw results to positions.
-        int resultTotalCount = 0;
-        for (int[] thisRawResult : rawResults) {
-            if (thisRawResult != null) {
-                resultTotalCount += thisRawResult.length;
+            // Convert raw results to positions.
+            int resultTotalCount = 0;
+            for (int[] thisRawResult : rawResults) {
+                if (thisRawResult != null) {
+                    resultTotalCount += thisRawResult.length;
+                }
+                Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
             }
-            Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
-        }
-        int[] finalPositions = new int[resultTotalCount];
-        int previousCount = 0;
-        for (int j = 0; j < thisCategoryCount; j++) {
-            for (int k = 0; k < rawResults[j].length; k++) {
-                finalPositions[previousCount] = findByPosition(new Pair<>(thisCategoryRange[j], rawResults[j][k]));
-                previousCount++;
+            int[] finalPositions = new int[resultTotalCount];
+            int previousCount = 0;
+            for (int j = 0; j < thisCategoryCount; j++) {
+                for (int k = 0; k < rawResults[j].length; k++) {
+                    finalPositions[previousCount] = findByPosition(new Pair<>(thisCategoryRange[j], rawResults[j][k]));
+                    previousCount++;
+                }
             }
-        }
-        if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext)) {
-            // Insertion sort for best runtime
-            for (int i = 0; i < resultTotalCount; i++) {
-                for (int j = i; j > 0; j--) {
-                    if (getYearForSorting(columnName, searchInput, finalPositions[j])
-                            < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
-                        int shiftTemp = finalPositions[j];
-                        finalPositions[j] = finalPositions[j - 1];
-                        finalPositions[j - 1] = shiftTemp;
+
+            // Verify Exact Match if required.
+            if (isExactMatch) {
+                List<Integer> verifiedPositions = new Vector<>(0);
+                for (int machineToVerify : finalPositions) {
+                    String[] rawUndefinedQuery = getUndefined(machineToVerify, columnName).split("~");
+                    for (String resultToVerify : rawUndefinedQuery) {
+                        if (resultToVerify.equals(searchInput)) {
+                            verifiedPositions.add(machineToVerify);
+                            break;
+                        }
+                    }
+                }
+                resultTotalCount = verifiedPositions.size();
+
+                // Not in Java 8: go over the vector.
+                finalPositions = new int[resultTotalCount];
+                for (int i = 0; i < resultTotalCount; i++) {
+                    finalPositions[i] = verifiedPositions.get(i);
+                }
+            }
+
+            // Sort if required.
+            if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext)) {
+                // Insertion sort for best runtime
+                for (int i = 0; i < resultTotalCount; i++) {
+                    for (int j = i; j > 0; j--) {
+                        if (getYearForSorting(columnName, searchInput, finalPositions[j])
+                                < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
+                            int shiftTemp = finalPositions[j];
+                            finalPositions[j] = finalPositions[j - 1];
+                            finalPositions[j - 1] = shiftTemp;
+                        }
                     }
                 }
             }
+            return finalPositions;
+        } catch (Exception e) {
+            Log.e("MHSearchHelper", "Exception Occurred, returning empty array");
+            e.printStackTrace();
+            return new int[0];
         }
-        return finalPositions;
     }
 
+    // Get year parameter for sorting. Y = Y, M = M/10. Returns double float number.
     private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine) {
         try {
             String[] rawYear = getSYear(thisMachine).split(", ");
@@ -1098,7 +1135,7 @@ class MachineHelper {
         final String[][] filterString = getFilterString(thisFilter);
         int[][] finalPositions = new int[filterString[1].length][];
         for (int i = 0; i < filterString[1].length; i++) {
-            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext);
+            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
         }
         return finalPositions;
     }

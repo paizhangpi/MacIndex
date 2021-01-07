@@ -66,6 +66,14 @@
                 android:layout_weight="1"
                 android:text="@string/menu_group4" />
 
+            <CheckBox
+                android:id="@+id/isExactMatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/search_exact_match"
+                android:textStyle="bold" />
+
         </RadioGroup>
     </LinearLayout>
 
