@@ -77,6 +77,7 @@ public class SearchActivity extends AppCompatActivity {
 
         // Init search from last state
         searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), false);
+        searchText.clearFocus();
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + currentManufacturer + ", Current Option: " + currentOption);
     }
