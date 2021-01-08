@@ -71,8 +71,6 @@ class PrefsHelper {
         DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchFiltersSpinner", 0);
         DEFAULT_VALUES.put("searchOptionsSpinner", 0);
-
-        DEFAULT_VALUES.put("lastVersionCode", BuildConfig.VERSION_CODE);
     }
 
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {
@@ -183,17 +181,15 @@ class PrefsHelper {
     }
 
     public static void clearPrefs(final String thisPrefsName, final Context thisContext) {
-        editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName), thisContext);
-    }
-
-    public static void invalidatePrefs(final Context thisContext) {
         try {
-            // TO REMOVE - Bug fixed
-            Log.w("Preference Helper", "Preference file invalidated");
-            Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
-            System.exit(0);
+            if (DEFAULT_VALUES.containsKey(thisPrefsName)) {
+                editPrefs(thisPrefsName, DEFAULT_VALUES.get(thisPrefsName), thisContext);
+            } else {
+                throw new IllegalArgumentException();
+            }
         } catch (Exception e) {
-            ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to invalidate preference");
+            ExceptionHelper.handleException(thisContext, e, "Preference Helper",
+                    "Unable to clear preference " + thisPrefsName);
         }
     }
 

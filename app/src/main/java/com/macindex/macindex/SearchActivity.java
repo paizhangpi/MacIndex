@@ -49,10 +49,8 @@ public class SearchActivity extends AppCompatActivity {
         // If SearchActivity Usage is set to not be saved
         if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
             PrefsHelper.clearPrefs("searchLastInput", this);
-            PrefsHelper.clearPrefs("searchManufacturer", this);
-            PrefsHelper.clearPrefs("searchOption", this);
-            PrefsHelper.clearPrefs("searchManufacturerSelection", this);
-            PrefsHelper.clearPrefs("searchOptionSelection", this);
+            PrefsHelper.clearPrefs("searchFiltersSpinner", this);
+            PrefsHelper.clearPrefs("searchOptionsSpinner", this);
         }
 
         // If EveryMac enabled, a message should append.
@@ -138,6 +136,7 @@ public class SearchActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
                     disableCheck();
+                    clearResults();
                 }
 
                 @Override
@@ -150,7 +149,8 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     PrefsHelper.editPrefs("searchOptionsSpinner", i, SearchActivity.this);
-                    startValidate(searchText.getQuery().toString());
+                    searchText.setQuery("", true);
+                    searchText.clearFocus();
                     changeTips();
                 }
 
@@ -269,24 +269,25 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-                startValidate(newText);
+                String searchInput = newText.trim();
+                textIllegalInput.setVisibility(View.GONE);
+                if (!searchInput.equals("")) {
+                    if (!validate(searchInput, translateOptionsParam())) {
+                        textResult.setVisibility(View.GONE);
+                        textIllegalInput.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    // No input
+                    clearResults();
+                }
                 return false;
             }
         });
     }
 
-    private void startValidate(final String s) {
-        String searchInput = s.trim();
-        textIllegalInput.setVisibility(View.GONE);
-        if (!searchInput.equals("")) {
-            if (!validate(searchInput, translateOptionsParam())) {
-                textResult.setVisibility(View.GONE);
-                textIllegalInput.setVisibility(View.VISIBLE);
-            }
-        } else {
-            // No input
-            startSearch(searchInput);
-        }
+    private void clearResults() {
+        textResult.setVisibility(View.GONE);
+        currentLayout.removeAllViews();
     }
 
     private void changeTips() {

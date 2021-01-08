@@ -470,22 +470,6 @@ public class MainActivity extends AppCompatActivity {
                                     firstLunchGreet.show();
                                     PrefsHelper.editPrefs("isFirstLunch", false, MainActivity.this);
                                 }
-
-                                // If just gone through a major update, we'll need to invalidate prefs file.
-                                if (PrefsHelper.getIntPrefs("lastVersionCode", MainActivity.this) != BuildConfig.VERSION_CODE) {
-                                    Log.w("MacIndex Update", "Version code mismatch ("
-                                            + PrefsHelper.getIntPrefs("lastVersionCode", MainActivity.this) + " != " + BuildConfig.VERSION_CODE + ").");
-                                    final AlertDialog.Builder goneUpdate = new AlertDialog.Builder(MainActivity.this);
-                                    goneUpdate.setTitle(R.string.information_new_major_version_title);
-                                    goneUpdate.setMessage(R.string.information_new_major_version);
-                                    goneUpdate.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                                        PrefsHelper.invalidatePrefs(MainActivity.this);
-                                    });
-                                    goneUpdate.setCancelable(false);
-                                    goneUpdate.show();
-                                } else {
-                                    PrefsHelper.editPrefs("lastVersionCode", BuildConfig.VERSION_CODE, MainActivity.this);
-                                }
                             }
                         });
                     } catch (final Exception e) {

@@ -30,27 +30,12 @@ public class SettingsAboutActivity extends AppCompatActivity {
     private void initAbout() {
         try {
             final Button restoreDefaults = findViewById(R.id.buttonDefaults);
-            final Button invalidate = findViewById(R.id.buttonInvalidate);
-
             restoreDefaults.setOnClickListener(v -> {
                 final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                 defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs(this);
-                });
-                defaultsWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-                    // Cancelled, nothing to do.
-                });
-                defaultsWarningDialog.show();
-            });
-
-            invalidate.setOnClickListener(v -> {
-                final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
-                defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
-                defaultsWarningDialog.setMessage(R.string.setting_invalidate_warning_content);
-                defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    PrefsHelper.invalidatePrefs(this);
                 });
                 defaultsWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
                     // Cancelled, nothing to do.

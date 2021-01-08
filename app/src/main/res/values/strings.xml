@@ -8,7 +8,6 @@
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
     <string name="information_first_lunch">Antique to advanced, history in your hand. Thanks for installing MacIndex. Open the drawer to access more.</string>
     <string name="information_new_major_version_title">MacIndex Update</string>
-    <string name="information_new_major_version">Sorry, a preference file invalidate is necessary after a major update. Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. Then you can use it normally.</string>
     <string name="setting_sort">Sort by Time Again</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
@@ -30,10 +29,8 @@
     <string name="setting_save_main_description">Save the last selected viewing method and category filter.</string>
     <string name="setting_save_search">Save Usage in Search Page</string>
     <string name="setting_save_search_description">Save the last used search keyword and filter.</string>
-    <string name="setting_invalidate">Invalidate Preference File</string>
     <string name="setting_defaults">Clear Preference File</string>
     <string name="setting_defaults_warning_title">Warning</string>
-    <string name="setting_invalidate_warning_content">Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your usage records and preferences. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
     <string name="about_information">MacIndex is a non-profit, and open source software that dedicated to educational and informational purposes. The main contributors are paizhang, Victor Jiao, and Mation Wang, 2019, 2020, 2021. The logo was designed by Mation Wang, other use is prohibited unless the permission was granted. Please abide the open source licence.\n\nMachine information, images, and sounds are collected online, mainly from Mactracker, EveryMac, and Wikipedia. No copyrighted information is used, but if you have any questions, please contact the developer immediately. Apple Macintosh names, Intel names, and logos are registered trademarks.\n\nMacIndex does not guarantee that all content of the software is completely accurate, and does not guarantee its reliability. All consequences caused by the use of the software shall be borne by the user.\n\nPlease report error and give feedback to the developer. You can access more information including contact information, and get helps and updates on the Official Website (https://MacIndex.paizhang.info/v/English/).</string>
@@ -123,7 +120,7 @@
     <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
     <string name="error">Sorry, an error occurred</string>
-    <string name="error_information">Please report the bug to the developer. MacIndex will quit, and perform a preference file invalidate. Your usage record parameters that mainly used by the program will be cleared, but your preferences will be kept. Please refer to the Official Website for more information.</string>
+    <string name="error_information">MacIndex will quit. Please report the bug to the developer. Please refer to the Official Website for more information.</string>
     <string name="error_copy_button">Copy Information</string>
     <string name="error_copy_information">Information copied</string>
     <string name="error_dismiss">Dismiss</string>
