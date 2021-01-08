@@ -41,6 +41,10 @@
             android:gravity="center"
             android:text="@string/search_noResult" />
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
         <LinearLayout
             android:id="@+id/optionsLayout"
             android:layout_width="match_parent"
@@ -64,6 +68,10 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
@@ -86,6 +94,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp" />
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
                 <Spinner
                     android:id="@+id/optionsSpinner"
                     android:layout_width="match_parent"
@@ -95,6 +107,10 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
 
     <View
         android:layout_width="match_parent"
