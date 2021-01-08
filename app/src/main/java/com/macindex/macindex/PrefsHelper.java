@@ -38,22 +38,14 @@ class PrefsHelper {
      *
      * User Usage
      * (MainActivity - Boolean) isFirstLunch
-     * (MainActivity - Int) MainTitle: current application title resource: R.string.menu_group0
      * (MainActivity - String) thisManufacturer: current selected category filter MH string: "all"
      * (MainActivity - String) thisFilter: current selected view method MH string: "names"
-     * (MainActivity - Int) ManufacturerMenu: current selected category filter menu item resource in menu: R.id.group0MenuItem
-     * (MainActivity - Int) FilterMenu: current selected view method menu item resource in menu: R.id.view1MenuItem
      *
      * (SpecsActivity - Boolean) isThisTimeFirstLunch
      *
      * (SearchActivity - String) searchLastInput: last search string: ""
-     * (SearchActivity - String) searchManufacturer: current selected category filter MH string: "all"
-     * (SearchActivity - String) searchOption: current selected search filter MH string: "names"
-     * (SearchActivity - Int) searchManufacturerSelection: current selected category filter radio button resource: R.id.allGroup
-     * (SearchActivity - Int) searchOptionSelection: current selected search filter radio button resource: R.id.nameOption
-     * (SearchActivity - Int) currentManufacturerResource: current selected category filter string resource: R.string.menu_group0
-     * (SearchActivity - Int) currentOptionResource: R.string.search_nameOption
-     * (SearchActivity - Boolean) searchExactMatch: false
+     * (SearchActivity - Int) searchFiltersSpinner: current selected category filter spinner number: 0
+     * (SearchActivity - Int) searchOptionsSpinner: current selected search filter spinner number: 0
      *
      * (Special - Int) lastVersionCode: last app version code: BuildConfig.VERSION_CODE
      */
@@ -71,22 +63,14 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isSaveSearchUsage", Boolean.TRUE);
 
         DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
-        DEFAULT_VALUES.put("MainTitle", R.string.menu_group0);
         DEFAULT_VALUES.put("thisManufacturer", "all");
         DEFAULT_VALUES.put("thisFilter", "names");
-        DEFAULT_VALUES.put("ManufacturerMenu", R.id.group0MenuItem);
-        DEFAULT_VALUES.put("FilterMenu", R.id.view1MenuItem);
 
         DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
 
         DEFAULT_VALUES.put("searchLastInput", "");
-        DEFAULT_VALUES.put("searchManufacturer", "all");
-        DEFAULT_VALUES.put("searchOption", "sname");
-        DEFAULT_VALUES.put("searchManufacturerSelection", R.id.id0Group);
-        DEFAULT_VALUES.put("searchOptionSelection", R.id.nameOption);
-        DEFAULT_VALUES.put("currentManufacturerResource", R.string.menu_group0);
-        DEFAULT_VALUES.put("currentOptionResource", R.string.search_nameOption);
-        DEFAULT_VALUES.put("searchExactMatch", Boolean.FALSE);
+        DEFAULT_VALUES.put("searchFiltersSpinner", 0);
+        DEFAULT_VALUES.put("searchOptionsSpinner", 0);
 
         DEFAULT_VALUES.put("lastVersionCode", BuildConfig.VERSION_CODE);
     }
@@ -204,20 +188,7 @@ class PrefsHelper {
 
     public static void invalidatePrefs(final Context thisContext) {
         try {
-            clearPrefs("MainTitle", thisContext);
-            clearPrefs("thisManufacturer", thisContext);
-            clearPrefs("thisFilter", thisContext);
-            clearPrefs("ManufacturerMenu", thisContext);
-            clearPrefs("FilterMenu", thisContext);
-            clearPrefs("isEnableVolWarningThisTime", thisContext);
-            clearPrefs("searchLastInput", thisContext);
-            clearPrefs("searchManufacturer", thisContext);
-            clearPrefs("searchOption", thisContext);
-            clearPrefs("searchManufacturerSelection", thisContext);
-            clearPrefs("searchOptionSelection", thisContext);
-            clearPrefs("currentManufacturerResource", thisContext);
-            clearPrefs("currentOptionResource", thisContext);
-            clearPrefs("lastVersionCode", thisContext);
+            // TO REMOVE - Bug fixed
             Log.w("Preference Helper", "Preference file invalidated");
             Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
             System.exit(0);

@@ -39,20 +39,35 @@
     <string name="about_information">MacIndex is a non-profit, and open source software that dedicated to educational and informational purposes. The main contributors are paizhang, Victor Jiao, and Mation Wang, 2019, 2020, 2021. The logo was designed by Mation Wang, other use is prohibited unless the permission was granted. Please abide the open source licence.\n\nMachine information, images, and sounds are collected online, mainly from Mactracker, EveryMac, and Wikipedia. No copyrighted information is used, but if you have any questions, please contact the developer immediately. Apple Macintosh names, Intel names, and logos are registered trademarks.\n\nMacIndex does not guarantee that all content of the software is completely accurate, and does not guarantee its reliability. All consequences caused by the use of the software shall be borne by the user.\n\nPlease report error and give feedback to the developer. You can access more information including contact information, and get helps and updates on the Official Website (https://MacIndex.paizhang.info/v/English/).</string>
     <string name="about_website">Official Website</string>
     <string name="search_searchBy">Search By</string>
-    <string name="search_nameOption">Name (Example: MacBook Pro)</string>
-    <string name="search_modelOption">Model Number (Example: A1150)</string>
-    <string name="search_idOption">Identification (Example: MacBookPro1,1)</string>
-    <string name="search_gestaltOption">Gestalt ID (Example: 510)</string>
-    <string name="search_orderOption">Order Number (Example: MA463LL/A)</string>
-    <string name="search_emcOption">EMC Number (Example: 2101)</string>
+    <string-array name="search_Filters">
+        <item>All Categories</item>
+        <item>68K Macintosh</item>
+        <item>PowerPC Macintosh</item>
+        <item>Intel Macintosh</item>
+        <item>ARM Macintosh</item>
+    </string-array>
+    <string-array name="search_Options">
+        <item>Name (Partial Match)</item>
+        <item>Model Number (Exact Match)</item>
+        <item>Identification (Exact Match)</item>
+        <item>Gestalt ID (Exact Match)</item>
+        <item>Order Number (Partial Match)</item>
+        <item>EMC Number (Exact Match)</item>
+    </string-array>
+    <string-array name="search_Tips">
+        <item>Example: MacBook Pro</item>
+        <item>Example: A1150</item>
+        <item>Example: MacBookPro1,1</item>
+        <item>Example: 510</item>
+        <item>Example: MA463</item>
+        <item>Example: 2101</item>
+    </string-array>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
     <string name="search_illegal">Invalid Input (Please refer to the Official Website)</string>
     <string name="search_disable_identification">Old world Macintosh does not have Identification and EMC Number. Please use the Gestalt ID instead. Please also refer to the Official Website.</string>
     <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead. Please also refer to the Official Website.</string>
-    <string name="search_exact_match">Exact Match</string>
-    <string name="search_partial_match">Partial Match</string>
     <string name="menu_search">Search</string>
     <string name="menu_search_everymac">EveryMac Lookup</string>
     <string name="menu_random">I\'m Feeling Lucky</string>

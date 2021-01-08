@@ -75,11 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         // If MainActivity Usage is set to not be saved
         if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
-            PrefsHelper.clearPrefs("MainTitle", this);
             PrefsHelper.clearPrefs("thisManufacturer", this);
             PrefsHelper.clearPrefs("thisFilter", this);
-            PrefsHelper.clearPrefs("ManufacturerMenu", this);
-            PrefsHelper.clearPrefs("FilterMenu", this);
         }
 
         // Reset Volume Warning
@@ -104,13 +101,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // If EveryMac enabled, a message should append.
-        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
-            everyMacAppend = getString(R.string.menu_group_everymac);
-        } else {
-            everyMacAppend = "";
+        try {
+            // If EveryMac enabled, a message should append.
+            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
+                everyMacAppend = getString(R.string.menu_group_everymac);
+            } else {
+                everyMacAppend = "";
+            }
+            setTitle(getString(translateTitleRes()) + everyMacAppend);
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "MainOnResume", "Unable to resume normal activity.");
         }
-        setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", this)) + everyMacAppend);
     }
 
     @Override
@@ -181,8 +182,6 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group0MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "all";
                 PrefsHelper.editPrefs("thisManufacturer", "all", this);
-                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group0MenuItem, this);
-                PrefsHelper.editPrefs("MainTitle", R.string.menu_group0, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -190,8 +189,6 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group1MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "apple68k";
                 PrefsHelper.editPrefs("thisManufacturer", "apple68k", this);
-                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group1MenuItem, this);
-                PrefsHelper.editPrefs("MainTitle", R.string.menu_group1, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -199,8 +196,6 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group2MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleppc";
                 PrefsHelper.editPrefs("thisManufacturer", "appleppc", this);
-                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group2MenuItem, this);
-                PrefsHelper.editPrefs("MainTitle", R.string.menu_group2, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -208,8 +203,6 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group3MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleintel";
                 PrefsHelper.editPrefs("thisManufacturer", "appleintel", this);
-                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group3MenuItem, this);
-                PrefsHelper.editPrefs("MainTitle", R.string.menu_group3, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -217,8 +210,6 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group4MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "applearm";
                 PrefsHelper.editPrefs("thisManufacturer", "applearm", this);
-                PrefsHelper.editPrefs("ManufacturerMenu", R.id.group4MenuItem, this);
-                PrefsHelper.editPrefs("MainTitle", R.string.menu_group4, this);
                 refresh();
                 mDrawerLayout.closeDrawers();
             });
@@ -227,7 +218,6 @@ public class MainActivity extends AppCompatActivity {
             // Filter 1: names (Default)
             findViewById(R.id.view1MenuItem).setOnClickListener(view -> {
                 thisFilter = "names";
-                PrefsHelper.editPrefs("FilterMenu", R.id.view1MenuItem, this);
                 PrefsHelper.editPrefs("thisFilter", "names", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
@@ -235,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
             // Filter 2: processors
             findViewById(R.id.view2MenuItem).setOnClickListener(view -> {
                 thisFilter = "processors";
-                PrefsHelper.editPrefs("FilterMenu", R.id.view2MenuItem, this);
                 PrefsHelper.editPrefs("thisFilter", "processors", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
@@ -243,7 +232,6 @@ public class MainActivity extends AppCompatActivity {
             // Filter 3: years
             findViewById(R.id.view3MenuItem).setOnClickListener(view -> {
                 thisFilter = "years";
-                PrefsHelper.editPrefs("FilterMenu", R.id.view3MenuItem, this);
                 PrefsHelper.editPrefs("thisFilter", "years", this);
                 refresh();
                 mDrawerLayout.closeDrawers();
@@ -290,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerClosed(@NonNull final View drawerView) {
-                    setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", MainActivity.this)) + everyMacAppend);
+                    setTitle(getString(translateTitleRes()) + everyMacAppend);
                 }
 
                 @Override
@@ -300,7 +288,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
                         if (manufacturerLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
-                            if (currentChild == findViewById(PrefsHelper.getIntPrefs("ManufacturerMenu", MainActivity.this))) {
+                            if (currentChild == findViewById(translateManufacturerMenuRes())) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -315,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < filterLayout.getChildCount(); i++) {
                         if (filterLayout.getChildAt(i) instanceof TextView) {
                             final TextView currentChild = (TextView) filterLayout.getChildAt(i);
-                            if (currentChild == findViewById(PrefsHelper.getIntPrefs("FilterMenu", MainActivity.this))) {
+                            if (currentChild == findViewById(translateFilterMenuRes())) {
                                 currentChild.setEnabled(false);
                                 currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24, 0);
                             } else {
@@ -383,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(getString(PrefsHelper.getIntPrefs("MainTitle", this)) + everyMacAppend);
+            setTitle(getString(translateTitleRes()) + everyMacAppend);
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             // Fix an animation bug here
@@ -557,6 +545,62 @@ public class MainActivity extends AppCompatActivity {
         Log.i("MainActivity", "Reloading");
         machineLoadedCount = 0;
         initInterface();
+    }
+
+    private int translateTitleRes() {
+        switch (thisManufacturer) {
+            case "all":
+                return R.string.menu_group0;
+            case "apple68k":
+                return R.string.menu_group1;
+            case "appleppc":
+                return R.string.menu_group2;
+            case "appleintel":
+                return R.string.menu_group3;
+            case "applearm":
+                return R.string.menu_group4;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateTitleRes",
+                        "Not a Valid Manufacturer Selection, This should NOT happen!!");
+                return R.string.menu_group0;
+        }
+    }
+
+    private int translateManufacturerMenuRes() {
+        switch (thisManufacturer) {
+            case "all":
+                return R.id.group0MenuItem;
+            case "apple68k":
+                return R.id.group1MenuItem;
+            case "appleppc":
+                return R.id.group2MenuItem;
+            case "appleintel":
+                return R.id.group3MenuItem;
+            case "applearm":
+                return R.id.group4MenuItem;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateManufacturerMenuRes",
+                        "Not a Valid Manufacturer Selection, This should NOT happen!!");
+                return R.id.group0MenuItem;
+        }
+    }
+
+    private int translateFilterMenuRes() {
+        switch (thisFilter) {
+            case "names":
+                return R.id.view1MenuItem;
+            case "processors":
+                return R.id.view2MenuItem;
+            case "years":
+                return R.id.view3MenuItem;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateFilterMenuRes",
+                        "Not a Valid Search Column Selection, This should NOT happen!!");
+                return R.id.view1MenuItem;
+        }
     }
 
     public static MachineHelper getMachineHelper() {

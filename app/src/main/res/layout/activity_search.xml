@@ -41,16 +41,58 @@
             android:gravity="center"
             android:text="@string/search_noResult" />
 
-        <Button
-            android:id="@+id/buttonShowFilters"
-            style="?android:attr/buttonBarButtonStyle"
+        <LinearLayout
+            android:id="@+id/optionsLayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:drawableStart="@drawable/ic_baseline_settings_24"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingStart="15dp">
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/menu_group"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="@string/search_searchBy"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/filtersSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <Spinner
+                    android:id="@+id/optionsSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

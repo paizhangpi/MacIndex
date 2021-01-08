@@ -1,20 +1,25 @@
 package com.macindex.macindex;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.Arrays;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -28,11 +33,9 @@ public class SearchActivity extends AppCompatActivity {
 
     private LinearLayout currentLayout = null;
 
-    private String currentManufacturer = null;
+    private Spinner filtersSpinner = null;
 
-    private String currentOption = null;
-
-    private Button optionsButton = null;
+    private Spinner optionsSpinner = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -63,23 +66,17 @@ public class SearchActivity extends AppCompatActivity {
         LayoutTransition layoutTransition = mainLayout.getLayoutTransition();
         layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
-        currentManufacturer = PrefsHelper.getStringPrefs("searchManufacturer", this);
-        currentOption = PrefsHelper.getStringPrefs("searchOption", this);
+        filtersSpinner = findViewById(R.id.filtersSpinner);
+        optionsSpinner = findViewById(R.id.optionsSpinner);
 
-        optionsButton = findViewById(R.id.buttonShowFilters);
-        optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
-                + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this))
-                + " / " + (PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this)
-                ? getString(R.string.search_exact_match) : getString(R.string.search_partial_match)));
-        optionsButton.setOnClickListener(view -> initOptions());
-
+        initSpinners();
         initSearch();
 
         // Init search from last state
         searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), false);
         searchText.clearFocus();
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
-                + ", Current Manufacturer: " + currentManufacturer + ", Current Option: " + currentOption);
+                + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
     }
 
     @Override
@@ -95,164 +92,163 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initOptions() {
-        final AlertDialog.Builder optionsDialog = new AlertDialog.Builder(SearchActivity.this);
-        optionsDialog.setCancelable(false);
-        optionsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-            optionsButton.setText(getString(PrefsHelper.getIntPrefs("currentManufacturerResource", this))
-                    + " / " + getString(PrefsHelper.getIntPrefs("currentOptionResource", this))
-                    + " / " + (PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this)
-                    ? getString(R.string.search_exact_match) : getString(R.string.search_partial_match)));
-            startValidate(searchText.getQuery().toString());
-        });
+    private void initSpinners() {
+        try {
+            ArrayAdapter<CharSequence> filtersAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.search_Filters, android.R.layout.simple_spinner_item);
+            ArrayAdapter<String> optionsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                    Arrays.asList(getResources().getStringArray(R.array.search_Options))) {
+                @Override
+                public boolean isEnabled(int position) {
+                    // Disable Identification and EMC if current selection is 68K
+                    // Disable Gestalt if current selection is Intel or ARM
+                    if ((position == 2 || position == 5) && translateFiltersParam().equals("apple68k")) {
+                        return false;
+                    } else if (position == 3 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
 
-        final View optionChunk = getLayoutInflater().inflate(R.layout.chunk_search_filters, null);
-        final RadioGroup manufacturerOptions = optionChunk.findViewById(R.id.groupsOptions);
-        final RadioGroup searchOptions = optionChunk.findViewById(R.id.searchOptions);
-        final CheckBox isExactMatchCheckBox = optionChunk.findViewById(R.id.isExactMatch);
+                @Override
+                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    View mView = super.getDropDownView(position, convertView, parent);
+                    TextView mText = (TextView) mView;
+                    if (isEnabled(position)) {
+                        mText.setTextColor(Color.BLACK);
+                    } else {
+                        mText.setTextColor(Color.GRAY);
+                    }
+                    return mView;
+                }
+            };
 
-        disableCheck(optionChunk, searchOptions);
-        manufacturerOptions.check(PrefsHelper.getIntPrefs("searchManufacturerSelection", this));
-        searchOptions.check(PrefsHelper.getIntPrefs("searchOptionSelection", this));
-        manufacturerOptions.setOnCheckedChangeListener((radioGroup, i) -> {
-            int toEditManufacturerResource;
-            switch (radioGroup.getCheckedRadioButtonId()) {
-                case R.id.id0Group:
-                    currentManufacturer = "all";
-                    toEditManufacturerResource = R.string.menu_group0;
-                    disableCheck(optionChunk, searchOptions);
-                    break;
-                case R.id.id1Group:
-                    currentManufacturer = "apple68k";
-                    toEditManufacturerResource = R.string.menu_group1;
-                    disableCheck(optionChunk, searchOptions);
-                    break;
-                case R.id.id2Group:
-                    currentManufacturer = "appleppc";
-                    toEditManufacturerResource = R.string.menu_group2;
-                    disableCheck(optionChunk, searchOptions);
-                    break;
-                case R.id.id3Group:
-                    currentManufacturer = "appleintel";
-                    toEditManufacturerResource = R.string.menu_group3;
-                    disableCheck(optionChunk, searchOptions);
-                    break;
-                case R.id.id4Group:
-                    currentManufacturer = "applearm";
-                    toEditManufacturerResource = R.string.menu_group4;
-                    disableCheck(optionChunk, searchOptions);
-                    break;
-                default:
-                    ExceptionHelper.handleException(this, null,
-                            "getOption",
-                            "Not a Valid Manufacturer Selection, This should NOT happen!!");
-                    currentManufacturer = "all";
-                    toEditManufacturerResource = R.string.menu_group0;
-            }
-            PrefsHelper.editPrefs("searchManufacturer", currentManufacturer, this);
-            PrefsHelper.editPrefs("searchManufacturerSelection", radioGroup.getCheckedRadioButtonId(), this);
-            PrefsHelper.editPrefs("currentManufacturerResource", toEditManufacturerResource, this);
-        });
-        searchOptions.setOnCheckedChangeListener((radioGroup, i) -> {
-            int toEditOptionResource;
-            switch (radioGroup.getCheckedRadioButtonId()) {
-                case R.id.nameOption:
-                    currentOption = "sname";
-                    toEditOptionResource = R.string.search_nameOption;
-                    break;
-                case R.id.modelOption:
-                    currentOption = "smodel";
-                    toEditOptionResource = R.string.search_modelOption;
-                    break;
-                case R.id.midOption:
-                    currentOption = "sident";
-                    toEditOptionResource = R.string.search_idOption;
-                    break;
-                case R.id.gestaltOption:
-                    currentOption = "sgestalt";
-                    toEditOptionResource = R.string.search_gestaltOption;
-                    break;
-                case R.id.orderOption:
-                    currentOption = "sorder";
-                    toEditOptionResource = R.string.search_orderOption;
-                    break;
-                case R.id.emcOption:
-                    currentOption = "semc";
-                    toEditOptionResource = R.string.search_emcOption;
-                    break;
-                default:
-                    ExceptionHelper.handleException(this, null,
-                            "getOption",
-                            "Not a Valid Search Column Selection, This should NOT happen!!");
-                    currentOption = "sindex";
-                    toEditOptionResource = R.string.search_nameOption;
-            }
-            PrefsHelper.editPrefs("searchOption", currentOption, this);
-            PrefsHelper.editPrefs("searchOptionSelection", radioGroup.getCheckedRadioButtonId(), this);
-            PrefsHelper.editPrefs("currentOptionResource", toEditOptionResource, this);
-        });
+            filtersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            optionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Is Exact Match?
-        isExactMatchCheckBox.setChecked(PrefsHelper.getBooleanPrefs("searchExactMatch", SearchActivity.this));
-        isExactMatchCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
-            if (isExactMatchCheckBox.isChecked()) {
-                isExactMatchCheckBox.setChecked(true);
-                PrefsHelper.editPrefs("searchExactMatch", true, SearchActivity.this);
-            } else {
-                isExactMatchCheckBox.setChecked(false);
-                PrefsHelper.editPrefs("searchExactMatch", false, SearchActivity.this);
-            }
-        });
+            filtersSpinner.setAdapter(filtersAdapter);
+            optionsSpinner.setAdapter(optionsAdapter);
 
-        optionsDialog.setView(optionChunk);
-        optionsDialog.show();
+            filtersSpinner.setSelection(PrefsHelper.getIntPrefs("searchFiltersSpinner", this));
+            optionsSpinner.setSelection(PrefsHelper.getIntPrefs("searchOptionsSpinner", this));
+
+            filtersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
+                    disableCheck();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    // Nothing to do.
+                }
+            });
+
+            optionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    PrefsHelper.editPrefs("searchOptionsSpinner", i, SearchActivity.this);
+                    startValidate(searchText.getQuery().toString());
+                    changeTips();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                    // Nothing to do.
+                }
+            });
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "initSpinners", "Unable to initialize spinners.");
+        }
     }
 
-    private void disableCheck(final View optionChunk, final RadioGroup searchOptions) {
-        final RadioButton identOption = optionChunk.findViewById(R.id.midOption);
-        final RadioButton gestaltOption = optionChunk.findViewById(R.id.gestaltOption);
-        final RadioButton emcOption = optionChunk.findViewById(R.id.emcOption);
+    private String translateFiltersParam() {
+        int thisSelection = PrefsHelper.getIntPrefs("searchFiltersSpinner", this);
+        switch (thisSelection) {
+            case 0:
+                return "all";
+            case 1:
+                return "apple68k";
+            case 2:
+                return "appleppc";
+            case 3:
+                return "appleintel";
+            case 4:
+                return "applearm";
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateFilterParam",
+                        "Not a Valid Manufacturer Selection, This should NOT happen!!");
+                return "all";
+        }
+    }
 
-        if (currentManufacturer.equals("apple68k")) {
-            Log.i("SearchHelper", "Disabling Identification and EMC Option");
-            if (currentOption.equals("sident") || currentOption.equals("semc")) {
-                final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
-                disableDialog.setMessage(R.string.search_disable_identification);
-                disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    // Confirmed
-                });
-                disableDialog.show();
-                searchOptions.check(R.id.gestaltOption);
-                currentOption = "sgestalt";
-                PrefsHelper.editPrefs("searchOption", currentOption, this);
-                PrefsHelper.editPrefs("searchOptionSelection", searchOptions.getCheckedRadioButtonId(), this);
-                PrefsHelper.editPrefs("currentOptionResource", R.string.search_gestaltOption, this);
-            }
-            identOption.setEnabled(false);
-            gestaltOption.setEnabled(true);
-            emcOption.setEnabled(false);
-        } else if (currentManufacturer.equals("appleintel") || currentManufacturer.equals("applearm")) {
-            Log.i("SearchHelper", "Disabling Gestalt ID Option");
-            if (currentOption.equals("sgestalt")) {
-                final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
-                disableDialog.setMessage(R.string.search_disable_gestalt);
-                disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    // Confirmed
-                });
-                disableDialog.show();
-                searchOptions.check(R.id.midOption);
-                currentOption = "sident";
-                PrefsHelper.editPrefs("searchOption", currentOption, this);
-                PrefsHelper.editPrefs("searchOptionSelection", searchOptions.getCheckedRadioButtonId(), this);
-                PrefsHelper.editPrefs("currentOptionResource", R.string.search_idOption, this);
-            }
-            identOption.setEnabled(true);
-            gestaltOption.setEnabled(false);
-            emcOption.setEnabled(true);
-        } else {
-            identOption.setEnabled(true);
-            gestaltOption.setEnabled(true);
-            emcOption.setEnabled(true);
+    private String translateOptionsParam() {
+        int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+        switch (thisSelection) {
+            case 0:
+                return "sname";
+            case 1:
+                return "smodel";
+            case 2:
+                return "sident";
+            case 3:
+                return "sgestalt";
+            case 4:
+                return "sorder";
+            case 5:
+                return "semc";
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateOptionsParam",
+                        "Not a Valid Search Column Selection, This should NOT happen!!");
+                return "sname";
+        }
+    }
+
+    private boolean translateMatchParam() {
+        int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+        switch (thisSelection) {
+            case 0:
+            case 4:
+                return false;
+            case 1:
+            case 2:
+            case 3:
+            case 5:
+                return true;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "translateMatchParam",
+                        "Not a Valid Search Column Selection, This should NOT happen!!");
+                return false;
+        }
+    }
+
+    private void disableCheck() {
+        final int position = optionsSpinner.getSelectedItemPosition();
+        // Disable Identification and EMC if current selection is 68K
+        // Disable Gestalt if current selection is Intel or ARM
+        if ((position == 2 || position == 5) && translateFiltersParam().equals("apple68k")) {
+            final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
+            disableDialog.setMessage(R.string.search_disable_identification);
+            disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                // Confirmed
+            });
+            disableDialog.show();
+            optionsSpinner.setSelection(3);
+            PrefsHelper.editPrefs("searchOptionsSpinner", 3, this);
+        } else if (position == 3 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
+            final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
+            disableDialog.setMessage(R.string.search_disable_gestalt);
+            disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                // Confirmed
+            });
+            disableDialog.show();
+            optionsSpinner.setSelection(2);
+            PrefsHelper.editPrefs("searchOptionsSpinner", 2, this);
         }
     }
 
@@ -283,7 +279,7 @@ public class SearchActivity extends AppCompatActivity {
         String searchInput = s.trim();
         textIllegalInput.setVisibility(View.GONE);
         if (!searchInput.equals("")) {
-            if (!validate(searchInput, currentOption)) {
+            if (!validate(searchInput, translateOptionsParam())) {
                 textResult.setVisibility(View.GONE);
                 textIllegalInput.setVisibility(View.VISIBLE);
             }
@@ -293,14 +289,27 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
+    private void changeTips() {
+        try {
+            int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+            String[] searchTips = getResources().getStringArray(R.array.search_Tips);
+            if (thisSelection >= searchTips.length) {
+                throw new IllegalStateException();
+            }
+            searchText.setQueryHint(searchTips[thisSelection]);
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "changeTips", "Invalid Search Tips Configuration.");
+        }
+    }
+
     private boolean startSearch(final String s) {
         String searchInput = s.trim();
         Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
-                + currentManufacturer + ", Current Option: " + currentOption);
+                + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
         textIllegalInput.setVisibility(View.GONE);
         currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
-            if (validate(searchInput, currentOption)) {
+            if (validate(searchInput, translateOptionsParam())) {
                 performSearch(searchInput);
                 return true;
             } else {
@@ -375,7 +384,7 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch(final String searchInput) {
         try {
             Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
-                    + currentManufacturer + ", Current Option: " + currentOption);
+                    + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
             ProgressDialog waitDialog = new ProgressDialog(SearchActivity.this);
             waitDialog.setMessage(getString(R.string.loading));
             waitDialog.setCancelable(false);
@@ -383,8 +392,8 @@ public class SearchActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    final int[] positions = thisMachineHelper.searchHelper(currentOption, searchInput, currentManufacturer,
-                            SearchActivity.this, PrefsHelper.getBooleanPrefsSafe("searchExactMatch", SearchActivity.this));
+                    final int[] positions = thisMachineHelper.searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
+                            SearchActivity.this, translateMatchParam());
                     try {
                         runOnUiThread(new Runnable() {
                             @Override
