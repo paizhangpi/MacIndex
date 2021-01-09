@@ -399,7 +399,7 @@ public class SpecsActivity extends AppCompatActivity {
                     // Initialize Sound.
                     try {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK));
+                            vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
                         } else {
                             vibrator.vibrate(50);
                         }
@@ -473,7 +473,7 @@ public class SpecsActivity extends AppCompatActivity {
                 Log.i("InitSound", "Startup and death sound do not exist");
                 image.setOnClickListener(v -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        vibrator.vibrate(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK));
+                        vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
                         vibrator.vibrate(50);
                     }
