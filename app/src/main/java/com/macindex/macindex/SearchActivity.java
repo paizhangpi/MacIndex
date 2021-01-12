@@ -10,6 +10,9 @@ import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -75,6 +78,27 @@ public class SearchActivity extends AppCompatActivity {
         searchText.clearFocus();
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_search, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.everymacItem:
+                LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", null, this);
+                break;
+            case R.id.searchHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/search", this);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Override

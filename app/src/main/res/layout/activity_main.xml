@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/mainContainer"
@@ -274,22 +275,6 @@
                                 android:background="?android:attr/listDivider" />
 
                             <TextView
-                                android:id="@+id/everymacSearchMenuItem"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="10dp"
-                                android:text="@string/menu_search_everymac"
-                                android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
-                            <TextView
                                 android:id="@+id/randomMenuItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -314,22 +299,6 @@
                                 android:focusable="true"
                                 android:padding="10dp"
                                 android:text="@string/menu_about_settings"
-                                android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
-                            <TextView
-                                android:id="@+id/newAboutMenuItem"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:focusable="true"
-                                android:padding="10dp"
-                                android:text="@string/menu_new_about"
                                 android:textSize="16sp" />
 
                             <View

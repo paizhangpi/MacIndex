@@ -1,10 +1,13 @@
 package com.macindex.macindex;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Switch;
 
 public class SettingsAboutActivity extends AppCompatActivity {
@@ -17,20 +20,20 @@ public class SettingsAboutActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        initAbout();
         initSettings();
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
-        finish();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_prefs, menu);
         return true;
     }
 
-    private void initAbout() {
-        try {
-            final Button restoreDefaults = findViewById(R.id.buttonDefaults);
-            restoreDefaults.setOnClickListener(v -> {
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.clearPrefsItem:
                 final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                 defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
@@ -41,10 +44,20 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     // Cancelled, nothing to do.
                 });
                 defaultsWarningDialog.show();
-            });
-        } catch (Exception e) {
-            ExceptionHelper.handleException(this, e, "AboutInit", "About info initialization failed");
+                break;
+            case R.id.prefsHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/settings-activity", this);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+        return true;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     private void initSettings() {
@@ -69,7 +82,10 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swSaveSearchUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this));
         swVolWarning.setChecked(PrefsHelper.getBooleanPrefs("isEnableVolWarning", this));
 
-        swSort.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSortAgain", isChecked, this));
+        swSort.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    PrefsHelper.editPrefs("isSortAgain", isChecked, this);
+                    PrefsHelper.editPrefs("isReloadNeeded", true, this);
+                });
         swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isPlayDeathSound", isChecked, this));
         swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseNavButtons", isChecked, this));
         swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isQuickNav", isChecked, this));

@@ -1,5 +1,6 @@
 package com.macindex.macindex;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
@@ -20,6 +21,9 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -80,6 +84,29 @@ public class SpecsActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_specs, menu);
+        MenuItem favouriteItem = menu.findItem(R.id.addFavouriteItem);
+        favouriteItem.setEnabled(false);
+        MenuItem compareItem = menu.findItem(R.id.addCompareItem);
+        compareItem.setEnabled(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.specsHelpItem:
+                LinkLoadingHelper.loadLinks(null, "https://macindex.paizhang.info/specs-activity", this);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     @Override

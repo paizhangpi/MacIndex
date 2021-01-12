@@ -17,38 +17,6 @@ class PrefsHelper {
 
     public static final String PREFERENCE_FILENAME = "MacIndex_Preference";
 
-    /**
-     * (1) Add to the defaults list.
-     * (2) Use the new parameter.
-     * (3) Add new strings.
-     * (4) Modify settings layout.
-     * (5) Modify settings code.
-     *
-     *
-     * Preference Values Reference List.
-     * User Settings
-     * (Boolean) isSortAgain: true
-     * (Boolean) isOpenEveryMac: false
-     * (Boolean) isPlayDeathSound: true
-     * (Boolean) isUseNavButtons: true
-     * (Boolean) isQuickNav: false
-     * (Boolean) isRandomAll: false
-     * (Boolean) isSaveMainUsage: true
-     * (Boolean) isSaveSearchUsage: false
-     *
-     * User Usage
-     * (MainActivity - Boolean) isFirstLunch
-     * (MainActivity - String) thisManufacturer: current selected category filter MH string: "all"
-     * (MainActivity - String) thisFilter: current selected view method MH string: "names"
-     *
-     * (SpecsActivity - Boolean) isThisTimeFirstLunch
-     *
-     * (SearchActivity - String) searchLastInput: last search string: ""
-     * (SearchActivity - Int) searchFiltersSpinner: current selected category filter spinner number: 0
-     * (SearchActivity - Int) searchOptionsSpinner: current selected search filter spinner number: 0
-     *
-     * (Special - Int) lastVersionCode: last app version code: BuildConfig.VERSION_CODE
-     */
     private static final Map<String, Object> DEFAULT_VALUES;
     static {
         DEFAULT_VALUES = new HashMap<>();
@@ -65,6 +33,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
         DEFAULT_VALUES.put("thisManufacturer", "all");
         DEFAULT_VALUES.put("thisFilter", "names");
+        DEFAULT_VALUES.put("isReloadNeeded", Boolean.FALSE);
 
         DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
 

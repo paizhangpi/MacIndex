@@ -12,6 +12,8 @@ import android.widget.Toast;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.content.ContextCompat;
 
+import java.util.Locale;
+
 class LinkLoadingHelper {
 
     public static void loadLinks(final String thisName, final String thisLinks, final Context thisContext) {
@@ -28,7 +30,7 @@ class LinkLoadingHelper {
 
             if (linkGroup.length == 1) {
                 // Only one option, launch EveryMac directly.
-                startBrowser(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
+                startEveryMac(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
             } else {
                 // Fix ; and , split bug.
                 for (int i = 0; i < linkGroup.length; i++) {
@@ -55,7 +57,7 @@ class LinkLoadingHelper {
                 linkDialog.setPositiveButton(MainActivity.getRes().getString(R.string.link_confirm),
                         (dialog, which) -> {
                             try {
-                                startBrowser(linkGroup[linkOptions.getCheckedRadioButtonId()]
+                                startEveryMac(linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",http")[0], "http" + linkGroup[linkOptions.getCheckedRadioButtonId()]
                                         .split(",http")[1], thisContext);
                             } catch (Exception e) {
@@ -74,20 +76,51 @@ class LinkLoadingHelper {
         }
     }
 
-    public static void startBrowser(final String url, final Context thisContext) {
+    public static void startBrowser(final String urlEnglish, final String urlChinese, final Context thisContext) {
         try {
+            if (urlEnglish == null && urlChinese == null) {
+                throw new IllegalArgumentException();
+            }
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             builder.setToolbarColor(ContextCompat.getColor(thisContext, R.color.colorPrimary));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(thisContext, Uri.parse(url));
+            if (Locale.getDefault().getDisplayLanguage().equals("中文")) {
+                if (urlChinese == null) {
+                    final AlertDialog.Builder langWarningDialog = new AlertDialog.Builder(thisContext);
+                    langWarningDialog.setMessage(R.string.link_only_available);
+                    langWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        customTabsIntent.launchUrl(thisContext, Uri.parse(urlEnglish));
+                    });
+                    langWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                        // Cancelled, nothing to do.
+                    });
+                    langWarningDialog.show();
+                } else {
+                    customTabsIntent.launchUrl(thisContext, Uri.parse(urlChinese));
+                }
+            } else {
+                if (urlEnglish == null) {
+                    final AlertDialog.Builder langWarningDialog = new AlertDialog.Builder(thisContext);
+                    langWarningDialog.setMessage(R.string.link_only_available);
+                    langWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        customTabsIntent.launchUrl(thisContext, Uri.parse(urlChinese));
+                    });
+                    langWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                        // Cancelled, nothing to do.
+                    });
+                    langWarningDialog.show();
+                } else {
+                    customTabsIntent.launchUrl(thisContext, Uri.parse(urlEnglish));
+                }
+            }
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e,
-                    "startBrowserCustomTabs", "Failed to open " + url);
+                    "startBrowserCustomTabs", "Failed to open " + urlEnglish + ", " + urlChinese);
         }
     }
 
-    public static void startBrowser(final String thisName, final String url, final Context thisContext) {
-        startBrowser(url, thisContext);
+    public static void startEveryMac(final String thisName, final String url, final Context thisContext) {
+        startBrowser(url, null, thisContext);
         Toast.makeText(thisContext,
                 MainActivity.getRes().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
     }

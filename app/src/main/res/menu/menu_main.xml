@@ -1,3 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/versionItem"
+        android:title="@null" />
+    <item
+        android:id="@+id/websiteItem"
+        android:title="@string/submenu_main_website" />
+    <item
+        android:id="@+id/importantItem"
+        android:title="@string/submenu_main_important" />
+    <item
+        android:id="@+id/updateItem"
+        android:title="@string/submenu_main_update" />
+    <item
+        android:id="@+id/questionsItem"
+        android:title="@string/submenu_main_questions" />
+    <item
+        android:id="@+id/feedbackItem"
+        android:title="@string/submenu_main_feedback" />
+    <item
+        android:id="@+id/mainHelpItem"
+        android:title="@string/submenu_main_help" />
+</menu>

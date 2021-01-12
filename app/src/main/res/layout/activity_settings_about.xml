@@ -378,30 +378,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider" />
-
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/buttonDefaults"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/setting_defaults"
-                    android:textAllCaps="false"
-                    android:textColor="#D50000"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
             </LinearLayout>
 
         </LinearLayout>

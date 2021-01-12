@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         try {
             // If EveryMac enabled, a message should append.
             if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
@@ -109,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
                 everyMacAppend = "";
             }
             setTitle(getString(translateTitleRes()) + everyMacAppend);
+
+            // If reload is needed..
+            if (PrefsHelper.getBooleanPrefs("isReloadNeeded", this)) {
+                refresh();
+                PrefsHelper.editPrefs("isReloadNeeded", false, this);
+            }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "MainOnResume", "Unable to resume normal activity.");
         }
@@ -126,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
+        MenuItem versionItem = menu.findItem(R.id.versionItem);
+        versionItem.setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
+        versionItem.setEnabled(false);
         return true;
     }
 
@@ -243,11 +251,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 mDrawerLayout.closeDrawers();
             });
-            // Search on EveryMac
-            findViewById(R.id.everymacSearchMenuItem).setOnClickListener(view -> {
-                LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", MainActivity.this);
-                mDrawerLayout.closeDrawers();
-            });
             // Random Access
             findViewById(R.id.randomMenuItem).setOnClickListener(view -> {
                 openRandom();
@@ -256,11 +259,6 @@ public class MainActivity extends AppCompatActivity {
             // SettingsAboutActivity Entrance
             findViewById(R.id.aboutMenuItem).setOnClickListener(view -> {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
-                mDrawerLayout.closeDrawers();
-            });
-            // New About Entrance
-            findViewById(R.id.newAboutMenuItem).setOnClickListener(view -> {
-                startActivity(new Intent(MainActivity.this, NewAboutActivity.class));
                 mDrawerLayout.closeDrawers();
             });
 
@@ -352,6 +350,25 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
+                break;
+            case R.id.websiteItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
+                        "https://macindex.paizhang.info/", this);
+                break;
+            case R.id.importantItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information", "https://macindex.paizhang.info/important-information", this);
+                break;
+            case R.id.updateItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
+                break;
+            case R.id.questionsItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
+                break;
+            case R.id.feedbackItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback", "https://macindex.paizhang.info/feedback-and-evaluation", this);
+                break;
+            case R.id.mainHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

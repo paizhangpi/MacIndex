@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addFavouriteItem"
+        android:title="@string/submenu_specs_favourite" />
+    <item
+        android:id="@+id/addCompareItem"
+        android:title="@string/submenu_specs_compare" />
+    <item
+        android:id="@+id/specsHelpItem"
+        android:title="@string/submenu_specs_help" />
+</menu>
