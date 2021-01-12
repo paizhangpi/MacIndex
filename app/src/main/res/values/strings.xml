@@ -6,7 +6,7 @@
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_specs_high_vol_warning">The current volume is too high. Do you want to proceed playing?\nSelect \"Confirm\" to turn this warning off temporarily.\nGo to settings to turn this function off.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
-    <string name="information_first_lunch">Antique to advanced, history in your hand. Thanks for installing MacIndex. Open the drawer to navigate inside the application. Open the menu to access more options.</string>
+    <string name="information_first_lunch">Antique to advanced, history in your hand.\nOpen the drawer to navigate inside the application.\nOpen the menu to access more options.</string>
     <string name="information_new_major_version_title">MacIndex Update</string>
     <string name="setting_sort">Sort by Time Again</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster.</string>
@@ -86,6 +86,7 @@
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_specs_favourite">Add to Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison</string>
+    <string name="submenu_specs_comment">Edit User Comment</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
@@ -121,13 +122,16 @@
     <string name="bus_expansion">Feature &amp; Expansion</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
+    <string name="comment">User Comment</string>
+    <string name="comment_null">Not Available (Could be edited in the menu)</string>
+    <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>
     <string name="link_message">More than one configurations were found for this model. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this model is not available in EveryMac</string>
-    <string name="link_only_available">Sorry, but this page is only available in Chinese. Do you want to proceed?</string>
+    <string name="link_only_available">Sorry, but this page is only available in Chinese. Do you still want to proceed?</string>
     <string name="error">Sorry, an error occurred</string>
     <string name="error_information">MacIndex will quit. Please report the bug to the developer.</string>
     <string name="error_copy_button">Copy Information</string>

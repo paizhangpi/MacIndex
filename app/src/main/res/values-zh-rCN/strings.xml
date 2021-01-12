@@ -6,7 +6,7 @@
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。\n打开设置来关闭这个功能。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
-    <string name="information_first_lunch">自古至今，融于掌中。感谢您安装 MacIndex。打开抽屉在应用功能间导航。打开菜单来获得更多选项。</string>
+    <string name="information_first_lunch">自古至今，融于掌中。\n打开抽屉在应用功能间导航。\n打开菜单来获得更多选项。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
     <string name="setting_sort">重新按照时间排序</string>
     <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。</string>
@@ -82,6 +82,7 @@
     <string name="submenu_main_help">主页面帮助</string>
     <string name="submenu_specs_favourite">添加到收藏夹</string>
     <string name="submenu_specs_compare">添加到比较</string>
+    <string name="submenu_specs_comment">编辑自定义备注</string>
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
     <string name="submenu_search_help">搜索页帮助</string>
@@ -102,13 +103,16 @@
     <string name="bus_expansion">功能与扩展</string>
     <string name="design">设计</string>
     <string name="support">售后状态</string>
+    <string name="comment">自定义备注</string>
+    <string name="comment_null">暂无备注（可在菜单中编辑）</string>
+    <string name="comment_illegal">特殊字符 \'│\' 被 MacIndex 内部使用并无法用作备注</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在 EveryMac 中浏览：</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
-    <string name="link_only_available">很抱歉，但这个页面只有英文版本。您想要继续吗？</string>
+    <string name="link_only_available">很抱歉，但这个页面只有英文版本。您仍想要继续吗？</string>
     <string name="error">很抱歉，出现错误</string>
     <string name="error_information">MacIndex 将会关闭。请向开发者报告这个 Bug。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>

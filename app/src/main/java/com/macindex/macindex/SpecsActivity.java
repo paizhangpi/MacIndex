@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,9 +51,11 @@ public class SpecsActivity extends AppCompatActivity {
 
     private MediaPlayer deathSound = null;
 
-    private ViewGroup mainView = null;
-
     private Vibrator vibrator = null;
+
+    private String[] allComments = null;
+
+    private int commentID = -1;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class SpecsActivity extends AppCompatActivity {
                     break;
                 }
             }
-            mainView = findViewById(R.id.mainView);
+            ViewGroup mainView = findViewById(R.id.mainView);
             vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             LayoutTransition layoutTransition = mainView.getLayoutTransition();
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
@@ -101,7 +104,10 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.specsHelpItem:
-                LinkLoadingHelper.loadLinks(null, "https://macindex.paizhang.info/specs-activity", this);
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/specs-activity", this);
+                break;
+            case R.id.commentItem:
+                initCommentDialog();
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -142,6 +148,7 @@ public class SpecsActivity extends AppCompatActivity {
         initSpecs();
         initImage();
         initLinks();
+        initComment();
     }
 
     private void release() {
@@ -595,6 +602,111 @@ public class SpecsActivity extends AppCompatActivity {
         }
     }
     /* Gestures were removed since Ver. 4.5b3 */
+
+    private void initComment() {
+        try {
+            Log.i("initComment", PrefsHelper.getStringPrefs("userComments", this));
+            allComments = PrefsHelper.getStringPrefs("userComments", this).split("││");
+            if (allComments.length == 0) {
+                commentID = -1;
+            }
+            for (int i = 0; i < allComments.length; i++) {
+                if (allComments[i].split("│")[0].equals(thisMachineHelper.getName(machineID))) {
+                    commentID = i;
+                    break;
+                }
+                if (i + 1 == allComments.length) {
+                    commentID = -1;
+                }
+            }
+            final TextView comment = findViewById(R.id.commentText);
+            if (commentID != -1) {
+                comment.setText(allComments[commentID].split("│")[1]);
+            } else {
+                comment.setText(R.string.comment_null);
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "initComment", "Illegal comment prefs string. Please reset the preference file. String is: "
+                    + PrefsHelper.getStringPrefs("userComments", this));
+        }
+    }
+
+    private void initCommentDialog() {
+        final View commentChunk = getLayoutInflater().inflate(R.layout.chunk_edit_comment, null);
+        final EditText editComment = commentChunk.findViewById(R.id.editComment);
+        if (commentID != -1) {
+            editComment.setText(allComments[commentID].split("│")[1]);
+        }
+        AlertDialog.Builder commentDialog = new AlertDialog.Builder(this);
+        commentDialog.setTitle(R.string.submenu_specs_comment);
+        commentDialog.setView(commentChunk);
+        commentDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            try {
+                String originalString = PrefsHelper.getStringPrefs("userComments", this);
+                String inputtedString = editComment.getText().toString();
+                // Is "│" included?
+                if (inputtedString.contains("│")) {
+                    Log.w("commentDialog", "Illegal Character Detected!");
+                    Toast.makeText(this, R.string.comment_illegal, Toast.LENGTH_LONG).show();
+                } else {
+                    // Is available before?
+                    if (commentID != -1) {
+                        // Is input legal?
+                        if (!inputtedString.isEmpty()) {
+                            String[] toConcat = originalString.split(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1], -1);
+                            if (toConcat.length != 2) {
+                                Log.e("commentDialog", "Error length is " + toConcat.length);
+                                Log.e("commentDialog", toConcat[0]);
+                                throw new IllegalStateException();
+                            }
+                            originalString = toConcat[0] + thisMachineHelper.getName(machineID) + "│" + inputtedString + toConcat[1];
+                        } else {
+                            // Is this one is the first machine?
+                            if (commentID == 0) {
+                                // Is this one is the only machine?
+                                if (allComments.length == 1) {
+                                    originalString = "";
+                                } else {
+                                    String[] toConcat = originalString.split(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││", -1);
+                                    if (toConcat.length != 2) {
+                                        Log.e("commentDialog", "Error length is " + toConcat.length);
+                                        throw new IllegalStateException();
+                                    }
+                                    originalString = toConcat[1];
+                                }
+                            } else {
+                                String[] toConcat = originalString.split("││" + thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1], -1);
+                                if (toConcat.length != 2) {
+                                    Log.e("commentDialog", "Error length is " + toConcat.length);
+                                    throw new IllegalStateException();
+                                }
+                                originalString = toConcat[0] + toConcat[1];
+                            }
+                        }
+                    } else {
+                        // Is input legal?
+                        if (!inputtedString.isEmpty()) {
+                            // Is original string not empty?
+                            if (originalString.length() != 0) {
+                                originalString = originalString.concat("││" + thisMachineHelper.getName(machineID) + "│" + inputtedString);
+                            } else {
+                                originalString = originalString.concat(thisMachineHelper.getName(machineID) + "│" + inputtedString);
+                            }
+                        }
+                    }
+                }
+                PrefsHelper.editPrefs("userComments", originalString, this);
+                initComment();
+            } catch (Exception e) {
+                ExceptionHelper.handleException(this, e, "commentDialog", "Unable to set positive button. Likely illegal comment prefs string. Please reset the preference file. String is: "
+                        + PrefsHelper.getStringPrefs("userComments", this));
+            }
+        });
+        commentDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Do nothing...
+        });
+        commentDialog.show();
+    }
 
     private void navPrev() {
         machineIDPosition--;

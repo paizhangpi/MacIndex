@@ -40,6 +40,10 @@ class PrefsHelper {
         DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchFiltersSpinner", 0);
         DEFAULT_VALUES.put("searchOptionsSpinner", 0);
+
+        DEFAULT_VALUES.put("userFavourites", "");
+        DEFAULT_VALUES.put("userCompares", "");
+        DEFAULT_VALUES.put("userComments", "");
     }
 
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {

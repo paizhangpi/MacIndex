@@ -3,10 +3,15 @@
 
     <item
         android:id="@+id/addFavouriteItem"
+        android:checkable="true"
         android:title="@string/submenu_specs_favourite" />
     <item
         android:id="@+id/addCompareItem"
+        android:checkable="true"
         android:title="@string/submenu_specs_compare" />
+    <item
+        android:id="@+id/commentItem"
+        android:title="@string/submenu_specs_comment" />
     <item
         android:id="@+id/specsHelpItem"
         android:title="@string/submenu_specs_help" />

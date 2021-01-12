@@ -72,7 +72,7 @@ class LinkLoadingHelper {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e,
-                    "loadLinks", "Link loading failed!!");
+                    "loadLinks", "Link loading failed for name " + thisName + " and string " + thisLinks);
         }
     }
 
@@ -120,7 +120,7 @@ class LinkLoadingHelper {
     }
 
     public static void startEveryMac(final String thisName, final String url, final Context thisContext) {
-        startBrowser(url, null, thisContext);
+        startBrowser(url, url, thisContext);
         Toast.makeText(thisContext,
                 MainActivity.getRes().getString(R.string.link_opening) + thisName, Toast.LENGTH_LONG).show();
     }
