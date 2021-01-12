@@ -35,7 +35,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.clearPrefsItem:
                 final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
-                defaultsWarningDialog.setTitle(R.string.setting_defaults_warning_title);
+                defaultsWarningDialog.setTitle(R.string.submenu_prefs_clear);
                 defaultsWarningDialog.setMessage(R.string.setting_defaults_warning_content);
                 defaultsWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs(this);
@@ -112,7 +112,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swEveryMac.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 final AlertDialog.Builder everyMacWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
-                everyMacWarningDialog.setTitle(R.string.setting_defaults_warning_title);
+                everyMacWarningDialog.setTitle(R.string.setting_everymac);
                 everyMacWarningDialog.setMessage(R.string.setting_everymac_warning_content);
                 everyMacWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.editPrefs("isOpenEveryMac", true, this);

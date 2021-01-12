@@ -29,8 +29,7 @@
     <string name="setting_save_main_description">Save the last selected viewing method and category filter.</string>
     <string name="setting_save_search">Save Usage in Search Page</string>
     <string name="setting_save_search_description">Save the last used search keyword and filter.</string>
-    <string name="setting_defaults_warning_title">Warning</string>
-    <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your usage records and preferences. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
+    <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your preferences, usage records, favourites, and comments. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
     <string name="search_searchBy">Search By</string>
     <string-array name="search_Filters">
@@ -90,7 +89,7 @@
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
-    <string name="submenu_prefs_clear">Clear Preference File</string>
+    <string name="submenu_prefs_clear">Application Reset</string>
     <string name="submenu_prefs_help">Preferences Page Help</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
     <string name="category1" translatable="false">Macintosh II</string>
@@ -125,6 +124,7 @@
     <string name="comment">User Comment</string>
     <string name="comment_null">Not Available (Could be edited in the menu)</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
+    <string name="comment_length">Your input is too long. The max limit for each machine is 500 characters.</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>

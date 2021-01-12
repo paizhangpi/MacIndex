@@ -29,8 +29,7 @@
     <string name="setting_save_main_description">保存上次选中的浏览方式和分组。</string>
     <string name="setting_save_search">保存搜索使用记录</string>
     <string name="setting_save_search_description">保存上次使用的搜索词和筛选器。</string>
-    <string name="setting_defaults_warning_title">警告</string>
-    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括使用记录和偏好设置。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
+    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括偏好设置、使用记录、收藏、比较、自定义备注等。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
     <string name="search_searchBy">搜索方式</string>
     <string-array name="search_Filters">
@@ -86,7 +85,7 @@
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
     <string name="submenu_search_help">搜索页帮助</string>
-    <string name="submenu_prefs_clear">刷新应用</string>
+    <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
     <string name="year">推出时间</string>
     <string name="model">模具型号</string>
@@ -106,6 +105,7 @@
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注（可在菜单中编辑）</string>
     <string name="comment_illegal">特殊字符 \'│\' 被 MacIndex 内部使用并无法用作备注</string>
+    <string name="comment_length">您的输入过长。每个机型的限度是 500 个字符</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>

@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public class SpecsActivity extends AppCompatActivity {
 
@@ -626,7 +627,7 @@ public class SpecsActivity extends AppCompatActivity {
                 comment.setText(R.string.comment_null);
             }
         } catch (Exception e) {
-            ExceptionHelper.handleException(this, e, "initComment", "Illegal comment prefs string. Please reset the preference file. String is: "
+            ExceptionHelper.handleException(this, e, "initComment", "Illegal comment prefs string. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userComments", this));
         }
     }
@@ -637,26 +638,39 @@ public class SpecsActivity extends AppCompatActivity {
         if (commentID != -1) {
             editComment.setText(allComments[commentID].split("│")[1]);
         }
-        AlertDialog.Builder commentDialog = new AlertDialog.Builder(this);
+
+        final AlertDialog.Builder commentDialog = new AlertDialog.Builder(this);
         commentDialog.setTitle(R.string.submenu_specs_comment);
         commentDialog.setView(commentChunk);
         commentDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            // To be overwritten...
+        });
+        commentDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Do nothing...
+        });
+
+        final AlertDialog commentDialogCreated = commentDialog.create();
+        commentDialogCreated.show();
+        // Overwrite the positive button
+        commentDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
             try {
-                String originalString = PrefsHelper.getStringPrefs("userComments", this);
-                String inputtedString = editComment.getText().toString();
+                final String inputtedString = editComment.getText().toString();
                 // Is "│" included?
                 if (inputtedString.contains("│")) {
-                    Log.w("commentDialog", "Illegal Character Detected!");
+                    Log.w("commentDialog", "Illegal Character Detected.");
                     Toast.makeText(this, R.string.comment_illegal, Toast.LENGTH_LONG).show();
+                } else if (inputtedString.length() > 500) {
+                    Log.w("commentDialog", "Input is too long.");
+                    Toast.makeText(this, R.string.comment_length, Toast.LENGTH_LONG).show();
                 } else {
+                    String originalString = PrefsHelper.getStringPrefs("userComments", this);
                     // Is available before?
                     if (commentID != -1) {
                         // Is input legal?
                         if (!inputtedString.isEmpty()) {
-                            String[] toConcat = originalString.split(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1], -1);
+                            String[] toConcat = originalString.split(Pattern.quote(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
                             if (toConcat.length != 2) {
                                 Log.e("commentDialog", "Error length is " + toConcat.length);
-                                Log.e("commentDialog", toConcat[0]);
                                 throw new IllegalStateException();
                             }
                             originalString = toConcat[0] + thisMachineHelper.getName(machineID) + "│" + inputtedString + toConcat[1];
@@ -667,7 +681,7 @@ public class SpecsActivity extends AppCompatActivity {
                                 if (allComments.length == 1) {
                                     originalString = "";
                                 } else {
-                                    String[] toConcat = originalString.split(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││", -1);
+                                    String[] toConcat = originalString.split(Pattern.quote(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││"), -1);
                                     if (toConcat.length != 2) {
                                         Log.e("commentDialog", "Error length is " + toConcat.length);
                                         throw new IllegalStateException();
@@ -675,7 +689,7 @@ public class SpecsActivity extends AppCompatActivity {
                                     originalString = toConcat[1];
                                 }
                             } else {
-                                String[] toConcat = originalString.split("││" + thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1], -1);
+                                String[] toConcat = originalString.split(Pattern.quote("││" + thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
                                 if (toConcat.length != 2) {
                                     Log.e("commentDialog", "Error length is " + toConcat.length);
                                     throw new IllegalStateException();
@@ -694,18 +708,15 @@ public class SpecsActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    PrefsHelper.editPrefs("userComments", originalString, this);
+                    initComment();
+                    commentDialogCreated.dismiss();
                 }
-                PrefsHelper.editPrefs("userComments", originalString, this);
-                initComment();
             } catch (Exception e) {
-                ExceptionHelper.handleException(this, e, "commentDialog", "Unable to set positive button. Likely illegal comment prefs string. Please reset the preference file. String is: "
+                ExceptionHelper.handleException(this, e, "commentDialog", "Unable to set positive button. Likely illegal comment prefs string. Please reset the application. String is: "
                         + PrefsHelper.getStringPrefs("userComments", this));
             }
         });
-        commentDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-            // Do nothing...
-        });
-        commentDialog.show();
     }
 
     private void navPrev() {
