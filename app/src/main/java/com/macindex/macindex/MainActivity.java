@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         try {
             // If EveryMac enabled, a message should append.
             if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 PrefsHelper.editPrefs("isReloadNeeded", false, this);
             }
         } catch (Exception e) {
-            ExceptionHelper.handleException(this, e, "MainOnResume", "Unable to resume normal activity.");
+            ExceptionHelper.handleException(this, e, "MainOnRestart", "Unable to resume normal activity.");
         }
     }
 

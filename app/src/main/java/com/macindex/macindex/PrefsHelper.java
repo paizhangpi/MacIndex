@@ -44,6 +44,8 @@ class PrefsHelper {
         DEFAULT_VALUES.put("userFavourites", "");
         DEFAULT_VALUES.put("userCompares", "");
         DEFAULT_VALUES.put("userComments", "");
+
+        DEFAULT_VALUES.put("isCommentsReloadNeeded", Boolean.FALSE);
     }
 
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {
@@ -111,7 +113,7 @@ class PrefsHelper {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to get String preference: " + thisPrefsName);
-            return null;
+            return "";
         }
     }
 

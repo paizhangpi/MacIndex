@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_chunk_clickable"
+    android:id="@+id/comment_chunk"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foreground="@drawable/border"
@@ -24,12 +24,15 @@
         android:maxLines="1" />
 
     <TextView
-        android:id="@+id/machineYear"
+        android:id="@+id/machineComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start|center_vertical"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="5"
+        android:padding="10dp"
         android:textAlignment="gravity"
-        android:textSize="14sp"
-        android:maxLines="1" />
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
 </LinearLayout>

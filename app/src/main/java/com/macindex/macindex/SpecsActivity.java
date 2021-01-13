@@ -56,6 +56,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private int commentID = -1;
 
+    private String thisName = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,8 +134,8 @@ public class SpecsActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         // Restart Sound System.
-        initImage();
         super.onRestart();
+        initImage();
     }
 
     @Override
@@ -144,6 +146,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initialize() {
         Log.i("SpecsInitialize", "Machine ID " + machineID);
+        thisName = MainActivity.getMachineHelper().getName(machineID);
         if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
             initButtons();
         }
@@ -196,8 +199,8 @@ public class SpecsActivity extends AppCompatActivity {
             final TextView design = findViewById(R.id.designText);
             final TextView support = findViewById(R.id.supportText);
 
-            this.setTitle(MainActivity.getMachineHelper().getName(machineID));
-            name.setText(MainActivity.getMachineHelper().getName(machineID));
+            this.setTitle(thisName);
+            name.setText(thisName);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
@@ -520,7 +523,7 @@ public class SpecsActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
-                    "initSound", "Failed, Machine Name " + MainActivity.getMachineHelper().getName(machineID));
+                    "initSound", "Failed, Machine Name " + thisName);
         }
     }
 
@@ -548,7 +551,7 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initLinks() {
         final ImageView link = findViewById(R.id.everymac);
-        link.setOnClickListener(v -> LinkLoadingHelper.loadLinks(MainActivity.getMachineHelper().getName(machineID),
+        link.setOnClickListener(v -> LinkLoadingHelper.loadLinks(thisName,
                 MainActivity.getMachineHelper().getConfig(machineID), SpecsActivity.this));
     }
 
@@ -613,7 +616,7 @@ public class SpecsActivity extends AppCompatActivity {
                 commentID = -1;
             }
             for (int i = 0; i < allComments.length; i++) {
-                if (allComments[i].split("│")[0].equals(MainActivity.getMachineHelper().getName(machineID))) {
+                if (allComments[i].split("│")[0].equals(thisName)) {
                     commentID = i;
                     break;
                 }
@@ -627,6 +630,14 @@ public class SpecsActivity extends AppCompatActivity {
             } else {
                 comment.setText(R.string.comment_null);
             }
+            comment.setOnLongClickListener(view -> {
+                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("userComment", comment.getText());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(SpecsActivity.this,
+                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                return true;
+            });
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "initComment", "Illegal comment prefs string. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userComments", this));
@@ -647,6 +658,9 @@ public class SpecsActivity extends AppCompatActivity {
         commentDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             // To be overwritten...
         });
+        commentDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Do nothing
+        });
 
         final AlertDialog commentDialogCreated = commentDialog.create();
         commentDialogCreated.show();
@@ -663,16 +677,17 @@ public class SpecsActivity extends AppCompatActivity {
                     Toast.makeText(this, R.string.comment_length, Toast.LENGTH_LONG).show();
                 } else {
                     String originalString = PrefsHelper.getStringPrefs("userComments", this);
+                    String realOriginalString = PrefsHelper.getStringPrefs("userComments", this);
                     // Is available before?
                     if (commentID != -1) {
                         // Is input legal?
                         if (!inputtedString.isEmpty()) {
-                            String[] toConcat = originalString.split(Pattern.quote(MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
+                            String[] toConcat = originalString.split(Pattern.quote(thisName + "│" + allComments[commentID].split("│")[1]), -1);
                             if (toConcat.length != 2) {
                                 Log.e("commentDialog", "Error length is " + toConcat.length);
                                 throw new IllegalStateException();
                             }
-                            originalString = toConcat[0] + MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString + toConcat[1];
+                            originalString = toConcat[0] + thisName + "│" + inputtedString + toConcat[1];
                         } else {
                             // Is this one is the first machine?
                             if (commentID == 0) {
@@ -680,7 +695,7 @@ public class SpecsActivity extends AppCompatActivity {
                                 if (allComments.length == 1) {
                                     originalString = "";
                                 } else {
-                                    String[] toConcat = originalString.split(Pattern.quote(MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││"), -1);
+                                    String[] toConcat = originalString.split(Pattern.quote(thisName + "│" + allComments[commentID].split("│")[1] + "││"), -1);
                                     if (toConcat.length != 2) {
                                         Log.e("commentDialog", "Error length is " + toConcat.length);
                                         throw new IllegalStateException();
@@ -688,7 +703,7 @@ public class SpecsActivity extends AppCompatActivity {
                                     originalString = toConcat[1];
                                 }
                             } else {
-                                String[] toConcat = originalString.split(Pattern.quote("││" + MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
+                                String[] toConcat = originalString.split(Pattern.quote("││" + thisName + "│" + allComments[commentID].split("│")[1]), -1);
                                 if (toConcat.length != 2) {
                                     Log.e("commentDialog", "Error length is " + toConcat.length);
                                     throw new IllegalStateException();
@@ -701,13 +716,17 @@ public class SpecsActivity extends AppCompatActivity {
                         if (!inputtedString.isEmpty()) {
                             // Is original string not empty?
                             if (originalString.length() != 0) {
-                                originalString = originalString.concat("││" + MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString);
+                                originalString = originalString.concat("││" + thisName + "│" + inputtedString);
                             } else {
-                                originalString = originalString.concat(MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString);
+                                originalString = originalString.concat(thisName + "│" + inputtedString);
                             }
                         }
                     }
                     PrefsHelper.editPrefs("userComments", originalString, this);
+                    if (!originalString.equals(realOriginalString)) {
+                        // Changed string, reload needed
+                        PrefsHelper.editPrefs("isCommentsReloadNeeded", true, this);
+                    }
                     initComment();
                     commentDialogCreated.dismiss();
                 }

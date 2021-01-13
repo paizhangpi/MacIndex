@@ -60,7 +60,7 @@
     <string name="search_results">&#160;个结果</string>
     <string name="search_illegal">无效输入（请参阅帮助内容）</string>
     <string name="search_disable_identification">Old world Macintosh 没有型号标识符和 EMC 编号。请以形态标识符代替。也请参阅帮助内容。</string>
-    <string name="search_disable_gestalt">New world Macintosh 没有形态标识符。请以型号标识符代替。也请参参阅帮助内容。</string>
+    <string name="search_disable_gestalt">New world Macintosh 没有形态标识符。请以型号标识符代替。也请参阅帮助内容。</string>
     <string name="menu_search">搜索</string>
     <string name="menu_random">试试手气</string>
     <string name="menu_random_limited">（限制范围）</string>
@@ -88,8 +88,8 @@
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
     <string name="submenu_search_help">搜索页帮助</string>
-    <string name="submenu_favourite_add">新建文件夹</string>
-    <string name="submenu_favourite_delete">删除文件夹</string>
+    <string name="submenu_favourite_add">新建收藏夹</string>
+    <string name="submenu_favourite_delete">删除收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
     <string name="submenu_compare_clear">清除选择</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
@@ -117,7 +117,7 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
-    <string name="favourite_tips">在机型收藏文件夹中管理收藏文件夹。</string>
+    <string name="favourite_tips">在机型收藏页中管理所有收藏夹。</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
@@ -134,4 +134,6 @@
     <string name="last_one">已是最后一台</string>
     <string name="get_started">开始使用</string>
     <string name="loading">正在加载</string>
+    <string name="comments_not_available">还没有保存任何自定义备注。可以在任意参数页面中添加。也请参阅帮助内容。</string>
+    <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。您仍想要继续吗？</string>
 </resources>
