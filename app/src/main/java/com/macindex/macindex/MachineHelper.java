@@ -479,18 +479,13 @@ class MachineHelper {
         tempCursor.moveToFirst();
         byte[] thisBlob = tempCursor.getBlob(tempCursor.getColumnIndex("pic"));
         tempCursor.close();
-        // Old code from my old friend was not modified.
         String path = "/";
         if (thisBlob != null) {
-            Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
-            Log.i("sendIntent", "Converted blob to bitmap");
             try {
+                Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
                 File file = File.createTempFile("tempF", ".tmp");
-                try (FileOutputStream out = new FileOutputStream(file, false)) {
-                    pic.compress(Bitmap.CompressFormat.PNG, 100, out);
-                } catch (Exception e) {
-                    ExceptionHelper.handleException(thisContext, e, null, null);
-                }
+                FileOutputStream out = new FileOutputStream(file, false);
+                pic.compress(Bitmap.CompressFormat.PNG, 100, out);
                 path = file.getPath();
             } catch (Exception e) {
                 ExceptionHelper.handleException(thisContext, e, null, null);

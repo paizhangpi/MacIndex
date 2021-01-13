@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingStart="20dp"
+    android:paddingTop="20dp"
     android:paddingEnd="20dp">
 
     <EditText
@@ -13,6 +14,6 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:maxLines="6"
-        android:minLines="6" />
+        android:maxLines="8"
+        android:minLines="8" />
 </LinearLayout>

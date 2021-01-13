@@ -38,8 +38,6 @@ import java.util.regex.Pattern;
 
 public class SpecsActivity extends AppCompatActivity {
 
-    private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
-
     private int machineID = -1;
 
     private int[] categoryStartEnd = {};
@@ -198,8 +196,8 @@ public class SpecsActivity extends AppCompatActivity {
             final TextView design = findViewById(R.id.designText);
             final TextView support = findViewById(R.id.supportText);
 
-            this.setTitle(thisMachineHelper.getName(machineID));
-            name.setText(thisMachineHelper.getName(machineID));
+            this.setTitle(MainActivity.getMachineHelper().getName(machineID));
+            name.setText(MainActivity.getMachineHelper().getName(machineID));
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
@@ -207,7 +205,7 @@ public class SpecsActivity extends AppCompatActivity {
                 TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
             }
 
-            type.setText(thisMachineHelper.getType(machineID));
+            type.setText(MainActivity.getMachineHelper().getType(machineID));
             type.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("typeInfo", type.getText());
@@ -216,7 +214,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            processor.setText(thisMachineHelper.getProcessor(machineID));
+            processor.setText(MainActivity.getMachineHelper().getProcessor(machineID));
             processor.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("processorInfo", processor.getText());
@@ -225,7 +223,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            maxram.setText(thisMachineHelper.getMaxRam(machineID));
+            maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
             maxram.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("maxramInfo", maxram.getText());
@@ -234,7 +232,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            year.setText(thisMachineHelper.getYear(machineID));
+            year.setText(MainActivity.getMachineHelper().getYear(machineID));
             year.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("yearInfo", year.getText());
@@ -243,7 +241,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            model.setText(thisMachineHelper.getModel(machineID));
+            model.setText(MainActivity.getMachineHelper().getModel(machineID));
             model.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("modelInfo", model.getText());
@@ -252,7 +250,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            id.setText(thisMachineHelper.getMid(machineID));
+            id.setText(MainActivity.getMachineHelper().getMid(machineID));
             id.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("idInfo", id.getText());
@@ -261,7 +259,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            graphics.setText(thisMachineHelper.getGraphics(machineID));
+            graphics.setText(MainActivity.getMachineHelper().getGraphics(machineID));
             graphics.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("graphicsInfo", graphics.getText());
@@ -270,7 +268,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            expansion.setText(thisMachineHelper.getExpansion(machineID));
+            expansion.setText(MainActivity.getMachineHelper().getExpansion(machineID));
             expansion.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("expansionInfo", expansion.getText());
@@ -279,7 +277,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            storage.setText(thisMachineHelper.getStorage(machineID));
+            storage.setText(MainActivity.getMachineHelper().getStorage(machineID));
             storage.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("storageInfo", storage.getText());
@@ -288,7 +286,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            order.setText(thisMachineHelper.getOrder(machineID));
+            order.setText(MainActivity.getMachineHelper().getOrder(machineID));
             order.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("orderInfo", order.getText());
@@ -297,7 +295,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            gestalt.setText(thisMachineHelper.getGestalt(machineID));
+            gestalt.setText(MainActivity.getMachineHelper().getGestalt(machineID));
             gestalt.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("gestaltInfo", gestalt.getText());
@@ -306,7 +304,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            emc.setText(thisMachineHelper.getEMC(machineID));
+            emc.setText(MainActivity.getMachineHelper().getEMC(machineID));
             emc.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("emcInfo", emc.getText());
@@ -315,7 +313,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            software.setText(thisMachineHelper.getSoftware(machineID));
+            software.setText(MainActivity.getMachineHelper().getSoftware(machineID));
             software.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("softwareInfo", software.getText());
@@ -324,7 +322,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            design.setText(thisMachineHelper.getDesign(machineID));
+            design.setText(MainActivity.getMachineHelper().getDesign(machineID));
             design.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("designInfo", design.getText());
@@ -333,7 +331,7 @@ public class SpecsActivity extends AppCompatActivity {
                         MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 return true;
             });
-            support.setText(thisMachineHelper.getSupport(machineID));
+            support.setText(MainActivity.getMachineHelper().getSupport(machineID));
             support.setOnLongClickListener(view -> {
                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("supportInfo", support.getText());
@@ -363,17 +361,17 @@ public class SpecsActivity extends AppCompatActivity {
             final ImageView processorTypeImage = findViewById(R.id.processorTypeImage);
             final LinearLayout processorImageLayoutContainer = findViewById(R.id.processorImageLayoutContainer);
             final LinearLayout processorImages = findViewById(R.id.processorImageLayout);
-            final int[][] processorImageRes = thisMachineHelper.getProcessorImage(machineID, SpecsActivity.this);
+            final int[][] processorImageRes = MainActivity.getMachineHelper().getProcessorImage(machineID, SpecsActivity.this);
 
             // Default states are all hidden.
             processorTypeImageLayout.setVisibility(View.GONE);
             processorImageLayoutContainer.setVisibility(View.GONE);
 
-            final int processorTypeImageRes = thisMachineHelper.getProcessorTypeImage(machineID, SpecsActivity.this);
+            final int processorTypeImageRes = MainActivity.getMachineHelper().getProcessorTypeImage(machineID, SpecsActivity.this);
             if (processorTypeImageRes != 0) {
                 // Got type image. Now loading.
                 processorTypeImageLayout.setVisibility(View.VISIBLE);
-                processorTypeImage.setImageResource(processorTypeImageRes);
+                processorTypeImage.setImageBitmap(BitmapLoadingHelper.decodeSampledBitmapFromResource(getResources(), processorTypeImageRes, 200, 200));
             }
             if (processorImageRes[0][0] != 0) {
                 // Got specific images. Now loading.
@@ -385,7 +383,7 @@ public class SpecsActivity extends AppCompatActivity {
                         @SuppressLint("InflateParams")
                         final View imageChunk = getLayoutInflater().inflate(R.layout.chunk_processor_image, null);
                         final ImageView thisProcessorImage = imageChunk.findViewById(R.id.processorImage);
-                        thisProcessorImage.setImageResource(thisProcessorImageRes);
+                        thisProcessorImage.setImageBitmap(BitmapLoadingHelper.decodeSampledBitmapFromResource(getResources(), thisProcessorImageRes, 200, 200));
                         processorImages.addView(imageChunk);
                     }
                 }
@@ -402,7 +400,7 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             // Init image
             final ImageView image = findViewById(R.id.pic);
-            final File imageFile = thisMachineHelper.getPicture(machineID, SpecsActivity.this);
+            final File imageFile = MainActivity.getMachineHelper().getPicture(machineID, SpecsActivity.this);
             if (imageFile.exists()) {
                 Log.i("SpecsAct", "Image exists");
                 image.setImageBitmap(BitmapFactory.decodeFile(imageFile.getPath()));
@@ -410,7 +408,7 @@ public class SpecsActivity extends AppCompatActivity {
             imageFile.delete();
 
             // Init startup and death sound
-            final int[] sound = thisMachineHelper.getSound(machineID, SpecsActivity.this);
+            final int[] sound = MainActivity.getMachineHelper().getSound(machineID, SpecsActivity.this);
             final int startupID = sound[0];
             final int deathID = sound[1];
             final TextView informationLabel = findViewById(R.id.information);
@@ -522,7 +520,7 @@ public class SpecsActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
-                    "initSound", "Failed, Machine Name " + thisMachineHelper.getName(machineID));
+                    "initSound", "Failed, Machine Name " + MainActivity.getMachineHelper().getName(machineID));
         }
     }
 
@@ -550,8 +548,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initLinks() {
         final ImageView link = findViewById(R.id.everymac);
-        link.setOnClickListener(v -> LinkLoadingHelper.loadLinks(thisMachineHelper.getName(machineID),
-                thisMachineHelper.getConfig(machineID), SpecsActivity.this));
+        link.setOnClickListener(v -> LinkLoadingHelper.loadLinks(MainActivity.getMachineHelper().getName(machineID),
+                MainActivity.getMachineHelper().getConfig(machineID), SpecsActivity.this));
     }
 
     private void initButtons() {
@@ -615,7 +613,7 @@ public class SpecsActivity extends AppCompatActivity {
                 commentID = -1;
             }
             for (int i = 0; i < allComments.length; i++) {
-                if (allComments[i].split("│")[0].equals(thisMachineHelper.getName(machineID))) {
+                if (allComments[i].split("│")[0].equals(MainActivity.getMachineHelper().getName(machineID))) {
                     commentID = i;
                     break;
                 }
@@ -644,6 +642,7 @@ public class SpecsActivity extends AppCompatActivity {
 
         final AlertDialog.Builder commentDialog = new AlertDialog.Builder(this);
         commentDialog.setTitle(R.string.submenu_specs_comment);
+        commentDialog.setMessage(R.string.comment_tips);
         commentDialog.setView(commentChunk);
         commentDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             // To be overwritten...
@@ -668,12 +667,12 @@ public class SpecsActivity extends AppCompatActivity {
                     if (commentID != -1) {
                         // Is input legal?
                         if (!inputtedString.isEmpty()) {
-                            String[] toConcat = originalString.split(Pattern.quote(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
+                            String[] toConcat = originalString.split(Pattern.quote(MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
                             if (toConcat.length != 2) {
                                 Log.e("commentDialog", "Error length is " + toConcat.length);
                                 throw new IllegalStateException();
                             }
-                            originalString = toConcat[0] + thisMachineHelper.getName(machineID) + "│" + inputtedString + toConcat[1];
+                            originalString = toConcat[0] + MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString + toConcat[1];
                         } else {
                             // Is this one is the first machine?
                             if (commentID == 0) {
@@ -681,7 +680,7 @@ public class SpecsActivity extends AppCompatActivity {
                                 if (allComments.length == 1) {
                                     originalString = "";
                                 } else {
-                                    String[] toConcat = originalString.split(Pattern.quote(thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││"), -1);
+                                    String[] toConcat = originalString.split(Pattern.quote(MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1] + "││"), -1);
                                     if (toConcat.length != 2) {
                                         Log.e("commentDialog", "Error length is " + toConcat.length);
                                         throw new IllegalStateException();
@@ -689,7 +688,7 @@ public class SpecsActivity extends AppCompatActivity {
                                     originalString = toConcat[1];
                                 }
                             } else {
-                                String[] toConcat = originalString.split(Pattern.quote("││" + thisMachineHelper.getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
+                                String[] toConcat = originalString.split(Pattern.quote("││" + MainActivity.getMachineHelper().getName(machineID) + "│" + allComments[commentID].split("│")[1]), -1);
                                 if (toConcat.length != 2) {
                                     Log.e("commentDialog", "Error length is " + toConcat.length);
                                     throw new IllegalStateException();
@@ -702,9 +701,9 @@ public class SpecsActivity extends AppCompatActivity {
                         if (!inputtedString.isEmpty()) {
                             // Is original string not empty?
                             if (originalString.length() != 0) {
-                                originalString = originalString.concat("││" + thisMachineHelper.getName(machineID) + "│" + inputtedString);
+                                originalString = originalString.concat("││" + MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString);
                             } else {
-                                originalString = originalString.concat(thisMachineHelper.getName(machineID) + "│" + inputtedString);
+                                originalString = originalString.concat(MainActivity.getMachineHelper().getName(machineID) + "│" + inputtedString);
                             }
                         }
                     }
