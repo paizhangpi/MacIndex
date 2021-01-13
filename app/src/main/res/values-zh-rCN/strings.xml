@@ -64,6 +64,9 @@
     <string name="menu_search">搜索</string>
     <string name="menu_random">试试手气</string>
     <string name="menu_random_limited">（限制范围）</string>
+    <string name="menu_favourite">机型收藏</string>
+    <string name="menu_compare">机型比较</string>
+    <string name="menu_comment">自定义备注</string>
     <string name="menu_about_settings">偏好设置</string>
     <string name="menu_view">浏览方式</string>
     <string name="menu_view1">产品分组</string>
@@ -85,6 +88,13 @@
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
     <string name="submenu_search_help">搜索页帮助</string>
+    <string name="submenu_favourite_add">新建文件夹</string>
+    <string name="submenu_favourite_delete">删除文件夹</string>
+    <string name="submenu_favourite_help">机型收藏页帮助</string>
+    <string name="submenu_compare_clear">清除选择</string>
+    <string name="submenu_compare_help">机型比较页帮助</string>
+    <string name="submenu_comments_clear">清除所有备注</string>
+    <string name="submenu_comments_help">自定义备注页帮助</string>
     <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
     <string name="year">推出时间</string>
@@ -104,8 +114,10 @@
     <string name="support">售后状态</string>
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注（可在菜单中编辑）</string>
-    <string name="comment_illegal">特殊字符 \'│\' 被 MacIndex 内部使用并无法用作备注</string>
-    <string name="comment_length">您的输入过长。每个机型的限度是 500 个字符</string>
+    <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
+    <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
+    <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
+    <string name="favourite_tips">在机型收藏文件夹中管理收藏文件夹。</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>

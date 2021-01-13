@@ -94,21 +94,24 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_specs, menu);
-        MenuItem favouriteItem = menu.findItem(R.id.addFavouriteItem);
-        favouriteItem.setEnabled(false);
-        MenuItem compareItem = menu.findItem(R.id.addCompareItem);
-        compareItem.setEnabled(false);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.specsHelpItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/specs-activity", this);
+            case R.id.addFavouriteItem:
+                // To be implemented
+                break;
+            case R.id.addCompareItem:
+                // To be implemented
+                openOptionsMenu();
                 break;
             case R.id.commentItem:
                 initCommentDialog();
+                break;
+            case R.id.specsHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/specs-activity", this);
                 break;
             default:
                 return super.onOptionsItemSelected(item);
@@ -644,9 +647,6 @@ public class SpecsActivity extends AppCompatActivity {
         commentDialog.setView(commentChunk);
         commentDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             // To be overwritten...
-        });
-        commentDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
-            // Do nothing...
         });
 
         final AlertDialog commentDialogCreated = commentDialog.create();

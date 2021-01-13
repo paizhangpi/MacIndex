@@ -256,6 +256,21 @@ public class MainActivity extends AppCompatActivity {
                 openRandom();
                 mDrawerLayout.closeDrawers();
             });
+            // FavouriteActivity Entrance
+            findViewById(R.id.favouriteMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, FavouriteActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
+            // CompareActivity Entrance
+            findViewById(R.id.compareMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, CompareActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
+            // CommentActivity Entrance
+            findViewById(R.id.commentMenuItem).setOnClickListener(view -> {
+                startActivity(new Intent(MainActivity.this, CommentActivity.class));
+                mDrawerLayout.closeDrawers();
+            });
             // SettingsAboutActivity Entrance
             findViewById(R.id.aboutMenuItem).setOnClickListener(view -> {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));

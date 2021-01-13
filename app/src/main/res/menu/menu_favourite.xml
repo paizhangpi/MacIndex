@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/addFolderItem"
+        android:title="@string/submenu_favourite_add" />
+    <item
+        android:id="@+id/deleteFolderItem"
+        android:title="@string/submenu_favourite_delete" />
+    <item
+        android:id="@+id/favouriteHelpItem"
+        android:title="@string/submenu_favourite_help" />
+</menu>

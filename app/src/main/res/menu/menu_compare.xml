@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/clearCompareItem"
+        android:title="@string/submenu_compare_clear" />
+    <item
+        android:id="@+id/compareHelpItem"
+        android:title="@string/submenu_compare_help" />
+</menu>

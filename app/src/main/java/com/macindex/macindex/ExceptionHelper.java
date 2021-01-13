@@ -19,18 +19,9 @@ class ExceptionHelper {
     public static void handleException(final Context thisContext, final Exception thisException,
                                                  final String exceptionModule, final String exceptionMessage) {
         if (thisContext != null) {
-            final String basicInfo = "MacIndex Version: " + BuildConfig.VERSION_NAME + "\n"
-                    + "Android Version: " + Build.VERSION.RELEASE + "\n"
-                    + "Hardware Brand: " + Build.BRAND + "\n"
-                    + "Hardware Model: " + Build.MODEL + "\n";
-
-            final String exceptionDetails;
-            if (thisException == null) {
-                exceptionDetails = "Exception Detail Not Applicable";
-            } else {
-                thisException.printStackTrace();
-                exceptionDetails = "Exception Details:" + "\n" + getStackTrace(thisException);
-            }
+            final String basicInfo = "Version: " + BuildConfig.VERSION_NAME + "\n"
+                    + "Android: " + Build.VERSION.RELEASE + "\n"
+                    + "Hardware: " + Build.BRAND + " " + Build.MODEL + "\n" + "\n";
 
             final String exceptionLog;
             if (exceptionModule != null && exceptionMessage != null) {
@@ -39,6 +30,14 @@ class ExceptionHelper {
                         + "Log Message: " + exceptionMessage + "\n" + "\n";
             } else {
                 exceptionLog = "Logging Not Applicable" + "\n" + "\n";
+            }
+
+            final String exceptionDetails;
+            if (thisException == null) {
+                exceptionDetails = "Exception Detail Not Applicable";
+            } else {
+                thisException.printStackTrace();
+                exceptionDetails = "Exception Details:" + "\n" + getStackTrace(thisException);
             }
 
             handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails);

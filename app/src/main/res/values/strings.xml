@@ -64,6 +64,9 @@
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
+    <string name="menu_favourite">Favourites</string>
+    <string name="menu_compare">Comparison</string>
+    <string name="menu_comment">Custom Comments</string>
     <string name="menu_about_settings">Preferences</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Product Categories</string>
@@ -85,10 +88,17 @@
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_specs_favourite">Add to Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison</string>
-    <string name="submenu_specs_comment">Edit User Comment</string>
+    <string name="submenu_specs_comment">Edit Custom Comment</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
+    <string name="submenu_favourite_add">Add New Folder</string>
+    <string name="submenu_favourite_delete">Delete Existing Folder</string>
+    <string name="submenu_favourite_help">Favourites Page Help</string>
+    <string name="submenu_compare_clear">Clear Selections</string>
+    <string name="submenu_compare_help">Comparison Page Help</string>
+    <string name="submenu_comments_clear">Clear All Comments</string>
+    <string name="submenu_comments_help">Custom Comments Page Help</string>
     <string name="submenu_prefs_clear">Application Reset</string>
     <string name="submenu_prefs_help">Preferences Page Help</string>
     <string name="category0" translatable="false">Compact Macintosh</string>
@@ -121,10 +131,15 @@
     <string name="bus_expansion">Feature &amp; Expansion</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
-    <string name="comment">User Comment</string>
+    <string name="comment">Custom Comment</string>
     <string name="comment_null">Not Available (Could be edited in the menu)</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
-    <string name="comment_length">Your input is too long. The max limit for each machine is 500 characters.</string>
+    <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters.</string>
+    <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
+    <string name="favourite_tips">Manage your favourites folders in the Favourites Page.</string>
+    <string name="compare_0" translatable="false">(0/2)</string>
+    <string name="compare_1" translatable="false">(1/2)</string>
+    <string name="compare_2" translatable="false">(2/2)</string>
     <string name="not_applicable">Not Applicable</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>

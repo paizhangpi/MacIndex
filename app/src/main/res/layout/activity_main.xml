@@ -291,6 +291,54 @@
                                 android:background="?android:attr/listDivider" />
 
                             <TextView
+                                android:id="@+id/favouriteMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_favourite"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
+                                android:id="@+id/compareMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_compare"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
+                                android:id="@+id/commentMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_comment"
+                                android:textSize="16sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
+
+                            <TextView
                                 android:id="@+id/aboutMenuItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
