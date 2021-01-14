@@ -21,6 +21,7 @@ class PrefsHelper {
     static {
         DEFAULT_VALUES = new HashMap<>();
         DEFAULT_VALUES.put("isSortAgain", Boolean.TRUE);
+        DEFAULT_VALUES.put("isSortComment", Boolean.FALSE);
         DEFAULT_VALUES.put("isOpenEveryMac", Boolean.FALSE);
         DEFAULT_VALUES.put("isPlayDeathSound", Boolean.TRUE);
         DEFAULT_VALUES.put("isEnableVolWarning", Boolean.TRUE);

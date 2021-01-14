@@ -329,8 +329,14 @@ public class MainActivity extends AppCompatActivity {
                     // If EveryMac enabled, random should be disabled
                     if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
                         findViewById(R.id.randomMenuItem).setEnabled(false);
+                        findViewById(R.id.favouriteMenuItem).setEnabled(false);
+                        findViewById(R.id.compareMenuItem).setEnabled(false);
+                        findViewById(R.id.commentMenuItem).setEnabled(false);
                     } else {
                         findViewById(R.id.randomMenuItem).setEnabled(true);
+                        findViewById(R.id.favouriteMenuItem).setEnabled(true);
+                        findViewById(R.id.compareMenuItem).setEnabled(true);
+                        findViewById(R.id.commentMenuItem).setEnabled(true);
                     }
 
                     // If limit range enabled, a message should append

@@ -62,6 +62,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
     private void initSettings() {
         final Switch swSort = findViewById(R.id.switchSort);
+        final Switch swSortComment = findViewById(R.id.switchSortComment);
         final Switch swEveryMac = findViewById(R.id.switchEveryMac);
         final Switch swDeathSound = findViewById(R.id.switchDeathSound);
         final Switch swNavButtons = findViewById(R.id.switchNavButtons);
@@ -72,6 +73,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         final Switch swVolWarning = findViewById(R.id.switchVolWarning);
 
         swSort.setChecked(PrefsHelper.getBooleanPrefs("isSortAgain", this));
+        swSortComment.setChecked(PrefsHelper.getBooleanPrefs("isSortComment", this));
         final Boolean everyMacSelection = PrefsHelper.getBooleanPrefs("isOpenEveryMac", this);
         swEveryMac.setChecked(everyMacSelection);
         swDeathSound.setChecked(PrefsHelper.getBooleanPrefs("isPlayDeathSound", this));
@@ -86,6 +88,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     PrefsHelper.editPrefs("isSortAgain", isChecked, this);
                     PrefsHelper.editPrefs("isReloadNeeded", true, this);
                 });
+        swSortComment.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSortComment", isChecked, this));
         swDeathSound.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isPlayDeathSound", isChecked, this));
         swNavButtons.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isUseNavButtons", isChecked, this));
         swQuickNav.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isQuickNav", isChecked, this));
@@ -96,12 +99,14 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {
+            swSortComment.setEnabled(false);
             swDeathSound.setEnabled(false);
             swNavButtons.setEnabled(false);
             swQuickNav.setEnabled(false);
             swRandomAll.setEnabled(false);
             swVolWarning.setEnabled(false);
         } else {
+            swSortComment.setEnabled(true);
             swDeathSound.setEnabled(true);
             swNavButtons.setEnabled(true);
             swQuickNav.setEnabled(true);

@@ -1069,7 +1069,7 @@ class MachineHelper {
             }
 
             // Sort if required.
-            if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext)) {
+            if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext) && resultTotalCount > 1) {
                 // Insertion sort for best runtime
                 for (int i = 0; i < resultTotalCount; i++) {
                     for (int j = i; j > 0; j--) {
@@ -1133,5 +1133,25 @@ class MachineHelper {
             finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
         }
         return finalPositions;
+    }
+
+    // Sorting used by ver. 4.9
+    public int[] directSortByYear(final int[] input) {
+        try {
+            for (int i = 0; i < input.length; i++) {
+                for (int j = i; j > 0; j--) {
+                    if (getYearForSorting("", "", input[j])
+                            < getYearForSorting("", "", input[j - 1])) {
+                        int shiftTemp = input[j];
+                        input[j] = input[j - 1];
+                        input[j - 1] = shiftTemp;
+                    }
+                }
+            }
+            return input;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return input;
+        }
     }
 }

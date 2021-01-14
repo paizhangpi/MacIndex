@@ -125,25 +125,42 @@ public class CommentActivity extends AppCompatActivity {
                             }
                             machineIDs[i] = thisID[0];
                         }
+
+                        // Is sorting needed?
+                        if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
+                            machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                        }
                         try {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     waitDialog.dismiss();
                                     // Update the UI after the thread done.
-                                    for (int i = 0; i < thisCommentsStrings.length; i++) {
+                                    for (int i = 0; i < machineIDs.length; i++) {
                                         final View commentsChunk = getLayoutInflater().inflate(R.layout.chunk_comments, null);
                                         final TextView machineName = commentsChunk.findViewById(R.id.machineName);
                                         final TextView machineComment = commentsChunk.findViewById(R.id.machineComment);
                                         final LinearLayout commentChunk = commentsChunk.findViewById(R.id.comment_chunk);
 
-                                        String[] splitedThisString = thisCommentsStrings[i].split("│");
-                                        if (splitedThisString.length != 2) {
-                                            throw new IllegalStateException();
+                                        // Set Machine Info Accordingly
+                                        if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
+                                            // Something complex here
+                                            final String thisName = MainActivity.getMachineHelper().getName(machineIDs[i]);
+                                            machineName.setText(thisName);
+                                            for (String thisString : thisCommentsStrings) {
+                                                if (thisString.split("│")[0].equals(thisName)) {
+                                                    machineComment.setText(thisString.split("│")[1]);
+                                                    break;
+                                                }
+                                            }
+                                        } else {
+                                            String[] splitedThisString = thisCommentsStrings[i].split("│");
+                                            if (splitedThisString.length != 2) {
+                                                throw new IllegalStateException();
+                                            }
+                                            machineName.setText(splitedThisString[0]);
+                                            machineComment.setText(splitedThisString[1]);
                                         }
-                                        machineName.setText(splitedThisString[0]);
-                                        machineComment.setText(splitedThisString[1]);
-
                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                             machineName.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                                         } else {
@@ -156,7 +173,7 @@ public class CommentActivity extends AppCompatActivity {
                                         });
                                         commentChunk.setOnLongClickListener(view -> {
                                             ClipboardManager clipboard = (ClipboardManager) CommentActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                                            ClipData clip = ClipData.newPlainText("userComment", splitedThisString[1]);
+                                            ClipData clip = ClipData.newPlainText("userComment", machineComment.getText());
                                             clipboard.setPrimaryClip(clip);
                                             Toast.makeText(CommentActivity.this, MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                                             return true;
