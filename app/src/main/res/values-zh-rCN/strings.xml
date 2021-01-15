@@ -91,6 +91,7 @@
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">删除收藏夹</string>
     <string name="submenu_favourite_rename">重命名收藏夹</string>
+    <string name="submenu_favourite_clear">清除所有收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
     <string name="submenu_compare_clear">清除选择</string>
     <string name="submenu_compare_help">机型比较页帮助</string>

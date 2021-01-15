@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -101,7 +102,7 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.addFavouriteItem:
-                // To be implemented
+                selectFolder();
                 break;
             case R.id.addCompareItem:
                 // To be implemented
@@ -608,6 +609,7 @@ public class SpecsActivity extends AppCompatActivity {
     }
     /* Gestures were removed since Ver. 4.5b3 */
 
+    /* Comments Functions */
     private void initComment() {
         try {
             Log.i("initComment", PrefsHelper.getStringPrefs("userComments", this));
@@ -733,6 +735,178 @@ public class SpecsActivity extends AppCompatActivity {
             } catch (Exception e) {
                 ExceptionHelper.handleException(this, e, "commentDialog", "Unable to set positive button. Likely illegal comment prefs string. Please reset the application. String is: "
                         + PrefsHelper.getStringPrefs("userComments", this));
+            }
+        });
+    }
+
+    /* Favourites Functions */
+    // Call this when trying to add to favourites.
+    private void selectFolder() {
+        try {
+            // Check if totally empty.
+            if (!isEmptyString()) {
+                final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
+                final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
+                final String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", this).split("││");
+                final int[] currentSelections = new int[splitedString.length];
+                for (int i = 1; i < splitedString.length; i++) {
+                    // Is it in this folder?
+                    final String[] splitedFolderContent = splitedString[i].split("│");
+                    boolean isExistsAtHere = false;
+                    for (int j = 1; j < splitedFolderContent.length; j++) {
+                        if (splitedFolderContent[j].equals("[" + thisName + "]")) {
+                            isExistsAtHere = true;
+                            break;
+                        }
+                    }
+
+                    // Set the checkbox
+                    CheckBox thisCheckBox = new CheckBox(this);
+                    thisCheckBox.setText(splitedFolderContent[0].substring(1, splitedFolderContent[0].length() - 1));
+                    thisCheckBox.setChecked(isExistsAtHere);
+                    // Fix the init bug
+                    currentSelections[i] = isExistsAtHere ? 1 : 0;
+                    int finalI = i;
+                    thisCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+                        currentSelections[finalI] = thisCheckBox.isChecked() ? 1 : 0;
+                    });
+                    selectLayout.addView(thisCheckBox);
+                }
+
+                // Create the dialog.
+                final AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
+                deleteDialog.setTitle(R.string.submenu_specs_favourite);
+                deleteDialog.setMessage(R.string.favourites_tips);
+                deleteDialog.setView(selectChunk);
+                deleteDialog.setPositiveButton(R.string.link_confirm, (dialog, which) -> {
+                    try {
+                        String newString = "";
+                        for (int j = 1; j < splitedString.length; j++) {
+                            // Is it in this folder?
+                            final String[] splitedFolderContent = splitedString[j].split("│");
+                            boolean isExistsAtHere = false;
+                            for (int i = 1; i < splitedFolderContent.length; i++) {
+                                if (splitedFolderContent[i].equals("[" + thisName + "]")) {
+                                    isExistsAtHere = true;
+                                    break;
+                                }
+                            }
+
+                            // Add or remove
+                            if (currentSelections[j] == 0) {
+                                Log.w("Selection", String.valueOf(currentSelections[j]));
+                                // Is exists at here?
+                                if (isExistsAtHere) {
+                                    Log.w("selectFolder", "Exists, removing.");
+                                    String[] splitedAgain = splitedString[j].split(Pattern.quote("│[" + thisName + "]"), -1);
+                                    if (splitedAgain.length != 2) {
+                                        Log.e("selectFolder", "Error length is " + splitedAgain.length);
+                                        throw new IllegalStateException();
+                                    }
+                                    if (splitedAgain[1].isEmpty()) {
+                                        // Have something in the trailing.
+                                        splitedAgain[0] = splitedAgain[0].concat(splitedAgain[1]);
+                                    }
+                                    newString = newString.concat("││" + splitedAgain[0]);
+                                } else {
+                                    Log.w("selectFolder", "Does not exist, keeping.");
+                                    newString = newString.concat("││" + splitedString[j]);
+                                }
+                            } else {
+                                Log.w("Selection", String.valueOf(currentSelections[j]));
+                                // Is exists at here?
+                                if (isExistsAtHere) {
+                                    Log.w("selectFolder", "Exists, keeping.");
+                                    newString = newString.concat("││" + splitedString[j]);
+                                } else {
+                                    Log.w("selectFolder", "Does not exist, adding.");
+                                    String folderName = splitedFolderContent[0];
+                                    String[] splitedAgain = splitedString[j].split(Pattern.quote(folderName), -1);
+                                    if (splitedAgain.length != 2) {
+                                        Log.e("selectFolder", "Error length is " + splitedAgain.length);
+                                        throw new IllegalStateException();
+                                    }
+                                    if (splitedAgain[1].isEmpty()) {
+                                        // Empty folder.
+                                        splitedAgain[0] = "[" + thisName + "]";
+                                    } else {
+                                        // Not Empty folder.
+                                        splitedAgain[0] = "[" + thisName + "]│" + splitedAgain[1].substring(1);
+                                    }
+                                    newString = newString.concat("││" + folderName + "│" + splitedAgain[0]);
+                                }
+                            }
+                        }
+                        PrefsHelper.editPrefs("userFavourites", newString, this);
+                        PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
+                    } catch (Exception e) {
+                        ExceptionHelper.handleException(this, e, "selectFolder", "Illegal Favourites String. Please reset the application. String is: "
+                                + PrefsHelper.getStringPrefs("userFavourites", this));
+                    }
+                });
+                deleteDialog.setNegativeButton(R.string.link_cancel, ((dialog, which) -> {
+                    // Cancelled, do nothing
+                }));
+                deleteDialog.show();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "deleteFolder", "Illegal Favourites String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userFavourites", this));
+        }
+    }
+
+    // Modified from the original one from the FavouriteActivity
+    private boolean isEmptyString() {
+        if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
+            final AlertDialog.Builder emptyStringDialog = new AlertDialog.Builder(this);
+            emptyStringDialog.setTitle(R.string.submenu_specs_favourite);
+            emptyStringDialog.setMessage(R.string.favourites_no_folder);
+            emptyStringDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                // Create new folder
+                createFolder();
+            });
+            emptyStringDialog.setNegativeButton(R.string.link_cancel, ((dialogInterface, i) -> {
+                // Cancelled, do nothing
+            }));
+            emptyStringDialog.show();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Modified from the original one from the FavouriteActivity
+    private void createFolder() {
+        final View newFolderChunk = getLayoutInflater().inflate(R.layout.chunk_favourites_new, null);
+        final EditText folderName = newFolderChunk.findViewById(R.id.folderName);
+        final AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
+        newFolderDialog.setTitle(R.string.submenu_favourite_add);
+        newFolderDialog.setMessage(R.string.favourites_new_folder);
+        newFolderDialog.setView(newFolderChunk);
+        newFolderDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            // To be overwritten...
+        });
+        newFolderDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Do nothing
+        });
+
+        final AlertDialog newFolderDialogCreated = newFolderDialog.create();
+        newFolderDialogCreated.show();
+        // Overwrite the positive button
+        newFolderDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            try {
+                final String inputtedName = folderName.getText().toString().trim();
+                // Check if the input is legal
+                if (FavouriteActivity.validateFolderName(inputtedName, new String[0], this)) {
+                    // Finally create the new folder.
+                    PrefsHelper.editPrefs("userFavourites", "││{"
+                            + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
+                    PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
+                    newFolderDialogCreated.dismiss();
+                }
+            } catch (Exception e) {
+                ExceptionHelper.handleException(this, e, "newFolderDialog", "Illegal Favourites String. Please reset the application. String is: "
+                        + PrefsHelper.getStringPrefs("userFavourites", this));
             }
         });
     }

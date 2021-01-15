@@ -95,6 +95,7 @@
     <string name="submenu_favourite_add">Add New Folder</string>
     <string name="submenu_favourite_delete">Delete Existing Folder</string>
     <string name="submenu_favourite_rename">Rename Existing Folder</string>
+    <string name="submenu_favourite_clear">Clear All Folders</string>
     <string name="submenu_favourite_help">Favourites Page Help</string>
     <string name="submenu_compare_clear">Clear Selections</string>
     <string name="submenu_compare_help">Comparison Page Help</string>

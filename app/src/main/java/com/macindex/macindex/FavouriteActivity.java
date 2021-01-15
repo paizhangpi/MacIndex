@@ -33,6 +33,16 @@ public class FavouriteActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        // If reload is needed..
+        if (PrefsHelper.getBooleanPrefs("isFavouritesReloadNeeded", this)) {
+            initFavourites();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite, menu);
@@ -54,12 +64,33 @@ public class FavouriteActivity extends AppCompatActivity {
             case R.id.favouriteHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/favourites", this);
                 break;
+            case R.id.clearFolderItem:
+                final AlertDialog.Builder clearFoldersDialog = new AlertDialog.Builder(this);
+                clearFoldersDialog.setTitle(R.string.submenu_favourite_clear);
+                clearFoldersDialog.setMessage(R.string.favourites_clear_warning);
+                clearFoldersDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    PrefsHelper.clearPrefs("userFavourites", this);
+                    initFavourites();
+                });
+                clearFoldersDialog.setNegativeButton(R.string.link_cancel, ((dialogInterface, i) -> {
+                    // Cancelled.
+                }));
+                clearFoldersDialog.show();
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
+    private void initFavourites() {
+        // To be implemented
+        // Reset reload parameter
+        PrefsHelper.editPrefs("isFavouritesReloadNeeded", false, this);
+        Log.e("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+    }
+
+    // Called when to check the favourites is empty.
     private boolean isEmptyString(final int titleRes) {
         if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
             final AlertDialog.Builder emptyStringDialog = new AlertDialog.Builder(this);
@@ -79,11 +110,6 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    private void initFavourites() {
-        // To be implemented
-        Log.e("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
-    }
-
     public static String[] getFolders(final Context thisContext) {
         try {
             String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", thisContext).split("││");
@@ -93,7 +119,8 @@ public class FavouriteActivity extends AppCompatActivity {
                     Log.e("getFolders", "Invalid non-trailing empty string");
                     throw new IllegalStateException();
                 }
-                toReturn[i - 1] = splitedString[i].split("│")[0];
+                String[] tempSplit = splitedString[i].split("│");
+                toReturn[i - 1] = tempSplit[0].substring(1, tempSplit[0].length() - 1);
             }
             return toReturn;
         } catch (Exception e) {
@@ -163,8 +190,8 @@ public class FavouriteActivity extends AppCompatActivity {
                     // Check if the input is legal
                     if (validateFolderName(inputtedName, currentStrings, this)) {
                         // Finally create the new folder.
-                        PrefsHelper.editPrefs("userFavourites", "││"
-                                + inputtedName + PrefsHelper.getStringPrefs("userFavourites", this), this);
+                        PrefsHelper.editPrefs("userFavourites", "││{"
+                                + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
                         initFavourites();
                         newFolderDialogCreated.dismiss();
                     }

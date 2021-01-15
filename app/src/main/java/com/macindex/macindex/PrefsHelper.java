@@ -47,6 +47,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("userComments", "");
 
         DEFAULT_VALUES.put("isCommentsReloadNeeded", Boolean.FALSE);
+        DEFAULT_VALUES.put("isFavouritesReloadNeeded", Boolean.FALSE);
     }
 
     public static int getIntPrefs(final String thisPrefsName, final Context thisContext) {

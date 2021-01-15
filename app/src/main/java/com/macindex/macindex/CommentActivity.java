@@ -38,9 +38,6 @@ public class CommentActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // Reset reload parameter
-        PrefsHelper.editPrefs("isCommentsReloadNeeded", false, this);
-
         // Check whether if the string is empty on creation.
         if (PrefsHelper.getStringPrefs("userComments", this).length() == 0) {
             final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
@@ -51,6 +48,7 @@ public class CommentActivity extends AppCompatActivity {
             });
             nullWarningDialog.show();
         }
+
         initComments();
     }
 
@@ -61,7 +59,6 @@ public class CommentActivity extends AppCompatActivity {
         // If reload is needed..
         if (PrefsHelper.getBooleanPrefs("isCommentsReloadNeeded", this)) {
             initComments();
-            PrefsHelper.editPrefs("isCommentsReloadNeeded", false, this);
         }
     }
 
@@ -99,6 +96,9 @@ public class CommentActivity extends AppCompatActivity {
 
     private void initComments() {
         try {
+            // Reset reload parameter
+            PrefsHelper.editPrefs("isCommentsReloadNeeded", false, this);
+
             // Init Container...
             final LinearLayout commentContainer = findViewById(R.id.commentContainer);
             LayoutTransition layoutTransition = commentContainer.getLayoutTransition();
