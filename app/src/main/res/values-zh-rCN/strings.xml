@@ -142,6 +142,7 @@
     <string name="favourites_delete">请选择要删除的收藏夹。此操作不能撤销。</string>
     <string name="favourites_rename">请选择要重命名的收藏夹。</string>
     <string name="favourites_new_folder">输入收藏夹名。</string>
+    <string name="favourites_new_folder_tips">新收藏夹会在添加机型后显示</string>
     <string name="favourites_error_empty">您的输入为空</string>
     <string name="favourites_error_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作收藏夹名</string>
     <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行，30 个字符</string>

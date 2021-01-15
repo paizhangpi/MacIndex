@@ -2,9 +2,13 @@ package com.macindex.macindex;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.TextViewCompat;
 
+import android.animation.LayoutTransition;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,9 +18,16 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class FavouriteActivity extends AppCompatActivity {
+
+    private int[][] loadPositions = {};
+
+    private int machineLoadedCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +72,6 @@ public class FavouriteActivity extends AppCompatActivity {
             case R.id.renameFolderItem:
                 renameFolder();
                 break;
-            case R.id.favouriteHelpItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/favourites", this);
-                break;
             case R.id.clearFolderItem:
                 final AlertDialog.Builder clearFoldersDialog = new AlertDialog.Builder(this);
                 clearFoldersDialog.setTitle(R.string.submenu_favourite_clear);
@@ -77,17 +85,159 @@ public class FavouriteActivity extends AppCompatActivity {
                 }));
                 clearFoldersDialog.show();
                 break;
+            case R.id.favouriteHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/favourites", this);
+                break;
             default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private void initFavourites() {
-        // To be implemented
         // Reset reload parameter
         PrefsHelper.editPrefs("isFavouritesReloadNeeded", false, this);
-        Log.e("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+        machineLoadedCount = 0;
+        Log.i("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+
+        // Adapt initInterface from MainActivity
+        try {
+            // Parent layout of all categories.
+            final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
+            // Fix an animation bug here
+            LayoutTransition layoutTransition = categoryContainer.getLayoutTransition();
+            layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+            categoryContainer.removeAllViews();
+            // Get Folder Names
+            final String[] allFolders = getFolders(this);
+            final String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this).split("││");
+            ProgressDialog waitDialog = new ProgressDialog(this);
+            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setCancelable(false);
+            waitDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        // Get Load Positions
+                        loadPositions = new int[allFolders.length][];
+                        for (int i = 0; i < allFolders.length; i++) {
+                            final String[] thisFolder = splitedString[i + 1].split("│");
+                            loadPositions[i] = new int[thisFolder.length - 1];
+                            for (int j = 0; j < thisFolder.length - 1; j++) {
+                                 final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
+                                        "all", FavouriteActivity.this, true);
+                                if (thisID.length != 1) {
+                                    Log.e("FavouritesSearchThread", "Error occurred on search string " + thisFolder[j + 1]);
+                                }
+                                loadPositions[i][j] = thisID[0];
+                            }
+                            // Is sorting needed?
+                            if (PrefsHelper.getBooleanPrefs("isSortComment", FavouriteActivity.this)) {
+                                loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i]);
+                            }
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    waitDialog.dismiss();
+                                    // Set up each category.
+                                    for (int i = 0; i < loadPositions.length; i++) {
+                                        final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
+                                        final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
+                                        final TextView categoryName = categoryChunk.findViewById(R.id.category);
+
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            categoryName.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                                        } else {
+                                            TextViewCompat.setAutoSizeTextTypeWithDefaults(categoryName, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                                        }
+
+                                        if (loadPositions[i].length != 0) {
+                                            categoryName.setText(allFolders[i]);
+
+                                            /* Remake my teammate's code */
+                                            categoryName.setOnClickListener(new View.OnClickListener() {
+                                                private boolean thisVisibility = false;
+
+                                                @Override
+                                                public void onClick(final View view) {
+                                                    try {
+                                                        final View firstChild = categoryChunkLayout.getChildAt(1);
+                                                        if (thisVisibility) {
+                                                            // Make machines invisible.
+                                                            if (!(firstChild instanceof LinearLayout)) {
+                                                                // Have the divider
+                                                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                                                    categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                                                    thisVisibility = false;
+                                                                }
+                                                                firstChild.setVisibility(View.VISIBLE);
+                                                            } else {
+                                                                // Does not have the divider
+                                                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                                                    categoryChunkLayout.getChildAt(j).setVisibility(View.GONE);
+                                                                    thisVisibility = false;
+                                                                }
+                                                            }
+                                                        } else {
+                                                            // Make machines visible.
+                                                            if (!(firstChild instanceof LinearLayout)) {
+                                                                // Have the divider
+                                                                for (int j = 2; j < categoryChunkLayout.getChildCount(); j++) {
+                                                                    categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                                                    thisVisibility = true;
+                                                                }
+                                                                firstChild.setVisibility(View.GONE);
+                                                            } else {
+                                                                // Does not have the divider
+                                                                for (int j = 1; j < categoryChunkLayout.getChildCount(); j++) {
+                                                                    categoryChunkLayout.getChildAt(j).setVisibility(View.VISIBLE);
+                                                                    thisVisibility = true;
+                                                                }
+                                                            }
+                                                        }
+                                                    } catch (Exception e) {
+                                                        ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
+                                                                + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+                                                    }
+                                                }
+                                            });
+                                            Log.i("FavouriteActivity", "Loading folder " + allFolders[i]);
+                                            machineLoadedCount += SpecsIntentHelper
+                                                    .initCategory(categoryChunkLayout, loadPositions[i], false, FavouriteActivity.this);
+                                            categoryContainer.addView(categoryChunk);
+                                        }
+                                    }
+                                    // Remove the last divider.
+                                    if (categoryContainer.getChildCount() != 0) {
+                                        ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
+                                    }
+                                    Log.w("FavouriteActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
+                                } catch (Exception e) {
+                                    ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
+                                            + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+                                }
+                            }
+                        });
+                    } catch (final Exception e) {
+                        ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
+                                + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+                    }
+                }
+            }.start();
+        } catch (final Exception e) {
+            ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+        }
     }
 
     // Called when to check the favourites is empty.
@@ -156,6 +306,19 @@ public class FavouriteActivity extends AppCompatActivity {
         return true;
     }
 
+    public static boolean isFavourite(final String machineName, final Context thisContext) {
+        try {
+            if (machineName == null) {
+                throw new IllegalArgumentException();
+            }
+            return PrefsHelper.getStringPrefs("userFavourites", thisContext).contains("[" + machineName + "]");
+        } catch (Exception e) {
+            ExceptionHelper.handleException(thisContext, e, "isFavourite", "Illegal Favourites String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userFavourites", thisContext));
+            return false;
+        }
+    }
+
     private void createFolder() {
         // Check for folder count
         final String[] currentStrings = getFolders(this);
@@ -192,7 +355,7 @@ public class FavouriteActivity extends AppCompatActivity {
                         // Finally create the new folder.
                         PrefsHelper.editPrefs("userFavourites", "││{"
                                 + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
-                        initFavourites();
+                        Toast.makeText(this, R.string.favourites_new_folder_tips, Toast.LENGTH_LONG).show();
                         newFolderDialogCreated.dismiss();
                     }
                 } catch (Exception e) {
@@ -256,6 +419,79 @@ public class FavouriteActivity extends AppCompatActivity {
     }
 
     private void renameFolder() {
-        // To be implemented
+        try {
+            // Check if totally empty.
+            if (!isEmptyString(R.string.submenu_favourite_rename)) {
+                final AlertDialog.Builder renameDialog = new AlertDialog.Builder(this);
+                renameDialog.setTitle(R.string.submenu_favourite_rename);
+                renameDialog.setMessage(R.string.favourites_rename);
+                // Setup each option in dialog.
+                final View folderChunk = getLayoutInflater().inflate(R.layout.chunk_favourites_list, null);
+                final RadioGroup folderOptions = folderChunk.findViewById(R.id.option);
+                final String[] allFolders = getFolders(this);
+                for (int i = 0; i < allFolders.length; i++) {
+                    final RadioButton folderOption = new RadioButton(this);
+                    folderOption.setText(allFolders[i]);
+                    folderOption.setId(i);
+                    if (i == 0) {
+                        folderOption.setChecked(true);
+                    }
+                    folderOptions.addView(folderOption);
+                }
+                renameDialog.setView(folderChunk);
+
+                // When user tapped confirm or cancel...
+                renameDialog.setPositiveButton(MainActivity.getRes().getString(R.string.link_confirm),
+                        (dialog, which) -> {
+                            try {
+                                // Adapt New Folder Dialog
+                                final View newFolderChunk = getLayoutInflater().inflate(R.layout.chunk_favourites_new, null);
+                                final EditText folderName = newFolderChunk.findViewById(R.id.folderName);
+                                folderName.setText(allFolders[folderOptions.getCheckedRadioButtonId()]);
+                                final AlertDialog.Builder newFolderDialog = new AlertDialog.Builder(this);
+                                newFolderDialog.setTitle(R.string.submenu_favourite_rename);
+                                newFolderDialog.setMessage(R.string.favourites_new_folder);
+                                newFolderDialog.setView(newFolderChunk);
+                                newFolderDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                    // To be overwritten...
+                                });
+                                newFolderDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                    // Do nothing
+                                });
+
+                                final AlertDialog newFolderDialogCreated = newFolderDialog.create();
+                                newFolderDialogCreated.show();
+                                // Overwrite the positive button
+                                newFolderDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                                    try {
+                                        final String inputtedName = folderName.getText().toString().trim();
+                                        // Check if the input is legal
+                                        if (validateFolderName(inputtedName, allFolders, this)) {
+                                            // Rename the folder.
+                                            PrefsHelper.editPrefs("userFavourites",
+                                                    PrefsHelper.getStringPrefs("userFavourites", this)
+                                                            .replace("{" + allFolders[folderOptions.getCheckedRadioButtonId()] + "}", "{" + inputtedName + "}"), this);
+                                            initFavourites();
+                                            newFolderDialogCreated.dismiss();
+                                        }
+                                    } catch (Exception e) {
+                                        ExceptionHelper.handleException(FavouriteActivity.this, e, "newFolderDialog_Rename", "Illegal Favourites String. Please reset the application. String is: "
+                                                + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+                                    }
+                                });
+                            } catch (Exception e) {
+                                ExceptionHelper.handleException(this, e, null, null);
+                            }
+                        });
+                renameDialog.setNegativeButton(MainActivity.getRes().getString(R.string.link_cancel),
+                        (dialog, which) -> {
+                            // Cancelled.
+                        });
+                renameDialog.show();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "renameFolder", "Illegal Favourites String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userFavourites", this));
+        }
     }
 }

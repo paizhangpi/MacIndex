@@ -803,7 +803,7 @@ public class SpecsActivity extends AppCompatActivity {
                                         Log.e("selectFolder", "Error length is " + splitedAgain.length);
                                         throw new IllegalStateException();
                                     }
-                                    if (splitedAgain[1].isEmpty()) {
+                                    if (!splitedAgain[1].isEmpty()) {
                                         // Have something in the trailing.
                                         splitedAgain[0] = splitedAgain[0].concat(splitedAgain[1]);
                                     }
@@ -901,7 +901,6 @@ public class SpecsActivity extends AppCompatActivity {
                     // Finally create the new folder.
                     PrefsHelper.editPrefs("userFavourites", "││{"
                             + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
-                    PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
                     newFolderDialogCreated.dismiss();
                 }
             } catch (Exception e) {

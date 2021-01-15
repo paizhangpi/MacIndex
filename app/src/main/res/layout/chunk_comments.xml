@@ -17,11 +17,12 @@
         android:id="@+id/machineName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_sticky_note_2_24"
         android:gravity="start|center_vertical"
+        android:maxLines="1"
         android:textAlignment="gravity"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:maxLines="1" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/machineComment"

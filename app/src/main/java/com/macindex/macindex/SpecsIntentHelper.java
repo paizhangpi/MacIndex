@@ -34,6 +34,12 @@ class SpecsIntentHelper {
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
 
+                /*
+                if (FavouriteActivity.isFavourite(thisName, thisContext)) {
+                    machineName.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
+                }
+                 */
+
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     machineName.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 } else {

@@ -94,6 +94,12 @@ public class CommentActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private void initComments() {
         try {
             // Reset reload parameter

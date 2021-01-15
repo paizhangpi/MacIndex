@@ -1126,8 +1126,7 @@ class MachineHelper {
     }
 
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
-    public int[][] filterSearchHelper(final String thisFilter, final String thisManufacturer, final Context thisContext) {
-        final String[][] filterString = getFilterString(thisFilter);
+    public int[][] filterSearchHelper(final String[][] filterString, final String thisManufacturer, final Context thisContext) {
         int[][] finalPositions = new int[filterString[1].length][];
         for (int i = 0; i < filterString[1].length; i++) {
             finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
