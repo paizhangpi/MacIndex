@@ -8,6 +8,9 @@
         android:id="@+id/deleteFolderItem"
         android:title="@string/submenu_favourite_delete" />
     <item
+        android:id="@+id/renameFolderItem"
+        android:title="@string/submenu_favourite_rename" />
+    <item
         android:id="@+id/favouriteHelpItem"
         android:title="@string/submenu_favourite_help" />
 </menu>

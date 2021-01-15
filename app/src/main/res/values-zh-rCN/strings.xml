@@ -90,6 +90,7 @@
     <string name="submenu_search_help">搜索页帮助</string>
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">删除收藏夹</string>
+    <string name="submenu_favourite_rename">重命名收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
     <string name="submenu_compare_clear">清除选择</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
@@ -117,7 +118,6 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
-    <string name="favourite_tips">在机型收藏页中管理所有收藏夹。</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
@@ -136,4 +136,15 @@
     <string name="loading">正在加载</string>
     <string name="comments_not_available">还没有保存任何自定义备注。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。您仍想要继续吗？</string>
+    <string name="favourites_no_folder">还没有创建任何收藏夹。您可以立刻新建一个，或在机型收藏页中随后新建。</string>
+    <string name="favourites_tips">请选择对应的收藏夹。在机型收藏页中管理所有收藏夹。</string>
+    <string name="favourites_delete">请选择要删除的收藏夹。此操作不能撤销。</string>
+    <string name="favourites_rename">请选择要重命名的收藏夹。</string>
+    <string name="favourites_new_folder">输入收藏夹名。</string>
+    <string name="favourites_error_empty">您的输入为空</string>
+    <string name="favourites_error_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作收藏夹名</string>
+    <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行，30 个字符</string>
+    <string name="favourites_error_conflict">该名称已被指定，且无法重用</string>
+    <string name="favourites_error_limit">您只能最多创建 10 个收藏夹。</string>
+    <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。您仍想要继续吗？</string>
 </resources>

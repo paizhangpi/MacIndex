@@ -667,7 +667,7 @@ public class SpecsActivity extends AppCompatActivity {
         // Overwrite the positive button
         commentDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
             try {
-                final String inputtedString = editComment.getText().toString();
+                final String inputtedString = editComment.getText().toString().trim();
                 // Is "│" included?
                 if (inputtedString.contains("│")) {
                     Log.w("commentDialog", "Illegal Character Detected.");
@@ -716,7 +716,7 @@ public class SpecsActivity extends AppCompatActivity {
                         if (!inputtedString.isEmpty()) {
                             // Is original string not empty?
                             if (originalString.length() != 0) {
-                                originalString = originalString.concat("││" + thisName + "│" + inputtedString);
+                                originalString = thisName + "│" + inputtedString + "││" + originalString;
                             } else {
                                 originalString = originalString.concat(thisName + "│" + inputtedString);
                             }

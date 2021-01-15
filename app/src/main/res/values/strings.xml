@@ -94,6 +94,7 @@
     <string name="submenu_search_help">Search Page Help</string>
     <string name="submenu_favourite_add">Add New Folder</string>
     <string name="submenu_favourite_delete">Delete Existing Folder</string>
+    <string name="submenu_favourite_rename">Rename Existing Folder</string>
     <string name="submenu_favourite_help">Favourites Page Help</string>
     <string name="submenu_compare_clear">Clear Selections</string>
     <string name="submenu_compare_help">Comparison Page Help</string>
@@ -134,9 +135,8 @@
     <string name="comment">Custom Comment</string>
     <string name="comment_null">Not Available (Could be edited in the menu)</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
-    <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters.</string>
+    <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters</string>
     <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
-    <string name="favourite_tips">Manage your favourites folders in the Favourites Page.</string>
     <string name="compare_0" translatable="false">(0/2)</string>
     <string name="compare_1" translatable="false">(1/2)</string>
     <string name="compare_2" translatable="false">(2/2)</string>
@@ -158,4 +158,15 @@
     <string name="loading">Now Loading</string>
     <string name="comments_not_available">No comment has been saved yet. You can add a custom comment at any specification page.</string>
     <string name="comments_clear_warning">All existing custom comments will be cleared. This cannot be undone. Do you want to proceed?</string>
+    <string name="favourites_no_folder">No favourites folder has been created yet. You can create a new folder right now, or you can create it later at the Favourites Page.</string>
+    <string name="favourites_tips">Please select the folder(s). Manage your favourites folders in the Favourites Page.</string>
+    <string name="favourites_delete">Please select the folder(s) to delete. This cannot be undone.</string>
+    <string name="favourites_rename">Please select the folder to rename.</string>
+    <string name="favourites_new_folder">Enter the folder name.</string>
+    <string name="favourites_error_empty">Your input is empty</string>
+    <string name="favourites_error_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the folder name</string>
+    <string name="favourites_error_length">Your input is too long, the max limit for each folder is 1 line and 30 characters</string>
+    <string name="favourites_error_conflict">This name was already specified and cannot be reused</string>
+    <string name="favourites_error_limit">You can only create no more than 10 folders.</string>
+    <string name="favourites_clear_warning">All folders will be deleted. This cannot be undone. Do you want to proceed?</string>
 </resources>
