@@ -143,6 +143,27 @@ class MachineHelper {
         return categoryIndividualCount[thisCategory];
     }
 
+    // Get category range for fixed navigation
+    public int[] getCategoryRangeIDs(final int thisMachine) {
+        int lastingID = thisMachine;
+        int beginingID = 0;
+        int categoryID = 0;
+        for (int i = 0; i < categoryIndividualCount.length; i++) {
+            if (lastingID >= categoryIndividualCount[i]) {
+                lastingID -= categoryIndividualCount[i];
+                beginingID += categoryIndividualCount[i];
+            } else {
+                break;
+            }
+            categoryID++;
+        }
+        int[] toReturn = new int[categoryIndividualCount[categoryID]];
+        for (int i = 0; i < toReturn.length; i++) {
+            toReturn[i] = beginingID + i;
+        }
+        return toReturn;
+    }
+
 
     // Get specific position of a machine ID.
     private int[] getPosition(final int thisMachine) {

@@ -26,10 +26,11 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isPlayDeathSound", Boolean.TRUE);
         DEFAULT_VALUES.put("isEnableVolWarning", Boolean.TRUE);
         DEFAULT_VALUES.put("isUseNavButtons", Boolean.TRUE);
-        DEFAULT_VALUES.put("isQuickNav", Boolean.FALSE);
+        DEFAULT_VALUES.put("isFixedNav", Boolean.FALSE);
         DEFAULT_VALUES.put("isRandomAll", Boolean.FALSE);
         DEFAULT_VALUES.put("isSaveMainUsage", Boolean.TRUE);
         DEFAULT_VALUES.put("isSaveSearchUsage", Boolean.TRUE);
+        DEFAULT_VALUES.put("isSaveCompareUsage", Boolean.TRUE);
 
         DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
         DEFAULT_VALUES.put("thisManufacturer", "all");

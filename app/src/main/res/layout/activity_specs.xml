@@ -39,12 +39,13 @@
                 <TextView
                     android:id="@+id/nameText"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
+                    android:layout_height="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:maxLines="1" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout

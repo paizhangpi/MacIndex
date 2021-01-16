@@ -72,7 +72,14 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             final Intent intent = getIntent();
             machineID = intent.getIntExtra("machineID", -1);
-            categoryStartEnd = intent.getIntArrayExtra("thisCategory");
+
+            // Is fixed navigation?
+            if (PrefsHelper.getBooleanPrefs("isFixedNav", this)) {
+                categoryStartEnd = MainActivity.getMachineHelper().getCategoryRangeIDs(machineID);
+            } else {
+                categoryStartEnd = intent.getIntArrayExtra("thisCategory");
+            }
+
             if (categoryStartEnd == null || machineID == -1) {
                 throw new IllegalArgumentException();
             }
@@ -204,13 +211,37 @@ public class SpecsActivity extends AppCompatActivity {
             final TextView support = findViewById(R.id.supportText);
 
             this.setTitle(thisName);
-            name.setText(thisName);
+            name.setVisibility(View.INVISIBLE);
 
+            // Reset the auto-sizing
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
             } else {
-                TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE);
             }
+
+            // Reset the Machine Name.
+            name.setText(thisName);
+            name.setTextSize(20);
+
+            // Check if the star is needed.
+            if (FavouriteActivity.isFavourite(thisName, this)) {
+                name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
+            } else {
+                name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+            }
+
+            // Auto-sizing only if the width is insufficient.
+            name.post(() -> {
+                if (!name.getLayout().getText().toString().equals(thisName)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                    } else {
+                        TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                    }
+                }
+                name.setVisibility(View.VISIBLE);
+            });
 
             type.setText(MainActivity.getMachineHelper().getType(machineID));
             type.setOnLongClickListener(view -> {
@@ -843,6 +874,7 @@ public class SpecsActivity extends AppCompatActivity {
                         }
                         PrefsHelper.editPrefs("userFavourites", newString, this);
                         PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
+                        initSpecs();
                     } catch (Exception e) {
                         ExceptionHelper.handleException(this, e, "selectFolder", "Illegal Favourites String. Please reset the application. String is: "
                                 + PrefsHelper.getStringPrefs("userFavourites", this));
@@ -1000,19 +1032,10 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void refresh() {
         machineID = categoryStartEnd[machineIDPosition];
-        if (PrefsHelper.getBooleanPrefs("isQuickNav", this)) {
-            // Old method - not creating a new Activity
-            release();
-            startup = true;
-            initialize();
-            initCompareCheckBox();
-        } else {
-            // New method
-            final Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
-            newMachine.putExtra("machineID", machineID);
-            newMachine.putExtra("thisCategory", categoryStartEnd);
-            startActivity(newMachine);
-            finish();
-        }
+        final Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
+        newMachine.putExtra("machineID", machineID);
+        newMachine.putExtra("thisCategory", categoryStartEnd);
+        startActivity(newMachine);
+        finish();
     }
 }
