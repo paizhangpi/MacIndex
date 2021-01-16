@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu_main, menu);
         MenuItem versionItem = menu.findItem(R.id.versionItem);
         versionItem.setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
-        versionItem.setEnabled(false);
         return true;
     }
 

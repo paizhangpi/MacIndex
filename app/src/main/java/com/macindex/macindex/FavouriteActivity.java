@@ -115,7 +115,7 @@ public class FavouriteActivity extends AppCompatActivity {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             categoryContainer.removeAllViews();
             // Get Folder Names
-            final String[] allFolders = getFolders(this);
+            final String[] allFolders = getFolders(this, false);
             final String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this).split("││");
             ProgressDialog waitDialog = new ProgressDialog(this);
             waitDialog.setMessage(getString(R.string.loading));
@@ -260,7 +260,7 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    public static String[] getFolders(final Context thisContext) {
+    public static String[] getFolders(final Context thisContext, final Boolean isTailing) {
         try {
             String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", thisContext).split("││");
             String[] toReturn = new String[splitedString.length - 1];
@@ -270,7 +270,7 @@ public class FavouriteActivity extends AppCompatActivity {
                     throw new IllegalStateException();
                 }
                 String[] tempSplit = splitedString[i].split("│");
-                toReturn[i - 1] = tempSplit[0].substring(1, tempSplit[0].length() - 1);
+                toReturn[i - 1] = tempSplit[0].substring(1, tempSplit[0].length() - 1) + (isTailing ? (" (" + (tempSplit.length - 1) + ")") : "");
             }
             return toReturn;
         } catch (Exception e) {
@@ -321,7 +321,7 @@ public class FavouriteActivity extends AppCompatActivity {
 
     private void createFolder() {
         // Check for folder count
-        final String[] currentStrings = getFolders(this);
+        final String[] currentStrings = getFolders(this, false);
         if (currentStrings.length >= 10) {
             final AlertDialog.Builder folderLimitDialog = new AlertDialog.Builder(this);
             folderLimitDialog.setTitle(R.string.submenu_favourite_add);
@@ -372,7 +372,7 @@ public class FavouriteActivity extends AppCompatActivity {
             if (!isEmptyString(R.string.submenu_favourite_delete)) {
                 final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                 final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
-                final String[] currentStrings = getFolders(this);
+                final String[] currentStrings = getFolders(this, true);
                 final int[] currentSelections = new int[currentStrings.length];
                 for (int i = 0; i < currentStrings.length; i++) {
                     CheckBox thisCheckBox = new CheckBox(this);
@@ -428,7 +428,7 @@ public class FavouriteActivity extends AppCompatActivity {
                 // Setup each option in dialog.
                 final View folderChunk = getLayoutInflater().inflate(R.layout.chunk_favourites_list, null);
                 final RadioGroup folderOptions = folderChunk.findViewById(R.id.option);
-                final String[] allFolders = getFolders(this);
+                final String[] allFolders = getFolders(this, false);
                 for (int i = 0; i < allFolders.length; i++) {
                     final RadioButton folderOption = new RadioButton(this);
                     folderOption.setText(allFolders[i]);

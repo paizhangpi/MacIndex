@@ -6,11 +6,11 @@
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。\n打开设置来关闭这个功能。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
-    <string name="information_first_lunch">自古至今，融于掌中。\n打开抽屉在应用功能间导航。\n打开菜单来获得更多选项。</string>
+    <string name="information_first_lunch">自古至今，融于掌中。打开抽屉在应用功能间导航。打开菜单来探索更多选项以及获得帮助。</string>
     <string name="information_new_major_version_title">MacIndex 更新</string>
     <string name="setting_sort">按照时间排序（主页和搜素）</string>
     <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响主页面和搜素页。</string>
-    <string name="setting_sort_comment">按照时间排序（自定义备注和机型收藏）</string>
+    <string name="setting_sort_comment">按照时间排序（机型收藏和自定义备注）</string>
     <string name="setting_sort_comment_description">按照时间排序或按照添加顺序排序。关闭可使加载更快。只影响自定义备注页和机型收藏页。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
@@ -93,7 +93,7 @@
     <string name="submenu_favourite_rename">重命名收藏夹</string>
     <string name="submenu_favourite_clear">清除所有收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
-    <string name="submenu_compare_clear">清除选择</string>
+    <string name="submenu_compare_clear">清除当前选择</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
     <string name="submenu_comments_clear">清除所有备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
@@ -119,6 +119,9 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
+    <string name="compare_0">添加到比较 (0/2)</string>
+    <string name="compare_1">添加到比较 (1/2)</string>
+    <string name="compare_2">添加到比较 (2/2)</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
@@ -145,7 +148,7 @@
     <string name="favourites_new_folder_tips">新收藏夹会在添加机型后显示</string>
     <string name="favourites_error_empty">您的输入为空</string>
     <string name="favourites_error_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作收藏夹名</string>
-    <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行，30 个字符</string>
+    <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行 30 个字符</string>
     <string name="favourites_error_conflict">该名称已被指定，且无法重用</string>
     <string name="favourites_error_limit">您只能最多创建 10 个收藏夹。</string>
     <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。您仍想要继续吗？</string>

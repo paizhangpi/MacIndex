@@ -59,6 +59,8 @@ public class SpecsActivity extends AppCompatActivity {
 
     private String thisName = null;
 
+    private MenuItem compareItem = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +97,8 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_specs, menu);
+        compareItem = menu.findItem(R.id.addCompareItem);
+        initCompareCheckBox();
         return true;
     }
 
@@ -105,8 +109,7 @@ public class SpecsActivity extends AppCompatActivity {
                 selectFolder();
                 break;
             case R.id.addCompareItem:
-                // To be implemented
-                openOptionsMenu();
+                addToCompare();
                 break;
             case R.id.commentItem:
                 initCommentDialog();
@@ -748,6 +751,7 @@ public class SpecsActivity extends AppCompatActivity {
                 final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                 final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
                 final String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", this).split("││");
+                final String[] allFolders = FavouriteActivity.getFolders(this, true);
                 final int[] currentSelections = new int[splitedString.length];
                 for (int i = 1; i < splitedString.length; i++) {
                     // Is it in this folder?
@@ -762,7 +766,7 @@ public class SpecsActivity extends AppCompatActivity {
 
                     // Set the checkbox
                     CheckBox thisCheckBox = new CheckBox(this);
-                    thisCheckBox.setText(splitedFolderContent[0].substring(1, splitedFolderContent[0].length() - 1));
+                    thisCheckBox.setText(allFolders[i - 1]);
                     thisCheckBox.setChecked(isExistsAtHere);
                     // Fix the init bug
                     currentSelections[i] = isExistsAtHere ? 1 : 0;
@@ -910,6 +914,80 @@ public class SpecsActivity extends AppCompatActivity {
         });
     }
 
+    /* Compare Functions */
+    private void addToCompare() {
+        try {
+            // How many compare items?
+            final String[] splitedCompare = PrefsHelper.getStringPrefs("userCompares", this).split("│");
+            Log.e("stringis", PrefsHelper.getStringPrefs("userCompares", this));
+            if (splitedCompare.length == 1 && splitedCompare[0].isEmpty()) {
+                // Empty String. Add to compare string
+                PrefsHelper.editPrefs("userCompares", thisName, this);
+                initCompareCheckBox();
+            } else if (splitedCompare.length == 1 && !splitedCompare[0].isEmpty()) {
+                if (splitedCompare[0].equals(thisName)) {
+                    // Exists. Delete
+                    PrefsHelper.clearPrefs("userCompares", this);
+                } else {
+                    // Not Empty, add as 2nd element
+                    PrefsHelper.editPrefs("userCompares", PrefsHelper.getStringPrefs("userCompares", this) + "│" + thisName, this);
+                }
+                initCompareCheckBox();
+            } else if (splitedCompare.length == 2) {
+                if (splitedCompare[0].equals(thisName)) {
+                    // Delete 1st element;
+                    PrefsHelper.editPrefs("userCompares", splitedCompare[1], this);
+                } else if (splitedCompare[1].equals(thisName)) {
+                    // Delete 2nd element;
+                    PrefsHelper.editPrefs("userCompares", splitedCompare[0], this);
+                }
+                initCompareCheckBox();
+            } else {
+                Log.e("initCompare", "Error length is " + splitedCompare.length);
+                throw new IllegalStateException();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "addToCompare", "Illegal Compare String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userCompares", this));
+        }
+    }
+
+    private void initCompareCheckBox() {
+        try {
+            // How many compare items?
+            final String[] splitedCompare = PrefsHelper.getStringPrefs("userCompares", this).split("│");
+            Log.e("stringis", PrefsHelper.getStringPrefs("userCompares", this));
+            if (splitedCompare.length == 1 && splitedCompare[0].isEmpty()) {
+                compareItem.setChecked(false);
+                compareItem.setEnabled(true);
+                compareItem.setTitle(R.string.compare_0);
+            } else if (splitedCompare.length == 1 && !splitedCompare[0].isEmpty()) {
+                if (splitedCompare[0].equals(thisName)) {
+                    compareItem.setChecked(true);
+                } else {
+                    compareItem.setChecked(false);
+                }
+                compareItem.setEnabled(true);
+                compareItem.setTitle(R.string.compare_1);
+            } else if (splitedCompare.length == 2) {
+                if (splitedCompare[0].equals(thisName) || splitedCompare[1].equals(thisName)) {
+                    compareItem.setChecked(true);
+                    compareItem.setEnabled(true);
+                } else {
+                    compareItem.setChecked(false);
+                    compareItem.setEnabled(false);
+                }
+                compareItem.setTitle(R.string.compare_2);
+            } else {
+                Log.e("initCompare", "Error length is " + splitedCompare.length);
+                throw new IllegalStateException();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "initCompareCheckBox", "Illegal Compare String. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userCompares", this));
+        }
+    }
+
     private void navPrev() {
         machineIDPosition--;
         refresh();
@@ -927,6 +1005,7 @@ public class SpecsActivity extends AppCompatActivity {
             release();
             startup = true;
             initialize();
+            initCompareCheckBox();
         } else {
             // New method
             final Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
