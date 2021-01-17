@@ -85,6 +85,19 @@ class SpecsIntentHelper {
                             thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
                         } else {
                             thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                thisView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
+                            } else {
+                                TextViewCompat.setAutoSizeTextTypeWithDefaults(thisView, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE);
+                            }
+
+                            // Reset the text size
+                            thisView.setTextSize(18);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                thisView.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                            } else {
+                                TextViewCompat.setAutoSizeTextTypeWithDefaults(thisView, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                            }
                         }
                     }
                 }
