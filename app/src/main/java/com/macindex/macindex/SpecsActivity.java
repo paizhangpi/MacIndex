@@ -193,7 +193,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initSpecs() {
         try {
-            final TextView name = findViewById(R.id.nameText);
             final TextView type = findViewById(R.id.typeText);
             final TextView processor = findViewById(R.id.processorText);
             final TextView maxram = findViewById(R.id.maxramText);
@@ -211,37 +210,7 @@ public class SpecsActivity extends AppCompatActivity {
             final TextView support = findViewById(R.id.supportText);
 
             this.setTitle(thisName);
-            name.setVisibility(View.INVISIBLE);
-
-            // Reset the auto-sizing
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
-            } else {
-                TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE);
-            }
-
-            // Reset the Machine Name.
-            name.setText(thisName);
-            name.setTextSize(20);
-
-            // Check if the star is needed.
-            if (FavouriteActivity.isFavourite(thisName, this)) {
-                name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
-            } else {
-                name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-            }
-
-            // Auto-sizing only if the width is insufficient.
-            name.post(() -> {
-                if (!name.getLayout().getText().toString().equals(thisName)) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-                    } else {
-                        TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-                    }
-                }
-                name.setVisibility(View.VISIBLE);
-            });
+            reloadName();
 
             type.setText(MainActivity.getMachineHelper().getType(machineID));
             type.setOnLongClickListener(view -> {
@@ -432,6 +401,41 @@ public class SpecsActivity extends AppCompatActivity {
             ExceptionHelper.handleException(this, e,
                     "initSpecs", "Failed, Machine ID " + machineID);
         }
+    }
+
+    private void reloadName() {
+        final TextView name = findViewById(R.id.nameText);
+        name.setVisibility(View.INVISIBLE);
+
+        // Reset the auto-sizing
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_NONE);
+        } else {
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_NONE);
+        }
+
+        // Reset the Machine Name.
+        name.setText(thisName);
+        name.setTextSize(20);
+
+        // Check if the star is needed.
+        if (FavouriteActivity.isFavourite(thisName, this)) {
+            name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
+        } else {
+            name.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+        }
+
+        // Auto-sizing only if the width is insufficient.
+        name.post(() -> {
+            if (!name.getLayout().getText().toString().equals(thisName)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    name.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                } else {
+                    TextViewCompat.setAutoSizeTextTypeWithDefaults(name, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                }
+            }
+            name.setVisibility(View.VISIBLE);
+        });
     }
 
     private void initImage() {
@@ -874,7 +878,7 @@ public class SpecsActivity extends AppCompatActivity {
                         }
                         PrefsHelper.editPrefs("userFavourites", newString, this);
                         PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
-                        initSpecs();
+                        reloadName();
                     } catch (Exception e) {
                         ExceptionHelper.handleException(this, e, "selectFolder", "Illegal Favourites String. Please reset the application. String is: "
                                 + PrefsHelper.getStringPrefs("userFavourites", this));

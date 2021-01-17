@@ -27,8 +27,6 @@ public class FavouriteActivity extends AppCompatActivity {
 
     private int[][] loadPositions = {};
 
-    private int machineLoadedCount = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +101,6 @@ public class FavouriteActivity extends AppCompatActivity {
     private void initFavourites() {
         // Reset reload parameter
         PrefsHelper.editPrefs("isFavouritesReloadNeeded", false, this);
-        machineLoadedCount = 0;
         Log.i("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
 
         // Adapt initInterface from MainActivity
@@ -150,6 +147,7 @@ public class FavouriteActivity extends AppCompatActivity {
                                 try {
                                     waitDialog.dismiss();
                                     // Set up each category.
+                                    TextView[][] allMachines = new TextView[loadPositions.length][];
                                     for (int i = 0; i < loadPositions.length; i++) {
                                         final View categoryChunk = getLayoutInflater().inflate(R.layout.chunk_category, null);
                                         final LinearLayout categoryChunkLayout = categoryChunk.findViewById(R.id.categoryInfoLayout);
@@ -212,7 +210,7 @@ public class FavouriteActivity extends AppCompatActivity {
                                                 }
                                             });
                                             Log.i("FavouriteActivity", "Loading folder " + allFolders[i]);
-                                            machineLoadedCount += SpecsIntentHelper
+                                            allMachines[i] = SpecsIntentHelper
                                                     .initCategory(categoryChunkLayout, loadPositions[i], false, FavouriteActivity.this);
                                             categoryContainer.addView(categoryChunk);
                                         }
@@ -221,7 +219,9 @@ public class FavouriteActivity extends AppCompatActivity {
                                     if (categoryContainer.getChildCount() != 0) {
                                         ((LinearLayout) categoryContainer.getChildAt(categoryContainer.getChildCount() - 1)).removeViewAt(1);
                                     }
-                                    Log.w("FavouriteActivity", "Initialized with " + machineLoadedCount + " machines loaded.");
+
+                                    // Load the favourites star.
+                                    SpecsIntentHelper.refreshFavourites(allMachines, FavouriteActivity.this);
                                 } catch (Exception e) {
                                     ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
                                             + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
@@ -229,8 +229,7 @@ public class FavouriteActivity extends AppCompatActivity {
                             }
                         });
                     } catch (final Exception e) {
-                        ExceptionHelper.handleException(FavouriteActivity.this, e, "initFavourites", "Illegal Favourites String. Please reset the application. String is: "
-                                + PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+                        e.printStackTrace();
                     }
                 }
             }.start();

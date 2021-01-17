@@ -40,6 +40,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private Spinner optionsSpinner = null;
 
+    private TextView[][] loadedResults = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +108,12 @@ public class SearchActivity extends AppCompatActivity {
         // Remember last state
         PrefsHelper.editPrefs("searchLastInput", searchText.getQuery().toString(), this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SpecsIntentHelper.refreshFavourites(loadedResults, this);
     }
 
     @Override
@@ -311,6 +319,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void clearResults() {
         textResult.setVisibility(View.GONE);
+        loadedResults = null;
         currentLayout.removeAllViews();
     }
 
@@ -332,6 +341,7 @@ public class SearchActivity extends AppCompatActivity {
         Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
                 + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
         textIllegalInput.setVisibility(View.GONE);
+        loadedResults = null;
         currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
             if (validate(searchInput, translateOptionsParam())) {
@@ -419,10 +429,10 @@ public class SearchActivity extends AppCompatActivity {
                 public void run() {
                     final int[] positions = thisMachineHelper.searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
                             SearchActivity.this, translateMatchParam());
-                    try {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
                                 waitDialog.dismiss();
                                 final int resultCount = positions.length;
                                 textResult.setVisibility(View.VISIBLE);
@@ -431,13 +441,15 @@ public class SearchActivity extends AppCompatActivity {
                                 } else {
                                     textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
                                 }
-                                Log.i("performSearch", SpecsIntentHelper.initCategory(currentLayout, positions,
-                                        true, SearchActivity.this) + " Results loaded");
+                                loadedResults = new TextView[1][positions.length];
+                                loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
+                                        true, SearchActivity.this);
+                                SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
+                            } catch (final Exception e) {
+                                ExceptionHelper.handleException(SearchActivity.this, e, null, null);
                             }
-                        });
-                    } catch (final Exception e) {
-                        ExceptionHelper.handleException(SearchActivity.this, e, null, null);
-                    }
+                        }
+                    });
                 }
             }.start();
         } catch (Exception e) {

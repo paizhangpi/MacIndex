@@ -136,10 +136,10 @@ public class CommentActivity extends AppCompatActivity {
                         if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
                             machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
                         }
-                        try {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
                                     waitDialog.dismiss();
                                     // Update the UI after the thread done.
                                     for (int i = 0; i < machineIDs.length; i++) {
@@ -188,12 +188,12 @@ public class CommentActivity extends AppCompatActivity {
                                         commentContainer.addView(commentsChunk);
                                     }
                                     Log.i("CommentSearchThread", thisCommentsStrings.length + " Machines loaded in the container.");
+                                } catch (final Exception e) {
+                                    ExceptionHelper.handleException(CommentActivity.this, e, "CommentSearchThread", "Cannot add children to container. Likely illegal comment prefs string. Please reset the application. String is: "
+                                            + PrefsHelper.getStringPrefs("userComments", CommentActivity.this));
                                 }
-                            });
-                        } catch (final Exception e) {
-                            ExceptionHelper.handleException(CommentActivity.this, e, "CommentSearchThread", "Cannot add children to container. Likely illegal comment prefs string. Please reset the application. String is: "
-                                    + PrefsHelper.getStringPrefs("userComments", CommentActivity.this));
-                        }
+                            }
+                        });
                     }
                 }.start();
             }

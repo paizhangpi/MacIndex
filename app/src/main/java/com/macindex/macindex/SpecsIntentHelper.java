@@ -15,11 +15,12 @@ import java.util.Arrays;
 
 class SpecsIntentHelper {
 
-    public static int initCategory(final LinearLayout currentLayout, final int[] machineIDs,
+    public static TextView[] initCategory(final LinearLayout currentLayout, final int[] machineIDs,
                                    final boolean isVisible, final Context thisContext) {
-        int machineLoadedCount = 0;
         try {
-            for (int thisMachineID : machineIDs) {
+            TextView[] machineLoaded = new TextView[machineIDs.length];
+            for (int i = 0; i < machineIDs.length; i++) {
+                final int thisMachineID = machineIDs[i];
                 final View mainChunk = ((LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                         .inflate(R.layout.chunk_main, null);
                 final TextView machineName = mainChunk.findViewById(R.id.machineName);
@@ -33,12 +34,6 @@ class SpecsIntentHelper {
 
                 machineName.setText(thisName);
                 machineYear.setText(thisYear);
-
-                /*
-                if (FavouriteActivity.isFavourite(thisName, thisContext)) {
-                    machineName.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
-                }
-                 */
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     machineName.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
@@ -59,13 +54,14 @@ class SpecsIntentHelper {
                 }
 
                 currentLayout.addView(mainChunk);
-                machineLoadedCount++;
+                machineLoaded[i] = machineName;
             }
+            return machineLoaded;
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e,
                     "initCategory", "Category initialization failed.");
+            return null;
         }
-        return machineLoadedCount;
     }
 
     public static void sendIntent(final int[] thisCategory, final int thisMachineID,
@@ -76,5 +72,20 @@ class SpecsIntentHelper {
         Log.i("sendIntent", "Category IDs " + Arrays.toString(thisCategory)
                 + ", thisMachineID " + thisMachineID);
         parentContext.startActivity(intent);
+    }
+
+    public static void refreshFavourites(final TextView[][] textViewGroup, final Context thisContext) {
+        for (TextView[] thisViewGroup : textViewGroup) {
+            // NullSafe
+            if (thisViewGroup != null) {
+                for (TextView thisView : thisViewGroup) {
+                    if (FavouriteActivity.isFavourite(thisView.getText().toString(), thisContext)) {
+                        thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
+                    } else {
+                        thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                    }
+                }
+            }
+        }
     }
 }
