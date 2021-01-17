@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,16 +40,7 @@ public class CommentActivity extends AppCompatActivity {
         }
 
         // Check whether if the string is empty on creation.
-        if (PrefsHelper.getStringPrefs("userComments", this).length() == 0) {
-            final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
-            nullWarningDialog.setTitle(R.string.menu_comment);
-            nullWarningDialog.setMessage(R.string.comments_not_available);
-            nullWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                // Confirmed.
-            });
-            nullWarningDialog.show();
-        }
-
+        checkEmpty(R.string.menu_comment);
         initComments();
     }
 
@@ -66,6 +58,12 @@ public class CommentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_comment, menu);
+
+        // Make export/import invisible now
+        MenuItem exportItem = menu.findItem(R.id.exportCommentsItem);
+        exportItem.setVisible(false);
+        MenuItem importItem = menu.findItem(R.id.importCommentsItem);
+        importItem.setVisible(false);
         return true;
     }
 
@@ -73,7 +71,7 @@ public class CommentActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.deleteCommentsItem:
-                // to be implemented
+                deleteComments();
                 break;
             case R.id.exportCommentsItem:
                 // to be implemented
@@ -130,20 +128,24 @@ public class CommentActivity extends AppCompatActivity {
                 new Thread() {
                     @Override
                     public void run() {
-                        // Run searches on the separate thread.
-                        for (int i = 0; i < thisCommentsStrings.length; i++) {
-                            String[] splitedThisString = thisCommentsStrings[i].split("│");
-                            int[] thisID = MainActivity.getMachineHelper().searchHelper("name", splitedThisString[0],
-                                    "all", CommentActivity.this, true);
-                            if (thisID.length != 1) {
-                                Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
+                        try {
+                            // Run searches on the separate thread.
+                            for (int i = 0; i < thisCommentsStrings.length; i++) {
+                                String[] splitedThisString = thisCommentsStrings[i].split("│");
+                                int[] thisID = MainActivity.getMachineHelper().searchHelper("name", splitedThisString[0],
+                                        "all", CommentActivity.this, true);
+                                if (thisID.length != 1) {
+                                    Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
+                                }
+                                machineIDs[i] = thisID[0];
                             }
-                            machineIDs[i] = thisID[0];
-                        }
 
-                        // Is sorting needed?
-                        if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
-                            machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                            // Is sorting needed?
+                            if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
+                                machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                         runOnUiThread(new Runnable() {
                             @Override
@@ -208,6 +210,74 @@ public class CommentActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
+        }
+    }
+
+    private boolean checkEmpty(final int titleResource) {
+        if (PrefsHelper.getStringPrefs("userComments", this).length() == 0) {
+            final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
+            nullWarningDialog.setTitle(titleResource);
+            nullWarningDialog.setMessage(R.string.comments_not_available);
+            nullWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                // Confirmed.
+            });
+            nullWarningDialog.show();
+            return true;
+        }
+        return false;
+    }
+
+    // Adapted from FavouriteActivity
+    private void deleteComments() {
+        try {
+            if (!checkEmpty(R.string.submenu_comments_delete)) {
+                final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
+                final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
+                final String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
+                final int[] currentSelections = new int[thisCommentsStrings.length];
+                for (int i = 0; i < thisCommentsStrings.length; i++) {
+                    CheckBox thisCheckBox = new CheckBox(this);
+                    thisCheckBox.setText(thisCommentsStrings[i].split("│")[0]);
+                    thisCheckBox.setChecked(false);
+                    int finalI = i;
+                    thisCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+                        currentSelections[finalI] = thisCheckBox.isChecked() ? 1 : 0;
+                    });
+                    selectLayout.addView(thisCheckBox);
+                }
+
+                // Create the dialog.
+                final AlertDialog.Builder deleteDialog = new AlertDialog.Builder(this);
+                deleteDialog.setTitle(R.string.submenu_comments_delete);
+                deleteDialog.setMessage(R.string.comments_delete);
+                deleteDialog.setView(selectChunk);
+                deleteDialog.setPositiveButton(R.string.link_confirm, (dialog, which) -> {
+                    try {
+                        // Delete the folders.
+                        String newString = "";
+                        for (int j = 0; j < thisCommentsStrings.length; j++) {
+                            if (currentSelections[j] == 0) {
+                                newString = newString.concat("││" + thisCommentsStrings[j]);
+                            }
+                        }
+                        if (!newString.isEmpty()) {
+                            newString = newString.substring(2);
+                        }
+                        PrefsHelper.editPrefs("userComments", newString, this);
+                        initComments();
+                    } catch (Exception e) {
+                        ExceptionHelper.handleException(this, e, "deleteCommentsComfirm", "Illegal comment prefs string. Please reset the application. String is: "
+                                + PrefsHelper.getStringPrefs("userComments", this));
+                    }
+                });
+                deleteDialog.setNegativeButton(R.string.link_cancel, ((dialog, which) -> {
+                    // Cancelled, do nothing
+                }));
+                deleteDialog.show();
+            }
+        } catch (final Exception e) {
+            ExceptionHelper.handleException(CommentActivity.this, e, "deleteComments", "Illegal comment prefs string. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userComments", CommentActivity.this));
         }
     }
 }

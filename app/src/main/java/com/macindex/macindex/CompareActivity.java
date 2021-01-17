@@ -3,6 +3,7 @@ package com.macindex.macindex;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +38,17 @@ public class CompareActivity extends AppCompatActivity {
                 // to be implemented
                 break;
             case R.id.clearCompareItem:
-                // To be implemented
+                final AlertDialog.Builder clearWarningDialog = new AlertDialog.Builder(this);
+                clearWarningDialog.setTitle(R.string.submenu_compare_clear);
+                clearWarningDialog.setMessage(R.string.compare_clear_warning);
+                clearWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    PrefsHelper.clearPrefs("userCompares", this);
+                    // To be implemented.
+                });
+                clearWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                    // Cancelled, nothing to do.
+                });
+                clearWarningDialog.show();
                 break;
             case R.id.compareHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/compare", this);

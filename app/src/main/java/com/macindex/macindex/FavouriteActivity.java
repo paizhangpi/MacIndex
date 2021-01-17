@@ -23,6 +23,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * MacIndex Favourite Activity
+ * Jan. 15, 2021
+ */
 public class FavouriteActivity extends AppCompatActivity {
 
     private int[][] loadPositions = {};
@@ -55,6 +59,12 @@ public class FavouriteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite, menu);
+
+        // Make export/import invisible now
+        MenuItem exportItem = menu.findItem(R.id.exportFolderItem);
+        exportItem.setVisible(false);
+        MenuItem importItem = menu.findItem(R.id.importFolderItem);
+        importItem.setVisible(false);
         return true;
     }
 
@@ -219,6 +229,10 @@ public class FavouriteActivity extends AppCompatActivity {
                                             allMachines[i] = SpecsIntentHelper
                                                     .initCategory(categoryChunkLayout, loadPositions[i], false, FavouriteActivity.this);
                                             categoryContainer.addView(categoryChunk);
+                                        } else {
+                                            // Empty folder
+                                            categoryName.setText(allFolders[i] + " " + getString(R.string.favourites_new_folder_tips));
+                                            categoryContainer.addView(categoryChunk);
                                         }
                                     }
                                     // Remove the last divider.
@@ -360,8 +374,8 @@ public class FavouriteActivity extends AppCompatActivity {
                         // Finally create the new folder.
                         PrefsHelper.editPrefs("userFavourites", "││{"
                                 + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
-                        Toast.makeText(this, R.string.favourites_new_folder_tips, Toast.LENGTH_LONG).show();
                         newFolderDialogCreated.dismiss();
+                        initFavourites();
                     }
                 } catch (Exception e) {
                     ExceptionHelper.handleException(FavouriteActivity.this, e, "newFolderDialog", "Illegal Favourites String. Please reset the application. String is: "

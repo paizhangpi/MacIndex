@@ -953,35 +953,26 @@ public class SpecsActivity extends AppCompatActivity {
     /* Compare Functions */
     private void addToCompare() {
         try {
-            // How many compare items?
-            final String[] splitedCompare = PrefsHelper.getStringPrefs("userCompares", this).split("│");
-            Log.e("stringis", PrefsHelper.getStringPrefs("userCompares", this));
+            final String originalCompare = PrefsHelper.getStringPrefs("userCompares", this);
+            final String[] splitedCompare = originalCompare.split("│");
+            Log.e("stringis", originalCompare);
             if (splitedCompare.length == 1 && splitedCompare[0].isEmpty()) {
-                // Empty String. Add to compare string
-                PrefsHelper.editPrefs("userCompares", thisName, this);
-                initCompareCheckBox();
-            } else if (splitedCompare.length == 1 && !splitedCompare[0].isEmpty()) {
-                if (splitedCompare[0].equals(thisName)) {
-                    // Exists. Delete
-                    PrefsHelper.clearPrefs("userCompares", this);
+                PrefsHelper.editPrefs("userCompares", "[" + thisName + "]", this);
+            } else if (splitedCompare.length >= 1 && splitedCompare.length <= 10) {
+                if (originalCompare.contains("[" + thisName + "]")) {
+                    if (splitedCompare.length == 1) {
+                        PrefsHelper.clearPrefs("userCompares", this);
+                    } else {
+                        PrefsHelper.editPrefs("userCompares", originalCompare.replace("│[" + thisName + "]", ""), this);
+                    }
                 } else {
-                    // Not Empty, add as 2nd element
-                    PrefsHelper.editPrefs("userCompares", PrefsHelper.getStringPrefs("userCompares", this) + "│" + thisName, this);
+                    PrefsHelper.editPrefs("userCompares", originalCompare.concat("│[" + thisName + "]"), this);
                 }
-                initCompareCheckBox();
-            } else if (splitedCompare.length == 2) {
-                if (splitedCompare[0].equals(thisName)) {
-                    // Delete 1st element;
-                    PrefsHelper.editPrefs("userCompares", splitedCompare[1], this);
-                } else if (splitedCompare[1].equals(thisName)) {
-                    // Delete 2nd element;
-                    PrefsHelper.editPrefs("userCompares", splitedCompare[0], this);
-                }
-                initCompareCheckBox();
             } else {
                 Log.e("initCompare", "Error length is " + splitedCompare.length);
                 throw new IllegalStateException();
             }
+            initCompareCheckBox();
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "addToCompare", "Illegal Compare String. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userCompares", this));
@@ -990,30 +981,30 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initCompareCheckBox() {
         try {
-            // How many compare items?
-            final String[] splitedCompare = PrefsHelper.getStringPrefs("userCompares", this).split("│");
-            Log.e("stringis", PrefsHelper.getStringPrefs("userCompares", this));
+            final String originalCompare = PrefsHelper.getStringPrefs("userCompares", this);
+            final String[] splitedCompare = originalCompare.split("│");
+            Log.e("stringis", originalCompare);
             if (splitedCompare.length == 1 && splitedCompare[0].isEmpty()) {
                 compareItem.setChecked(false);
                 compareItem.setEnabled(true);
-                compareItem.setTitle(R.string.compare_0);
-            } else if (splitedCompare.length == 1 && !splitedCompare[0].isEmpty()) {
-                if (splitedCompare[0].equals(thisName)) {
+                compareItem.setTitle(getString(R.string.submenu_specs_compare) + " (0)");
+            } else if (splitedCompare.length >= 1 && splitedCompare.length < 10) {
+                if (originalCompare.contains("[" + thisName + "]")) {
                     compareItem.setChecked(true);
                 } else {
                     compareItem.setChecked(false);
                 }
                 compareItem.setEnabled(true);
-                compareItem.setTitle(R.string.compare_1);
-            } else if (splitedCompare.length == 2) {
-                if (splitedCompare[0].equals(thisName) || splitedCompare[1].equals(thisName)) {
+                compareItem.setTitle(getString(R.string.submenu_specs_compare) + " (" + splitedCompare.length + ")");
+            } else if (splitedCompare.length == 10) {
+                if (originalCompare.contains("[" + thisName + "]")) {
                     compareItem.setChecked(true);
                     compareItem.setEnabled(true);
                 } else {
                     compareItem.setChecked(false);
                     compareItem.setEnabled(false);
                 }
-                compareItem.setTitle(R.string.compare_2);
+                compareItem.setTitle(getString(R.string.submenu_specs_compare) + " " + getString(R.string.compare_limit));
             } else {
                 Log.e("initCompare", "Error length is " + splitedCompare.length);
                 throw new IllegalStateException();

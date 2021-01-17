@@ -155,7 +155,7 @@
     <string name="favourites_delete">请选择要删除的收藏夹。此操作不能撤销。</string>
     <string name="favourites_rename">请选择要重命名的收藏夹。</string>
     <string name="favourites_new_folder">输入收藏夹名。</string>
-    <string name="favourites_new_folder_tips">新收藏夹会在添加机型后显示</string>
+    <string name="favourites_new_folder_tips">（空）</string>
     <string name="favourites_error_empty">您的输入为空</string>
     <string name="favourites_error_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作收藏夹名</string>
     <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行 30 个字符</string>
@@ -165,6 +165,7 @@
     <string name="favourites_export">请选择要导出并拷贝的收藏夹。不要修改它，然后使用导入选项来导入。也请参阅帮助内容。</string>
     <string name="favourites_import">请粘贴由 MacIndex 导出的字符串。不要修改它，否则会导致错误。也请参阅帮助内容。</string>
     <string name="favourites_import_clear">清除既有的所有收藏夹（此操作不能撤销）</string>
-    <string name="compare_limit">您只能最多添加 10 个机型到比较列表。</string>
+    <string name="compare_limit">(10/已满)</string>
     <string name="compare_insufficient">您至少需要添加 2 个机型到比较列表来使用比较功能。可以在任意参数页面中添加。</string>
+    <string name="compare_clear_warning">整个比较列表将被清空，且不能撤销。您仍想要继续吗？</string>
 </resources>

@@ -174,7 +174,7 @@
     <string name="favourites_delete">Please select the folder(s) to delete. This cannot be undone.</string>
     <string name="favourites_rename">Please select the folder to rename.</string>
     <string name="favourites_new_folder">Enter the folder name.</string>
-    <string name="favourites_new_folder_tips">New folder will appear after you add any machine</string>
+    <string name="favourites_new_folder_tips">(Empty)</string>
     <string name="favourites_error_empty">Your input is empty</string>
     <string name="favourites_error_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the folder name</string>
     <string name="favourites_error_length">Your input is too long, the max limit for each folder is 1 line and 30 characters</string>
@@ -184,6 +184,7 @@
     <string name="favourites_export">Select the folder(s) to export and copy. Don\'t modify it, and use the import option to import your folders.</string>
     <string name="favourites_import">Please paste the string exported by MacIndex. Don\'t modify it, or it will cause error.</string>
     <string name="favourites_import_clear">Clear all existing folders (This cannot be undone)</string>
-    <string name="compare_limit">You can only add no more than 10 machines to the comparison list.</string>
+    <string name="compare_limit">(10/Max)</string>
     <string name="compare_insufficient">You need to at least add 2 machines to the comparison list to use the comparison functions. You can add a machine at any Specification Page.</string>
+    <string name="compare_clear_warning">The comparison list will be cleared. This cannot be undone. Do you want to proceed?</string>
 </resources>

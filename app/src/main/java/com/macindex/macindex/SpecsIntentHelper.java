@@ -75,14 +75,17 @@ class SpecsIntentHelper {
     }
 
     public static void refreshFavourites(final TextView[][] textViewGroup, final Context thisContext) {
-        for (TextView[] thisViewGroup : textViewGroup) {
-            // NullSafe
-            if (thisViewGroup != null) {
-                for (TextView thisView : thisViewGroup) {
-                    if (FavouriteActivity.isFavourite(thisView.getText().toString(), thisContext)) {
-                        thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
-                    } else {
-                        thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+        // NullSafe
+        if (textViewGroup != null) {
+            for (TextView[] thisViewGroup : textViewGroup) {
+                // NullSafe
+                if (thisViewGroup != null) {
+                    for (TextView thisView : thisViewGroup) {
+                        if (FavouriteActivity.isFavourite(thisView.getText().toString(), thisContext)) {
+                            thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_star_24, 0);
+                        } else {
+                            thisView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                        }
                     }
                 }
             }
