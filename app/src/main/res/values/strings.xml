@@ -7,7 +7,7 @@
     <string name="information_specs_high_vol_warning">The current volume is too high. Do you want to proceed playing?\nSelect \"Confirm\" to turn this warning off temporarily.\nGo to settings to turn this function off.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
     <string name="information_first_lunch">Antique to advanced, history in your hand. Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
-    <string name="information_new_major_version_title">MacIndex Update</string>
+    <string name="information_double_press">Press the back button again to exit MacIndex</string>
     <string name="setting_sort">Sort by Time (Main/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This only affects Main and Search Pages.</string>
     <string name="setting_sort_comment">Sort by Time (Favourites/Comments)</string>
@@ -147,7 +147,7 @@
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
     <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters</string>
     <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
-    <string name="not_applicable">Not Applicable</string>
+    <string name="not_applicable">Not Applicable/Not Available</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>

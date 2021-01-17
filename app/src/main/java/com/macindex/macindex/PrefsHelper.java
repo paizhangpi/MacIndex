@@ -39,7 +39,6 @@ class PrefsHelper {
 
         DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
 
-        DEFAULT_VALUES.put("searchLastInput", "");
         DEFAULT_VALUES.put("searchFiltersSpinner", 0);
         DEFAULT_VALUES.put("searchOptionsSpinner", 0);
 

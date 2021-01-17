@@ -53,7 +53,6 @@ public class SearchActivity extends AppCompatActivity {
 
         // If SearchActivity Usage is set to not be saved
         if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
-            PrefsHelper.clearPrefs("searchLastInput", this);
             PrefsHelper.clearPrefs("searchFiltersSpinner", this);
             PrefsHelper.clearPrefs("searchOptionsSpinner", this);
         }
@@ -75,9 +74,6 @@ public class SearchActivity extends AppCompatActivity {
         initSpinners();
         initSearch();
 
-        // Init search from last state
-        searchText.setQuery(PrefsHelper.getStringPrefs("searchLastInput", this), false);
-        searchText.clearFocus();
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
     }
@@ -101,13 +97,6 @@ public class SearchActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
         return true;
-    }
-
-    @Override
-    protected void onDestroy() {
-        // Remember last state
-        PrefsHelper.editPrefs("searchLastInput", searchText.getQuery().toString(), this);
-        super.onDestroy();
     }
 
     @Override

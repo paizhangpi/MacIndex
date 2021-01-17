@@ -7,7 +7,7 @@
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。\n打开设置来关闭这个功能。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
     <string name="information_first_lunch">自古至今，融于掌中。打开抽屉在应用功能间导航。打开菜单来探索更多选项以及获得帮助。</string>
-    <string name="information_new_major_version_title">MacIndex 更新</string>
+    <string name="information_double_press">再按一次返回键来退出 MacIndex</string>
     <string name="setting_sort">按照时间排序（主页和搜素）</string>
     <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响主页面和搜素页。</string>
     <string name="setting_sort_comment">按照时间排序（机型收藏和自定义备注）</string>
@@ -128,7 +128,7 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
-    <string name="not_applicable">不适用</string>
+    <string name="not_applicable">不适用/不可用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在 EveryMac 中浏览：</string>

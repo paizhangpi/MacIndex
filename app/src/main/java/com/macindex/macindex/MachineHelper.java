@@ -997,7 +997,7 @@ class MachineHelper {
                  "tigerlake", "a12", "m1"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                  "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
-                 "PowerPC G5", "Intel NetBurst", "Intel Yonah", "Intel Core", "Intel Penryn",
+                 "PowerPC G5", "Intel NetBurst", "Intel P6 (Yonah)", "Intel Core", "Intel Penryn",
                  "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge (2nd Gen)", "Intel Ivy Bridge (3rd Gen)",
                  "Intel Haswell (4th Gen)", "Intel Broadwell (5th Gen)", "Intel Skylake (6th Gen)", "Intel Kaby Lake (7th Gen)",
                  "Intel Coffee Lake (8th/9th Gen)", "Intel Amber Lake (8th Gen)", "Intel Cascade Lake", "Intel Comet Lake (10th Gen)",

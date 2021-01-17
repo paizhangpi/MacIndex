@@ -25,6 +25,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView[][] machineLoadedCount = null;
 
     private String everyMacAppend = null;
+
+    private long mBackPressed = 0;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -414,7 +417,13 @@ public class MainActivity extends AppCompatActivity {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            finish();
+            if (mBackPressed + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+                return;
+            } else {
+                Toast.makeText(this, R.string.information_double_press, Toast.LENGTH_SHORT).show();
+            }
+            mBackPressed = System.currentTimeMillis();
         }
     }
 

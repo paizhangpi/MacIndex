@@ -100,11 +100,6 @@
                                 android:text="@string/menu_group0"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/group1MenuItem"
                                 android:layout_width="match_parent"
@@ -115,11 +110,6 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_group1"
                                 android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:id="@+id/group2MenuItem"
@@ -132,11 +122,6 @@
                                 android:text="@string/menu_group2"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/group3MenuItem"
                                 android:layout_width="match_parent"
@@ -147,11 +132,6 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_group3"
                                 android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:id="@+id/group4MenuItem"
@@ -164,10 +144,6 @@
                                 android:text="@string/menu_group4"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -175,6 +151,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -201,11 +182,6 @@
                                 android:text="@string/menu_view1"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/view2MenuItem"
                                 android:layout_width="match_parent"
@@ -216,11 +192,6 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_view2"
                                 android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:id="@+id/view3MenuItem"
@@ -233,16 +204,17 @@
                                 android:text="@string/menu_view3"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -270,11 +242,6 @@
                                 android:text="@string/menu_search"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/randomMenuItem"
                                 android:layout_width="match_parent"
@@ -286,11 +253,6 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_random"
                                 android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:id="@+id/favouriteMenuItem"
@@ -304,11 +266,6 @@
                                 android:text="@string/menu_favourite"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/compareMenuItem"
                                 android:layout_width="match_parent"
@@ -320,11 +277,6 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_compare"
                                 android:textSize="16sp" />
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
 
                             <TextView
                                 android:id="@+id/commentMenuItem"
@@ -338,11 +290,6 @@
                                 android:text="@string/menu_comment"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
-
                             <TextView
                                 android:id="@+id/aboutMenuItem"
                                 android:layout_width="match_parent"
@@ -355,10 +302,6 @@
                                 android:text="@string/menu_about_settings"
                                 android:textSize="16sp" />
 
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="?android:attr/listDivider" />
                         </LinearLayout>
 
                     </LinearLayout>
