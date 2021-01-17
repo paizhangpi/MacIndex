@@ -72,6 +72,15 @@ public class CommentActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.deleteCommentsItem:
+                // to be implemented
+                break;
+            case R.id.exportCommentsItem:
+                // to be implemented
+                break;
+            case R.id.importCommentsItem:
+                // to be implemented
+                break;
             case R.id.clearCommentsItem:
                 final AlertDialog.Builder clearWarningDialog = new AlertDialog.Builder(this);
                 clearWarningDialog.setTitle(R.string.submenu_comments_clear);

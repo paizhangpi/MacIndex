@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/selectCompareItem"
+        android:title="@string/submenu_compare_select" />
+    <item
+        android:id="@+id/manageCompareItem"
+        android:title="@string/submenu_compare_manage" />
+    <item
         android:id="@+id/clearCompareItem"
         android:title="@string/submenu_compare_clear" />
     <item

@@ -85,7 +85,7 @@
     <string name="submenu_main_feedback">问题反馈</string>
     <string name="submenu_main_help">主页面帮助</string>
     <string name="submenu_specs_favourite">添加到收藏夹</string>
-    <string name="submenu_specs_compare">添加到比较</string>
+    <string name="submenu_specs_compare">添加到比较列表</string>
     <string name="submenu_specs_comment">编辑自定义备注</string>
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
@@ -93,11 +93,18 @@
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">删除收藏夹</string>
     <string name="submenu_favourite_rename">重命名收藏夹</string>
+    <string name="submenu_favourite_export">导出收藏夹</string>
+    <string name="submenu_favourite_import">导入收藏夹</string>
     <string name="submenu_favourite_clear">清除所有收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
-    <string name="submenu_compare_clear">清除当前选择</string>
+    <string name="submenu_compare_select">选择比较项目</string>
+    <string name="submenu_compare_manage">管理比较列表</string>
+    <string name="submenu_compare_clear">清除比较列表</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
-    <string name="submenu_comments_clear">清除所有备注</string>
+    <string name="submenu_comments_delete">删除自定义帮助</string>
+    <string name="submenu_comments_export">导出自定义帮助</string>
+    <string name="submenu_comments_import">导入自定义帮助</string>
+    <string name="submenu_comments_clear">清除所有自定义备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
     <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
@@ -121,9 +128,6 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
-    <string name="compare_0">添加到比较 (0/2)</string>
-    <string name="compare_1">添加到比较 (1/2)</string>
-    <string name="compare_2">添加到比较 (2/2)</string>
     <string name="not_applicable">不适用</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
@@ -141,7 +145,11 @@
     <string name="get_started">开始使用</string>
     <string name="loading">正在加载</string>
     <string name="comments_not_available">还没有保存任何自定义备注。可以在任意参数页面中添加。也请参阅帮助内容。</string>
+    <string name="comments_delete">请选择要删除的自定义备注。此操作不能撤销。</string>
     <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。您仍想要继续吗？</string>
+    <string name="comments_export">请选择要导出并拷贝的自定义备注。不要修改它，然后使用导入选项来导入。也请参阅帮助内容。</string>
+    <string name="comments_import">请粘贴由 MacIndex 导出的字符串。不要修改它，否则会导致错误。也请参阅帮助内容。</string>
+    <string name="comments_import_clear">清除既有的所有自定义备注（此操作不能撤销）</string>
     <string name="favourites_no_folder">还没有创建任何收藏夹。您可以立刻新建一个，或在机型收藏页中随后新建。</string>
     <string name="favourites_tips">请选择对应的收藏夹。在机型收藏页中管理所有收藏夹。</string>
     <string name="favourites_delete">请选择要删除的收藏夹。此操作不能撤销。</string>
@@ -154,4 +162,9 @@
     <string name="favourites_error_conflict">该名称已被指定，且无法重用</string>
     <string name="favourites_error_limit">您只能最多创建 10 个收藏夹。</string>
     <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。您仍想要继续吗？</string>
+    <string name="favourites_export">请选择要导出并拷贝的收藏夹。不要修改它，然后使用导入选项来导入。也请参阅帮助内容。</string>
+    <string name="favourites_import">请粘贴由 MacIndex 导出的字符串。不要修改它，否则会导致错误。也请参阅帮助内容。</string>
+    <string name="favourites_import_clear">清除既有的所有收藏夹（此操作不能撤销）</string>
+    <string name="compare_limit">您只能最多添加 10 个机型到比较列表。</string>
+    <string name="compare_insufficient">您至少需要添加 2 个机型到比较列表来使用比较功能。可以在任意参数页面中添加。</string>
 </resources>
