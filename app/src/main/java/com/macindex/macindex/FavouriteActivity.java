@@ -40,9 +40,8 @@ public class FavouriteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        if (!isEmptyString(R.string.menu_favourite)) {
-            initFavourites();
-        }
+        isEmptyString(R.string.menu_favourite);
+        initFavourites();
     }
 
     @Override
@@ -130,6 +129,21 @@ public class FavouriteActivity extends AppCompatActivity {
             // Get Folder Names
             final String[] allFolders = getFolders(this, false);
             final String[] splitedString = PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this).split("││");
+
+            final LinearLayout emptyLayout = findViewById(R.id.emptyLayout);
+            final TextView emptyText = findViewById(R.id.emptyText);
+
+            if (allFolders.length == 0) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    emptyText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                } else {
+                    TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                }
+                emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+            }
+
             ProgressDialog waitDialog = new ProgressDialog(this);
             waitDialog.setMessage(getString(R.string.loading));
             waitDialog.setCancelable(false);

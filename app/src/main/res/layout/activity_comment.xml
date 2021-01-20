@@ -7,6 +7,27 @@
     android:orientation="vertical"
     tools:context=".CommentActivity">
 
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/emptyText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="18sp"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/comments_not_available_tips"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -19,5 +40,6 @@
             android:orientation="vertical">
 
         </LinearLayout>
+
     </ScrollView>
 </LinearLayout>

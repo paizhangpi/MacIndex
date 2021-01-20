@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity {
         initDatabase();
         initMenu();
         initInterface();
+
+        // Disable Compare Activity here..
+        findViewById(R.id.compareMenuItem).setVisibility(View.GONE);
     }
 
     @Override

@@ -118,7 +118,11 @@ public class CommentActivity extends AppCompatActivity {
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             commentContainer.removeAllViews();
 
+            final LinearLayout emptyLayout = findViewById(R.id.emptyLayout);
+            final TextView emptyText = findViewById(R.id.emptyText);
+
             if (PrefsHelper.getStringPrefs("userComments", this).length() != 0) {
+                emptyLayout.setVisibility(View.GONE);
                 String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
                 machineIDs = new int[thisCommentsStrings.length];
                 ProgressDialog waitDialog = new ProgressDialog(this);
@@ -207,6 +211,13 @@ public class CommentActivity extends AppCompatActivity {
                         });
                     }
                 }.start();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    emptyText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                } else {
+                    TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                }
+                emptyLayout.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
@@ -214,7 +225,7 @@ public class CommentActivity extends AppCompatActivity {
     }
 
     private boolean checkEmpty(final int titleResource) {
-        if (PrefsHelper.getStringPrefs("userComments", this).length() == 0) {
+        if (PrefsHelper.getStringPrefs("userComments", this).isEmpty()) {
             final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
             nullWarningDialog.setTitle(titleResource);
             nullWarningDialog.setMessage(R.string.comments_not_available);
@@ -266,7 +277,7 @@ public class CommentActivity extends AppCompatActivity {
                         PrefsHelper.editPrefs("userComments", newString, this);
                         initComments();
                     } catch (Exception e) {
-                        ExceptionHelper.handleException(this, e, "deleteCommentsComfirm", "Illegal comment prefs string. Please reset the application. String is: "
+                        ExceptionHelper.handleException(this, e, "deleteCommentsConfirm", "Illegal comment prefs string. Please reset the application. String is: "
                                 + PrefsHelper.getStringPrefs("userComments", this));
                     }
                 });
