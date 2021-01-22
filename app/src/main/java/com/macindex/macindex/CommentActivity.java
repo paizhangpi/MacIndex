@@ -58,12 +58,6 @@ public class CommentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_comment, menu);
-
-        // Make export/import invisible now
-        MenuItem exportItem = menu.findItem(R.id.exportCommentsItem);
-        exportItem.setVisible(false);
-        MenuItem importItem = menu.findItem(R.id.importCommentsItem);
-        importItem.setVisible(false);
         return true;
     }
 

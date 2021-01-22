@@ -58,12 +58,6 @@ public class FavouriteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite, menu);
-
-        // Make export/import invisible now
-        MenuItem exportItem = menu.findItem(R.id.exportFolderItem);
-        exportItem.setVisible(false);
-        MenuItem importItem = menu.findItem(R.id.importFolderItem);
-        importItem.setVisible(false);
         return true;
     }
 

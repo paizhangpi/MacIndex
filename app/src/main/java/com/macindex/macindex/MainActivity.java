@@ -99,9 +99,6 @@ public class MainActivity extends AppCompatActivity {
         initDatabase();
         initMenu();
         initInterface();
-
-        // Disable Compare Activity here..
-        findViewById(R.id.compareMenuItem).setVisibility(View.GONE);
     }
 
     @Override
@@ -284,6 +281,10 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.aboutMenuItem).setOnClickListener(view -> {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
                 mDrawerLayout.closeDrawers();
+            });
+            // About popup menu
+            findViewById(R.id.newAboutMenuItem).setOnClickListener(view -> {
+                openOptionsMenu();
             });
 
             // Set a drawer listener to change title and color.

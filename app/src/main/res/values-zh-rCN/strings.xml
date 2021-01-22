@@ -10,11 +10,11 @@
     <string name="information_double_press">再按一次返回键来退出 MacIndex</string>
     <string name="setting_sort">按照时间排序（主页和搜素）</string>
     <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响主页面和搜素页。</string>
-    <string name="setting_sort_comment">按照时间排序（机型收藏和自定义备注）</string>
-    <string name="setting_sort_comment_description">按照时间排序或按照添加顺序排序。关闭可使加载更快。只影响自定义备注页和机型收藏页。</string>
+    <string name="setting_sort_comment">按照时间排序（自定义备注）</string>
+    <string name="setting_sort_comment_description">按照时间排序或按照添加顺序排序。关闭可使加载更快。只影响自定义备注页。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
-    <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，随机模式、机型收藏、机型比较、自定义备注将不再可用。</string>
+    <string name="setting_everymac_warning_content">这会对主页和搜索结果生效。同时，某些功能将不再可用。</string>
     <string name="setting_deathsound">启用宕机音</string>
     <string name="setting_deathsound_deathsound_description">在参数页面中交替播放启动和宕机音，或仅播放启动音。</string>
     <string name="setting_high_vol_warning">高音量警告</string>
@@ -31,7 +31,7 @@
     <string name="setting_save_search_description">保存上次使用的搜索词和筛选器。</string>
     <string name="setting_save_compare">保存比较使用记录</string>
     <string name="setting_save_compare_description">保存上次选中的机型和比较栏位。</string>
-    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括偏好设置、使用记录、收藏、比较、自定义备注等。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
+    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括偏好设置和所有使用记录等。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
     <string name="search_searchBy">搜索方式</string>
     <string-array name="search_Filters">
@@ -70,6 +70,7 @@
     <string name="menu_compare">机型比较</string>
     <string name="menu_comment">自定义备注</string>
     <string name="menu_about_settings">偏好设置</string>
+    <string name="menu_about">关于与协助</string>
     <string name="menu_view">浏览方式</string>
     <string name="menu_view1">产品分组</string>
     <string name="menu_view2">处理器</string>

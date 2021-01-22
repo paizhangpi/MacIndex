@@ -106,9 +106,6 @@ public class SpecsActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.menu_specs, menu);
         compareItem = menu.findItem(R.id.addCompareItem);
         initCompareCheckBox();
-
-        // Disable...
-        compareItem.setVisible(false);
         return true;
     }
 
