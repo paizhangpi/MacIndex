@@ -71,25 +71,30 @@ public class SpecsActivity extends AppCompatActivity {
 
         try {
             final Intent intent = getIntent();
+            categoryStartEnd = intent.getIntArrayExtra("thisCategory");
             machineID = intent.getIntExtra("machineID", -1);
-
-            // Is fixed navigation?
-            if (PrefsHelper.getBooleanPrefs("isFixedNav", this)) {
-                categoryStartEnd = MainActivity.getMachineHelper().getCategoryRangeIDs(machineID);
-            } else {
-                categoryStartEnd = intent.getIntArrayExtra("thisCategory");
-            }
 
             if (categoryStartEnd == null || machineID == -1) {
                 throw new IllegalArgumentException();
             }
-            // Find the current position.
-            for (int i = 0; i < categoryStartEnd.length; i++) {
-                if (categoryStartEnd[i] == machineID) {
-                    machineIDPosition = i;
-                    break;
+
+            // Is position already inherited?
+            if (intent.getBooleanExtra("machineIDPositionInherit", false)) {
+                machineIDPosition = intent.getIntExtra("machineIDPosition", -1);
+            } else {
+                // Find the current position.
+                for (int i = 0; i < categoryStartEnd.length; i++) {
+                    if (categoryStartEnd[i] == machineID) {
+                        machineIDPosition = i;
+                        break;
+                    }
                 }
             }
+
+            if (machineIDPosition == -1) {
+                throw new IllegalArgumentException();
+            }
+
             ViewGroup mainView = findViewById(R.id.mainView);
             vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
             LayoutTransition layoutTransition = mainView.getLayoutTransition();
@@ -1029,6 +1034,8 @@ public class SpecsActivity extends AppCompatActivity {
         machineID = categoryStartEnd[machineIDPosition];
         final Intent newMachine = new Intent(SpecsActivity.this, SpecsActivity.class);
         newMachine.putExtra("machineID", machineID);
+        newMachine.putExtra("machineIDPositionInherit", true);
+        newMachine.putExtra("machineIDPosition", machineIDPosition);
         newMachine.putExtra("thisCategory", categoryStartEnd);
         startActivity(newMachine);
         finish();
