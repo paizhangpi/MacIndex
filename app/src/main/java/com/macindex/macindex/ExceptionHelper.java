@@ -20,22 +20,18 @@ class ExceptionHelper {
     public static void handleException(final Context thisContext, final Exception thisException,
                                                  final String exceptionModule, final String exceptionMessage) {
         if (thisContext != null) {
-            final String basicInfo = "MacIndex Exception Report" + "\n"
-                    + "Generated: " + Calendar.getInstance().getTime() + "\n" + "\n"
-                    + "Version: " + BuildConfig.VERSION_NAME + "\n"
-                    + "Version Code:" + BuildConfig.VERSION_CODE + "\n"
-                    + "Android: " + Build.VERSION.RELEASE + "\n"
-                    + "Hardware: " + Build.BRAND + " " + Build.MODEL + "\n" + "\n";
-
-            final String endInfo = "\n" + "End of Exception Report";
+            final String basicInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
+                    + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
+                    + "Android Version: " + Build.VERSION.RELEASE + "\n"
+                    + "Hardware Model: " + Build.BRAND + " " + Build.MODEL + "\n";
 
             final String exceptionLog;
             if (exceptionModule != null && exceptionMessage != null) {
                 Log.e(exceptionModule, exceptionMessage);
-                exceptionLog = "Log Tag: " + exceptionModule + "\n"
-                        + "Log Message: " + exceptionMessage + "\n" + "\n";
+                exceptionLog = "Exception Tag: " + exceptionModule + "\n"
+                        + "Exception Message: " + exceptionMessage + "\n";
             } else {
-                exceptionLog = "Tagging is not available" + "\n" + "\n";
+                exceptionLog = "Tagging is not available" + "\n";
             }
 
             final String exceptionDetails;
@@ -46,7 +42,7 @@ class ExceptionHelper {
                 exceptionDetails = "Exception Details:" + "\n" + getStackTrace(thisException);
             }
 
-            handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails + endInfo);
+            handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails);
         }
     }
 

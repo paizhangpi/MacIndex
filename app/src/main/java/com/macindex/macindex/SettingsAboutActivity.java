@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -155,9 +156,10 @@ public class SettingsAboutActivity extends AppCompatActivity {
         benchmarkWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
         benchmarkWarningDialog.setMessage(R.string.benchmark_warning);
         benchmarkWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-            final long[] benchmarkTimer = {System.currentTimeMillis()};
+            Log.i("Benchmark", "Benchmark started at " + System.currentTimeMillis());
+            final long[] benchmarkTimer = {System.currentTimeMillis(), 0};
             final boolean sortBackup = PrefsHelper.getBooleanPrefs("isSortAgain", this);
-            PrefsHelper.editPrefs("isSortAgain", true, this);
+            PrefsHelper.editPrefs("isSortAgain", false, this);
             ProgressDialog waitDialog = new ProgressDialog(this);
             waitDialog.setMessage(getString(R.string.loading));
             waitDialog.setCancelable(false);
@@ -165,33 +167,38 @@ public class SettingsAboutActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    MainActivity.getMachineHelper().searchHelper("sname", "a", "all",
+                    int[] benchTemp = MainActivity.getMachineHelper().searchHelper("sname", "a", "all",
                             SettingsAboutActivity.this, false);
+                    Log.i("Benchmark", "Benchmark Stage 1 ended at " + System.currentTimeMillis());
+                    benchmarkTimer[0] = System.currentTimeMillis() - benchmarkTimer[0];
+                    benchmarkTimer[1] = System.currentTimeMillis();
+                    MainActivity.getMachineHelper().directSortByYear(benchTemp);
+                    Log.i("Benchmark", "Benchmark Stage 2 ended at " + System.currentTimeMillis());
+                    benchmarkTimer[1] = System.currentTimeMillis() - benchmarkTimer[1];
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 waitDialog.dismiss();
-                                benchmarkTimer[0] = System.currentTimeMillis() - benchmarkTimer[0];
+
                                 // Compose result message
-                                final String benchmarkRev = "1.4";
-                                final String resultInfo = "MacIndex Benchmark Report" + "\n"
-                                        + "Generated: " + Calendar.getInstance().getTime() + "\n" + "\n"
-                                        + "Version: " + BuildConfig.VERSION_NAME + "\n"
-                                        + "Version Code: " + BuildConfig.VERSION_CODE + "\n"
-                                        + "Android: " + Build.VERSION.RELEASE + "\n"
-                                        + "Hardware: " + Build.BRAND + " " + Build.MODEL + "\n" + "\n"
+                                final String benchmarkRev = "2.0";
+                                final String resultInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
+                                        + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
+                                        + "Android Version: " + Build.VERSION.RELEASE + "\n"
+                                        + "Hardware Model: " + Build.BRAND + " " + Build.MODEL + "\n"
                                         + "Processor Type: " + Build.SUPPORTED_ABIS[0] + "\n"
-                                        + "Benchmark Rev: " + benchmarkRev + "\n"
-                                        + "Benchmark Score: " + benchmarkTimer[0] + "\n" + "\n"
-                                        + "End of Benchmark Report";
+                                        + "Benchmark Revision: " + benchmarkRev + "\n"
+                                        + "Database Reading: " + benchmarkTimer[0] + " (Less is better)\n"
+                                        + "Enhanced Sorting: " + benchmarkTimer[1] + " (Less is better)\n"
+                                        + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + " (Less is better)\n";
 
                                 // Construct result dialog box
                                 final AlertDialog.Builder resultDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                                 resultDialog.setTitle(R.string.submenu_prefs_benchmark);
                                 resultDialog.setMessage(R.string.benchmark_result);
                                 resultDialog.setCancelable(false);
-                                resultDialog.setPositiveButton(R.string.error_dismiss, (dialogInterface, i) -> {
+                                resultDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                                     // Do nothing
                                 });
                                 resultDialog.setNegativeButton(R.string.error_copy_button, (dialogInterface, i) -> {
@@ -216,9 +223,10 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                             MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
 
                                 });
+                                PrefsHelper.editPrefs("isSortAgain", sortBackup, SettingsAboutActivity.this);
 
                                 // Low performance warning dialog
-                                if (benchmarkTimer[0] >= 100000 && sortBackup) {
+                                if ((benchmarkTimer[0] + benchmarkTimer[1]) >= 100000 && sortBackup) {
                                     final AlertDialog.Builder performanceWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                                     performanceWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
                                     performanceWarningDialog.setMessage(R.string.benchmark_advice);
@@ -231,7 +239,21 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     });
                                     performanceWarningDialog.show();
                                 }
-                                PrefsHelper.editPrefs("isSortAgain", sortBackup, SettingsAboutActivity.this);
+
+                                // High performance warning dialog
+                                if ((benchmarkTimer[0] + benchmarkTimer[1]) < 50000 && !sortBackup) {
+                                    final AlertDialog.Builder performanceWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                                    performanceWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
+                                    performanceWarningDialog.setMessage(R.string.benchmark_high);
+                                    performanceWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                        PrefsHelper.editPrefs("isSortAgain", true, SettingsAboutActivity.this);
+                                        initSettings();
+                                    });
+                                    performanceWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                        // Cancelled, nothing to do.
+                                    });
+                                    performanceWarningDialog.show();
+                                }
                             } catch (final Exception e) {
                                 ExceptionHelper.handleException(SettingsAboutActivity.this, e, null, null);
                             }

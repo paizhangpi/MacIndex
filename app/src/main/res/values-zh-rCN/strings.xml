@@ -125,8 +125,9 @@
     <string name="design">设计</string>
     <string name="support">售后状态</string>
     <string name="benchmark_warning">这将花去一段时间，并评估您的手机使用 MacIndex 的性能表现。</string>
-    <string name="benchmark_result">该成绩主要依赖于数据库 I/O 和处理器性能，可以反映您的手机使用 MacIndex 的性能表现。越小越好。您可以提交这个成绩给开发者。</string>
+    <string name="benchmark_result">该成绩主要依赖于数据库 I/O 和处理器性能，可以反映您的手机使用 MacIndex 的性能表现。您可以在帮助内容中查阅参考基准，越小越好。您可以公开以及与开发者分享这个成绩。</string>
     <string name="benchmark_advice">基准测试已完毕。基于您手机的得分，不推荐使用二次排序功能。将其关闭可以极大地提升您的使用体验，请根据情况选择。您可以在设置页重新打开该功能。也请参阅帮助内容。</string>
+    <string name="benchmark_high">基准测试已完毕。基于您手机的得分，推荐使用二次排序功能。将其打开可以保证总体分组排列正确，且不会影响您的使用体验，请根据情况选择。您可以在设置页再次关闭该功能。也请参阅帮助内容。</string>
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注（可在菜单中编辑）</string>
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
