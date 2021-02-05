@@ -143,6 +143,56 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
+                }
+                break;
+            case R.id.websiteItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
+                        "https://macindex.paizhang.info/", this);
+                break;
+            case R.id.importantItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information", "https://macindex.paizhang.info/important-information", this);
+                break;
+            case R.id.updateItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
+                break;
+            case R.id.questionsItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
+                break;
+            case R.id.feedbackItem:
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback", "https://macindex.paizhang.info/feedback-and-evaluation", this);
+                break;
+            case R.id.mainHelpItem:
+                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (mBackPressed + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+                return;
+            } else {
+                Toast.makeText(this, R.string.information_double_press, Toast.LENGTH_SHORT).show();
+            }
+            mBackPressed = System.currentTimeMillis();
+        }
+    }
+
     private void initDatabase() {
         try {
             File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
@@ -378,56 +428,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initMenu", "Initialize failed!!");
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
-                }
-                break;
-            case R.id.websiteItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
-                        "https://macindex.paizhang.info/", this);
-                break;
-            case R.id.importantItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information", "https://macindex.paizhang.info/important-information", this);
-                break;
-            case R.id.updateItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
-                break;
-            case R.id.questionsItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
-                break;
-            case R.id.feedbackItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback", "https://macindex.paizhang.info/feedback-and-evaluation", this);
-                break;
-            case R.id.mainHelpItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            if (mBackPressed + 2000 > System.currentTimeMillis()) {
-                super.onBackPressed();
-                return;
-            } else {
-                Toast.makeText(this, R.string.information_double_press, Toast.LENGTH_SHORT).show();
-            }
-            mBackPressed = System.currentTimeMillis();
         }
     }
 

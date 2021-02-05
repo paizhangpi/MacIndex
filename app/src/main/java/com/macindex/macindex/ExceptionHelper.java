@@ -13,15 +13,21 @@ import android.widget.Toast;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Calendar;
 
 class ExceptionHelper {
 
     public static void handleException(final Context thisContext, final Exception thisException,
                                                  final String exceptionModule, final String exceptionMessage) {
         if (thisContext != null) {
-            final String basicInfo = "Version: " + BuildConfig.VERSION_NAME + "\n"
+            final String basicInfo = "MacIndex Exception Report" + "\n"
+                    + "Generated: " + Calendar.getInstance().getTime() + "\n" + "\n"
+                    + "Version: " + BuildConfig.VERSION_NAME + "\n"
+                    + "Version Code:" + BuildConfig.VERSION_CODE + "\n"
                     + "Android: " + Build.VERSION.RELEASE + "\n"
                     + "Hardware: " + Build.BRAND + " " + Build.MODEL + "\n" + "\n";
+
+            final String endInfo = "\n" + "End of Exception Report";
 
             final String exceptionLog;
             if (exceptionModule != null && exceptionMessage != null) {
@@ -29,18 +35,18 @@ class ExceptionHelper {
                 exceptionLog = "Log Tag: " + exceptionModule + "\n"
                         + "Log Message: " + exceptionMessage + "\n" + "\n";
             } else {
-                exceptionLog = "Logging Not Applicable" + "\n" + "\n";
+                exceptionLog = "Tagging is not available" + "\n" + "\n";
             }
 
             final String exceptionDetails;
             if (thisException == null) {
-                exceptionDetails = "Exception Detail Not Applicable";
+                exceptionDetails = "Detail is not available" + "\n";
             } else {
                 thisException.printStackTrace();
                 exceptionDetails = "Exception Details:" + "\n" + getStackTrace(thisException);
             }
 
-            handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails);
+            handleExceptionDialog(thisContext, basicInfo + exceptionLog + exceptionDetails + endInfo);
         }
     }
 

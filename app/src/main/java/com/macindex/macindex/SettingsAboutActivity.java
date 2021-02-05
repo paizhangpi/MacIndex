@@ -4,11 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class SettingsAboutActivity extends AppCompatActivity {
 
@@ -33,6 +43,9 @@ public class SettingsAboutActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.benchmarkItem:
+                benchmark();
+                break;
             case R.id.clearPrefsItem:
                 final AlertDialog.Builder defaultsWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                 defaultsWarningDialog.setTitle(R.string.submenu_prefs_clear);
@@ -135,5 +148,101 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 initSettings();
             }
         });
+    }
+
+    private void benchmark() {
+        final AlertDialog.Builder benchmarkWarningDialog = new AlertDialog.Builder(this);
+        benchmarkWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
+        benchmarkWarningDialog.setMessage(R.string.benchmark_warning);
+        benchmarkWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            final long[] benchmarkTimer = {System.currentTimeMillis()};
+            final boolean sortBackup = PrefsHelper.getBooleanPrefs("isSortAgain", this);
+            PrefsHelper.editPrefs("isSortAgain", true, this);
+            ProgressDialog waitDialog = new ProgressDialog(this);
+            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setCancelable(false);
+            waitDialog.show();
+            new Thread() {
+                @Override
+                public void run() {
+                    MainActivity.getMachineHelper().searchHelper("sname", "a", "all",
+                            SettingsAboutActivity.this, false);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                waitDialog.dismiss();
+                                benchmarkTimer[0] = System.currentTimeMillis() - benchmarkTimer[0];
+                                // Compose result message
+                                final String benchmarkRev = "1.4";
+                                final String resultInfo = "MacIndex Benchmark Report" + "\n"
+                                        + "Generated: " + Calendar.getInstance().getTime() + "\n" + "\n"
+                                        + "Version: " + BuildConfig.VERSION_NAME + "\n"
+                                        + "Version Code: " + BuildConfig.VERSION_CODE + "\n"
+                                        + "Android: " + Build.VERSION.RELEASE + "\n"
+                                        + "Hardware: " + Build.BRAND + " " + Build.MODEL + "\n" + "\n"
+                                        + "Processor Type: " + Build.SUPPORTED_ABIS[0] + "\n"
+                                        + "Benchmark Rev: " + benchmarkRev + "\n"
+                                        + "Benchmark Score: " + benchmarkTimer[0] + "\n" + "\n"
+                                        + "End of Benchmark Report";
+
+                                // Construct result dialog box
+                                final AlertDialog.Builder resultDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                                resultDialog.setTitle(R.string.submenu_prefs_benchmark);
+                                resultDialog.setMessage(R.string.benchmark_result);
+                                resultDialog.setCancelable(false);
+                                resultDialog.setPositiveButton(R.string.error_dismiss, (dialogInterface, i) -> {
+                                    // Do nothing
+                                });
+                                resultDialog.setNegativeButton(R.string.error_copy_button, (dialogInterface, i) -> {
+                                    // To be overwritten
+                                });
+
+                                final View infoChunk = getLayoutInflater().inflate(R.layout.chunk_exception_dialog, null);
+                                final TextView resultInfoBox = infoChunk.findViewById(R.id.exceptionInfo);
+
+                                resultInfoBox.setText(resultInfo);
+                                resultDialog.setView(infoChunk);
+
+                                final AlertDialog exceptionDialogCreated = resultDialog.create();
+                                exceptionDialogCreated.show();
+
+                                // Override the negative button
+                                exceptionDialogCreated.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+                                    ClipboardManager clipboard = (ClipboardManager) SettingsAboutActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("ExceptionInfo", resultInfo);
+                                    clipboard.setPrimaryClip(clip);
+                                    Toast.makeText(SettingsAboutActivity.this,
+                                            MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+
+                                });
+
+                                // Low performance warning dialog
+                                if (benchmarkTimer[0] >= 100000 && sortBackup) {
+                                    final AlertDialog.Builder performanceWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
+                                    performanceWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
+                                    performanceWarningDialog.setMessage(R.string.benchmark_advice);
+                                    performanceWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                                        PrefsHelper.editPrefs("isSortAgain", false, SettingsAboutActivity.this);
+                                        initSettings();
+                                    });
+                                    performanceWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                        // Cancelled, nothing to do.
+                                    });
+                                    performanceWarningDialog.show();
+                                }
+                                PrefsHelper.editPrefs("isSortAgain", sortBackup, SettingsAboutActivity.this);
+                            } catch (final Exception e) {
+                                ExceptionHelper.handleException(SettingsAboutActivity.this, e, null, null);
+                            }
+                        }
+                    });
+                }
+            }.start();
+        });
+        benchmarkWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Cancelled, nothing to do.
+        });
+        benchmarkWarningDialog.show();
     }
 }

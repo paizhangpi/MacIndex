@@ -8,9 +8,9 @@
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
     <string name="information_first_lunch">自古至今，融于掌中。打开抽屉在应用功能间导航。打开菜单来探索更多选项以及获得帮助。</string>
     <string name="information_double_press">再按一次返回键来退出 MacIndex</string>
-    <string name="setting_sort">按照时间排序（主页和搜素）</string>
-    <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响主页面和搜素页。</string>
-    <string name="setting_sort_comment">按照时间排序（自定义备注）</string>
+    <string name="setting_sort">二次排序（全局分组和搜素）</string>
+    <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响分组和搜素页。</string>
+    <string name="setting_sort_comment">二次排序（自定义备注）</string>
     <string name="setting_sort_comment_description">按照时间排序或按照添加顺序排序。关闭可使加载更快。只影响自定义备注页。</string>
     <string name="setting_everymac">默认从 EveryMac 打开</string>
     <string name="setting_everymac_description">直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若该机型有多种不同的配置，将特别询问。</string>
@@ -106,6 +106,7 @@
     <string name="submenu_comments_import">导入自定义备注</string>
     <string name="submenu_comments_clear">清除所有自定义备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
+    <string name="submenu_prefs_benchmark">基准测试</string>
     <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
     <string name="year">推出时间</string>
@@ -123,6 +124,9 @@
     <string name="bus_expansion">功能与扩展</string>
     <string name="design">设计</string>
     <string name="support">售后状态</string>
+    <string name="benchmark_warning">这将花去一段时间，并评估您的手机使用 MacIndex 的性能表现。</string>
+    <string name="benchmark_result">该成绩主要依赖于数据库 I/O 和处理器性能，可以反映您的手机使用 MacIndex 的性能表现。越小越好。您可以提交这个成绩给开发者。</string>
+    <string name="benchmark_advice">基准测试已完毕。基于您手机的得分，不推荐使用二次排序功能。将其关闭可以极大地提升您的使用体验，请根据情况选择。您可以在设置页重新打开该功能。也请参阅帮助内容。</string>
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注（可在菜单中编辑）</string>
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
