@@ -1058,7 +1058,7 @@ class MachineHelper {
                 for (int machineToVerify : finalPositions) {
                     String[] rawUndefinedQuery = getUndefined(machineToVerify, columnName).split("~");
                     for (String resultToVerify : rawUndefinedQuery) {
-                        if (resultToVerify.equals(searchInput)) {
+                        if (resultToVerify.equalsIgnoreCase(searchInput)) {
                             verifiedPositions.add(machineToVerify);
                             break;
                         }

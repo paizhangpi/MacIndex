@@ -3,11 +3,13 @@ package com.macindex.macindex;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.TextViewCompat;
 
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -31,8 +33,6 @@ public class SearchActivity extends AppCompatActivity {
     private SearchView searchText = null;
 
     private TextView textResult = null;
-
-    private TextView textIllegalInput = null;
 
     private LinearLayout currentLayout = null;
 
@@ -276,9 +276,6 @@ public class SearchActivity extends AppCompatActivity {
     private void initSearch() {
         searchText = findViewById(R.id.searchInput);
         textResult = findViewById(R.id.textResult);
-        textResult.setVisibility(View.GONE);
-        textIllegalInput = findViewById(R.id.textIllegalInput);
-        textIllegalInput.setVisibility(View.GONE);
         currentLayout = findViewById(R.id.resultFullContainer);
 
         searchText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -291,11 +288,12 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(final String newText) {
                 String searchInput = newText.trim();
-                textIllegalInput.setVisibility(View.GONE);
+                textResult.setText(R.string.search_prompt);
+                textResult.setTextColor(getColor(R.color.colorDefaultText));
                 if (!searchInput.equals("")) {
                     if (!validate(searchInput, translateOptionsParam())) {
-                        textResult.setVisibility(View.GONE);
-                        textIllegalInput.setVisibility(View.VISIBLE);
+                        textResult.setText(R.string.search_illegal);
+                        textResult.setTextColor(Color.RED);
                     }
                 } else {
                     // No input
@@ -304,10 +302,18 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        // Set auto-sizing
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            textResult.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        } else {
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(textResult, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        }
     }
 
     private void clearResults() {
-        textResult.setVisibility(View.GONE);
+        textResult.setText(R.string.search_prompt);
+        textResult.setTextColor(getColor(R.color.colorDefaultText));
         loadedResults = null;
         currentLayout.removeAllViews();
     }
@@ -329,7 +335,8 @@ public class SearchActivity extends AppCompatActivity {
         String searchInput = s.trim();
         Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
                 + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
-        textIllegalInput.setVisibility(View.GONE);
+        textResult.setText(R.string.search_prompt);
+        textResult.setTextColor(getColor(R.color.colorDefaultText));
         loadedResults = null;
         currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
@@ -338,13 +345,14 @@ public class SearchActivity extends AppCompatActivity {
                 return true;
             } else {
                 // Illegal input
-                textResult.setVisibility(View.GONE);
-                textIllegalInput.setVisibility(View.VISIBLE);
+                textResult.setText(R.string.search_illegal);
+                textResult.setTextColor(Color.RED);
                 return false;
             }
         } else {
             // No input
-            textResult.setVisibility(View.GONE);
+            textResult.setText(R.string.search_prompt);
+            textResult.setTextColor(getColor(R.color.colorDefaultText));
             return false;
         }
     }
@@ -427,8 +435,10 @@ public class SearchActivity extends AppCompatActivity {
                                 textResult.setVisibility(View.VISIBLE);
                                 if (positions.length == 0) {
                                     textResult.setText(R.string.search_noResult);
+                                    textResult.setTextColor(getColor(R.color.colorDefaultText));
                                 } else {
                                     textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
+                                    textResult.setTextColor(getColor(R.color.colorDefaultText));
                                 }
                                 loadedResults = new TextView[1][positions.length];
                                 loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,

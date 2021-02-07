@@ -60,6 +60,7 @@
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
+    <string name="search_prompt">点按回车来开始搜索</string>
     <string name="search_illegal">无效输入（请参阅帮助内容）</string>
     <string name="search_disable_identification">Old world Macintosh 没有型号标识符和 EMC 编号。请以形态标识符代替。也请参阅帮助内容。</string>
     <string name="search_disable_gestalt">New world Macintosh 没有形态标识符。请以型号标识符代替。也请参阅帮助内容。</string>
