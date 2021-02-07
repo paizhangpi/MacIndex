@@ -182,16 +182,16 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                 waitDialog.dismiss();
 
                                 // Compose result message
-                                final String benchmarkRev = "2.0";
+                                final String benchmarkRev = "2.1";
                                 final String resultInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
                                         + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
                                         + "Android Version: " + Build.VERSION.RELEASE + "\n"
                                         + "Hardware Model: " + Build.BRAND + " " + Build.MODEL + "\n"
                                         + "Processor Type: " + Build.SUPPORTED_ABIS[0] + "\n"
                                         + "Benchmark Revision: " + benchmarkRev + "\n"
-                                        + "Database Reading: " + benchmarkTimer[0] + " (Less is better)\n"
-                                        + "Enhanced Sorting: " + benchmarkTimer[1] + " (Less is better)\n"
-                                        + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + " (Less is better)\n";
+                                        + "Database Reading: " + benchmarkTimer[0] + " (Lower is better)\n"
+                                        + "Enhanced Sorting: " + benchmarkTimer[1] + " (Lower is better)\n"
+                                        + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + " (Lower is better)\n";
 
                                 // Construct result dialog box
                                 final AlertDialog.Builder resultDialog = new AlertDialog.Builder(SettingsAboutActivity.this);

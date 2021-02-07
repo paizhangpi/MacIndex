@@ -80,15 +80,15 @@ class SpecsIntentHelper {
             new Thread() {
                 @Override
                 public void run() {
-                    intent.putExtra("thisCategory", MainActivity.getMachineHelper().getCategoryRangeIDs(thisMachineID, parentContext));
+                    final int[] newCategory = MainActivity.getMachineHelper().getCategoryRangeIDs(thisMachineID, parentContext);
                     ((Activity) parentContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 waitDialog.dismiss();
-                                Log.i("sendIntent", "Fixed Navigation, Category IDs " + Arrays.toString(thisCategory)
+                                Log.i("sendIntent", "Fixed Navigation, Category IDs " + Arrays.toString(newCategory)
                                         + ", thisMachineID " + thisMachineID);
-                                intent.putExtra("thisCategory", thisCategory);
+                                intent.putExtra("thisCategory", newCategory);
                                 parentContext.startActivity(intent);
                             } catch (final Exception e) {
                                 ExceptionHelper.handleException(parentContext, e, null, null);

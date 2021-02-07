@@ -28,10 +28,10 @@ class ExceptionHelper {
             final String exceptionLog;
             if (exceptionModule != null && exceptionMessage != null) {
                 Log.e(exceptionModule, exceptionMessage);
-                exceptionLog = "Exception Tag: " + exceptionModule + "\n"
+                exceptionLog = "Exception Module: " + exceptionModule + "\n"
                         + "Exception Message: " + exceptionMessage + "\n";
             } else {
-                exceptionLog = "Tagging is not available" + "\n";
+                exceptionLog = "Module is not available" + "\n";
             }
 
             final String exceptionDetails;
