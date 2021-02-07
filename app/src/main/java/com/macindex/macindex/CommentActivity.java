@@ -120,7 +120,7 @@ public class CommentActivity extends AppCompatActivity {
                 String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
                 machineIDs = new int[thisCommentsStrings.length];
                 ProgressDialog waitDialog = new ProgressDialog(this);
-                waitDialog.setMessage(getString(R.string.loading));
+                waitDialog.setMessage(getString(R.string.loading_comments));
                 waitDialog.setCancelable(false);
                 waitDialog.show();
                 new Thread() {

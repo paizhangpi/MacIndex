@@ -139,7 +139,7 @@ public class FavouriteActivity extends AppCompatActivity {
             }
 
             ProgressDialog waitDialog = new ProgressDialog(this);
-            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setMessage(getString(R.string.loading_favourites));
             waitDialog.setCancelable(false);
             waitDialog.show();
             new Thread() {

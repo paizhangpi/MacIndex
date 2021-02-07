@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
             // Get filter string and positions.
             final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
             ProgressDialog waitDialog = new ProgressDialog(MainActivity.this);
-            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setMessage(getString(R.string.loading_category));
             waitDialog.setCancelable(false);
             waitDialog.show();
             new Thread() {

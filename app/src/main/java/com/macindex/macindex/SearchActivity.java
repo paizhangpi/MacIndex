@@ -418,7 +418,7 @@ public class SearchActivity extends AppCompatActivity {
             Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
                     + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
             ProgressDialog waitDialog = new ProgressDialog(SearchActivity.this);
-            waitDialog.setMessage(getString(R.string.loading));
+            waitDialog.setMessage(getString(R.string.loading_search));
             waitDialog.setCancelable(false);
             waitDialog.show();
             new Thread() {

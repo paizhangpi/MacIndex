@@ -74,7 +74,7 @@ class SpecsIntentHelper {
         ProgressDialog waitDialog = new ProgressDialog(parentContext);
         // Is fixed navigation?
         if (PrefsHelper.getBooleanPrefs("isFixedNav", parentContext)) {
-            waitDialog.setMessage(parentContext.getString(R.string.loading));
+            waitDialog.setMessage(parentContext.getString(R.string.loading_fixed_nav));
             waitDialog.setCancelable(false);
             waitDialog.show();
             new Thread() {

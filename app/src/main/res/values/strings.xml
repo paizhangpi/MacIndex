@@ -148,6 +148,8 @@
     <string name="benchmark_result">This depends on the database I/O and processor performance heavily, and reflects the performance of your device of using MacIndex. Lower is better. You can share this score in public and with the developer.</string>
     <string name="benchmark_advice">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is not recommended. Turning it off will greatly improve your experience, please decide accordingly. You can enable it later at the preferences page.</string>
     <string name="benchmark_high">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is recommended. Turning it on can ensure the correct overall order and will not impact your experience, please decide accordingly. You can disable it later at the preferences page.</string>
+    <string name="benchmark_error">Benchmark was interrupted. Please do not leave MacIndex during the process.</string>
+    <string name="benchmark_interrupted">Benchmark was interrupted before its completion.</string>
     <string name="comment">Custom Comment</string>
     <string name="comment_null">Not Available (Could be edited in the menu)</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
@@ -168,7 +170,13 @@
     <string name="first_one">Already the first one</string>
     <string name="last_one">Already the last one</string>
     <string name="get_started">Get Started</string>
-    <string name="loading">Now Loading</string>
+    <string name="loading_category">Loading Categories</string>
+    <string name="loading_fixed_nav">Fixed Navigation Enabled</string>
+    <string name="loading_benchmark">Benchmark in progress. Do not leave MacIndex. This will take a while, depends on your phone\'s performance. Please wait.</string>
+    <string name="loading_benchmark_stop">Benchmark was interrupted. Waiting for the thread to terminate safely. Please wait.</string>
+    <string name="loading_search">Searching</string>
+    <string name="loading_comments">Loading Comments</string>
+    <string name="loading_favourites">Loading Favourites</string>
     <string name="comments_not_available">No comment has been saved yet. You can add a custom comment at any Specification Page.</string>
     <string name="comments_not_available_tips">No comment has been saved yet</string>
     <string name="comments_delete">Please select the custom comment(s) to delete. This cannot be undone.</string>
