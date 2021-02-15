@@ -220,7 +220,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
                                 if (!benchmarkStopped) {
                                     // Compose result message
-                                    final String benchmarkRev = "2.1";
+                                    final String benchmarkRev = "3.0";
                                     final String resultInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
                                             + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
                                             + "Android Version: " + Build.VERSION.RELEASE + "\n"

@@ -484,8 +484,10 @@ class MachineHelper {
         tempCursor.moveToFirst();
         byte[] thisBlob = tempCursor.getBlob(tempCursor.getColumnIndex("pic"));
         tempCursor.close();
-        String path = "/";
-        if (thisBlob != null) {
+        if (thisBlob == null) {
+            return getPicture(thisMachine - 1, thisContext);
+        } else {
+            String path = "/";
             try {
                 Bitmap pic = BitmapFactory.decodeByteArray(thisBlob, 0, thisBlob.length);
                 File file = File.createTempFile("tempF", ".tmp");
@@ -495,8 +497,8 @@ class MachineHelper {
             } catch (Exception e) {
                 ExceptionHelper.handleException(thisContext, e, null, null);
             }
+            return new File(path);
         }
-        return new File(path);
     }
 
     // Should return "N" if EveryMac link is not available.

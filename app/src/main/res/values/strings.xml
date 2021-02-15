@@ -145,7 +145,7 @@
     <string name="design">Design</string>
     <string name="support">Support Status</string>
     <string name="benchmark_warning">This will take a while and will evaluate the performance of your device of using MacIndex.</string>
-    <string name="benchmark_result">This depends on the database I/O and processor performance heavily, and reflects the performance of your device of using MacIndex. Lower is better. You can share this score in public and with the developer.</string>
+    <string name="benchmark_result">Benchmark has completed. This depends on the database I/O and processor performance, reflects the performance of your device of using the current version of MacIndex. Lower is better. You can share this score in public and with the developer.</string>
     <string name="benchmark_advice">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is not recommended. Turning it off will greatly improve your experience, please decide accordingly. You can enable it later at the preferences page.</string>
     <string name="benchmark_high">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is recommended. Turning it on can ensure the correct overall order and will not impact your experience, please decide accordingly. You can disable it later at the preferences page.</string>
     <string name="benchmark_error">Benchmark was interrupted. Please do not leave MacIndex during the process.</string>
