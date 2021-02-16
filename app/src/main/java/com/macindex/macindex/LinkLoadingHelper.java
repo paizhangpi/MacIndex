@@ -33,7 +33,7 @@ class LinkLoadingHelper {
                 startEveryMac(linkGroup[0].split(",http")[0], "http" + linkGroup[0].split(",http")[1], thisContext);
             } else {
                 // Fix ; and , split bug.
-                for (int i = 0; i < linkGroup.length; i++) {
+                for (int i = 0; i < linkGroup.length - 1; i++) {
                     linkGroup[i] = linkGroup[i] + "html";
                 }
                 final AlertDialog.Builder linkDialog = new AlertDialog.Builder(thisContext);
