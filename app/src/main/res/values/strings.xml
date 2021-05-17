@@ -6,7 +6,7 @@
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_specs_high_vol_warning">The current volume is too high. Do you want to proceed playing?\nSelect \"Confirm\" to turn this warning off temporarily.\nGo to preferences page to turn this function off.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
-    <string name="information_first_lunch">Antique to advanced, history in your hand. Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
+    <string name="information_first_lunch">Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
     <string name="information_double_press">Press the back button again to exit MacIndex</string>
     <string name="setting_sort">Enhanced Sorting (Overall Categories/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This only affects Categories and Search Pages.</string>
@@ -71,7 +71,7 @@
     <string name="menu_compare">Comparison</string>
     <string name="menu_comment">Custom Comments</string>
     <string name="menu_about_settings">Preferences</string>
-    <string name="menu_about">About and Assistance</string>
+    <string name="menu_about">About and Options</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Product Categories</string>
     <string name="menu_view2">Processors</string>
@@ -86,7 +86,7 @@
     <string name="menu">Main Menu</string>
     <string name="submenu_main_website">Official Website</string>
     <string name="submenu_main_important">Important Information</string>
-    <string name="submenu_main_update">Check for Update</string>
+    <string name="submenu_main_update">Version Information</string>
     <string name="submenu_main_questions">Frequently Asked Questions</string>
     <string name="submenu_main_feedback">Feedback</string>
     <string name="submenu_main_help">Main Page Help</string>
@@ -206,4 +206,9 @@
     <string name="compare_clear_warning">The comparison list will be cleared. This cannot be undone. Do you want to proceed?</string>
     <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specification Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
+    <string name="version_information_general">Current Version: </string>
+    <string name="version_information_releasedate">Release Date: May 18, 2021</string>
+    <string name="version_information_models">Available Model: </string>
+    <string name="version_information_check">Check update</string>
+    <string name="version_information_history">Version history</string>
 </resources>

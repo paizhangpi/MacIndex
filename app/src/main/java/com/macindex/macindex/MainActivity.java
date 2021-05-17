@@ -138,8 +138,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
-        MenuItem versionItem = menu.findItem(R.id.versionItem);
-        versionItem.setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")");
         return true;
     }
 
@@ -161,7 +159,20 @@ public class MainActivity extends AppCompatActivity {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information", "https://macindex.paizhang.info/important-information", this);
                 break;
             case R.id.updateItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
+                // Build Version String
+                final String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
+                        getString(R.string.version_information_releasedate) + "\n" +
+                        getString(R.string.version_information_models) + " " + machineHelper.getMachineCount();
+                final AlertDialog.Builder versionDialog = new AlertDialog.Builder(MainActivity.this);
+                versionDialog.setTitle(R.string.submenu_main_update);
+                versionDialog.setMessage(versionString);
+                versionDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Do nothing
+                });
+                versionDialog.setNeutralButton(R.string.version_information_history, (dialogInterface, i) -> {
+                    LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
+                });
+                versionDialog.show();
                 break;
             case R.id.questionsItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
@@ -346,7 +357,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerOpened(@NonNull final View drawerView) {
-                    setTitle(R.string.app_name);
+                    setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
                 }
 
                 @Override

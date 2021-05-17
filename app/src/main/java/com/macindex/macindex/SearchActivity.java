@@ -89,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.everymacItem:
-                LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", null, this);
+                LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", "https://everymac.com/ultimate-mac-lookup/", this);
                 break;
             case R.id.searchHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/search", this);

@@ -2,10 +2,6 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/versionItem"
-        android:enabled="false"
-        android:title="@null" />
-    <item
         android:id="@+id/websiteItem"
         android:title="@string/submenu_main_website" />
     <item
