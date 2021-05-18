@@ -117,6 +117,8 @@ public class SpecsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.shareItem:
+                break;
             case R.id.addFavouriteItem:
                 selectFolder();
                 break;

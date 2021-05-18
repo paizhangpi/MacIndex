@@ -43,11 +43,11 @@
     </string-array>
     <string-array name="search_Options">
         <item>按名称（部分匹配）</item>
-        <item>按模具型号（精确匹配）</item>
-        <item>按型号标识符（精确匹配）</item>
-        <item>按形态标识符（精确匹配）</item>
-        <item>按订单编号（部分匹配）</item>
-        <item>按 EMC 编号（精确匹配）</item>
+        <item>按模具号（精确匹配）</item>
+        <item>按机型标识符（精确匹配）</item>
+        <item>按 Gestalt 标识符（精确匹配）</item>
+        <item>按部件号（部分匹配）</item>
+        <item>按 EMC 号（精确匹配）</item>
     </string-array>
     <string-array name="search_Tips">
         <item>例：MacBook Pro</item>
@@ -62,8 +62,8 @@
     <string name="search_results">&#160;个结果</string>
     <string name="search_prompt">点按回车来开始搜索</string>
     <string name="search_illegal">无效输入（请参阅帮助内容）</string>
-    <string name="search_disable_identification">Old world Macintosh 没有型号标识符和 EMC 编号。请以形态标识符代替。也请参阅帮助内容。</string>
-    <string name="search_disable_gestalt">New world Macintosh 没有形态标识符。请以型号标识符代替。也请参阅帮助内容。</string>
+    <string name="search_disable_identification">Old world Macintosh 没有机型标识符或 EMC 号。请以 Gestalt 标识符代替。也请参阅帮助内容。</string>
+    <string name="search_disable_gestalt">New world Macintosh 没有 Gestalt 标识符。请以机型标识符代替。也请参阅帮助内容。</string>
     <string name="menu_search">搜索</string>
     <string name="menu_random">试试手气</string>
     <string name="menu_random_limited">（限制范围）</string>
@@ -86,6 +86,7 @@
     <string name="submenu_main_questions">常见问题</string>
     <string name="submenu_main_feedback">问题反馈</string>
     <string name="submenu_main_help">主页面帮助</string>
+    <string name="submenu_specs_share">分享这个机型</string>
     <string name="submenu_specs_favourite">添加到收藏夹</string>
     <string name="submenu_specs_compare">添加到比较列表</string>
     <string name="submenu_specs_comment">编辑自定义备注</string>
@@ -111,11 +112,11 @@
     <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
     <string name="year">推出时间</string>
-    <string name="model">模具型号</string>
-    <string name="id">型号标识符</string>
-    <string name="gestalt">形态标识符</string>
-    <string name="order">订单编号</string>
-    <string name="emc">EMC 编号</string>
+    <string name="model">模具号</string>
+    <string name="id">机型标识符</string>
+    <string name="gestalt">Gestalt 标识符</string>
+    <string name="order">部件号</string>
+    <string name="emc">EMC 号</string>
     <string name="processor">处理器</string>
     <string name="graphics">显卡与显示</string>
     <string name="type">固件信息</string>

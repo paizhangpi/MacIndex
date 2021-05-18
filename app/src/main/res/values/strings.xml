@@ -43,11 +43,11 @@
     </string-array>
     <string-array name="search_Options">
         <item>Name (Partial Match)</item>
-        <item>Model Number (Exact Match)</item>
-        <item>Identification (Exact Match)</item>
+        <item>Model Numbers (Exact Match)</item>
+        <item>Model Identifier (Exact Match)</item>
         <item>Gestalt ID (Exact Match)</item>
-        <item>Order Number (Partial Match)</item>
-        <item>EMC Number (Exact Match)</item>
+        <item>Part Numbers (Partial Match)</item>
+        <item>EMC Numbers (Exact Match)</item>
     </string-array>
     <string-array name="search_Tips">
         <item>Example: MacBook Pro</item>
@@ -62,8 +62,8 @@
     <string name="search_results">&#160;result(s)</string>
     <string name="search_prompt">Press return to start searching</string>
     <string name="search_illegal">Invalid Input</string>
-    <string name="search_disable_identification">Old world Macintosh does not have Identification and EMC Number. Please use the Gestalt ID instead.</string>
-    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Identification instead.</string>
+    <string name="search_disable_identification">Old world Macintosh does not have a Model Identifier or EMC Numbers. Please use the Gestalt ID instead.</string>
+    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Model Identifier instead.</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
@@ -90,6 +90,7 @@
     <string name="submenu_main_questions">Frequently Asked Questions</string>
     <string name="submenu_main_feedback">Feedback</string>
     <string name="submenu_main_help">Main Page Help</string>
+    <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add to Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
     <string name="submenu_specs_comment">Edit Custom Comment</string>
@@ -130,11 +131,11 @@
     <string name="category13" translatable="false">PowerBook G3/G4</string>
     <string name="category14" translatable="false">iBook</string>
     <string name="year">Introduction</string>
-    <string name="model">Model Number</string>
-    <string name="id">Identification</string>
+    <string name="model">Model Numbers</string>
+    <string name="id">Model Identifier</string>
     <string name="gestalt">Gestalt ID</string>
-    <string name="order">Order Number</string>
-    <string name="emc">EMC Number</string>
+    <string name="order">Part Numbers</string>
+    <string name="emc">EMC Numbers</string>
     <string name="processor">Processor</string>
     <string name="graphics">Graphics &amp; Display</string>
     <string name="type">ROM Information</string>
