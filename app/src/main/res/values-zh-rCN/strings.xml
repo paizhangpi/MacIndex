@@ -43,7 +43,7 @@
     </string-array>
     <string-array name="search_Options">
         <item>按名称（部分匹配）</item>
-        <item>按模具号（精确匹配）</item>
+        <item>按机型号（精确匹配）</item>
         <item>按机型标识符（精确匹配）</item>
         <item>按 Gestalt 标识符（精确匹配）</item>
         <item>按部件号（部分匹配）</item>
@@ -112,7 +112,7 @@
     <string name="submenu_prefs_clear">重置应用</string>
     <string name="submenu_prefs_help">设置页帮助</string>
     <string name="year">推出时间</string>
-    <string name="model">模具号</string>
+    <string name="model">机型号</string>
     <string name="id">机型标识符</string>
     <string name="gestalt">Gestalt 标识符</string>
     <string name="order">部件号</string>
