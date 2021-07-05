@@ -341,6 +341,11 @@ public class SearchActivity extends AppCompatActivity {
         currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
             if (validate(searchInput, translateOptionsParam())) {
+                // For order number: clip country code.
+                if (translateOptionsParam().equals("sorder") && searchInput.length() > 5) {
+                    searchInput = searchInput.substring(0, 5);
+                }
+
                 performSearch(searchInput);
                 return true;
             } else {

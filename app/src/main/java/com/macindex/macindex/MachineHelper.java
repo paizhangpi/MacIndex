@@ -194,7 +194,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("name"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getProcessor(final int thisMachine) {
@@ -205,7 +205,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("processor"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getMaxRam(final int thisMachine) {
@@ -216,7 +216,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ram"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getYear(final int thisMachine) {
@@ -227,7 +227,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("year"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getModel(final int thisMachine) {
@@ -238,7 +238,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("model"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getType(final int thisMachine) {
@@ -249,7 +249,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("rom"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getMid(final int thisMachine) {
@@ -260,7 +260,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ident"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getGraphics(final int thisMachine) {
@@ -271,7 +271,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("graphics"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getExpansion(final int thisMachine) {
@@ -282,7 +282,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("expansion"));
         tempCursor.close();
-        return checkApplicability(tempResult, true);
+        return checkApplicability(tempResult);
     }
 
     public String getStorage(final int thisMachine) {
@@ -293,7 +293,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("storage"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getGestalt(final int thisMachine) {
@@ -304,7 +304,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("gestalt"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getOrder(final int thisMachine) {
@@ -316,7 +316,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("order"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getEMC(final int thisMachine) {
@@ -327,7 +327,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("emc"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getSoftware(final int thisMachine) {
@@ -338,7 +338,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("software"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getDesign(final int thisMachine) {
@@ -349,7 +349,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("design"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getSupport(final int thisMachine) {
@@ -360,7 +360,7 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("support"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     public String getSYear(final int thisMachine) {
@@ -371,19 +371,15 @@ class MachineHelper {
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("syear"));
         tempCursor.close();
-        return checkApplicability(tempResult, false);
+        return checkApplicability(tempResult);
     }
 
     // NullSafe
-    private static String checkApplicability(final String thisSpec, final boolean replace) {
+    private static String checkApplicability(final String thisSpec) {
         if (thisSpec == null) {
             return MainActivity.getRes().getString(R.string.not_applicable);
         } else {
-            if (replace) {
-                return thisSpec.replace(", ", "\n");
-            } else {
-                return thisSpec;
-            }
+            return thisSpec;
         }
     }
 
