@@ -57,12 +57,7 @@ public class SearchActivity extends AppCompatActivity {
             PrefsHelper.clearPrefs("searchOptionsSpinner", this);
         }
 
-        // If EveryMac enabled, a message should append.
-        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
-            this.setTitle(getString(R.string.menu_search) + getString(R.string.menu_group_everymac));
-        } else {
-            this.setTitle(R.string.menu_search);
-        }
+        this.setTitle(R.string.menu_search);
 
         final LinearLayout mainLayout = findViewById(R.id.mainLayout);
         LayoutTransition layoutTransition = mainLayout.getLayoutTransition();

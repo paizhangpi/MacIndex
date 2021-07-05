@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">MacIndex</string>
+    <string name="app_name_everymac" translatable="false">EveryMacIndex</string>
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_no_sound">This machine does not have startup or death sound</string>
@@ -8,6 +9,7 @@
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
     <string name="information_first_lunch">Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
     <string name="information_double_press">Press the back button again to exit MacIndex</string>
+    <string name="information_set_everymac">Open Directly in EveryMac is enabled. MacIndex will open the EveryMac Page of the machine directly instead of the Specification Page. If you want to disable this function, please access the Preferences Page.</string>
     <string name="setting_sort">Enhanced Sorting (Overall Categories/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This only affects Categories and Search Pages.</string>
     <string name="setting_sort_comment">Enhanced Sorting (Comments)</string>
@@ -71,7 +73,7 @@
     <string name="menu_compare">Comparison</string>
     <string name="menu_comment">Custom Comments</string>
     <string name="menu_about_settings">Preferences</string>
-    <string name="menu_about">About and Options</string>
+    <string name="menu_about">About MacIndex</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Product Categories</string>
     <string name="menu_view2">Processors</string>
@@ -82,13 +84,7 @@
     <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
     <string name="menu_group4" translatable="false">ARM Macintosh</string>
-    <string name="menu_group_everymac">&#160;(Open EveryMac)</string>
     <string name="menu">Main Menu</string>
-    <string name="submenu_main_website">Official Website</string>
-    <string name="submenu_main_important">Important Information</string>
-    <string name="submenu_main_update">Version Information</string>
-    <string name="submenu_main_questions">Frequently Asked Questions</string>
-    <string name="submenu_main_feedback">Feedback</string>
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add to Favourite</string>
@@ -209,7 +205,13 @@
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
     <string name="version_information_general">Current Version: </string>
     <string name="version_information_releasedate">Build Date:</string>
-    <string name="version_information_models">Available Model: </string>
+    <string name="version_information_models">Available Models: </string>
     <string name="version_information_check">Check update</string>
     <string name="version_information_history">Version history</string>
+    <string name="about_information" translatable="false">Open source software by paizhang, Victor Jiao, Mation Wang, 2019-2021.\n\nFinal Project of CS 125 Fall 2019 and CS 199 Spring 2020, at University of Illinois, Urbana-Champaign.</string>
+    <string name="about_website">Official Website</string>
+    <string name="about_important">Important Information</string>
+    <string name="about_update">Release Notes</string>
+    <string name="about_questions">Frequently Asked Questions</string>
+    <string name="about_feedback">Feedback</string>
 </resources>

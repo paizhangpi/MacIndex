@@ -32,8 +32,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Random;
 
 /**
@@ -66,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView[][] machineLoadedCount = null;
 
-    private String everyMacAppend = null;
-
     private long mBackPressed = 0;
 
     @Override
@@ -91,13 +87,6 @@ public class MainActivity extends AppCompatActivity {
         thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
         thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
-        // If EveryMac enabled, a message should append.
-        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
-            everyMacAppend = getString(R.string.menu_group_everymac);
-        } else {
-            everyMacAppend = "";
-        }
-
         initDatabase();
         initMenu();
         initInterface();
@@ -107,13 +96,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         try {
-            // If EveryMac enabled, a message should append.
-            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", this)) {
-                everyMacAppend = getString(R.string.menu_group_everymac);
-            } else {
-                everyMacAppend = "";
-            }
-            setTitle(getString(translateTitleRes()) + everyMacAppend);
+            setTitle(getString(translateTitleRes()));
 
             // If reload is needed..
             if (PrefsHelper.getBooleanPrefs("isReloadNeeded", this)) {
@@ -152,43 +135,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
-                break;
-            case R.id.websiteItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
-                        "https://macindex.paizhang.info/", this);
-                break;
-            case R.id.importantItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information", "https://macindex.paizhang.info/important-information", this);
-                break;
-            case R.id.updateItem:
-                // Build Version String
-                try {
-                    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this);
-                    Date buildDate = new Date();
-                    buildDate.setTime(BuildConfig.TIMESTAMP);
-
-                    final String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
-                            getString(R.string.version_information_releasedate) + " " + dateFormat.format(buildDate) + "\n" +
-                            getString(R.string.version_information_models) + " " + machineHelper.getMachineCount();
-                    final AlertDialog.Builder versionDialog = new AlertDialog.Builder(MainActivity.this);
-                    versionDialog.setTitle(R.string.submenu_main_update);
-                    versionDialog.setMessage(versionString);
-                    versionDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Do nothing
-                    });
-                    versionDialog.setNeutralButton(R.string.version_information_history, (dialogInterface, i) -> {
-                        LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
-                    });
-                    versionDialog.show();
-                } catch (Exception e) {
-                    ExceptionHelper.handleException(this, e, null, null);
-                }
-                break;
-            case R.id.questionsItem:
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
-                break;
-            case R.id.feedbackItem:
-                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback", "https://macindex.paizhang.info/feedback-and-evaluation", this);
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
@@ -353,9 +299,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
                 mDrawerLayout.closeDrawers();
             });
-            // About popup menu
+            // AboutActivity Entrance
             findViewById(R.id.newAboutMenuItem).setOnClickListener(view -> {
-                openOptionsMenu();
+                startActivity(new Intent(MainActivity.this, NewAboutActivity.class));
+                mDrawerLayout.closeDrawers();
             });
 
             // Set a drawer listener to change title and color.
@@ -367,12 +314,17 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerOpened(@NonNull final View drawerView) {
-                    setTitle(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+                    // Set if it is in EveryMac mode.
+                    if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
+                        setTitle(getString(R.string.app_name_everymac));
+                    } else {
+                        setTitle(R.string.app_name);
+                    }
                 }
 
                 @Override
                 public void onDrawerClosed(@NonNull final View drawerView) {
-                    setTitle(getString(translateTitleRes()) + everyMacAppend);
+                    setTitle(getString(translateTitleRes()));
                 }
 
                 @Override
@@ -455,7 +407,7 @@ public class MainActivity extends AppCompatActivity {
     private void initInterface() {
         try {
             // Set Activity title.
-            setTitle(getString(translateTitleRes()) + everyMacAppend);
+            setTitle(getString(translateTitleRes()));
             // Parent layout of all categories.
             final LinearLayout categoryContainer = findViewById(R.id.categoryContainer);
             // Fix an animation bug here
@@ -564,6 +516,20 @@ public class MainActivity extends AppCompatActivity {
                                 firstLunchGreet.setPositiveButton(R.string.get_started, (dialogInterface, i) -> mDrawerLayout.openDrawer(GravityCompat.START));
                                 firstLunchGreet.show();
                                 PrefsHelper.editPrefs("isFirstLunch", false, MainActivity.this);
+                            }
+
+                            // EveryMacIndex reminder
+                            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
+                                final AlertDialog.Builder everyMacIndexReminder = new AlertDialog.Builder(MainActivity.this);
+                                everyMacIndexReminder.setTitle(R.string.app_name_everymac);
+                                everyMacIndexReminder.setMessage(R.string.information_set_everymac);
+                                everyMacIndexReminder.setPositiveButton(R.string.menu_about_settings, (dialogInterface, i) -> {
+                                    startActivity(new Intent(MainActivity.this, SettingsAboutActivity.class));
+                                });
+                                everyMacIndexReminder.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+                                    // Do nothing
+                                });
+                                everyMacIndexReminder.show();
                             }
                         }
                     });

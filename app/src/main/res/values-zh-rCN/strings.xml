@@ -8,6 +8,7 @@
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
     <string name="information_first_lunch">打开抽屉在应用功能间导航。打开菜单来探索更多选项以及获得帮助。</string>
     <string name="information_double_press">再按一次返回键来退出 MacIndex</string>
+    <string name="information_set_everymac">默认从 EveryMac 打开已启用。MacIndex 将直接跳转到当前机型对应的 EveryMac 网页，而不打开参数页面。若想要关闭此功能，请进入设置页。</string>
     <string name="setting_sort">二次排序（全局分组和搜素）</string>
     <string name="setting_sort_description">重新按照时间排序来保证非同个分组的机型排序正确。关闭可使加载更快。只影响分组和搜素页。</string>
     <string name="setting_sort_comment">二次排序（自定义备注）</string>
@@ -71,7 +72,7 @@
     <string name="menu_compare">机型比较</string>
     <string name="menu_comment">自定义备注</string>
     <string name="menu_about_settings">偏好设置</string>
-    <string name="menu_about">关于与选项</string>
+    <string name="menu_about">关于 MacIndex</string>
     <string name="menu_view">浏览方式</string>
     <string name="menu_view1">产品分组</string>
     <string name="menu_view2">处理器</string>
@@ -80,11 +81,6 @@
     <string name="menu_group0">所有分组</string>
     <string name="menu_group_everymac">（打开 EveryMac）</string>
     <string name="menu">主菜单</string>
-    <string name="submenu_main_website">官方网站</string>
-    <string name="submenu_main_important">重要信息</string>
-    <string name="submenu_main_update">版本信息</string>
-    <string name="submenu_main_questions">常见问题</string>
-    <string name="submenu_main_feedback">问题反馈</string>
     <string name="submenu_main_help">主页面帮助</string>
     <string name="submenu_specs_share">分享这个机型</string>
     <string name="submenu_specs_favourite">添加到收藏夹</string>
@@ -193,4 +189,9 @@
     <string name="version_information_models">机型数量: </string>
     <string name="version_information_check">检查更新</string>
     <string name="version_information_history">更新历史</string>
+    <string name="about_website">官方网站</string>
+    <string name="about_important">重要信息</string>
+    <string name="about_update">更新历史</string>
+    <string name="about_questions">常见问题</string>
+    <string name="about_feedback">问题反馈</string>
 </resources>
