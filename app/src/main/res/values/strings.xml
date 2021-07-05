@@ -209,7 +209,7 @@
     <string name="version_information_models">Available Models: </string>
     <string name="version_information_check">Check update</string>
     <string name="version_information_history">Version history</string>
-    <string name="about_information" translatable="false">Open source software by paizhang, Victor Jiao, Mation Wang, 2019-2021.\n\nFinal Project of CS 125 Fall 2019 and CS 199 Spring 2020, at University of Illinois, Urbana-Champaign.</string>
+    <string name="about_information" translatable="false">Open source software by paizhang, Victor Jiao, Mation Wang, 2019-2021.\n\nFinal Project of CS 125 Fall 2019 and CS 199 Spring 2020 at University of Illinois, Urbana-Champaign.</string>
     <string name="about_website">Official Website</string>
     <string name="about_important">Important Information</string>
     <string name="about_update">Release Notes</string>

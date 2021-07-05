@@ -3,7 +3,8 @@
 
     <item
         android:id="@+id/shareItem"
-        android:title="Item" />
+        android:title="Item"
+        android:visible="false"/>
     <item
         android:id="@+id/addFavouriteItem"
         android:title="@string/submenu_specs_favourite"
