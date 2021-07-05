@@ -208,7 +208,7 @@
     <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specification Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
     <string name="version_information_general">Current Version: </string>
-    <string name="version_information_releasedate">Release Date: May 18, 2021</string>
+    <string name="version_information_releasedate">Build Date:</string>
     <string name="version_information_models">Available Model: </string>
     <string name="version_information_check">Check update</string>
     <string name="version_information_history">Version history</string>

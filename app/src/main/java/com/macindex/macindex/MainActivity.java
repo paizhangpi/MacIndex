@@ -32,6 +32,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -160,19 +162,27 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.updateItem:
                 // Build Version String
-                final String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
-                        getString(R.string.version_information_releasedate) + "\n" +
-                        getString(R.string.version_information_models) + " " + machineHelper.getMachineCount();
-                final AlertDialog.Builder versionDialog = new AlertDialog.Builder(MainActivity.this);
-                versionDialog.setTitle(R.string.submenu_main_update);
-                versionDialog.setMessage(versionString);
-                versionDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    // Do nothing
-                });
-                versionDialog.setNeutralButton(R.string.version_information_history, (dialogInterface, i) -> {
-                    LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
-                });
-                versionDialog.show();
+                try {
+                    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(this);
+                    Date buildDate = new Date();
+                    buildDate.setTime(BuildConfig.TIMESTAMP);
+
+                    final String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
+                            getString(R.string.version_information_releasedate) + " " + dateFormat.format(buildDate) + "\n" +
+                            getString(R.string.version_information_models) + " " + machineHelper.getMachineCount();
+                    final AlertDialog.Builder versionDialog = new AlertDialog.Builder(MainActivity.this);
+                    versionDialog.setTitle(R.string.submenu_main_update);
+                    versionDialog.setMessage(versionString);
+                    versionDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Do nothing
+                    });
+                    versionDialog.setNeutralButton(R.string.version_information_history, (dialogInterface, i) -> {
+                        LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
+                    });
+                    versionDialog.show();
+                } catch (Exception e) {
+                    ExceptionHelper.handleException(this, e, null, null);
+                }
                 break;
             case R.id.questionsItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);

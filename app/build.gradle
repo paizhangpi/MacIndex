@@ -10,6 +10,7 @@ android {
         versionCode 22
         versionName "4.7.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
     buildTypes {
         release {
