@@ -4,6 +4,7 @@
     <string name="information_specs_full">Tap on the top image to play startup and death sound</string>
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_no_sound">This machine does not have startup or death sound</string>
+    <string name="information_specs_view_image">Long press the top image to view the large image</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_specs_high_vol_warning">The current volume is too high. Do you want to proceed playing?\nSelect \"Confirm\" to turn this warning off temporarily.\nGo to preferences page to turn this function off.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
@@ -214,4 +215,5 @@
     <string name="about_update">Release Notes</string>
     <string name="about_questions">Frequently Asked Questions</string>
     <string name="about_feedback">Feedback</string>
+    <string name="viewimage_rotate">Rotate your device to change the orientation</string>
 </resources>

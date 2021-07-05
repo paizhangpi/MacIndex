@@ -858,6 +858,19 @@
                     android:layout_height="5dp" />
 
                 <TextView
+                    android:id="@+id/informationViewImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/information_specs_view_image"
+                    android:textAlignment="center"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp" />
+
+                <TextView
                     android:id="@+id/informationEverymac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

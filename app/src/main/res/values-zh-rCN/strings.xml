@@ -3,6 +3,7 @@
     <string name="information_specs_full">点击顶部图片来试听开机和宕机音效</string>
     <string name="information_specs_no_death">点击顶部图片来试听开机音效</string>
     <string name="information_specs_no_sound">这个机型没有开机或宕机音效</string>
+    <string name="information_specs_view_image">长按顶部图片来查看大图</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。\n打开设置来关闭这个功能。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
@@ -79,7 +80,6 @@
     <string name="menu_view3">推出年代</string>
     <string name="menu_group">分组筛选</string>
     <string name="menu_group0">所有分组</string>
-    <string name="menu_group_everymac">（打开 EveryMac）</string>
     <string name="menu">主菜单</string>
     <string name="submenu_main_help">主页面帮助</string>
     <string name="submenu_specs_share">分享这个机型</string>
@@ -194,4 +194,5 @@
     <string name="about_update">更新历史</string>
     <string name="about_questions">常见问题</string>
     <string name="about_feedback">问题反馈</string>
+    <string name="viewimage_rotate">旋转设备来改变图片方向</string>
 </resources>

@@ -567,6 +567,14 @@ public class SpecsActivity extends AppCompatActivity {
                 });
                 informationLabel.setText(R.string.information_specs_no_sound);
             }
+
+            // Set a long click listener
+            image.setOnLongClickListener(v -> {
+                Intent viewImageIntent = new Intent(SpecsActivity.this, ViewImageActivity.class);
+                viewImageIntent.putExtra("machineID", machineID);
+                startActivity(viewImageIntent);
+                return true;
+            });
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initSound", "Failed, Machine Name " + thisName);
