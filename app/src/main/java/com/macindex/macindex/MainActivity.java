@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
         // Reset Volume Warning
         PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
 
+        // Reset EveryMacIndex Warning
+        PrefsHelper.clearPrefs("isJustLunched", this);
+
         thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
         thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
@@ -113,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        if (database != null) {
-            database.close();
-        }
+        closeDatabase();
         super.onDestroy();
     }
 
@@ -135,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
+                break;
+            case R.id.mainReloadItem:
+                closeDatabase();
+                initDatabase();
+                refresh();
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
@@ -186,6 +192,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initDatabase", "Initialize failed!!");
+        }
+    }
+
+    private void closeDatabase() {
+        if (database != null) {
+            database.close();
         }
     }
 
@@ -519,7 +531,8 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             // EveryMacIndex reminder
-                            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
+                            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)
+                                    && PrefsHelper.getBooleanPrefs("isJustLunched", MainActivity.this)) {
                                 final AlertDialog.Builder everyMacIndexReminder = new AlertDialog.Builder(MainActivity.this);
                                 everyMacIndexReminder.setTitle(R.string.app_name_everymac);
                                 everyMacIndexReminder.setMessage(R.string.information_set_everymac);
@@ -530,6 +543,7 @@ public class MainActivity extends AppCompatActivity {
                                     // Do nothing
                                 });
                                 everyMacIndexReminder.show();
+                                PrefsHelper.editPrefs("isJustLunched", false, MainActivity.this);
                             }
                         }
                     });

@@ -33,6 +33,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isSaveCompareUsage", Boolean.TRUE);
 
         DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
+        DEFAULT_VALUES.put("isJustLunched", Boolean.TRUE);
         DEFAULT_VALUES.put("thisManufacturer", "all");
         DEFAULT_VALUES.put("thisFilter", "names");
         DEFAULT_VALUES.put("isReloadNeeded", Boolean.FALSE);

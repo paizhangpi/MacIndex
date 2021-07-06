@@ -94,6 +94,7 @@
     <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu">Main Menu</string>
     <string name="submenu_main_help">Main Page Help</string>
+    <string name="submenu_main_reload">Reload Database</string>
     <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add to Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
@@ -149,10 +150,10 @@
     <string name="bus_expansion">Feature &amp; Expansion</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
-    <string name="benchmark_warning">This will take a while and will evaluate the performance of your device of using MacIndex.</string>
-    <string name="benchmark_result">Benchmark has completed. This depends on the database I/O and processor performance, reflects the performance of your device of using the current version of MacIndex. Lower is better. You can share this score in public and with the developer.</string>
-    <string name="benchmark_advice">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is not recommended. Turning it off will greatly improve your experience, please decide accordingly. You can enable it later at the preferences page.</string>
-    <string name="benchmark_high">Benchmark has completed. Based on your phone\'s score, enabling enhanced sorting is recommended. Turning it on can ensure the correct overall order and will not impact your experience, please decide accordingly. You can disable it later at the preferences page.</string>
+    <string name="benchmark_warning">This will take a while and will evaluate the performance of MacIndex.</string>
+    <string name="benchmark_result">Benchmark has completed. This reflects the performance of the current version of MacIndex. Lower is better.</string>
+    <string name="benchmark_advice">Benchmark has completed. Based on the score, enabling enhanced sorting is not recommended. Turning it off will improve your experience. You can enable it later at the preferences page.</string>
+    <string name="benchmark_high">Benchmark has completed. Based on the score, enabling enhanced sorting is recommended. Turning it on can ensure the correct order and will not impact your experience. You can disable it later at the preferences page.</string>
     <string name="benchmark_error">Benchmark was interrupted. Please do not leave MacIndex during the process.</string>
     <string name="benchmark_interrupted">Benchmark was interrupted before its completion.</string>
     <string name="comment">Custom Comment</string>

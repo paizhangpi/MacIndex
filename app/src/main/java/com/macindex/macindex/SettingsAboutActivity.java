@@ -165,6 +165,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
                 everyMacWarningDialog.setMessage(R.string.setting_everymac_warning_content);
                 everyMacWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.editPrefs("isOpenEveryMac", true, this);
+                    // Do not arm the warning for the current session.
+                    PrefsHelper.editPrefs("isJustLunched", false, this);
                     initSettings();
                 });
                 everyMacWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> swEveryMac.setChecked(false));
