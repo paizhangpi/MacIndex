@@ -49,7 +49,7 @@
         <item>Model Numbers (Exact Match)</item>
         <item>Model Identifier (Exact Match)</item>
         <item>Gestalt ID (Exact Match)</item>
-        <item>Part Numbers (Partial Match)</item>
+        <item>Part Numbers (Exact Match)</item>
         <item>EMC Numbers (Exact Match)</item>
     </string-array>
     <string-array name="search_Tips">
@@ -60,6 +60,13 @@
         <item>Example: MA463</item>
         <item>Example: 2101</item>
     </string-array>
+    <string name="search_length_title">Length Mismatch</string>
+    <string name="search_length_name">The length allowed for name searching is less or equal to 50 characters. Please check your input.</string>
+    <string name="search_length_model">The length of model number should be exactly 5. Please check your input.</string>
+    <string name="search_length_ident">The length of model identifier should range between 5 and 14, inclusively. Please check your input.</string>
+    <string name="search_length_gestalt">The length of gestalt ID should range between 1 and 3, inclusively. Please check your input.</string>
+    <string name="search_length_order">The length of part number should range between 5 and 9, inclusively. Please check your input.</string>
+    <string name="search_length_emc">The length of EMC number should range between 4 and 6, inclusively. Please check your input.</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>

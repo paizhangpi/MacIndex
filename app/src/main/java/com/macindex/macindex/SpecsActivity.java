@@ -359,7 +359,7 @@ public class SpecsActivity extends AppCompatActivity {
             if (support.getText().equals("Obsolete")) {
                 support.setTextColor(Color.RED);
             } else if (support.getText().equals("Vintage")) {
-                support.setTextColor(Color.YELLOW);
+                support.setTextColor(Color.MAGENTA);
             } else if (support.getText().equals("Supported")) {
                 support.setTextColor(Color.GREEN);
             }

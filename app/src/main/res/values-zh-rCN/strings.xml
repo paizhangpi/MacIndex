@@ -48,7 +48,7 @@
         <item>按机型号（精确匹配）</item>
         <item>按机型标识符（精确匹配）</item>
         <item>按 Gestalt 标识符（精确匹配）</item>
-        <item>按部件号（部分匹配）</item>
+        <item>按部件号（精确匹配）</item>
         <item>按 EMC 号（精确匹配）</item>
     </string-array>
     <string-array name="search_Tips">
@@ -59,11 +59,18 @@
         <item>例：MA463</item>
         <item>例：2101</item>
     </string-array>
+    <string name="search_length_title">长度不正确</string>
+    <string name="search_length_name">名称搜索的长度不能超过 50 个字符。请检查输入或参阅帮助内容。</string>
+    <string name="search_length_model">机型号应该是 5 个字符整。请检查输入或参阅帮助内容。</string>
+    <string name="search_length_ident">机型标识符的长度应该在 5 和 14 之间。请检查输入或参阅帮助内容。</string>
+    <string name="search_length_gestalt">Gestalt 标识符的长度应该在 1 和 3 之间。请检查输入或参阅帮助内容。</string>
+    <string name="search_length_order">部件号的长度应该在 5 和 9 之间。请检查输入或参阅帮助内容。</string>
+    <string name="search_length_emc">EMC 号的长度应该在 4 到 6 之间。请检查输入或参阅帮助内容。</string>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
     <string name="search_prompt">点按回车来开始搜索</string>
-    <string name="search_illegal">无效输入（请参阅帮助内容）</string>
+    <string name="search_illegal">无效输入</string>
     <string name="search_disable_identification">Old world Macintosh 没有机型标识符或 EMC 号。请以 Gestalt 标识符代替。也请参阅帮助内容。</string>
     <string name="search_disable_gestalt">New world Macintosh 没有 Gestalt 标识符。请以机型标识符代替。也请参阅帮助内容。</string>
     <string name="menu_search">搜索</string>

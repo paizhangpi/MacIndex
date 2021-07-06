@@ -228,11 +228,11 @@ public class SearchActivity extends AppCompatActivity {
         int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
-            case 4:
                 return false;
             case 1:
             case 2:
             case 3:
+            case 4:
             case 5:
                 return true;
             default:
@@ -335,7 +335,7 @@ public class SearchActivity extends AppCompatActivity {
         loadedResults = null;
         currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
-            if (validate(searchInput, translateOptionsParam())) {
+            if (validate(searchInput, translateOptionsParam()) && lengthCheck(searchInput, translateOptionsParam())) {
                 // For order number: clip country code.
                 if (translateOptionsParam().equals("sorder") && searchInput.length() > 5) {
                     searchInput = searchInput.substring(0, 5);
@@ -358,11 +358,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private boolean validate(final String validateInput, final String method) {
-        // If the input is too long, it is not valid.
-        if (validateInput.length() > 50) {
-            Log.i("validate", "Input is too long!");
-            return false;
-        }
         // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus, dot.
         final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+.";
         // Model Number: acceptable search input Aa, Mm, 0~9.
@@ -403,14 +398,97 @@ public class SearchActivity extends AppCompatActivity {
                         "Not a Valid Search Method, This should NOT happen!!");
                 legalCharacters = "";
         }
-        boolean status = true;
+
         for (int i = 0; i < validateInput.length(); i++) {
+            // If it contains illegal character, it is not valid.
             if (!legalCharacters.contains(String.valueOf(validateInput.charAt(i)))) {
                 Log.i("validate", "Illegal Char Detected!");
-                status = false;
+                return false;
             }
         }
-        return status;
+        return true;
+    }
+
+    private boolean lengthCheck(final String validateInput, final String method) {
+        switch (method) {
+            case "sname":
+                if (validateInput.length() > 50) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_name);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            case "smodel":
+                if (validateInput.length() != 5) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_model);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            case "sident":
+                if (validateInput.length() < 5 || validateInput.length() > 14) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_ident);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            case "sgestalt":
+                if (validateInput.length() > 3) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_gestalt);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            case "sorder":
+                if (validateInput.length() < 5 || validateInput.length() > 9) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_order);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            case "semc":
+                if (validateInput.length() < 4 || validateInput.length() > 6) {
+                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+                    lengthWarningDialog.setTitle(R.string.search_length_title);
+                    lengthWarningDialog.setMessage(R.string.search_length_emc);
+                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Confirmed
+                    });
+                    lengthWarningDialog.show();
+                    return false;
+                }
+                return true;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "lengthCheck",
+                        "Not a Valid Search Method, This should NOT happen!!");
+                return false;
+        }
     }
 
     private void performSearch(final String searchInput) {
