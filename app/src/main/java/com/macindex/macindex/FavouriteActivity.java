@@ -40,6 +40,8 @@ public class FavouriteActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        MainActivity.validateOperation(this);
+
         isEmptyString(R.string.menu_favourite);
         initFavourites();
     }

@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -48,7 +49,7 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private SQLiteDatabase database = null;
+    private static SQLiteDatabase database = null;
 
     private static MachineHelper machineHelper = null;
 
@@ -71,43 +72,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        resources = getResources();
-        thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
-        thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
+        int asdsa = 0;
 
-        if (savedInstanceState == null) {
-            // Creating activity due to user
-            Log.i("MacIndex", "Welcome to MacIndex.");
+        try {
+            thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
+            thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
-            // If MainActivity Usage is set to not be saved
-            if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
-                PrefsHelper.clearPrefs("thisManufacturer", this);
-                PrefsHelper.clearPrefs("thisFilter", this);
+            if (savedInstanceState == null) {
+                // Creating activity due to user
+                Log.i("MacIndex", "Welcome to MacIndex.");
+
+                // If MainActivity Usage is set to not be saved
+                if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
+                    PrefsHelper.clearPrefs("thisManufacturer", this);
+                    PrefsHelper.clearPrefs("thisFilter", this);
+                }
+
+                // Reset Volume Warning
+                PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
+
+                // Reset EveryMacIndex Warning
+                PrefsHelper.clearPrefs("isJustLunched", this);
+
+                resources = getResources();
+                initDatabase(this);
+                initMenu();
+                initInterface(true);
+            } else {
+                // Creating activity due to system
+                Log.i("MacIndex", "Reloading the main activity.");
+
+                // Restore the saved ID list
+                final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
+                loadPositions = new int[loadPositionsCount][];
+                for (int i = 0; i < loadPositionsCount; i++) {
+                    loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
+                }
+
+                validateOperation(this);
+                initMenu();
+                initInterface(false);
             }
-
-            // Reset Volume Warning
-            PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
-
-            // Reset EveryMacIndex Warning
-            PrefsHelper.clearPrefs("isJustLunched", this);
-
-            initDatabase();
-            initMenu();
-            initInterface(true);
-        } else {
-            // Creating activity due to system
-            Log.i("MacIndex", "Reloading the main activity.");
-
-            // Restore the saved ID list
-            final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
-            loadPositions = new int[loadPositionsCount][];
-            for (int i = 0; i < loadPositionsCount; i++) {
-                loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
-            }
-
-            initDatabase();
-            initMenu();
-            initInterface(false);
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "MainCreation", "Unable to create the main activity.");
         }
     }
 
@@ -166,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.mainReloadItem:
                 closeDatabase();
-                initDatabase();
+                initDatabase(this);
                 initInterface(true);
                 break;
             case R.id.mainHelpItem:
@@ -193,14 +200,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initDatabase() {
+    private static void initDatabase(final Context context) {
         try {
-            File dbFilePath = new File(this.getApplicationInfo().dataDir + "/databases/specs.db");
-            File dbFolder = new File(this.getApplicationInfo().dataDir + "/databases");
+            File dbFilePath = new File(context.getApplicationInfo().dataDir + "/databases/specs.db");
+            File dbFolder = new File(context.getApplicationInfo().dataDir + "/databases");
             dbFilePath.delete();
             dbFolder.delete();
             dbFolder.mkdir();
-            InputStream inputStream = this.getAssets().open("specs.db");
+            InputStream inputStream = context.getAssets().open("specs.db");
             OutputStream outputStream = new FileOutputStream(dbFilePath);
             byte[] buffer = new byte[1024];
             int length;
@@ -210,15 +217,15 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
             inputStream.close();
-            DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(this);
+            DatabaseOpenHelper dbHelper = new DatabaseOpenHelper(context);
             database = dbHelper.getReadableDatabase();
 
             // Open MachineHelper
-            machineHelper = new MachineHelper(database, MainActivity.this);
+            machineHelper = new MachineHelper(database, context);
 
         } catch (Exception e) {
-            ExceptionHelper.handleException(this, e,
-                    "initDatabase", "Initialize failed!!");
+            ExceptionHelper.handleException(context, e,
+                    "initDatabaseSafe", "Initialize failed!!");
         }
     }
 
@@ -693,5 +700,15 @@ public class MainActivity extends AppCompatActivity {
 
     public static Resources getRes() {
         return resources;
+    }
+
+    // Verify if the application was killed due to system's process termination.
+    public static void validateOperation(final Context context) {
+        if (machineHelper == null || database == null || resources == null || !database.isOpen()) {
+            Log.w("MainValidate", "Process was killed. Reloading resources.");
+            resources = context.getResources();
+            initDatabase(context);
+        }
+
     }
 }

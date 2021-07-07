@@ -39,6 +39,8 @@ public class CommentActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        MainActivity.validateOperation(this);
+
         // Check whether if the string is empty on creation.
         checkEmpty(R.string.menu_comment);
         initComments();

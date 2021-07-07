@@ -21,6 +21,8 @@ public class ViewImageActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        MainActivity.validateOperation(this);
+
         try {
             final Intent intent = getIntent();
             final int machineID = intent.getIntExtra("machineID", -1);

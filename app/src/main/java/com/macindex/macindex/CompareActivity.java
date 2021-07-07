@@ -31,6 +31,8 @@ public class CompareActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        MainActivity.validateOperation(this);
+
         // Check and build the sufficient dialog.
         if (PrefsHelper.getStringPrefs("userCompares", this).split("│").length < 2) {
             final AlertDialog.Builder insufficientDialog = new AlertDialog.Builder(this);

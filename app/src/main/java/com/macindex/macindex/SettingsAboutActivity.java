@@ -38,6 +38,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        MainActivity.validateOperation(this);
         initSettings();
     }
 
