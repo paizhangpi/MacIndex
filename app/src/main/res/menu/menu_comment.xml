@@ -5,14 +5,6 @@
         android:id="@+id/deleteCommentsItem"
         android:title="@string/submenu_comments_delete" />
     <item
-        android:id="@+id/exportCommentsItem"
-        android:title="@string/submenu_comments_export"
-        android:visible="false" />
-    <item
-        android:id="@+id/importCommentsItem"
-        android:title="@string/submenu_comments_import"
-        android:visible="false" />
-    <item
         android:id="@+id/clearCommentsItem"
         android:title="@string/submenu_comments_clear" />
     <item

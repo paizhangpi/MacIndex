@@ -75,12 +75,6 @@ public class FavouriteActivity extends AppCompatActivity {
             case R.id.renameFolderItem:
                 renameFolder();
                 break;
-            case R.id.exportFolderItem:
-                // to be implemented
-                break;
-            case R.id.importFolderItem:
-                // to be implemented
-                break;
             case R.id.clearFolderItem:
                 final AlertDialog.Builder clearFoldersDialog = new AlertDialog.Builder(this);
                 clearFoldersDialog.setTitle(R.string.submenu_favourite_clear);

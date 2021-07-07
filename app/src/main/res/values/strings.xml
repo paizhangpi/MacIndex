@@ -105,16 +105,12 @@
     <string name="submenu_favourite_add">Add New Folder</string>
     <string name="submenu_favourite_delete">Manage Folders</string>
     <string name="submenu_favourite_rename">Rename Folder</string>
-    <string name="submenu_favourite_export">Export Folders</string>
-    <string name="submenu_favourite_import">Import Folders</string>
     <string name="submenu_favourite_clear">Clear All Folders</string>
     <string name="submenu_favourite_help">Favourites Page Help</string>
     <string name="submenu_compare_manage">Manage Comparison List</string>
     <string name="submenu_compare_clear">Clear Comparison List</string>
     <string name="submenu_compare_help">Comparison Page Help</string>
     <string name="submenu_comments_delete">Manage Custom Comments</string>
-    <string name="submenu_comments_export">Export Custom Comments</string>
-    <string name="submenu_comments_import">Import Custom Comments</string>
     <string name="submenu_comments_clear">Clear All Custom Comments</string>
     <string name="submenu_comments_help">Custom Comments Page Help</string>
     <string name="submenu_prefs_benchmark">Benchmark</string>
@@ -187,9 +183,6 @@
     <string name="comments_not_available_tips">No comment has been saved yet</string>
     <string name="comments_delete">Please select the custom comment(s) to delete. This cannot be undone.</string>
     <string name="comments_clear_warning">All existing custom comments will be cleared. This cannot be undone. Do you want to proceed?</string>
-    <string name="comments_export">Please select the custom comment(s) to export and copy. Don\'t modify it, and use the import option to import your custom comments.</string>
-    <string name="comments_import">Please paste the string exported by MacIndex. Don\'t modify it, or it will cause error.</string>
-    <string name="comments_import_clear">Clear all existing custom comments (This cannot be undone)</string>
     <string name="favourites_no_folder">No folder has been created yet. You can create a new folder right now, or you can create it later at the Favourites Page.</string>
     <string name="favourites_no_folder_tips">No folder has been created yet</string>
     <string name="favourites_tips">Please select the folder(s). Manage your favourites folders in the Favourites Page.</string>
@@ -203,9 +196,6 @@
     <string name="favourites_error_conflict">This name was already specified and cannot be reused</string>
     <string name="favourites_error_limit">You can only create no more than 10 folders.</string>
     <string name="favourites_clear_warning">All folders will be deleted. This cannot be undone. Do you want to proceed?</string>
-    <string name="favourites_export">Select the folder(s) to export and copy. Don\'t modify it, and use the import option to import your folders.</string>
-    <string name="favourites_import">Please paste the string exported by MacIndex. Don\'t modify it, or it will cause error.</string>
-    <string name="favourites_import_clear">Clear all existing folders (This cannot be undone)</string>
     <string name="compare_limit">(Max)</string>
     <string name="compare_insufficient">You need at least 2 machines in the comparison list to use the comparison functions. You can add a machine at any Specification Page.</string>
     <string name="compare_insufficient_tips">You need at least 2 machines in the comparison list</string>

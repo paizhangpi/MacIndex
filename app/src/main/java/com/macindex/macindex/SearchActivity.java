@@ -28,8 +28,6 @@ import java.util.Arrays;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private final MachineHelper thisMachineHelper = MainActivity.getMachineHelper();
-
     private SearchView searchText = null;
 
     private TextView textResult = null;
@@ -504,7 +502,7 @@ public class SearchActivity extends AppCompatActivity {
             new Thread() {
                 @Override
                 public void run() {
-                    final int[] positions = thisMachineHelper.searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
+                    final int[] positions = MainActivity.getMachineHelper().searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
                             SearchActivity.this, translateMatchParam());
                     runOnUiThread(new Runnable() {
                         @Override

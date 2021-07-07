@@ -30,6 +30,8 @@ public class CommentActivity extends AppCompatActivity {
 
     private int[] machineIDs;
 
+    ProgressDialog waitDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,13 @@ public class CommentActivity extends AppCompatActivity {
 
         // Check whether if the string is empty on creation.
         checkEmpty(R.string.menu_comment);
-        initComments();
+
+        if (savedInstanceState != null && savedInstanceState.getBoolean("loadComplete")) {
+            machineIDs = savedInstanceState.getIntArray("machineIDs");
+            initComments(false);
+        } else {
+            initComments(true);
+        }
     }
 
     @Override
@@ -52,8 +60,27 @@ public class CommentActivity extends AppCompatActivity {
 
         // If reload is needed..
         if (PrefsHelper.getBooleanPrefs("isCommentsReloadNeeded", this)) {
-            initComments();
+            initComments(true);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (!waitDialog.isShowing()) {
+            outState.putBoolean("loadComplete", true);
+            outState.putIntArray("machineIDs", machineIDs);
+        } else {
+            outState.putBoolean("loadComplete", false);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -69,19 +96,13 @@ public class CommentActivity extends AppCompatActivity {
             case R.id.deleteCommentsItem:
                 deleteComments();
                 break;
-            case R.id.exportCommentsItem:
-                // to be implemented
-                break;
-            case R.id.importCommentsItem:
-                // to be implemented
-                break;
             case R.id.clearCommentsItem:
                 final AlertDialog.Builder clearWarningDialog = new AlertDialog.Builder(this);
                 clearWarningDialog.setTitle(R.string.submenu_comments_clear);
                 clearWarningDialog.setMessage(R.string.comments_clear_warning);
                 clearWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs("userComments", this);
-                    initComments();
+                    initComments(true);
                 });
                 clearWarningDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
                     // Cancelled, nothing to do.
@@ -103,7 +124,7 @@ public class CommentActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initComments() {
+    private void initComments(final boolean reloadPositions) {
         try {
             // Reset reload parameter
             PrefsHelper.editPrefs("isCommentsReloadNeeded", false, this);
@@ -121,28 +142,32 @@ public class CommentActivity extends AppCompatActivity {
                 emptyLayout.setVisibility(View.GONE);
                 String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
                 machineIDs = new int[thisCommentsStrings.length];
-                ProgressDialog waitDialog = new ProgressDialog(this);
+                waitDialog = new ProgressDialog(this);
                 waitDialog.setMessage(getString(R.string.loading_comments));
                 waitDialog.setCancelable(false);
-                waitDialog.show();
+                if (reloadPositions) {
+                    waitDialog.show();
+                }
                 new Thread() {
                     @Override
                     public void run() {
                         try {
-                            // Run searches on the separate thread.
-                            for (int i = 0; i < thisCommentsStrings.length; i++) {
-                                String[] splitedThisString = thisCommentsStrings[i].split("│");
-                                int[] thisID = MainActivity.getMachineHelper().searchHelper("name", splitedThisString[0],
-                                        "all", CommentActivity.this, true);
-                                if (thisID.length != 1) {
-                                    Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
+                            if (reloadPositions) {
+                                // Run searches on the separate thread.
+                                for (int i = 0; i < thisCommentsStrings.length; i++) {
+                                    String[] splitedThisString = thisCommentsStrings[i].split("│");
+                                    int[] thisID = MainActivity.getMachineHelper().searchHelper("name", splitedThisString[0],
+                                            "all", CommentActivity.this, true);
+                                    if (thisID.length != 1) {
+                                        Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
+                                    }
+                                    machineIDs[i] = thisID[0];
                                 }
-                                machineIDs[i] = thisID[0];
-                            }
 
-                            // Is sorting needed?
-                            if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
-                                machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                                // Is sorting needed?
+                                if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
+                                    machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                                }
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -151,7 +176,9 @@ public class CommentActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    waitDialog.dismiss();
+                                    if (reloadPositions) {
+                                        waitDialog.dismiss();
+                                    }
                                     // Update the UI after the thread done.
                                     for (int i = 0; i < machineIDs.length; i++) {
                                         final View commentsChunk = getLayoutInflater().inflate(R.layout.chunk_comments, null);
@@ -271,7 +298,7 @@ public class CommentActivity extends AppCompatActivity {
                             newString = newString.substring(2);
                         }
                         PrefsHelper.editPrefs("userComments", newString, this);
-                        initComments();
+                        initComments(true);
                     } catch (Exception e) {
                         ExceptionHelper.handleException(this, e, "deleteCommentsConfirm", "Illegal comment prefs string. Please reset the application. String is: "
                                 + PrefsHelper.getStringPrefs("userComments", this));

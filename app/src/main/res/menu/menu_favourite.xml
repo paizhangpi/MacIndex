@@ -11,12 +11,6 @@
         android:id="@+id/renameFolderItem"
         android:title="@string/submenu_favourite_rename" />
     <item
-        android:id="@+id/exportFolderItem"
-        android:title="@string/submenu_favourite_export" />
-    <item
-        android:id="@+id/importFolderItem"
-        android:title="@string/submenu_favourite_import" />
-    <item
         android:id="@+id/clearFolderItem"
         android:title="@string/submenu_favourite_clear" />
     <item

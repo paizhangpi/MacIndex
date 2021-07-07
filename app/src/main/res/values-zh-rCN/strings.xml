@@ -100,16 +100,12 @@
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">管理收藏夹</string>
     <string name="submenu_favourite_rename">重命名收藏夹</string>
-    <string name="submenu_favourite_export">导出收藏夹</string>
-    <string name="submenu_favourite_import">导入收藏夹</string>
     <string name="submenu_favourite_clear">清除所有收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
     <string name="submenu_compare_manage">管理比较列表</string>
     <string name="submenu_compare_clear">清除比较列表</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
     <string name="submenu_comments_delete">管理自定义备注</string>
-    <string name="submenu_comments_export">导出自定义备注</string>
-    <string name="submenu_comments_import">导入自定义备注</string>
     <string name="submenu_comments_clear">清除所有自定义备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
     <string name="submenu_prefs_benchmark">基准测试</string>
@@ -167,9 +163,6 @@
     <string name="comments_not_available_tips">还没有保存任何自定义备注</string>
     <string name="comments_delete">请选择要删除的自定义备注。此操作不能撤销。</string>
     <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。您仍想要继续吗？</string>
-    <string name="comments_export">请选择要导出并拷贝的自定义备注。不要修改它，然后使用导入选项来导入。也请参阅帮助内容。</string>
-    <string name="comments_import">请粘贴由 MacIndex 导出的字符串。不要修改它，否则会导致错误。也请参阅帮助内容。</string>
-    <string name="comments_import_clear">清除既有的所有自定义备注（此操作不能撤销）</string>
     <string name="favourites_no_folder">还没有创建任何收藏夹。您可以立刻新建一个，或在机型收藏页中随后新建。</string>
     <string name="favourites_no_folder_tips">还没有创建任何收藏夹</string>
     <string name="favourites_tips">请选择对应的收藏夹。在机型收藏页中管理所有收藏夹。</string>
@@ -183,9 +176,6 @@
     <string name="favourites_error_conflict">该名称已被指定，且无法重用</string>
     <string name="favourites_error_limit">您只能最多创建 10 个收藏夹。</string>
     <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。您仍想要继续吗？</string>
-    <string name="favourites_export">请选择要导出并拷贝的收藏夹。不要修改它，然后使用导入选项来导入。也请参阅帮助内容。</string>
-    <string name="favourites_import">请粘贴由 MacIndex 导出的字符串。不要修改它，否则会导致错误。也请参阅帮助内容。</string>
-    <string name="favourites_import_clear">清除既有的所有收藏夹（此操作不能撤销）</string>
     <string name="compare_limit">(已满)</string>
     <string name="compare_insufficient">比较列表中至少需要两个机型才能使用比较功能。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="compare_insufficient_tips">比较列表中至少需要两个机型</string>

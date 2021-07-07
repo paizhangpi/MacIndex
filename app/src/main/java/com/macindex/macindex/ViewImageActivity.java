@@ -10,6 +10,10 @@ import android.widget.ImageView;
 
 import java.io.File;
 
+/**
+ * MacIndex View Image Activity
+ * Jul. 6, 2021
+ */
 public class ViewImageActivity extends AppCompatActivity {
 
     @Override

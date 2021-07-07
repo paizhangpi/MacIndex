@@ -67,16 +67,17 @@ public class MainActivity extends AppCompatActivity {
 
     private long mBackPressed = 0;
 
+    private ProgressDialog waitDialog = null;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        int asdsa = 0;
-
         try {
             thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
             thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
+            initMenu();
 
             if (savedInstanceState == null) {
                 // Creating activity due to user
@@ -96,22 +97,23 @@ public class MainActivity extends AppCompatActivity {
 
                 resources = getResources();
                 initDatabase(this);
-                initMenu();
                 initInterface(true);
             } else {
                 // Creating activity due to system
                 Log.i("MacIndex", "Reloading the main activity.");
 
-                // Restore the saved ID list
-                final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
-                loadPositions = new int[loadPositionsCount][];
-                for (int i = 0; i < loadPositionsCount; i++) {
-                    loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
-                }
-
                 validateOperation(this);
-                initMenu();
-                initInterface(false);
+                if (savedInstanceState.getBoolean("loadComplete")) {
+                    // Restore the saved ID list
+                    final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
+                    loadPositions = new int[loadPositionsCount][];
+                    for (int i = 0; i < loadPositionsCount; i++) {
+                        loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
+                    }
+                    initInterface(false);
+                } else {
+                    initInterface(true);
+                }
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "MainCreation", "Unable to create the main activity.");
@@ -140,17 +142,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        // Save the currently received ID list
-        outState.putInt("loadPositionsCount", loadPositions.length);
-        for (int i = 0; i < loadPositions.length; i++) {
-            outState.putIntArray("loadPositions" + i, loadPositions[i]);
+        // Is still loading?
+        if (!waitDialog.isShowing()) {
+            // Save the currently received ID list
+            outState.putBoolean("loadComplete", true);
+            outState.putInt("loadPositionsCount", loadPositions.length);
+            for (int i = 0; i < loadPositions.length; i++) {
+                outState.putIntArray("loadPositions" + i, loadPositions[i]);
+            }
+        } else {
+            outState.putBoolean("loadComplete", false);
         }
     }
 
     @Override
     protected void onDestroy() {
         closeDatabase();
+        if (waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
         super.onDestroy();
     }
 
@@ -462,7 +472,7 @@ public class MainActivity extends AppCompatActivity {
             categoryContainer.removeAllViews();
             // Get filter string and positions.
             final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
-            ProgressDialog waitDialog = new ProgressDialog(MainActivity.this);
+            waitDialog = new ProgressDialog(MainActivity.this);
             waitDialog.setMessage(getString(R.string.loading_category));
             waitDialog.setCancelable(false);
             if (reloadPositions) {
