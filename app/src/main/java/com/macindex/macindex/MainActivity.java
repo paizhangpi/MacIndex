@@ -48,9 +48,9 @@ import java.util.Random;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private SQLiteDatabase database;
+    private SQLiteDatabase database = null;
 
-    private static MachineHelper machineHelper;
+    private static MachineHelper machineHelper = null;
 
     private static Resources resources = null;
 
@@ -71,28 +71,44 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("MacIndex", "Welcome to MacIndex.");
-
         resources = getResources();
-
-        // If MainActivity Usage is set to not be saved
-        if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
-            PrefsHelper.clearPrefs("thisManufacturer", this);
-            PrefsHelper.clearPrefs("thisFilter", this);
-        }
-
-        // Reset Volume Warning
-        PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
-
-        // Reset EveryMacIndex Warning
-        PrefsHelper.clearPrefs("isJustLunched", this);
-
         thisManufacturer = PrefsHelper.getStringPrefs("thisManufacturer", this);
         thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
 
-        initDatabase();
-        initMenu();
-        initInterface();
+        if (savedInstanceState == null) {
+            // Creating activity due to user
+            Log.i("MacIndex", "Welcome to MacIndex.");
+
+            // If MainActivity Usage is set to not be saved
+            if (!(PrefsHelper.getBooleanPrefs("isSaveMainUsage", this))) {
+                PrefsHelper.clearPrefs("thisManufacturer", this);
+                PrefsHelper.clearPrefs("thisFilter", this);
+            }
+
+            // Reset Volume Warning
+            PrefsHelper.clearPrefs("isEnableVolWarningThisTime", this);
+
+            // Reset EveryMacIndex Warning
+            PrefsHelper.clearPrefs("isJustLunched", this);
+
+            initDatabase();
+            initMenu();
+            initInterface(true);
+        } else {
+            // Creating activity due to system
+            Log.i("MacIndex", "Reloading the main activity.");
+
+            // Restore the saved ID list
+            final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
+            loadPositions = new int[loadPositionsCount][];
+            for (int i = 0; i < loadPositionsCount; i++) {
+                loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
+            }
+
+            initDatabase();
+            initMenu();
+            initInterface(false);
+        }
     }
 
     @Override
@@ -103,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
             // If reload is needed..
             if (PrefsHelper.getBooleanPrefs("isReloadNeeded", this)) {
-                refresh();
+                initInterface(true);
                 PrefsHelper.editPrefs("isReloadNeeded", false, this);
             }
 
@@ -111,6 +127,17 @@ public class MainActivity extends AppCompatActivity {
             SpecsIntentHelper.refreshFavourites(machineLoadedCount, this);
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "MainOnRestart", "Unable to resume normal activity.");
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        // Save the currently received ID list
+        outState.putInt("loadPositionsCount", loadPositions.length);
+        for (int i = 0; i < loadPositions.length; i++) {
+            outState.putIntArray("loadPositions" + i, loadPositions[i]);
         }
     }
 
@@ -140,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mainReloadItem:
                 closeDatabase();
                 initDatabase();
-                refresh();
+                initInterface(true);
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
@@ -225,35 +252,35 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.group0MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "all";
                 PrefsHelper.editPrefs("thisManufacturer", "all", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 1: apple68k
             findViewById(R.id.group1MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "apple68k";
                 PrefsHelper.editPrefs("thisManufacturer", "apple68k", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 2: appleppc
             findViewById(R.id.group2MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleppc";
                 PrefsHelper.editPrefs("thisManufacturer", "appleppc", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 3: appleintel
             findViewById(R.id.group3MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "appleintel";
                 PrefsHelper.editPrefs("thisManufacturer", "appleintel", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Manufacturer 4: applearm
             findViewById(R.id.group4MenuItem).setOnClickListener(view -> {
                 thisManufacturer = "applearm";
                 PrefsHelper.editPrefs("thisManufacturer", "applearm", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
 
@@ -262,21 +289,21 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.view1MenuItem).setOnClickListener(view -> {
                 thisFilter = "names";
                 PrefsHelper.editPrefs("thisFilter", "names", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Filter 2: processors
             findViewById(R.id.view2MenuItem).setOnClickListener(view -> {
                 thisFilter = "processors";
                 PrefsHelper.editPrefs("thisFilter", "processors", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
             // Filter 3: years
             findViewById(R.id.view3MenuItem).setOnClickListener(view -> {
                 thisFilter = "years";
                 PrefsHelper.editPrefs("thisFilter", "years", this);
-                refresh();
+                initInterface(true);
                 mDrawerLayout.closeDrawers();
             });
 
@@ -416,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initInterface() {
+    private void initInterface(final boolean reloadPositions) {
         try {
             // Set Activity title.
             setTitle(getString(translateTitleRes()));
@@ -431,16 +458,23 @@ public class MainActivity extends AppCompatActivity {
             ProgressDialog waitDialog = new ProgressDialog(MainActivity.this);
             waitDialog.setMessage(getString(R.string.loading_category));
             waitDialog.setCancelable(false);
-            waitDialog.show();
+            if (reloadPositions) {
+                waitDialog.show();
+            }
             new Thread() {
                 @Override
                 public void run() {
-                    loadPositions = machineHelper.filterSearchHelper(thisFilterString, thisManufacturer, MainActivity.this);
+                    if (reloadPositions) {
+                        loadPositions = machineHelper.filterSearchHelper(thisFilterString, thisManufacturer, MainActivity.this);
+                    }
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                waitDialog.dismiss();
+                                if (reloadPositions) {
+                                    waitDialog.dismiss();
+                                }
                                 // Set up each category.
                                 machineLoadedCount = new TextView[loadPositions.length][];
                                 for (int i = 0; i < loadPositions.length; i++) {
@@ -595,12 +629,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
         }
-    }
-
-    private void refresh() {
-        Log.i("MainActivity", "Reloading");
-        machineLoadedCount = null;
-        initInterface();
     }
 
     private int translateTitleRes() {

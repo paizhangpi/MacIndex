@@ -193,13 +193,13 @@
     <string name="compare_empty">还没有添加任何机型到比较列表。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="compare_manage">请选择要从机型比较列表删除的机型。此操作不能撤销。</string>
     <string name="version_information_general">当前版本: </string>
-    <string name="version_information_releasedate">编译日期: </string>
+    <string name="version_information_releasedate">发布日期: </string>
     <string name="version_information_models">机型数量: </string>
     <string name="version_information_check">检查更新</string>
     <string name="version_information_history">更新历史</string>
-    <string name="about_website">官方网站</string>
-    <string name="about_important">重要信息</string>
-    <string name="about_update">更新历史</string>
+    <string name="about_website">软件简介</string>
+    <string name="about_important">版权与许可</string>
+    <string name="about_update">发行说明</string>
     <string name="about_questions">常见问题</string>
     <string name="about_feedback">问题反馈</string>
     <string name="viewimage_rotate">旋转设备来改变图片方向</string>

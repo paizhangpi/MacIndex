@@ -102,6 +102,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/about_feedback" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <ImageView
+                android:id="@+id/paizhangLogo"
+                android:layout_width="match_parent"
+                android:layout_height="30pt"
+                app:srcCompat="@drawable/logorev2" />
+
         </LinearLayout>
     </ScrollView>
 

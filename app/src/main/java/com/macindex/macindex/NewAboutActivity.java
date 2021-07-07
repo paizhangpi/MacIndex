@@ -50,6 +50,9 @@ public class NewAboutActivity extends AppCompatActivity {
             LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback",
                     "https://macindex.paizhang.info/feedback-and-evaluation", this);
         });
+        findViewById(R.id.paizhangLogo).setOnClickListener(v -> {
+            LinkLoadingHelper.startBrowser(null, "https://paizhang.info/", this);
+        });
     }
 
     @Override
