@@ -134,10 +134,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         try {
-            setTitle(getString(translateTitleRes()));
-
             // If reload is needed..
             if (PrefsHelper.getBooleanPrefs("isReloadNeeded", this)) {
+                setTitle(getString(translateTitleRes()));
                 initInterface(true);
                 PrefsHelper.editPrefs("isReloadNeeded", false, this);
             }
@@ -195,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.mainReloadItem:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 closeDatabase();
                 initDatabase(this);
                 initInterface(true);
