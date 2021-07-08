@@ -108,7 +108,7 @@
 
             <ImageView
                 android:id="@+id/cs125Logo"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="20pt"
                 app:srcCompat="@drawable/cs125" />
 
@@ -118,7 +118,7 @@
 
             <ImageView
                 android:id="@+id/paizhangLogo"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="30pt"
                 app:srcCompat="@drawable/logorev2" />
 

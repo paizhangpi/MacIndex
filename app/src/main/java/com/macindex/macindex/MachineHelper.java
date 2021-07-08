@@ -1043,7 +1043,6 @@ class MachineHelper {
                 if (thisRawResult != null) {
                     resultTotalCount += thisRawResult.length;
                 }
-                Log.i("MHSearchHelper", "Get " + resultTotalCount + " result(s).");
             }
             int[] finalPositions = new int[resultTotalCount];
             int previousCount = 0;
@@ -1053,6 +1052,7 @@ class MachineHelper {
                     previousCount++;
                 }
             }
+            Log.i("MHSearchHelper", "Raw Matched: " + finalPositions.length + " result(s).");
 
             // Verify Exact Match if required.
             if (isExactMatch) {
@@ -1074,6 +1074,8 @@ class MachineHelper {
                     finalPositions[i] = verifiedPositions.get(i);
                 }
             }
+            Log.i("MHSearchHelper", "Exact Match is " + isExactMatch + ".");
+            Log.i("MHSearchHelper", "Exact Matched: " + finalPositions.length + " result(s).");
 
             // Sort if required.
             if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext) && resultTotalCount > 1) {
@@ -1089,6 +1091,8 @@ class MachineHelper {
                     }
                 }
             }
+            Log.i("MHSearchHelper", "Sorting is " + PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext) + ".");
+            Log.i("MHSearchHelper", "Returning " + finalPositions.length + " result(s).");
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHSearchHelper", "Exception Occurred, returning empty array");
@@ -1144,6 +1148,7 @@ class MachineHelper {
     // Sorting used by ver. 4.9
     public int[] directSortByYear(final int[] input) {
         try {
+            Log.i("MHDirectSort", "Starting Direct Sorting.");
             for (int i = 0; i < input.length; i++) {
                 for (int j = i; j > 0; j--) {
                     if (getYearForSorting("", "", input[j])

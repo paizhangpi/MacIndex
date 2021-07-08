@@ -89,6 +89,9 @@ public class SearchActivity extends AppCompatActivity {
         initSpinners();
         initSearch();
 
+        // Init Search Prompt at Here!!
+        textResult.setText(R.string.search_prompt);
+
         if (savedInstanceState != null) {
             // Patch; see above
             filterSpinnerCallingPatch++;
@@ -296,11 +299,11 @@ public class SearchActivity extends AppCompatActivity {
         int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
+            case 2:
+            case 4:
                 return false;
             case 1:
-            case 2:
             case 3:
-            case 4:
             case 5:
                 return true;
             default:
@@ -504,7 +507,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
                 return true;
             case "sident":
-                if (validateInput.length() < 5 || validateInput.length() > 14) {
+                if (validateInput.length() < 4 || validateInput.length() > 14) {
                     final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
                     lengthWarningDialog.setTitle(R.string.search_length_title);
                     lengthWarningDialog.setMessage(R.string.search_length_ident);
