@@ -107,6 +107,16 @@
                 android:layout_height="20dp" />
 
             <ImageView
+                android:id="@+id/cs125Logo"
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                app:srcCompat="@drawable/cs125" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <ImageView
                 android:id="@+id/paizhangLogo"
                 android:layout_width="match_parent"
                 android:layout_height="30pt"

@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     initInterface(true);
                 }
+
+                // Finally, restore drawer.
+                if (savedInstanceState.getBoolean("drawerOpen")) {
+                    resetDrawerTitle();
+                    resetDrawerSelection();
+                }
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "MainCreation", "Unable to create the main activity.");
@@ -157,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             outState.putBoolean("loadComplete", false);
         }
+
+        // Is drawer opened?
+        outState.putBoolean("drawerOpen", mDrawerLayout.isDrawerOpen(GravityCompat.START));
     }
 
     @Override
@@ -374,12 +383,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerOpened(@NonNull final View drawerView) {
-                    // Set if it is in EveryMac mode.
-                    if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
-                        setTitle(getString(R.string.app_name_everymac));
-                    } else {
-                        setTitle(R.string.app_name);
-                    }
+                    resetDrawerTitle();
                 }
 
                 @Override
@@ -389,66 +393,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onDrawerStateChanged(final int newState) {
-                    // Manufacturer Menu
-                    final LinearLayout manufacturerLayout = findViewById(R.id.groupLayout);
-                    for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
-                        if (manufacturerLayout.getChildAt(i) instanceof TextView) {
-                            final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
-                            if (currentChild == findViewById(translateManufacturerMenuRes())) {
-                                currentChild.setEnabled(false);
-                                currentChild.setTextColor(Color.WHITE);
-                                currentChild.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24_white, 0);
-
-                            } else {
-                                currentChild.setEnabled(true);
-                                currentChild.setTextColor(getResources().getColor(R.color.colorDefaultText));
-                                currentChild.setBackgroundColor(Color.WHITE);
-                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-                            }
-                        }
-                    }
-
-                    // Filter Menu
-                    final LinearLayout filterLayout = findViewById(R.id.viewLayout);
-                    for (int i = 1; i < filterLayout.getChildCount(); i++) {
-                        if (filterLayout.getChildAt(i) instanceof TextView) {
-                            final TextView currentChild = (TextView) filterLayout.getChildAt(i);
-                            if (currentChild == findViewById(translateFilterMenuRes())) {
-                                currentChild.setEnabled(false);
-                                currentChild.setTextColor(Color.WHITE);
-                                currentChild.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24_white, 0);
-                            } else {
-                                currentChild.setEnabled(true);
-                                currentChild.setTextColor(getResources().getColor(R.color.colorDefaultText));
-                                currentChild.setBackgroundColor(Color.WHITE);
-                                currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-                            }
-                        }
-                    }
-
-                    // If EveryMac enabled, random should be disabled
-                    if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
-                        findViewById(R.id.randomMenuItem).setEnabled(false);
-                        findViewById(R.id.favouriteMenuItem).setEnabled(false);
-                        findViewById(R.id.compareMenuItem).setEnabled(false);
-                        findViewById(R.id.commentMenuItem).setEnabled(false);
-                    } else {
-                        findViewById(R.id.randomMenuItem).setEnabled(true);
-                        findViewById(R.id.favouriteMenuItem).setEnabled(true);
-                        findViewById(R.id.compareMenuItem).setEnabled(true);
-                        findViewById(R.id.commentMenuItem).setEnabled(true);
-                    }
-
-                    // If limit range enabled, a message should append
-                    if (PrefsHelper.getBooleanPrefs("isRandomAll", MainActivity.this)) {
-                        ((TextView) findViewById(R.id.randomMenuItem))
-                                .setText(getString(R.string.menu_random) + getString(R.string.menu_random_limited));
-                    } else {
-                        ((TextView) findViewById(R.id.randomMenuItem))
-                                .setText(getString(R.string.menu_random));
-                    }
+                    resetDrawerSelection();
                 }
             });
 
@@ -461,6 +406,78 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e,
                     "initMenu", "Initialize failed!!");
+        }
+    }
+
+    private void resetDrawerTitle() {
+        // Set if it is in EveryMac mode.
+        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
+            setTitle(getString(R.string.app_name_everymac));
+        } else {
+            setTitle(R.string.app_name);
+        }
+    }
+
+    private void resetDrawerSelection() {
+        // Manufacturer Menu
+        final LinearLayout manufacturerLayout = findViewById(R.id.groupLayout);
+        for (int i = 1; i < manufacturerLayout.getChildCount(); i++) {
+            if (manufacturerLayout.getChildAt(i) instanceof TextView) {
+                final TextView currentChild = (TextView) manufacturerLayout.getChildAt(i);
+                if (currentChild == findViewById(translateManufacturerMenuRes())) {
+                    currentChild.setEnabled(false);
+                    currentChild.setTextColor(Color.WHITE);
+                    currentChild.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24_white, 0);
+
+                } else {
+                    currentChild.setEnabled(true);
+                    currentChild.setTextColor(getResources().getColor(R.color.colorDefaultText));
+                    currentChild.setBackgroundColor(Color.WHITE);
+                    currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                }
+            }
+        }
+
+        // Filter Menu
+        final LinearLayout filterLayout = findViewById(R.id.viewLayout);
+        for (int i = 1; i < filterLayout.getChildCount(); i++) {
+            if (filterLayout.getChildAt(i) instanceof TextView) {
+                final TextView currentChild = (TextView) filterLayout.getChildAt(i);
+                if (currentChild == findViewById(translateFilterMenuRes())) {
+                    currentChild.setEnabled(false);
+                    currentChild.setTextColor(Color.WHITE);
+                    currentChild.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_check_24_white, 0);
+                } else {
+                    currentChild.setEnabled(true);
+                    currentChild.setTextColor(getResources().getColor(R.color.colorDefaultText));
+                    currentChild.setBackgroundColor(Color.WHITE);
+                    currentChild.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+                }
+            }
+        }
+
+        // If EveryMac enabled, random should be disabled
+        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", MainActivity.this)) {
+            findViewById(R.id.randomMenuItem).setEnabled(false);
+            findViewById(R.id.favouriteMenuItem).setEnabled(false);
+            findViewById(R.id.compareMenuItem).setEnabled(false);
+            findViewById(R.id.commentMenuItem).setEnabled(false);
+        } else {
+            findViewById(R.id.randomMenuItem).setEnabled(true);
+            findViewById(R.id.favouriteMenuItem).setEnabled(true);
+            findViewById(R.id.compareMenuItem).setEnabled(true);
+            findViewById(R.id.commentMenuItem).setEnabled(true);
+        }
+
+        // If limit range enabled, a message should append
+        if (PrefsHelper.getBooleanPrefs("isRandomAll", MainActivity.this)) {
+            ((TextView) findViewById(R.id.randomMenuItem))
+                    .setText(getString(R.string.menu_random) + getString(R.string.menu_random_limited));
+        } else {
+            ((TextView) findViewById(R.id.randomMenuItem))
+                    .setText(getString(R.string.menu_random));
         }
     }
 

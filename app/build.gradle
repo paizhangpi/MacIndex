@@ -8,7 +8,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 23
-        versionName "4.7.7"
+        versionName "4.8b0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "long", "TIMESTAMP", System.currentTimeMillis() + "L"
     }
