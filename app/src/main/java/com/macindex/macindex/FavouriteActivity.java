@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,8 @@ public class FavouriteActivity extends AppCompatActivity {
 
     private int[][] loadPositions = {};
 
+    private ProgressDialog waitDialog = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +45,23 @@ public class FavouriteActivity extends AppCompatActivity {
 
         MainActivity.validateOperation(this);
 
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setMessage(getString(R.string.loading_favourites));
+        waitDialog.setCancelable(false);
+
         isEmptyString(R.string.menu_favourite);
-        initFavourites();
+
+        if (savedInstanceState != null && savedInstanceState.getBoolean("loadComplete")) {
+            // Restore the saved ID list
+            final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
+            loadPositions = new int[loadPositionsCount][];
+            for (int i = 0; i < loadPositionsCount; i++) {
+                loadPositions[i] = savedInstanceState.getIntArray("loadPositions" + i);
+            }
+            initFavourites(false);
+        } else {
+            initFavourites(true);
+        }
     }
 
     @Override
@@ -52,7 +70,33 @@ public class FavouriteActivity extends AppCompatActivity {
 
         // If reload is needed..
         if (PrefsHelper.getBooleanPrefs("isFavouritesReloadNeeded", this)) {
-            initFavourites();
+            initFavourites(true);
+        }
+    }
+
+    // Adapted from MainActivity
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState);
+        // Is still loading?
+        if (!waitDialog.isShowing()) {
+            // Save the currently received ID list
+            outState.putBoolean("loadComplete", true);
+            outState.putInt("loadPositionsCount", loadPositions.length);
+            for (int i = 0; i < loadPositions.length; i++) {
+                outState.putIntArray("loadPositions" + i, loadPositions[i]);
+            }
+        } else {
+            outState.putBoolean("loadComplete", false);
+        }
+    }
+
+    // Adapted from MainActivity
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (waitDialog.isShowing()) {
+            waitDialog.dismiss();
         }
     }
 
@@ -81,7 +125,7 @@ public class FavouriteActivity extends AppCompatActivity {
                 clearFoldersDialog.setMessage(R.string.favourites_clear_warning);
                 clearFoldersDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                     PrefsHelper.clearPrefs("userFavourites", this);
-                    initFavourites();
+                    initFavourites(true);
                 });
                 clearFoldersDialog.setNegativeButton(R.string.link_cancel, ((dialogInterface, i) -> {
                     // Cancelled.
@@ -103,7 +147,7 @@ public class FavouriteActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initFavourites() {
+    private void initFavourites(final boolean reloadPositions) {
         // Reset reload parameter
         PrefsHelper.editPrefs("isFavouritesReloadNeeded", false, this);
         Log.i("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
@@ -134,30 +178,31 @@ public class FavouriteActivity extends AppCompatActivity {
                 emptyLayout.setVisibility(View.GONE);
             }
 
-            ProgressDialog waitDialog = new ProgressDialog(this);
-            waitDialog.setMessage(getString(R.string.loading_favourites));
-            waitDialog.setCancelable(false);
-            waitDialog.show();
+            if (reloadPositions) {
+                waitDialog.show();
+            }
             new Thread() {
                 @Override
                 public void run() {
                     try {
-                        // Get Load Positions
-                        loadPositions = new int[allFolders.length][];
-                        for (int i = 0; i < allFolders.length; i++) {
-                            final String[] thisFolder = splitedString[i + 1].split("│");
-                            loadPositions[i] = new int[thisFolder.length - 1];
-                            for (int j = 0; j < thisFolder.length - 1; j++) {
-                                 final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
-                                        "all", FavouriteActivity.this, true);
-                                if (thisID.length != 1) {
-                                    Log.e("FavouritesSearchThread", "Error occurred on search string " + thisFolder[j + 1]);
+                        if (reloadPositions) {
+                            // Get Load Positions
+                            loadPositions = new int[allFolders.length][];
+                            for (int i = 0; i < allFolders.length; i++) {
+                                final String[] thisFolder = splitedString[i + 1].split("│");
+                                loadPositions[i] = new int[thisFolder.length - 1];
+                                for (int j = 0; j < thisFolder.length - 1; j++) {
+                                    final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
+                                            "all", FavouriteActivity.this, true);
+                                    if (thisID.length != 1) {
+                                        Log.e("FavouritesSearchThread", "Error occurred on search string " + thisFolder[j + 1]);
+                                    }
+                                    loadPositions[i][j] = thisID[0];
                                 }
-                                loadPositions[i][j] = thisID[0];
-                            }
-                            // Is sorting needed?
-                            if (PrefsHelper.getBooleanPrefs("isSortComment", FavouriteActivity.this)) {
-                                loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i]);
+                                // Is sorting needed?
+                                if (PrefsHelper.getBooleanPrefs("isSortComment", FavouriteActivity.this)) {
+                                    loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i]);
+                                }
                             }
                         }
 
@@ -165,7 +210,9 @@ public class FavouriteActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    waitDialog.dismiss();
+                                    if (reloadPositions) {
+                                        waitDialog.dismiss();
+                                    }
                                     // Set up each category.
                                     TextView[][] allMachines = new TextView[loadPositions.length][];
                                     for (int i = 0; i < loadPositions.length; i++) {
@@ -379,7 +426,7 @@ public class FavouriteActivity extends AppCompatActivity {
                         PrefsHelper.editPrefs("userFavourites", "││{"
                                 + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
                         newFolderDialogCreated.dismiss();
-                        initFavourites();
+                        initFavourites(true);
                     }
                 } catch (Exception e) {
                     ExceptionHelper.handleException(FavouriteActivity.this, e, "newFolderDialog", "Illegal Favourites String. Please reset the application. String is: "
@@ -424,7 +471,7 @@ public class FavouriteActivity extends AppCompatActivity {
                             }
                         }
                         PrefsHelper.editPrefs("userFavourites", newString, this);
-                        initFavourites();
+                        initFavourites(true);
                     } catch (Exception e) {
                         ExceptionHelper.handleException(this, e, "deleteFolderConfirm", "Illegal Favourites String. Please reset the application. String is: "
                                 + PrefsHelper.getStringPrefs("userFavourites", this));
@@ -494,7 +541,7 @@ public class FavouriteActivity extends AppCompatActivity {
                                             PrefsHelper.editPrefs("userFavourites",
                                                     PrefsHelper.getStringPrefs("userFavourites", this)
                                                             .replace("{" + allFolders[folderOptions.getCheckedRadioButtonId()] + "}", "{" + inputtedName + "}"), this);
-                                            initFavourites();
+                                            initFavourites(true);
                                             newFolderDialogCreated.dismiss();
                                         }
                                     } catch (Exception e) {

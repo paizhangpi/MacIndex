@@ -30,7 +30,7 @@ public class CommentActivity extends AppCompatActivity {
 
     private int[] machineIDs;
 
-    ProgressDialog waitDialog = null;
+    private ProgressDialog waitDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,10 @@ public class CommentActivity extends AppCompatActivity {
         }
 
         MainActivity.validateOperation(this);
+
+        waitDialog = new ProgressDialog(this);
+        waitDialog.setMessage(getString(R.string.loading_comments));
+        waitDialog.setCancelable(false);
 
         // Check whether if the string is empty on creation.
         checkEmpty(R.string.menu_comment);
@@ -142,9 +146,6 @@ public class CommentActivity extends AppCompatActivity {
                 emptyLayout.setVisibility(View.GONE);
                 String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
                 machineIDs = new int[thisCommentsStrings.length];
-                waitDialog = new ProgressDialog(this);
-                waitDialog.setMessage(getString(R.string.loading_comments));
-                waitDialog.setCancelable(false);
                 if (reloadPositions) {
                     waitDialog.show();
                 }

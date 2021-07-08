@@ -40,6 +40,21 @@ public class SearchActivity extends AppCompatActivity {
 
     private TextView[][] loadedResults = null;
 
+    private int[] positions = null;
+
+    private ProgressDialog waitDialog = null;
+
+    /**
+     * setOnItemSelectedListener() was called by system weirdly
+     * filtersSpinner called once if no savedInstanceState was saved, twice if restored from a savedInstanceState
+     * optionsSpinner called once all the time
+     * They are called outside the onCreate, I don't know what happened
+     * Below are patches for the weird system call
+     */
+    private int filterSpinnerCallingPatch = 1;
+
+    private int optionsSpinnerCallingPatch = 1;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,14 +62,13 @@ public class SearchActivity extends AppCompatActivity {
 
         MainActivity.validateOperation(this);
 
+        // Set the dialog AT HERE; its structure is different from other activities
+        waitDialog = new ProgressDialog(SearchActivity.this);
+        waitDialog.setMessage(getString(R.string.loading_search));
+        waitDialog.setCancelable(false);
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        // If SearchActivity Usage is set to not be saved
-        if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
-            PrefsHelper.clearPrefs("searchFiltersSpinner", this);
-            PrefsHelper.clearPrefs("searchOptionsSpinner", this);
         }
 
         this.setTitle(R.string.menu_search);
@@ -66,8 +80,26 @@ public class SearchActivity extends AppCompatActivity {
         filtersSpinner = findViewById(R.id.filtersSpinner);
         optionsSpinner = findViewById(R.id.optionsSpinner);
 
+        // If SearchActivity Usage is set to not be saved
+        if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
+            PrefsHelper.clearPrefs("searchFiltersSpinner", this);
+            PrefsHelper.clearPrefs("searchOptionsSpinner", this);
+        }
+
         initSpinners();
         initSearch();
+
+        if (savedInstanceState != null) {
+            // Patch; see above
+            filterSpinnerCallingPatch++;
+            searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
+            if (savedInstanceState.getBoolean("loadComplete")) {
+                positions = savedInstanceState.getIntArray("positions");
+                performSearch(null, false);
+            } else {
+                performSearch(savedInstanceState.getCharSequence("searchInput").toString(), true);
+            }
+        }
 
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
                 + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
@@ -98,6 +130,27 @@ public class SearchActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         SpecsIntentHelper.refreshFavourites(loadedResults, this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (!waitDialog.isShowing()) {
+            outState.putBoolean("loadComplete", true);
+            outState.putIntArray("positions", positions);
+            outState.putCharSequence("searchInput", searchText.getQuery());
+        } else {
+            outState.putBoolean("loadComplete", false);
+            outState.putCharSequence("searchInput", searchText.getQuery());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (waitDialog.isShowing()) {
+            waitDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -150,9 +203,15 @@ public class SearchActivity extends AppCompatActivity {
             filtersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
-                    disableCheck();
-                    clearResults();
+                    Log.w("ReloadSpinnerCallDebug", "Filter Patch " + filterSpinnerCallingPatch);
+                    if (filterSpinnerCallingPatch <= 0) {
+                        Log.w("ReloadSpinnerCallDebug", "Filter Executed");
+                        PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
+                        disableCheck();
+                        clearResults();
+                    } else {
+                        filterSpinnerCallingPatch--;
+                    }
                 }
 
                 @Override
@@ -164,10 +223,19 @@ public class SearchActivity extends AppCompatActivity {
             optionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    PrefsHelper.editPrefs("searchOptionsSpinner", i, SearchActivity.this);
-                    searchText.setQuery("", true);
-                    searchText.clearFocus();
-                    changeTips();
+                    Log.w("ReloadSpinnerCallDebug", "Options Patch " + optionsSpinnerCallingPatch);
+                    if (optionsSpinnerCallingPatch <= 0) {
+                        Log.w("ReloadSpinnerCallDebug", "Options Executed");
+                        PrefsHelper.editPrefs("searchOptionsSpinner", i, SearchActivity.this);
+                        searchText.setQuery("", true);
+                        searchText.clearFocus();
+                        changeTips();
+                    } else {
+                        if (searchText.getQuery().toString().equals("")) {
+                            changeTips();
+                        }
+                        optionsSpinnerCallingPatch--;
+                    }
                 }
 
                 @Override
@@ -341,7 +409,7 @@ public class SearchActivity extends AppCompatActivity {
                     searchInput = searchInput.substring(0, 5);
                 }
 
-                performSearch(searchInput);
+                performSearch(searchInput, true);
                 return true;
             } else {
                 // Illegal input
@@ -491,37 +559,43 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private void performSearch(final String searchInput) {
+    private void performSearch(final String searchInput, final boolean reloadPositions) {
         try {
             Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
-                    + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
-            ProgressDialog waitDialog = new ProgressDialog(SearchActivity.this);
-            waitDialog.setMessage(getString(R.string.loading_search));
-            waitDialog.setCancelable(false);
-            waitDialog.show();
+                    + translateFiltersParam() + ", Current Option: " + translateOptionsParam() + ", Reload Flag: " + reloadPositions);
+            if (reloadPositions) {
+                waitDialog.show();
+            }
             new Thread() {
                 @Override
                 public void run() {
-                    final int[] positions = MainActivity.getMachineHelper().searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
-                            SearchActivity.this, translateMatchParam());
+                    if (reloadPositions) {
+                        positions = MainActivity.getMachineHelper().searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
+                                SearchActivity.this, translateMatchParam());
+                    }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                waitDialog.dismiss();
-                                final int resultCount = positions.length;
-                                textResult.setVisibility(View.VISIBLE);
-                                if (positions.length == 0) {
-                                    textResult.setText(R.string.search_noResult);
-                                    textResult.setTextColor(getColor(R.color.colorDefaultText));
-                                } else {
-                                    textResult.setText(getString(R.string.search_found) + resultCount + getString(R.string.search_results));
-                                    textResult.setTextColor(getColor(R.color.colorDefaultText));
+                                if (reloadPositions) {
+                                    waitDialog.dismiss();
                                 }
-                                loadedResults = new TextView[1][positions.length];
-                                loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
-                                        true, SearchActivity.this);
-                                SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
+                                // NullSafe
+                                if (positions != null) {
+                                    Log.i("performSearchLoad", "Position Length: "
+                                            + positions.length + ", Reload Flag: " + reloadPositions);
+                                    if (positions.length == 0) {
+                                        textResult.setText(R.string.search_noResult);
+                                        textResult.setTextColor(getColor(R.color.colorDefaultText));
+                                    } else {
+                                        textResult.setText(getString(R.string.search_found) + positions.length + getString(R.string.search_results));
+                                        textResult.setTextColor(getColor(R.color.colorDefaultText));
+                                    }
+                                    loadedResults = new TextView[1][positions.length];
+                                    loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
+                                            true, SearchActivity.this);
+                                    SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
+                                }
                             } catch (final Exception e) {
                                 ExceptionHelper.handleException(SearchActivity.this, e, null, null);
                             }

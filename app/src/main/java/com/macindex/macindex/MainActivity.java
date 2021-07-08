@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
             thisFilter = PrefsHelper.getStringPrefs("thisFilter", this);
             initMenu();
 
+            waitDialog = new ProgressDialog(MainActivity.this);
+            waitDialog.setMessage(getString(R.string.loading_category));
+            waitDialog.setCancelable(false);
+
             if (savedInstanceState == null) {
                 // Creating activity due to user
                 Log.i("MacIndex", "Welcome to MacIndex.");
@@ -472,9 +476,7 @@ public class MainActivity extends AppCompatActivity {
             categoryContainer.removeAllViews();
             // Get filter string and positions.
             final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
-            waitDialog = new ProgressDialog(MainActivity.this);
-            waitDialog.setMessage(getString(R.string.loading_category));
-            waitDialog.setCancelable(false);
+
             if (reloadPositions) {
                 waitDialog.show();
             }
