@@ -49,8 +49,6 @@ public class FavouriteActivity extends AppCompatActivity {
         waitDialog.setMessage(getString(R.string.loading_favourites));
         waitDialog.setCancelable(false);
 
-        isEmptyString(R.string.menu_favourite);
-
         if (savedInstanceState != null && savedInstanceState.getBoolean("loadComplete")) {
             // Restore the saved ID list
             final int loadPositionsCount = savedInstanceState.getInt("loadPositionsCount");
@@ -60,6 +58,7 @@ public class FavouriteActivity extends AppCompatActivity {
             }
             initFavourites(false);
         } else {
+            isEmptyString(R.string.menu_favourite);
             initFavourites(true);
         }
     }
@@ -76,7 +75,7 @@ public class FavouriteActivity extends AppCompatActivity {
 
     // Adapted from MainActivity
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         // Is still loading?
         if (!waitDialog.isShowing()) {
@@ -151,6 +150,7 @@ public class FavouriteActivity extends AppCompatActivity {
         // Reset reload parameter
         PrefsHelper.editPrefs("isFavouritesReloadNeeded", false, this);
         Log.i("initFavourites", PrefsHelper.getStringPrefs("userFavourites", FavouriteActivity.this));
+        Log.i("initFavouritesReload", String.valueOf(reloadPositions));
 
         // Adapt initInterface from MainActivity
         try {

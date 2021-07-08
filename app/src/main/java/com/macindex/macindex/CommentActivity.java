@@ -47,13 +47,12 @@ public class CommentActivity extends AppCompatActivity {
         waitDialog.setMessage(getString(R.string.loading_comments));
         waitDialog.setCancelable(false);
 
-        // Check whether if the string is empty on creation.
-        checkEmpty(R.string.menu_comment);
-
         if (savedInstanceState != null && savedInstanceState.getBoolean("loadComplete")) {
             machineIDs = savedInstanceState.getIntArray("machineIDs");
             initComments(false);
         } else {
+            // Check whether if the string is empty on creation.
+            checkEmpty(R.string.menu_comment);
             initComments(true);
         }
     }

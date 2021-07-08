@@ -145,7 +145,7 @@
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="link_only_available">很抱歉，但这个页面只有英文版本。您仍想要继续吗？</string>
     <string name="error">很抱歉，出现错误</string>
-    <string name="error_information">MacIndex 将会关闭。请向开发者报告这个 Bug。也请参阅「常见问题」来获得更多信息。</string>
+    <string name="error_information">可尝试重启应用或重新装载数据库。请向开发者报告这个 Bug。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
     <string name="error_dismiss">关闭</string>
