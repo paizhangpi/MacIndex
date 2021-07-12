@@ -1,8 +1,11 @@
 package com.macindex.macindex;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -178,9 +181,19 @@ class PrefsHelper {
             prefsFile.edit().clear().commit();
             Log.w("Preference Helper", "Preference file cleared");
             Toast.makeText(thisContext, R.string.setting_defaults_cleared, Toast.LENGTH_LONG).show();
-            System.exit(0);
+            triggerRebirth(thisContext);
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to clear preference");
         }
+    }
+
+    // https://stackoverflow.com/questions/6609414/how-do-i-programmatically-restart-an-android-app
+    public static void triggerRebirth(final Context thisContext) {
+        PackageManager packageManager = thisContext.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(thisContext.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        thisContext.startActivity(mainIntent);
+        System.exit(0);
     }
 }

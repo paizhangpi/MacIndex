@@ -11,9 +11,9 @@
     <string name="information_first_lunch">Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
     <string name="information_double_press">Press the back button again to exit MacIndex</string>
     <string name="information_set_everymac">Open Directly in EveryMac is enabled. MacIndex will open the EveryMac Page of the machine directly instead of the Specification Page. If you want to disable this function, please access the Preferences Page.</string>
-    <string name="setting_sort">Enhanced Sorting (Overall Categories/Search)</string>
+    <string name="setting_sort">Enhanced Sorting (Main/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This affects Main and Search Pages.</string>
-    <string name="setting_sort_comment">Enhanced Sorting (Comments)</string>
+    <string name="setting_sort_comment">Enhanced Sorting (Favourites/Comments)</string>
     <string name="setting_sort_comment_description">Sort by time or sort by the order of addition. Turn off can make the loading faster. This affects Favourites and Custom Comments Page.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
     <string name="setting_everymac_description">Open the EveryMac Page of the machine directly instead of the Specification Page. Will ask for specific configuration if the machine has more than one configurations.</string>
@@ -96,7 +96,7 @@
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_main_reload">Reload Database</string>
     <string name="submenu_specs_share">Share This Model</string>
-    <string name="submenu_specs_favourite">Add to Favourite</string>
+    <string name="submenu_specs_favourite">Add/Remove Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
     <string name="submenu_specs_comment">Edit Custom Comment</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
@@ -207,9 +207,10 @@
     <string name="version_information_models">Available Models: </string>
     <string name="version_information_check">Check update</string>
     <string name="version_information_history">Version history</string>
-    <string name="about_information" translatable="false">Open source software by paizhang, Victor Jiao, Mation Wang, 2019-2021.\n\nFinal Project of CS 125 Fall 2019 and CS 199 Spring 2020 at the University of Illinois, Urbana-Champaign.</string>
+    <string name="about_information" translatable="false">Copyright 2019-2021, paizhang, Victor Jiao, Mation Wang.</string>
     <string name="about_website">Introduction</string>
     <string name="about_important">Copyrights and Licenses</string>
+    <string name="about_opensource">Open Source Licenses</string>
     <string name="about_update">Release Notes</string>
     <string name="about_questions">Frequently Asked Questions</string>
     <string name="about_feedback">Feedback</string>

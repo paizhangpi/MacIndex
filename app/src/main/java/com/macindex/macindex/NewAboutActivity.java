@@ -2,9 +2,12 @@ package com.macindex.macindex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.widget.TextView;
+
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -42,6 +45,9 @@ public class NewAboutActivity extends AppCompatActivity {
             findViewById(R.id.importantButton).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information",
                         "https://macindex.paizhang.info/important-information", this);
+            });
+            findViewById(R.id.openSourceButton).setOnClickListener(v -> {
+                startActivity(new Intent(this, OssLicensesMenuActivity.class));
             });
             findViewById(R.id.updateButton).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
