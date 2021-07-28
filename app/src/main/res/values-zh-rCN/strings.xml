@@ -35,6 +35,11 @@
     <string name="setting_save_compare_description">保存上次选中的机型和比较栏位。</string>
     <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括偏好设置和所有使用记录等。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
+    <string name="setting_category_general">通用与性能</string>
+    <string name="setting_category_privacy">隐私</string>
+    <string name="setting_category_main">主页面</string>
+    <string name="setting_category_specs">参数页</string>
+    <string name="search_category_page">搜索页</string>
     <string name="search_searchBy">搜索方式</string>
     <string-array name="search_Filters">
         <item>所有分组</item>
@@ -144,10 +149,11 @@
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="link_only_available">很抱歉，但这个页面只有英文版本。您仍想要继续吗？</string>
-    <string name="error">很抱歉，出现错误</string>
-    <string name="error_information">可尝试重启应用或重新装载数据库。请向开发者报告这个 Bug。也请参阅「常见问题」来获得更多信息。</string>
+    <string name="error">错误</string>
+    <string name="error_information">请向开发者报告这个 Bug。建议您重新启动应用程序。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
+    <string name="error_restart">重新启动</string>
     <string name="error_dismiss">关闭</string>
     <string name="first_one">已是第一台</string>
     <string name="last_one">已是最后一台</string>
@@ -187,6 +193,7 @@
     <string name="version_information_models">机型数量: </string>
     <string name="version_information_check">检查更新</string>
     <string name="version_information_history">更新历史</string>
+    <string name="about_information">版权所有 2019-2021，paizhang，Victor Jiao，Mation Wang</string>
     <string name="about_website">软件简介</string>
     <string name="about_important">版权与许可</string>
     <string name="about_opensource">开源许可证</string>

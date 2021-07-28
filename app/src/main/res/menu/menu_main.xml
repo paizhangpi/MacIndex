@@ -5,6 +5,9 @@
         android:id="@+id/mainReloadItem"
         android:title="@string/submenu_main_reload" />
     <item
+        android:id="@+id/mainTriggerErrorItem"
+        android:title="Trigger Error" />
+    <item
         android:id="@+id/mainHelpItem"
         android:title="@string/submenu_main_help" />
 </menu>

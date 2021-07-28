@@ -52,9 +52,13 @@ class ExceptionHelper {
         exceptionDialog.setMessage(R.string.error_information);
         exceptionDialog.setCancelable(false);
         exceptionDialog.setPositiveButton(R.string.error_dismiss, (dialogInterface, i) -> {
+            // Do nothing
+        });
+        exceptionDialog.setNegativeButton(R.string.error_restart, (dialogInterface, i) -> {
             PrefsHelper.triggerRebirth(thisContext);
         });
-        exceptionDialog.setNegativeButton(R.string.error_copy_button, (dialogInterface, i) -> {
+        exceptionDialog.setNeutralButton(R.string.error_copy_button, (dialogInterface, i) -> {
+            // To be override
         });
 
         final View infoChunk = ((LayoutInflater) thisContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.chunk_exception_dialog, null);
@@ -67,7 +71,7 @@ class ExceptionHelper {
         exceptionDialogCreated.show();
 
         // Override the negative button
-        exceptionDialogCreated.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+        exceptionDialogCreated.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
             ClipboardManager clipboard = (ClipboardManager) thisContext.getSystemService(Context.CLIPBOARD_SERVICE);
             ClipData clip = ClipData.newPlainText("ExceptionInfo", exceptionInfo);
             clipboard.setPrimaryClip(clip);

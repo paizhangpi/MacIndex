@@ -199,6 +199,10 @@ public class MainActivity extends AppCompatActivity {
                 initDatabase(this);
                 initInterface(true);
                 break;
+            case R.id.mainTriggerErrorItem:
+                // Debug use only. Should not visible to users
+                ExceptionHelper.handleException(this, null, "Debug", "User triggered.");
+                break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
                 break;

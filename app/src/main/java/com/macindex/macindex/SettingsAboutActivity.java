@@ -231,9 +231,9 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                             + "Hardware Model: " + Build.BRAND + " " + Build.MODEL + "\n"
                                             + "Processor Type: " + Build.SUPPORTED_ABIS[0] + "\n"
                                             + "Benchmark Revision: " + benchmarkRev + "\n"
-                                            + "Database Reading: " + benchmarkTimer[0] + " (Lower is better)\n"
-                                            + "Enhanced Sorting: " + benchmarkTimer[1] + " (Lower is better)\n"
-                                            + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + " (Lower is better)\n";
+                                            + "Database Reading: " + benchmarkTimer[0] + "\n"
+                                            + "Enhanced Sorting: " + benchmarkTimer[1] + "\n"
+                                            + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + "\n";
 
                                     // Construct result dialog box
                                     final AlertDialog.Builder resultDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
@@ -243,7 +243,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     resultDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                                         // Do nothing
                                     });
-                                    resultDialog.setNegativeButton(R.string.error_copy_button, (dialogInterface, i) -> {
+                                    resultDialog.setNeutralButton(R.string.error_copy_button, (dialogInterface, i) -> {
                                         // To be overwritten
                                     });
 
@@ -257,7 +257,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     exceptionDialogCreated.show();
 
                                     // Override the negative button
-                                    exceptionDialogCreated.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+                                    exceptionDialogCreated.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
                                         ClipboardManager clipboard = (ClipboardManager) SettingsAboutActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                                         ClipData clip = ClipData.newPlainText("ExceptionInfo", resultInfo);
                                         clipboard.setPrimaryClip(clip);
