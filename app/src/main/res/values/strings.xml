@@ -65,13 +65,19 @@
         <item>Example: MA463</item>
         <item>Example: 2101</item>
     </string-array>
-    <string name="search_length_title">Length Mismatch</string>
-    <string name="search_length_name">The length allowed for name searching is less or equal to 50 characters. Please check your input.</string>
-    <string name="search_length_model">The length of model number should be exactly 5. Please check your input.</string>
-    <string name="search_length_ident">The length of model identifier should range between 4 and 14, inclusively. Please check your input.</string>
-    <string name="search_length_gestalt">The length of gestalt ID should range between 1 and 3, inclusively. Please check your input.</string>
-    <string name="search_length_order">The length of part number should range between 5 and 9, inclusively. Please check your input.</string>
-    <string name="search_length_emc">The length of EMC number should range between 4 and 6, inclusively. Please check your input.</string>
+    <string name="search_illegal_name">Illegal character(s): The characters allowed for name are alphabets, numbers, whitespace, slash, brackets, dash, comma, plus, and dot.</string>
+    <string name="search_illegal_model">Illegal character(s): The characters allowed for model number are A, M, and numbers.</string>
+    <string name="search_illegal_ident">Illegal character(s): The characters allowed for model identifier are alphabets, numbers, and comma.</string>
+    <string name="search_illegal_gestalt">Illegal character(s): The characters allowed for gestalt ID are only numbers.</string>
+    <string name="search_illegal_order">Illegal character(s): The characters allowed for part number are alphabets, numbers, and slash.</string>
+    <string name="search_illegal_emc">Illegal character(s): The characters allowed for EMC number are C, numbers, and dash.</string>
+    <string name="search_checkInput">Please check your input.</string>
+    <string name="search_length_name">Length mismatch: The length allowed for name searching is less or equal to 50 characters.</string>
+    <string name="search_length_model">Length mismatch: The length of model number should be exactly 5.</string>
+    <string name="search_length_ident">Length mismatch: The length of model identifier should range between 4 and 14, inclusively.</string>
+    <string name="search_length_gestalt">Length mismatch: The length of gestalt ID should range between 1 and 3, inclusively.</string>
+    <string name="search_length_order">Length mismatch: The length of part number should range between 5 and 9, inclusively.</string>
+    <string name="search_length_emc">Length mismatch: The length of EMC number should range between 4 and 6, inclusively.</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
@@ -89,7 +95,7 @@
     <string name="menu_about">About MacIndex</string>
     <string name="menu_view">View By</string>
     <string name="menu_view1">Product Categories</string>
-    <string name="menu_view2">Processors</string>
+    <string name="menu_view2">Processor Types</string>
     <string name="menu_view3">Introduction Years</string>
     <string name="menu_group">Categories Filter</string>
     <string name="menu_group0">All Categories</string>
@@ -148,7 +154,7 @@
     <string name="maxram">RAM Information</string>
     <string name="software">Software Support</string>
     <string name="storage">Storage</string>
-    <string name="bus_expansion">Feature &amp; Expansion</string>
+    <string name="bus_expansion">Features &amp; Expansions</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
     <string name="benchmark_warning">This will take a while and will evaluate the performance of MacIndex.</string>
@@ -162,7 +168,7 @@
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
     <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters</string>
     <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
-    <string name="not_applicable">Not Applicable/Not Available</string>
+    <string name="not_applicable">Not Applicable/No Info</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
     <string name="link_opening">Opening in EveryMac:&#160;</string>

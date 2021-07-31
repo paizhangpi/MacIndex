@@ -64,13 +64,19 @@
         <item>例：MA463</item>
         <item>例：2101</item>
     </string-array>
-    <string name="search_length_title">长度不正确</string>
-    <string name="search_length_name">名称搜索的长度不能超过 50 个字符。请检查输入或参阅帮助内容。</string>
-    <string name="search_length_model">机型号应该是 5 个字符整。请检查输入或参阅帮助内容。</string>
-    <string name="search_length_ident">机型标识符的长度应该在 4 和 14 之间。请检查输入或参阅帮助内容。</string>
-    <string name="search_length_gestalt">Gestalt 标识符的长度应该在 1 和 3 之间。请检查输入或参阅帮助内容。</string>
-    <string name="search_length_order">部件号的长度应该在 5 和 9 之间。请检查输入或参阅帮助内容。</string>
-    <string name="search_length_emc">EMC 号的长度应该在 4 到 6 之间。请检查输入或参阅帮助内容。</string>
+    <string name="search_illegal_name">非法字符：名称的有效字符包括半角字母、数字、空格、斜杠、括号、连接号、逗号、加号、点。</string>
+    <string name="search_illegal_model">非法字符：机型号的有效字符包括半角 A、M、数字。</string>
+    <string name="search_illegal_ident">非法字符：机型标识符的有效字符包括半角字母、数字、逗号。</string>
+    <string name="search_illegal_gestalt">非法字符：Gestalt 标识符的有效字符仅包括半角数字。</string>
+    <string name="search_illegal_order">非法字符：部件号的有效字符包括半角字幕、数字、斜杠。</string>
+    <string name="search_illegal_emc">非法字符：EMC 号的有效字符包括半角 C、数字、连接号。</string>
+    <string name="search_checkInput">请检查输入或参阅帮助内容。</string>
+    <string name="search_length_name">长度不正确：名称搜索的长度不能超过 50 个字符。</string>
+    <string name="search_length_model">长度不正确：机型号应该是 5 个字符整。</string>
+    <string name="search_length_ident">长度不正确：机型标识符的长度应该在 4 和 14 之间。</string>
+    <string name="search_length_gestalt">长度不正确：Gestalt 标识符的长度应该在 1 和 3 之间。</string>
+    <string name="search_length_order">长度不正确：部件号的长度应该在 5 和 9 之间。</string>
+    <string name="search_length_emc">长度不正确：EMC 号的长度应该在 4 到 6 之间。</string>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
@@ -88,7 +94,7 @@
     <string name="menu_about">关于 MacIndex</string>
     <string name="menu_view">浏览方式</string>
     <string name="menu_view1">产品分组</string>
-    <string name="menu_view2">处理器</string>
+    <string name="menu_view2">处理器类型</string>
     <string name="menu_view3">推出年代</string>
     <string name="menu_group">分组筛选</string>
     <string name="menu_group0">所有分组</string>
@@ -142,7 +148,7 @@
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
-    <string name="not_applicable">不适用/不可用</string>
+    <string name="not_applicable">不适用/无信息</string>
     <string name="link_confirm">确认</string>
     <string name="link_cancel">取消</string>
     <string name="link_opening">正在 EveryMac 中浏览：</string>
