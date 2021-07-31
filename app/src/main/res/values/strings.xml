@@ -65,7 +65,7 @@
         <item>Example: MA463</item>
         <item>Example: 2101</item>
     </string-array>
-    <string name="search_illegal_name">Illegal character(s): The characters allowed for name are alphabets, numbers, whitespace, slash, brackets, dash, comma, plus, and dot.</string>
+    <string name="search_illegal_name">Illegal character(s): The characters allowed for name are alphabets, numbers, whitespace, slash, parentheses, dash, comma, plus, and period.</string>
     <string name="search_illegal_model">Illegal character(s): The characters allowed for model number are A, M, and numbers.</string>
     <string name="search_illegal_ident">Illegal character(s): The characters allowed for model identifier are alphabets, numbers, and comma.</string>
     <string name="search_illegal_gestalt">Illegal character(s): The characters allowed for gestalt ID are only numbers.</string>
@@ -111,6 +111,7 @@
     <string name="submenu_specs_compare">Add to Comparison List</string>
     <string name="submenu_specs_comment">Edit Custom Comment</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
+    <string name="submenu_search_clear">Clear Results</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
     <string name="submenu_favourite_add">Add New Folder</string>

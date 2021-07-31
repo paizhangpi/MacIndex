@@ -90,7 +90,7 @@ public class SearchActivity extends AppCompatActivity {
         initSearch();
 
         // Init Search Prompt at Here!!
-        textResult.setText(R.string.search_prompt);
+        resetIllegal();
 
         if (savedInstanceState != null) {
             // Patch; see above
@@ -118,6 +118,10 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.searchClearItem:
+                resetIllegal();
+                clearSearch();
+                break;
             case R.id.everymacItem:
                 LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", "https://everymac.com/ultimate-mac-lookup/", this);
                 break;
@@ -211,7 +215,6 @@ public class SearchActivity extends AppCompatActivity {
                         Log.w("ReloadSpinnerCallDebug", "Filter Executed");
                         PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
                         disableCheck();
-                        clearResults();
                     } else {
                         filterSpinnerCallingPatch--;
                     }
@@ -353,17 +356,18 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(final String newText) {
+                // TRIM to get the correct validation result.
                 String searchInput = newText.trim();
-                textResult.setText(R.string.search_prompt);
-                textResult.setTextColor(getColor(R.color.colorDefaultText));
+                // Initialize on-the-fly validation.
+                resetIllegal();
                 if (!searchInput.equals("")) {
-                    if (!validate(searchInput, translateOptionsParam())) {
-                        textResult.setText(R.string.search_illegal);
-                        textResult.setTextColor(Color.RED);
+                    if (!characterCheck(searchInput, translateOptionsParam())
+                            || !lengthCheck(searchInput, translateOptionsParam(), false)) {
+                        setIllegal();
                     }
                 } else {
                     // No input
-                    clearResults();
+                    resetIllegal();
                 }
                 return false;
             }
@@ -377,11 +381,19 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private void clearResults() {
-        textResult.setText(R.string.search_prompt);
-        textResult.setTextColor(getColor(R.color.colorDefaultText));
+    private void clearSearch() {
         loadedResults = null;
         currentLayout.removeAllViews();
+    }
+
+    private void setIllegal() {
+        textResult.setText(R.string.search_illegal);
+        textResult.setTextColor(Color.RED);
+    }
+
+    private void resetIllegal() {
+        textResult.setText(R.string.search_prompt);
+        textResult.setTextColor(getColor(R.color.colorDefaultText));
     }
 
     private void changeTips() {
@@ -401,34 +413,30 @@ public class SearchActivity extends AppCompatActivity {
         String searchInput = s.trim();
         Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
                 + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
-        textResult.setText(R.string.search_prompt);
-        textResult.setTextColor(getColor(R.color.colorDefaultText));
-        loadedResults = null;
-        currentLayout.removeAllViews();
         if (!searchInput.equals("")) {
-            if (validate(searchInput, translateOptionsParam()) && lengthCheck(searchInput, translateOptionsParam())) {
+            if (strictCheck(searchInput, translateOptionsParam())) {
                 // For order number: clip country code.
                 if (translateOptionsParam().equals("sorder") && searchInput.length() > 5) {
                     searchInput = searchInput.substring(0, 5);
                 }
-
+                // Remove Results only before actual search starts.
+                resetIllegal();
+                clearSearch();
                 performSearch(searchInput, true);
                 return true;
             } else {
                 // Illegal input
-                textResult.setText(R.string.search_illegal);
-                textResult.setTextColor(Color.RED);
+                setIllegal();
                 return false;
             }
         } else {
             // No input
-            textResult.setText(R.string.search_prompt);
-            textResult.setTextColor(getColor(R.color.colorDefaultText));
+            resetIllegal();
             return false;
         }
     }
 
-    private boolean validate(final String validateInput, final String method) {
+    private boolean characterCheck(final String validateInput, final String method) {
         // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus, dot.
         final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+.";
         // Model Number: acceptable search input Aa, Mm, 0~9.
@@ -480,85 +488,99 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean lengthCheck(final String validateInput, final String method) {
+    // isStrict: only check the upper limit. 2021/8/1
+    private boolean lengthCheck(final String validateInput, final String method, final boolean isStrict) {
         switch (method) {
             case "sname":
-                if (validateInput.length() > 50) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_name);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return validateInput.length() <= 50;
             case "smodel":
-                if (validateInput.length() != 5) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_model);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return (validateInput.length() <= 5) && (validateInput.length() == 5 || !isStrict);
             case "sident":
-                if (validateInput.length() < 4 || validateInput.length() > 14) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_ident);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return validateInput.length() <= 14 && (validateInput.length() >= 4 || !isStrict);
             case "sgestalt":
-                if (validateInput.length() > 3) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_gestalt);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return validateInput.length() <= 3;
             case "sorder":
-                if (validateInput.length() < 5 || validateInput.length() > 9) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_order);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return validateInput.length() <= 9 && (validateInput.length() >= 5 || !isStrict);
             case "semc":
-                if (validateInput.length() < 4 || validateInput.length() > 6) {
-                    final AlertDialog.Builder lengthWarningDialog = new AlertDialog.Builder(SearchActivity.this);
-                    lengthWarningDialog.setTitle(R.string.search_length_title);
-                    lengthWarningDialog.setMessage(R.string.search_length_emc);
-                    lengthWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Confirmed
-                    });
-                    lengthWarningDialog.show();
-                    return false;
-                }
-                return true;
+                return validateInput.length() <= 6 && (validateInput.length() >= 4 || !isStrict);
             default:
                 ExceptionHelper.handleException(this, null,
                         "lengthCheck",
                         "Not a Valid Search Method, This should NOT happen!!");
                 return false;
+        }
+    }
+
+    // New pre-search validation. 2021/8/1
+    private boolean strictCheck(final String validateInput, final String method) {
+        String errorPrompt = "";
+        switch (method) {
+            case "sname":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_name) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_name) + "\n");
+                }
+                break;
+            case "smodel":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_model) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_model) + "\n");
+                }
+                break;
+            case "sident":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_ident) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_ident) + "\n");
+                }
+                break;
+            case "sgestalt":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_gestalt) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_gestalt) + "\n");
+                }
+                break;
+            case "sorder":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_order) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_order) + "\n");
+                }
+                break;
+            case "semc":
+                if (!characterCheck(validateInput, method)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_emc) + "\n");
+                }
+                if (!lengthCheck(validateInput, method, true)) {
+                    errorPrompt = errorPrompt.concat(getString(R.string.search_length_emc) + "\n");
+                }
+                break;
+            default:
+                ExceptionHelper.handleException(this, null,
+                        "strictCheck",
+                        "Not a Valid Search Method, This should NOT happen!!");
+                return false;
+        }
+        if (errorPrompt.length() > 0) {
+            final AlertDialog.Builder inputWarningDialog = new AlertDialog.Builder(SearchActivity.this);
+            inputWarningDialog.setTitle(R.string.search_illegal);
+            errorPrompt = errorPrompt.concat(getString(R.string.search_checkInput));
+            inputWarningDialog.setMessage(errorPrompt);
+            inputWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                // Confirmed
+            });
+            inputWarningDialog.show();
+            return false;
+        } else {
+            return true;
         }
     }
 

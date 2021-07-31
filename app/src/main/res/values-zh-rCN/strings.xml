@@ -64,12 +64,12 @@
         <item>例：MA463</item>
         <item>例：2101</item>
     </string-array>
-    <string name="search_illegal_name">非法字符：名称的有效字符包括半角字母、数字、空格、斜杠、括号、连接号、逗号、加号、点。</string>
-    <string name="search_illegal_model">非法字符：机型号的有效字符包括半角 A、M、数字。</string>
-    <string name="search_illegal_ident">非法字符：机型标识符的有效字符包括半角字母、数字、逗号。</string>
-    <string name="search_illegal_gestalt">非法字符：Gestalt 标识符的有效字符仅包括半角数字。</string>
-    <string name="search_illegal_order">非法字符：部件号的有效字符包括半角字幕、数字、斜杠。</string>
-    <string name="search_illegal_emc">非法字符：EMC 号的有效字符包括半角 C、数字、连接号。</string>
+    <string name="search_illegal_name">无效字符：名称的有效字符包括半角字母、数字、空格、斜杠、括号、连接号、逗号、加号、英文句号。</string>
+    <string name="search_illegal_model">无效字符：机型号的有效字符包括半角 A、M、数字。</string>
+    <string name="search_illegal_ident">无效字符：机型标识符的有效字符包括半角字母、数字、逗号。</string>
+    <string name="search_illegal_gestalt">无效字符：Gestalt 标识符的有效字符仅包括半角数字。</string>
+    <string name="search_illegal_order">无效字符：部件号的有效字符包括半角字幕、数字、斜杠。</string>
+    <string name="search_illegal_emc">无效字符：EMC 号的有效字符包括半角 C、数字、连接号。</string>
     <string name="search_checkInput">请检查输入或参阅帮助内容。</string>
     <string name="search_length_name">长度不正确：名称搜索的长度不能超过 50 个字符。</string>
     <string name="search_length_model">长度不正确：机型号应该是 5 个字符整。</string>
@@ -106,6 +106,7 @@
     <string name="submenu_specs_compare">添加到比较列表</string>
     <string name="submenu_specs_comment">编辑自定义备注</string>
     <string name="submenu_specs_help">参数页帮助</string>
+    <string name="submenu_search_clear">清空搜索结果</string>
     <string name="submenu_search_everymac">EveryMac 查找</string>
     <string name="submenu_search_help">搜索页帮助</string>
     <string name="submenu_favourite_add">新建收藏夹</string>
