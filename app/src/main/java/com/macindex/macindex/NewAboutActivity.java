@@ -41,7 +41,11 @@ public class NewAboutActivity extends AppCompatActivity {
             }
             ((TextView) findViewById(R.id.versionText)).setText(versionString);
 
-            findViewById(R.id.websiteButton).setOnClickListener(v -> {
+            findViewById(R.id.appNameText).setOnClickListener(v -> {
+                LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
+                        "https://macindex.paizhang.info/", this);
+            });
+            findViewById(R.id.appLogo).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/",
                         "https://macindex.paizhang.info/", this);
             });
@@ -49,6 +53,7 @@ public class NewAboutActivity extends AppCompatActivity {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/important-information",
                         "https://macindex.paizhang.info/important-information", this);
             });
+            OssLicensesMenuActivity.setActivityTitle(getString(R.string.about_opensource));
             findViewById(R.id.openSourceButton).setOnClickListener(v -> {
                 startActivity(new Intent(this, OssLicensesMenuActivity.class));
             });
@@ -61,6 +66,10 @@ public class NewAboutActivity extends AppCompatActivity {
             findViewById(R.id.feedbackButton).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback",
                         "https://macindex.paizhang.info/feedback-and-evaluation", this);
+            });
+            findViewById(R.id.githubLogo).setOnClickListener(v -> {
+                LinkLoadingHelper.startBrowser("https://github.com/paizhangpi/MacIndex",
+                        "https://github.com/paizhangpi/MacIndex", this);
             });
             findViewById(R.id.cs125Logo).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/story-of-macindex", this);

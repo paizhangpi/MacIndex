@@ -19,7 +19,7 @@
             android:padding = "20pt">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/appLogo"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 app:srcCompat="@drawable/macindexlogo" />
@@ -65,13 +65,6 @@
                 android:layout_height="20dp" />
 
             <Button
-                android:id="@+id/websiteButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="120pt"
-                android:layout_height="wrap_content"
-                android:text="@string/about_website" />
-
-            <Button
                 android:id="@+id/importantButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="120pt"
@@ -105,6 +98,16 @@
                 android:layout_width="120pt"
                 android:layout_height="wrap_content"
                 android:text="@string/about_feedback" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <ImageView
+                android:id="@+id/githubLogo"
+                android:layout_width="match_parent"
+                android:layout_height="20pt"
+                app:srcCompat="@drawable/github" />
 
             <Space
                 android:layout_width="match_parent"

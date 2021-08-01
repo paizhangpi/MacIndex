@@ -76,7 +76,7 @@
     <string name="search_length_model">Length mismatch: The length of model number should be exactly 5.</string>
     <string name="search_length_ident">Length mismatch: The length of model identifier should range between 4 and 14, inclusively.</string>
     <string name="search_length_gestalt">Length mismatch: The length of gestalt ID should range between 1 and 3, inclusively.</string>
-    <string name="search_length_order">Length mismatch: The length of part number should range between 5 and 9, inclusively.</string>
+    <string name="search_length_order">Length mismatch: The length of part number should range between 5 and 9, inclusively. Only the first 5 characters will be used.</string>
     <string name="search_length_emc">Length mismatch: The length of EMC number should range between 4 and 6, inclusively.</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
@@ -114,7 +114,7 @@
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
     <string name="submenu_favourite_add">Add New Folder</string>
-    <string name="submenu_favourite_delete">Manage Folders</string>
+    <string name="submenu_favourite_delete">Delete Folders</string>
     <string name="submenu_favourite_rename">Rename Folder</string>
     <string name="submenu_favourite_clear">Clear All Folders</string>
     <string name="submenu_favourite_help">Favourites Page Help</string>
@@ -215,10 +215,7 @@
     <string name="version_information_general">Current Version: </string>
     <string name="version_information_releasedate">Release Date:</string>
     <string name="version_information_models">Available Models: </string>
-    <string name="version_information_check">Check update</string>
-    <string name="version_information_history">Version history</string>
-    <string name="about_information">Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang</string>
-    <string name="about_website">Introduction</string>
+    <string name="about_information">©Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
     <string name="about_important">Copyrights and Licenses</string>
     <string name="about_opensource">Open Source Licenses</string>
     <string name="about_update">Release Notes</string>
