@@ -10,6 +10,7 @@ import android.util.Pair;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -1118,7 +1119,7 @@ class MachineHelper {
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHSearchHelper", "Exception Occurred, returning empty array");
-            MainActivity.reloadDatabase(thisContext);
+            setStopQuery();
             e.printStackTrace();
             return new int[0];
         }
@@ -1158,7 +1159,7 @@ class MachineHelper {
             targetYearSplitedB = targetYearSplitedB / 10;
             return targetYearSplitedA + targetYearSplitedB;
         } catch (Exception e) {
-            MainActivity.reloadDatabase(thisContext);
+            setStopQuery();
             e.printStackTrace();
             return 0.0;
         }
@@ -1178,7 +1179,7 @@ class MachineHelper {
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHFilterSearchHelper", "Exception Occurred, returning empty array");
-            MainActivity.reloadDatabase(thisContext);
+            setStopQuery();
             e.printStackTrace();
             return new int[0][0];
         }
@@ -1205,7 +1206,40 @@ class MachineHelper {
             return input;
         } catch (Exception e) {
             e.printStackTrace();
-            MainActivity.reloadDatabase(thisContext);
+            setStopQuery();
+            return input;
+        }
+    }
+
+    public int[] checkDuplicate(final int[] input, final Context thisContext) {
+        try {
+            if (input.length == 0) {
+                Log.w("MHCheckDuplicate", "Input is empty.");
+                return input;
+            }
+            Log.i("MHCheckDuplicate", "Input is " + Arrays.toString(input));
+            int[] temp = new int[input.length];
+            int tempIndex = 0;
+            for (int i = 0; i < input.length; i++) {
+                for (int j = 0; j <= tempIndex; j++) {
+                    if (j == tempIndex) {
+                        temp[tempIndex] = input[i];
+                        tempIndex++;
+                        break;
+                    }
+                    if (temp[j] == input[i]) {
+                        break;
+                    }
+                }
+            }
+            int[] toReturn = new int[tempIndex];
+            for (int i = 0; i < tempIndex; i++) {
+                toReturn[i] = temp[i];
+            }
+            Log.i("MHCheckDuplicate", "Output is " + Arrays.toString(toReturn));
+            return toReturn;
+        } catch (Exception e) {
+            e.printStackTrace();
             return input;
         }
     }

@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("DebugMode", "Disabling debug menu items.");
             menu.findItem(R.id.mainDebugReloadItem).setVisible(false);
             menu.findItem(R.id.mainDebugTriggerErrorItem).setVisible(false);
+            menu.findItem(R.id.mainDebugRunnerItem).setVisible(false);
         }
         return true;
     }
@@ -211,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mainDebugTriggerErrorItem:
                 // Debug use only. Should not visible to users
                 ExceptionHelper.handleException(this, null, "Debug", "User triggered.");
+                break;
+            case R.id.mainDebugRunnerItem:
+                /* For function testing */
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
@@ -238,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static void initDatabase(final Context context) {
         try {
+            Log.w("Database", "Initializing.");
             File dbFilePath = new File(context.getApplicationInfo().dataDir + "/databases/specs.db");
             File dbFolder = new File(context.getApplicationInfo().dataDir + "/databases");
             dbFilePath.delete();

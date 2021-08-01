@@ -29,9 +29,9 @@
     <string name="setting_randomall">Limit Random Range</string>
     <string name="setting_randomall_description">Only pick random machines inside the current group instead of all categories.</string>
     <string name="setting_save_main">Save Usage in the Main Page</string>
-    <string name="setting_save_main_description">Save the last selected viewing method and category filter.</string>
+    <string name="setting_save_main_description">Save the last selected filter and viewing method.</string>
     <string name="setting_save_search">Save Usage in the Search Page</string>
-    <string name="setting_save_search_description">Save the last used search keyword and filter.</string>
+    <string name="setting_save_search_description">Save the last used filter and search options.</string>
     <string name="setting_save_compare">Save Usage in the Comparison Page</string>
     <string name="setting_save_compare_description">Save the last selected machines and column.</string>
     <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your preferences and all usage records. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>

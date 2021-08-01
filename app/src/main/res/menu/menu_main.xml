@@ -8,6 +8,9 @@
         android:id="@+id/mainDebugTriggerErrorItem"
         android:title="Debug: Trigger Error" />
     <item
+        android:id="@+id/mainDebugRunnerItem"
+        android:title="Debug: Run Code" />
+    <item
         android:id="@+id/mainHelpItem"
         android:title="@string/submenu_main_help" />
 </menu>
