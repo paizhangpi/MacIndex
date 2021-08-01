@@ -202,7 +202,7 @@ public class FavouriteActivity extends AppCompatActivity {
                                 }
                                 // Is sorting needed?
                                 if (PrefsHelper.getBooleanPrefs("isSortComment", FavouriteActivity.this)) {
-                                    loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i]);
+                                    loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i], FavouriteActivity.this);
                                 }
                             }
                         }

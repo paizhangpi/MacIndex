@@ -50,14 +50,16 @@
         <item>ARM Macintosh</item>
     </string-array>
     <string-array name="search_Options">
-        <item>Name (Partial Match)</item>
+        <item>Automatic General Searching</item>
+        <item>Name (General Match)</item>
         <item>Model Numbers (Exact Match)</item>
-        <item>Model Identifier (Partial Match)</item>
+        <item>Model Identifier (Exact Match)</item>
         <item>Gestalt ID (Exact Match)</item>
         <item>Part Numbers (Exact Match)</item>
         <item>EMC Numbers (Exact Match)</item>
     </string-array>
     <string-array name="search_Tips">
+        <item>Automatic General Searching</item>
         <item>Example: MacBook Pro</item>
         <item>Example: A1150</item>
         <item>Example: MacBookPro1,1</item>
@@ -74,7 +76,7 @@
     <string name="search_checkInput">Please check your input.</string>
     <string name="search_length_name">Length mismatch: The length allowed for name searching is less or equal to 50 characters.</string>
     <string name="search_length_model">Length mismatch: The length of model number should be exactly 5.</string>
-    <string name="search_length_ident">Length mismatch: The length of model identifier should range between 4 and 14, inclusively.</string>
+    <string name="search_length_ident">Length mismatch: The length of model identifier should range between 6 and 14, inclusively.</string>
     <string name="search_length_gestalt">Length mismatch: The length of gestalt ID should range between 1 and 3, inclusively.</string>
     <string name="search_length_order">Length mismatch: The length of part number should range between 5 and 9, inclusively. Only the first 5 characters will be used.</string>
     <string name="search_length_emc">Length mismatch: The length of EMC number should range between 4 and 6, inclusively.</string>

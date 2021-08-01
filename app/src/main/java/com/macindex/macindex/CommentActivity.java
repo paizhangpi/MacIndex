@@ -167,7 +167,7 @@ public class CommentActivity extends AppCompatActivity {
 
                                 // Is sorting needed?
                                 if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
-                                    machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
+                                    machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs, CommentActivity.this);
                                 }
                             }
                         } catch (Exception e) {

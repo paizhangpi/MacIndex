@@ -130,6 +130,7 @@ class MachineHelper {
     }
 
     public void setStopQuery() {
+        Log.e("MachineHelper", "Stopping further query.");
         stopQuery = true;
     }
 
@@ -541,6 +542,8 @@ class MachineHelper {
         }
         String[] thisImages = thisProcessorImage.split("~");
         switch (thisImages[0]) {
+            // Duo dock exception
+            case "680X0":
             case "68000":
             case "68020":
             case "68030":
@@ -1101,8 +1104,8 @@ class MachineHelper {
                         if (stopQuery) {
                             throw new IllegalAccessException();
                         }
-                        if (getYearForSorting(columnName, searchInput, finalPositions[j])
-                                < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
+                        if (getYearForSorting(columnName, searchInput, finalPositions[j], thisContext)
+                                < getYearForSorting(columnName, searchInput, finalPositions[j - 1], thisContext)) {
                             int shiftTemp = finalPositions[j];
                             finalPositions[j] = finalPositions[j - 1];
                             finalPositions[j - 1] = shiftTemp;
@@ -1115,14 +1118,14 @@ class MachineHelper {
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHSearchHelper", "Exception Occurred, returning empty array");
-            setStopQuery();
+            MainActivity.reloadDatabase(thisContext);
             e.printStackTrace();
             return new int[0];
         }
     }
 
     // Get year parameter for sorting. Y = Y, M = M/10. Returns double float number.
-    private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine) {
+    private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine, final Context thisContext) {
         try {
             String[] rawYear = getSYear(thisMachine).split(", ");
             // Terminate immediately.
@@ -1155,7 +1158,7 @@ class MachineHelper {
             targetYearSplitedB = targetYearSplitedB / 10;
             return targetYearSplitedA + targetYearSplitedB;
         } catch (Exception e) {
-            setStopQuery();
+            MainActivity.reloadDatabase(thisContext);
             e.printStackTrace();
             return 0.0;
         }
@@ -1175,14 +1178,14 @@ class MachineHelper {
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHFilterSearchHelper", "Exception Occurred, returning empty array");
-            setStopQuery();
+            MainActivity.reloadDatabase(thisContext);
             e.printStackTrace();
             return new int[0][0];
         }
     }
 
     // Sorting used by ver. 4.9
-    public int[] directSortByYear(final int[] input) {
+    public int[] directSortByYear(final int[] input, final Context thisContext) {
         try {
             Log.i("MHDirectSort", "Starting Direct Sorting.");
             for (int i = 0; i < input.length; i++) {
@@ -1191,8 +1194,8 @@ class MachineHelper {
                     if (stopQuery) {
                         throw new IllegalAccessException();
                     }
-                    if (getYearForSorting("", "", input[j])
-                            < getYearForSorting("", "", input[j - 1])) {
+                    if (getYearForSorting("", "", input[j], thisContext)
+                            < getYearForSorting("", "", input[j - 1], thisContext)) {
                         int shiftTemp = input[j];
                         input[j] = input[j - 1];
                         input[j - 1] = shiftTemp;
@@ -1202,7 +1205,7 @@ class MachineHelper {
             return input;
         } catch (Exception e) {
             e.printStackTrace();
-            setStopQuery();
+            MainActivity.reloadDatabase(thisContext);
             return input;
         }
     }

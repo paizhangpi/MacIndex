@@ -23,6 +23,8 @@ class PrefsHelper {
     private static final Map<String, Object> DEFAULT_VALUES;
     static {
         DEFAULT_VALUES = new HashMap<>();
+
+        /* User Preferences */
         DEFAULT_VALUES.put("isSortAgain", Boolean.TRUE);
         DEFAULT_VALUES.put("isSortComment", Boolean.FALSE);
         DEFAULT_VALUES.put("isOpenEveryMac", Boolean.FALSE);
@@ -35,21 +37,23 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isSaveSearchUsage", Boolean.TRUE);
         DEFAULT_VALUES.put("isSaveCompareUsage", Boolean.TRUE);
 
-        DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
-        DEFAULT_VALUES.put("isJustLunched", Boolean.TRUE);
-        DEFAULT_VALUES.put("thisManufacturer", "all");
-        DEFAULT_VALUES.put("thisFilter", "names");
-        DEFAULT_VALUES.put("isReloadNeeded", Boolean.FALSE);
-
-        DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
-
-        DEFAULT_VALUES.put("searchFiltersSpinner", 0);
-        DEFAULT_VALUES.put("searchOptionsSpinner", 0);
-
+        /* User Record */
         DEFAULT_VALUES.put("userFavourites", "");
         DEFAULT_VALUES.put("userCompares", "");
         DEFAULT_VALUES.put("userComments", "");
 
+        /* Runtime Record */
+        DEFAULT_VALUES.put("lastMainManufacturer", "all");
+        DEFAULT_VALUES.put("lastMainFilter", "names");
+        DEFAULT_VALUES.put("lastSearchFiltersSpinner", 0);
+        DEFAULT_VALUES.put("lastSearchOptionsSpinner", 0);
+        DEFAULT_VALUES.put("lastKnownVersion", 0);
+
+        /* Runtime Parameters */
+        DEFAULT_VALUES.put("isFirstLunch", Boolean.TRUE);
+        DEFAULT_VALUES.put("isJustLunched", Boolean.TRUE);
+        DEFAULT_VALUES.put("isEnableVolWarningThisTime", Boolean.TRUE);
+        DEFAULT_VALUES.put("isReloadNeeded", Boolean.FALSE);
         DEFAULT_VALUES.put("isCommentsReloadNeeded", Boolean.FALSE);
         DEFAULT_VALUES.put("isFavouritesReloadNeeded", Boolean.FALSE);
         DEFAULT_VALUES.put("isCompareReloadNeeded", Boolean.FALSE);
@@ -185,6 +189,10 @@ class PrefsHelper {
         } catch (Exception e) {
             ExceptionHelper.handleException(thisContext, e, "Preference Helper", "Unable to clear preference");
         }
+    }
+
+    public static void clearSettingsRuntimeRecord(final Context thisContext) {
+
     }
 
     // https://stackoverflow.com/questions/6609414/how-do-i-programmatically-restart-an-android-app

@@ -49,14 +49,16 @@
         <item>ARM Macintosh</item>
     </string-array>
     <string-array name="search_Options">
-        <item>按名称（部分匹配）</item>
+        <item>自动模糊匹配</item>
+        <item>按名称（模糊匹配）</item>
         <item>按机型号（精确匹配）</item>
-        <item>按机型标识符（部分匹配）</item>
+        <item>按机型标识符（精确匹配）</item>
         <item>按 Gestalt 标识符（精确匹配）</item>
         <item>按部件号（精确匹配）</item>
         <item>按 EMC 号（精确匹配）</item>
     </string-array>
     <string-array name="search_Tips">
+        <item>自动模糊匹配</item>
         <item>例：MacBook Pro</item>
         <item>例：A1150</item>
         <item>例：MacBookPro1,1</item>
@@ -73,7 +75,7 @@
     <string name="search_checkInput">请检查输入或参阅帮助内容。</string>
     <string name="search_length_name">长度不符：名称搜索的长度不能超过 50 个字符。</string>
     <string name="search_length_model">长度不符：机型号应该是 5 个字符整。</string>
-    <string name="search_length_ident">长度不符：机型标识符的长度应该在 4 和 14 之间。</string>
+    <string name="search_length_ident">长度不符：机型标识符的长度应该在 6 和 14 之间。</string>
     <string name="search_length_gestalt">长度不符：Gestalt 标识符的长度应该在 1 和 3 之间。</string>
     <string name="search_length_order">长度不符：部件号的长度应该在 5 和 9 之间。搜索时仅使用前 5 位。</string>
     <string name="search_length_emc">长度不符：EMC 号的长度应该在 4 到 6 之间。</string>

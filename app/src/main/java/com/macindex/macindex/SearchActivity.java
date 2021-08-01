@@ -82,8 +82,8 @@ public class SearchActivity extends AppCompatActivity {
 
         // If SearchActivity Usage is set to not be saved
         if (!(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this))) {
-            PrefsHelper.clearPrefs("searchFiltersSpinner", this);
-            PrefsHelper.clearPrefs("searchOptionsSpinner", this);
+            PrefsHelper.clearPrefs("lastSearchFiltersSpinner", this);
+            PrefsHelper.clearPrefs("lastSearchOptionsSpinner", this);
         }
 
         initSpinners();
@@ -91,6 +91,9 @@ public class SearchActivity extends AppCompatActivity {
 
         // Init Search Prompt at Here!!
         resetIllegal();
+
+        // Run a disable check here..
+        disableCheck();
 
         if (savedInstanceState != null) {
             // Patch; see above
@@ -177,9 +180,9 @@ public class SearchActivity extends AppCompatActivity {
                 public boolean isEnabled(int position) {
                     // Disable Identification and EMC if current selection is 68K
                     // Disable Gestalt if current selection is Intel or ARM
-                    if ((position == 2 || position == 5) && translateFiltersParam().equals("apple68k")) {
+                    if ((position == 3 || position == 6) && translateFiltersParam().equals("apple68k")) {
                         return false;
-                    } else if (position == 3 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
+                    } else if (position == 4 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
                         return false;
                     } else {
                         return true;
@@ -205,8 +208,8 @@ public class SearchActivity extends AppCompatActivity {
             filtersSpinner.setAdapter(filtersAdapter);
             optionsSpinner.setAdapter(optionsAdapter);
 
-            filtersSpinner.setSelection(PrefsHelper.getIntPrefs("searchFiltersSpinner", this));
-            optionsSpinner.setSelection(PrefsHelper.getIntPrefs("searchOptionsSpinner", this));
+            filtersSpinner.setSelection(PrefsHelper.getIntPrefs("lastSearchFiltersSpinner", this));
+            optionsSpinner.setSelection(PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this));
 
             filtersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -214,7 +217,7 @@ public class SearchActivity extends AppCompatActivity {
                     Log.w("ReloadSpinnerCallDebug", "Filter Patch " + filterSpinnerCallingPatch);
                     if (filterSpinnerCallingPatch <= 0) {
                         Log.w("ReloadSpinnerCallDebug", "Filter Executed");
-                        PrefsHelper.editPrefs("searchFiltersSpinner", i, SearchActivity.this);
+                        PrefsHelper.editPrefs("lastSearchFiltersSpinner", i, SearchActivity.this);
                         disableCheck();
                     } else {
                         filterSpinnerCallingPatch--;
@@ -233,7 +236,7 @@ public class SearchActivity extends AppCompatActivity {
                     Log.w("ReloadSpinnerCallDebug", "Options Patch " + optionsSpinnerCallingPatch);
                     if (optionsSpinnerCallingPatch <= 0) {
                         Log.w("ReloadSpinnerCallDebug", "Options Executed");
-                        PrefsHelper.editPrefs("searchOptionsSpinner", i, SearchActivity.this);
+                        PrefsHelper.editPrefs("lastSearchOptionsSpinner", i, SearchActivity.this);
                         searchText.setQuery("", true);
                         searchText.clearFocus();
                         changeTips();
@@ -256,7 +259,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private String translateFiltersParam() {
-        int thisSelection = PrefsHelper.getIntPrefs("searchFiltersSpinner", this);
+        int thisSelection = PrefsHelper.getIntPrefs("lastSearchFiltersSpinner", this);
         switch (thisSelection) {
             case 0:
                 return "all";
@@ -277,19 +280,21 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private String translateOptionsParam() {
-        int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+        int thisSelection = PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
-                return "sname";
+                return "special";
             case 1:
-                return "smodel";
+                return "sname";
             case 2:
-                return "sident";
+                return "smodel";
             case 3:
-                return "sgestalt";
+                return "sident";
             case 4:
-                return "sorder";
+                return "sgestalt";
             case 5:
+                return "sorder";
+            case 6:
                 return "semc";
             default:
                 ExceptionHelper.handleException(this, null,
@@ -300,15 +305,16 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private boolean translateMatchParam() {
-        int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+        int thisSelection = PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
-            case 2:
-            case 4:
-                return false;
             case 1:
-            case 3:
             case 5:
+                return false;
+            case 2:
+            case 3:
+            case 4:
+            case 6:
                 return true;
             default:
                 ExceptionHelper.handleException(this, null,
@@ -322,24 +328,24 @@ public class SearchActivity extends AppCompatActivity {
         final int position = optionsSpinner.getSelectedItemPosition();
         // Disable Identification and EMC if current selection is 68K
         // Disable Gestalt if current selection is Intel or ARM
-        if ((position == 2 || position == 5) && translateFiltersParam().equals("apple68k")) {
+        if ((position == 3 || position == 6) && translateFiltersParam().equals("apple68k")) {
             final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
             disableDialog.setMessage(R.string.search_disable_identification);
             disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                 // Confirmed
             });
             disableDialog.show();
-            optionsSpinner.setSelection(3);
-            PrefsHelper.editPrefs("searchOptionsSpinner", 3, this);
-        } else if (position == 3 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
+            optionsSpinner.setSelection(4);
+            PrefsHelper.editPrefs("lastSearchOptionsSpinner", 4, this);
+        } else if (position == 4 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
             final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
             disableDialog.setMessage(R.string.search_disable_gestalt);
             disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
                 // Confirmed
             });
             disableDialog.show();
-            optionsSpinner.setSelection(2);
-            PrefsHelper.editPrefs("searchOptionsSpinner", 2, this);
+            optionsSpinner.setSelection(3);
+            PrefsHelper.editPrefs("lastSearchOptionsSpinner", 3, this);
         }
     }
 
@@ -399,7 +405,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void changeTips() {
         try {
-            int thisSelection = PrefsHelper.getIntPrefs("searchOptionsSpinner", this);
+            int thisSelection = PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this);
             String[] searchTips = getResources().getStringArray(R.array.search_Tips);
             if (thisSelection >= searchTips.length) {
                 throw new IllegalStateException();
@@ -417,8 +423,9 @@ public class SearchActivity extends AppCompatActivity {
         if (!searchInput.equals("")) {
             if (strictCheck(searchInput, translateOptionsParam())) {
                 // For order number: clip country code.
-                if (translateOptionsParam().equals("sorder") && searchInput.length() > 5) {
+                if (translateOptionsParam().equals("sorder")) {
                     searchInput = searchInput.substring(0, 5);
+                    searchInput = searchInput.concat("LL/");
                 }
                 // Remove Results only before actual search starts.
                 resetIllegal();
@@ -454,6 +461,7 @@ public class SearchActivity extends AppCompatActivity {
         String legalCharacters;
         // update
         switch (method) {
+            case "special":
             case "sname":
                 legalCharacters = legalCharactersName;
                 break;
@@ -492,12 +500,13 @@ public class SearchActivity extends AppCompatActivity {
     // isStrict: only check the upper limit. 2021/8/1
     private boolean lengthCheck(final String validateInput, final String method, final boolean isStrict) {
         switch (method) {
+            case "special":
             case "sname":
                 return validateInput.length() <= 50;
             case "smodel":
                 return (validateInput.length() <= 5) && (validateInput.length() == 5 || !isStrict);
             case "sident":
-                return validateInput.length() <= 14 && (validateInput.length() >= 4 || !isStrict);
+                return validateInput.length() <= 14 && (validateInput.length() >= 6 || !isStrict);
             case "sgestalt":
                 return validateInput.length() <= 3;
             case "sorder":
@@ -516,6 +525,7 @@ public class SearchActivity extends AppCompatActivity {
     private boolean strictCheck(final String validateInput, final String method) {
         String errorPrompt = "";
         switch (method) {
+            case "special":
             case "sname":
                 if (!characterCheck(validateInput, method)) {
                     errorPrompt = errorPrompt.concat(getString(R.string.search_illegal_name) + "\n");

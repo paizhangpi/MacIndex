@@ -228,7 +228,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                     Log.i("Benchmark", "Benchmark Stage 1 ended at " + System.currentTimeMillis());
                     benchmarkTimer[0] = System.currentTimeMillis() - benchmarkTimer[0];
                     benchmarkTimer[1] = System.currentTimeMillis();
-                    MainActivity.getMachineHelper().directSortByYear(benchTemp);
+                    MainActivity.getMachineHelper().directSortByYear(benchTemp, SettingsAboutActivity.this);
                     Log.i("Benchmark", "Benchmark Stage 2 ended at " + System.currentTimeMillis());
                     benchmarkTimer[1] = System.currentTimeMillis() - benchmarkTimer[1];
                     runOnUiThread(new Runnable() {
