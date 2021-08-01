@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
                 resources = getResources();
                 initDatabase(this);
                 initInterface(true);
+
+                // Reserved for future use.
+                PrefsHelper.registerNewVersion(this);
             } else {
                 // Creating activity due to system
                 Log.i("MacIndex", "Reloading the main activity.");

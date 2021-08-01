@@ -191,8 +191,24 @@ class PrefsHelper {
         }
     }
 
-    public static void clearSettingsRuntimeRecord(final Context thisContext) {
-
+    public static boolean registerNewVersion(final Context thisContext) {
+        try {
+            if (getIntPrefs("lastKnownVersion", thisContext) < BuildConfig.VERSION_CODE) {
+                Log.w("VersionControl", "Registering new known version");
+                editPrefs("lastKnownVersion", BuildConfig.VERSION_CODE, thisContext);
+                return true;
+            } else if (getIntPrefs("lastKnownVersion", thisContext) == BuildConfig.VERSION_CODE) {
+                Log.i("VersionControl", "No new known version");
+                return false;
+            } else {
+                Log.e("VersionControl", "Newer version was already registered.");
+                throw new IllegalStateException();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(thisContext, e,
+                    "VersionControl", "Downgrading is not allowed. Please clear the preference file.");
+            return false;
+        }
     }
 
     // https://stackoverflow.com/questions/6609414/how-do-i-programmatically-restart-an-android-app

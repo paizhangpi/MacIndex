@@ -46,8 +46,8 @@ public class SearchActivity extends AppCompatActivity {
 
     /**
      * setOnItemSelectedListener() was called by system weirdly
-     * filtersSpinner called once if no savedInstanceState was saved, twice if restored from a savedInstanceState
-     * optionsSpinner called once all the time
+     * Once if no savedInstanceState was saved
+     * Twice if restored from a savedInstanceState
      * They are called outside the onCreate, I don't know what happened
      * Below are patches for the weird system call
      */
@@ -98,6 +98,7 @@ public class SearchActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             // Patch; see above
             filterSpinnerCallingPatch++;
+            optionsSpinnerCallingPatch++;
             searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
             if (savedInstanceState.getBoolean("loadComplete")) {
                 positions = savedInstanceState.getIntArray("positions");
