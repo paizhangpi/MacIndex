@@ -221,5 +221,7 @@
     <string name="about_update">Release Notes</string>
     <string name="about_questions">Frequently Asked Questions</string>
     <string name="about_feedback">Feedback</string>
-    <string name="viewimage_rotate">Rotate your device to change the orientation</string>
+    <string name="viewimage_rotate">For reference only\nRotate your device to change the orientation</string>
+    <string name="random_lucky_title">Lucky you</string>
+    <string name="ramdom_lucky_message">Just ramdomly entered a machine that is your favourite!</string>
 </resources>

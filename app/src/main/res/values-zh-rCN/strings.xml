@@ -201,5 +201,7 @@
     <string name="about_update">发行说明</string>
     <string name="about_questions">常见问题</string>
     <string name="about_feedback">问题反馈</string>
-    <string name="viewimage_rotate">旋转设备来改变图片方向</string>
+    <string name="viewimage_rotate">示意图仅供参考\n旋转设备来改变图片方向</string>
+    <string name="random_lucky_title">运气不错</string>
+    <string name="ramdom_lucky_message">随机进入了在收藏夹中的机型！</string>
 </resources>

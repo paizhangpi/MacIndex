@@ -214,7 +214,7 @@ public class CommentActivity extends AppCompatActivity {
 
                                         int finalI = i;
                                         commentChunk.setOnClickListener(view -> {
-                                            SpecsIntentHelper.sendIntent(machineIDs, machineIDs[finalI], CommentActivity.this);
+                                            SpecsIntentHelper.sendIntent(machineIDs, machineIDs[finalI], CommentActivity.this, false);
                                         });
                                         commentChunk.setOnLongClickListener(view -> {
                                             ClipboardManager clipboard = (ClipboardManager) CommentActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);

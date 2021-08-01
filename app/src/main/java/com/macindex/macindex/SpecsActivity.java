@@ -75,6 +75,7 @@ public class SpecsActivity extends AppCompatActivity {
             final Intent intent = getIntent();
             categoryStartEnd = intent.getIntArrayExtra("thisCategory");
             machineID = intent.getIntExtra("machineID", -1);
+            thisName = MainActivity.getMachineHelper().getName(machineID);
 
             if (categoryStartEnd == null || machineID == -1) {
                 throw new IllegalArgumentException();
@@ -90,6 +91,18 @@ public class SpecsActivity extends AppCompatActivity {
                         machineIDPosition = i;
                         break;
                     }
+                }
+                // Is randomized into a favourite machine?
+                if (intent.getBooleanExtra("isRandom", false)
+                        && FavouriteActivity.isFavourite(thisName, this)) {
+                    Log.i("Random", "User wins.");
+                    final AlertDialog.Builder congratsDialog = new AlertDialog.Builder(SpecsActivity.this);
+                    congratsDialog.setTitle(R.string.random_lucky_title);
+                    congratsDialog.setMessage(R.string.ramdom_lucky_message);
+                    congratsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // Do nothing..
+                    });
+                    congratsDialog.show();
                 }
             }
 
@@ -166,7 +179,6 @@ public class SpecsActivity extends AppCompatActivity {
 
     private void initialize() {
         Log.i("SpecsInitialize", "Machine ID " + machineID);
-        thisName = MainActivity.getMachineHelper().getName(machineID);
         if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
             initButtons();
         }

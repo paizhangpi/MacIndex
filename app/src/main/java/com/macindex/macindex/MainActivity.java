@@ -671,7 +671,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 Log.i("RandomAccess", "Machine ID " + machineID);
-                SpecsIntentHelper.sendIntent(new int[]{machineID}, machineID, this);
+                SpecsIntentHelper.sendIntent(new int[]{machineID}, machineID, this, true);
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
