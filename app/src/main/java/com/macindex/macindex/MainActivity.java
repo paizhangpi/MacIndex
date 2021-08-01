@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             outState.putBoolean("loadComplete", false);
+            MainActivity.reloadDatabase(this);
         }
 
         // Is drawer opened?
@@ -180,6 +181,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_main, menu);
+        // Debug items visibility
+        if (!BuildConfig.DEBUG) {
+            Log.i("DebugMode", "Disabling debug menu items.");
+            menu.findItem(R.id.mainDebugReloadItem).setVisible(false);
+            menu.findItem(R.id.mainDebugTriggerErrorItem).setVisible(false);
+        }
         return true;
     }
 
@@ -193,13 +200,12 @@ public class MainActivity extends AppCompatActivity {
                     mDrawerLayout.openDrawer(GravityCompat.START);
                 }
                 break;
-            case R.id.mainReloadItem:
+            case R.id.mainDebugReloadItem:
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                closeDatabase();
-                initDatabase(this);
+                reloadDatabase(this);
                 initInterface(true);
                 break;
-            case R.id.mainTriggerErrorItem:
+            case R.id.mainDebugTriggerErrorItem:
                 // Debug use only. Should not visible to users
                 ExceptionHelper.handleException(this, null, "Debug", "User triggered.");
                 break;
@@ -256,7 +262,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void closeDatabase() {
+    private static void closeDatabase() {
+        machineHelper.setStopQuery();
         if (database != null) {
             database.close();
         }
@@ -740,8 +747,14 @@ public class MainActivity extends AppCompatActivity {
         if (machineHelper == null || database == null || resources == null || !database.isOpen()) {
             Log.w("MainValidate", "Process was killed. Reloading resources.");
             resources = context.getResources();
+            machineHelper.setStopQuery();
             initDatabase(context);
         }
+    }
 
+    // When there is an incomplete database query, reload the database.
+    public static void reloadDatabase(final Context context) {
+        closeDatabase();
+        initDatabase(context);
     }
 }

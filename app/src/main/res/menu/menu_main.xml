@@ -2,11 +2,11 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/mainReloadItem"
-        android:title="@string/submenu_main_reload" />
+        android:id="@+id/mainDebugReloadItem"
+        android:title="Debug: Reload Database" />
     <item
-        android:id="@+id/mainTriggerErrorItem"
-        android:title="Trigger Error" />
+        android:id="@+id/mainDebugTriggerErrorItem"
+        android:title="Debug: Trigger Error" />
     <item
         android:id="@+id/mainHelpItem"
         android:title="@string/submenu_main_help" />

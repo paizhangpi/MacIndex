@@ -87,6 +87,7 @@ public class FavouriteActivity extends AppCompatActivity {
             }
         } else {
             outState.putBoolean("loadComplete", false);
+            MainActivity.reloadDatabase(this);
         }
     }
 

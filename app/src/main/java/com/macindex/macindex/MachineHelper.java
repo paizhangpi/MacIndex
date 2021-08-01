@@ -99,6 +99,9 @@ class MachineHelper {
     /* starts from 0, actual total -1. */
     private int totalMachine = 0;
 
+    // Stop flooding the Logcat!
+    private boolean stopQuery = false;
+
     MachineHelper(final SQLiteDatabase thisDatabase, final Context thisContext) {
         database = thisDatabase;
 
@@ -124,6 +127,10 @@ class MachineHelper {
         }
         Log.w("MachineHelper", "Initialized with " + totalMachine + " machines.");
 
+    }
+
+    public void setStopQuery() {
+        stopQuery = true;
     }
 
     // Get the total count of categories
@@ -1023,6 +1030,10 @@ class MachineHelper {
 
             // Setup temp cursor of each category for a query.
             for (int i = 0; i < thisCategoryCount; i++) {
+                // Terminate immediately.
+                if (stopQuery) {
+                    throw new IllegalAccessException();
+                }
                 Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i], new String[]{"id", columnName}, columnName + " LIKE ? ",
                         new String[]{"%" + searchInput + "%"}, null, null, null);;
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
@@ -1031,6 +1042,10 @@ class MachineHelper {
                 // Write raw query results.
                 int previousCount = 0;
                 while (thisSearchIndividualCursor.moveToNext()) {
+                    // Terminate immediately.
+                    if (stopQuery) {
+                        throw new IllegalAccessException();
+                    }
                     rawResults[i][previousCount] = thisSearchIndividualCursor.getInt(thisSearchIndividualCursor.getColumnIndex("id"));
                     previousCount++;
                 }
@@ -1082,6 +1097,10 @@ class MachineHelper {
                 // Insertion sort for best runtime
                 for (int i = 0; i < resultTotalCount; i++) {
                     for (int j = i; j > 0; j--) {
+                        // Terminate immediately.
+                        if (stopQuery) {
+                            throw new IllegalAccessException();
+                        }
                         if (getYearForSorting(columnName, searchInput, finalPositions[j])
                                 < getYearForSorting(columnName, searchInput, finalPositions[j - 1])) {
                             int shiftTemp = finalPositions[j];
@@ -1096,6 +1115,7 @@ class MachineHelper {
             return finalPositions;
         } catch (Exception e) {
             Log.e("MHSearchHelper", "Exception Occurred, returning empty array");
+            setStopQuery();
             e.printStackTrace();
             return new int[0];
         }
@@ -1105,6 +1125,10 @@ class MachineHelper {
     private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine) {
         try {
             String[] rawYear = getSYear(thisMachine).split(", ");
+            // Terminate immediately.
+            if (stopQuery) {
+                throw new IllegalAccessException();
+            }
             int targetIndex = 0;
             if (columnName.equals("syear") && rawYear.length > 1) {
                 for (int i = 0; i < rawYear.length; i++) {
@@ -1131,6 +1155,7 @@ class MachineHelper {
             targetYearSplitedB = targetYearSplitedB / 10;
             return targetYearSplitedA + targetYearSplitedB;
         } catch (Exception e) {
+            setStopQuery();
             e.printStackTrace();
             return 0.0;
         }
@@ -1138,11 +1163,22 @@ class MachineHelper {
 
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
     public int[][] filterSearchHelper(final String[][] filterString, final String thisManufacturer, final Context thisContext) {
-        int[][] finalPositions = new int[filterString[1].length][];
-        for (int i = 0; i < filterString[1].length; i++) {
-            finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
+        try {
+            int[][] finalPositions = new int[filterString[1].length][];
+            for (int i = 0; i < filterString[1].length; i++) {
+                // Terminate immediately.
+                if (stopQuery) {
+                    throw new IllegalAccessException();
+                }
+                finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
+            }
+            return finalPositions;
+        } catch (Exception e) {
+            Log.e("MHFilterSearchHelper", "Exception Occurred, returning empty array");
+            setStopQuery();
+            e.printStackTrace();
+            return new int[0][0];
         }
-        return finalPositions;
     }
 
     // Sorting used by ver. 4.9
@@ -1151,6 +1187,10 @@ class MachineHelper {
             Log.i("MHDirectSort", "Starting Direct Sorting.");
             for (int i = 0; i < input.length; i++) {
                 for (int j = i; j > 0; j--) {
+                    // Terminate immediately.
+                    if (stopQuery) {
+                        throw new IllegalAccessException();
+                    }
                     if (getYearForSorting("", "", input[j])
                             < getYearForSorting("", "", input[j - 1])) {
                         int shiftTemp = input[j];
@@ -1162,6 +1202,7 @@ class MachineHelper {
             return input;
         } catch (Exception e) {
             e.printStackTrace();
+            setStopQuery();
             return input;
         }
     }

@@ -75,6 +75,7 @@ public class CommentActivity extends AppCompatActivity {
             outState.putIntArray("machineIDs", machineIDs);
         } else {
             outState.putBoolean("loadComplete", false);
+            MainActivity.reloadDatabase(this);
         }
     }
 

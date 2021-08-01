@@ -33,9 +33,12 @@ public class NewAboutActivity extends AppCompatActivity {
             Date buildDate = new Date();
             buildDate.setTime(BuildConfig.TIMESTAMP);
 
-            final String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
+            String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n" +
                     getString(R.string.version_information_releasedate) + " " + dateFormat.format(buildDate) + "\n" +
                     getString(R.string.version_information_models) + " " + MainActivity.getMachineHelper().getMachineCount();
+            if (BuildConfig.DEBUG) {
+                versionString = versionString.concat("\n\nPRERELEASE. Internal Evaluations Only.");
+            }
             ((TextView) findViewById(R.id.versionText)).setText(versionString);
 
             findViewById(R.id.websiteButton).setOnClickListener(v -> {

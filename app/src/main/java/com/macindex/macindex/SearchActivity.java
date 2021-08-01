@@ -149,6 +149,7 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             outState.putBoolean("loadComplete", false);
             outState.putCharSequence("searchInput", searchText.getQuery());
+            MainActivity.reloadDatabase(this);
         }
     }
 

@@ -105,7 +105,6 @@
     <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu">Main Menu</string>
     <string name="submenu_main_help">Main Page Help</string>
-    <string name="submenu_main_reload">Reload Database</string>
     <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add/Remove Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
@@ -158,12 +157,11 @@
     <string name="bus_expansion">Features &amp; Expansions</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
-    <string name="benchmark_warning">This will take a while and will evaluate the performance of MacIndex.</string>
+    <string name="benchmark_warning">This can evaluate the performance of the current version MacIndex.</string>
     <string name="benchmark_result">Benchmark has completed. This reflects the performance of the current version of MacIndex. Lower is better.</string>
     <string name="benchmark_advice">Benchmark has completed. Based on the score, enabling enhanced sorting is not recommended. Turning it off will improve your experience. You can enable it later at the preferences page.</string>
     <string name="benchmark_high">Benchmark has completed. Based on the score, enabling enhanced sorting is recommended. Turning it on can ensure the correct order and will not impact your experience. You can disable it later at the preferences page.</string>
-    <string name="benchmark_error">Benchmark was interrupted. Please do not leave MacIndex during the process.</string>
-    <string name="benchmark_interrupted">Benchmark was interrupted before its completion.</string>
+    <string name="benchmark_error">Benchmark was interrupted. Please do not use your phone or leave MacIndex during the process.</string>
     <string name="comment">Custom Comment</string>
     <string name="comment_null">Not Available (Could be edited in the menu)</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
@@ -187,8 +185,7 @@
     <string name="get_started">Get Started</string>
     <string name="loading_category">Loading Categories</string>
     <string name="loading_fixed_nav">Fixed Navigation Enabled</string>
-    <string name="loading_benchmark">Benchmark in progress. Do not leave MacIndex. This will take a while, depends on your phone\'s performance. Please wait.</string>
-    <string name="loading_benchmark_stop">Benchmark was interrupted. Waiting for the thread to terminate safely. Please wait.</string>
+    <string name="loading_benchmark">Benchmark in progress, please wait. Do not use your phone or leave MacIndex.</string>
     <string name="loading_search">Searching</string>
     <string name="loading_comments">Loading Comments</string>
     <string name="loading_favourites">Loading Favourites</string>

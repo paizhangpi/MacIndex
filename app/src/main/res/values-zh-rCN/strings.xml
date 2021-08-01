@@ -100,7 +100,6 @@
     <string name="menu_group0">所有分组</string>
     <string name="menu">主菜单</string>
     <string name="submenu_main_help">主页面帮助</string>
-    <string name="submenu_main_reload">重新装载数据库</string>
     <string name="submenu_specs_share">分享这个机型</string>
     <string name="submenu_specs_favourite">添加或移除收藏</string>
     <string name="submenu_specs_compare">添加到比较列表</string>
@@ -138,12 +137,11 @@
     <string name="bus_expansion">功能与扩展</string>
     <string name="design">设计</string>
     <string name="support">售后状态</string>
-    <string name="benchmark_warning">这将花去一段时间，并评估 MacIndex 的性能表现。</string>
-    <string name="benchmark_result">基准测试已完毕。该成绩可以反映该手机使用当前版本 MacIndex 的性能表现。越低越好。请在帮助内容中查阅更多说明。</string>
+    <string name="benchmark_warning">此功能可以评估当前版本的 MacIndex 的性能表现。</string>
+    <string name="benchmark_result">基准测试已完毕。该成绩可以反映该手机使用当前版本 MacIndex 的性能表现。得分越低越好。请在帮助内容中查阅更多说明。</string>
     <string name="benchmark_advice">基准测试已完毕。基于得分，不推荐使用二次排序功能。将其关闭可以提升使用体验。可以在设置页重新打开该功能。也请参阅帮助内容。</string>
     <string name="benchmark_high">基准测试已完毕。基于得分，推荐使用二次排序功能。将其打开可以保证分组排列正确，且不会影响使用体验。可以在设置页再次关闭该功能。也请参阅帮助内容。</string>
-    <string name="benchmark_error">基准测试被中断。请勿在测试期间离开 MacIndex。</string>
-    <string name="benchmark_interrupted">基准测试在完毕前已被中断。</string>
+    <string name="benchmark_error">基准测试被中断。请勿在测试期间操作手机或离开 MacIndex。</string>
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注（可在菜单中编辑）</string>
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
@@ -167,8 +165,7 @@
     <string name="get_started">开始使用</string>
     <string name="loading_category">正在加载分组</string>
     <string name="loading_fixed_nav">导航范围已固定</string>
-    <string name="loading_benchmark">正在基准测试。不要离开 MacIndex。这将花去一段时间，基于手机的性能而定。</string>
-    <string name="loading_benchmark_stop">基准测试被中断。正在等待线程安全终止。请稍候。</string>
+    <string name="loading_benchmark">正在基准测试，请稍候。请勿操作手机或离开 MacIndex。</string>
     <string name="loading_search">正在搜索</string>
     <string name="loading_comments">正在加载备注</string>
     <string name="loading_favourites">正在加载收藏</string>
