@@ -60,9 +60,6 @@ public class NewAboutActivity extends AppCompatActivity {
             findViewById(R.id.updateButton).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/download-and-update-history", this);
             });
-            findViewById(R.id.questionsButton).setOnClickListener(v -> {
-                LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/frequently-asked-questions", this);
-            });
             findViewById(R.id.feedbackButton).setOnClickListener(v -> {
                 LinkLoadingHelper.startBrowser("https://macindex.paizhang.info/v/english/feedback",
                         "https://macindex.paizhang.info/feedback-and-evaluation", this);

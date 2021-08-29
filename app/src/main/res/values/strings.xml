@@ -51,7 +51,7 @@
     </string-array>
     <string-array name="search_Options">
         <item>General Searching by Name</item>
-        <item>Precise Match by Model Numbers</item>
+        <item>Automatic Match by Model Numbers</item>
     </string-array>
     <string-array name="search_Tips">
         <item>Machine Name</item>
@@ -151,8 +151,8 @@
     <string name="link_opening">Opening in EveryMac:&#160;</string>
     <string name="link_message">More than one configurations were found for this machine. Please make a selection then confirm.</string>
     <string name="link_not_available">Due to sale region or special purpose, this machine is not available in EveryMac</string>
-    <string name="link_only_available">Sorry, but this page is only available in Chinese. Do you still want to proceed?</string>
-    <string name="error">Error</string>
+    <string name="link_only_available">Sorry, but this page is only available in Chinese. Proceed to the page?</string>
+    <string name="error">Internal Error</string>
     <string name="error_information">Please report the bug to the developer. It is recommended to restart the application.</string>
     <string name="error_copy_button">Copy Information</string>
     <string name="error_copy_information">Information copied</string>
@@ -194,12 +194,11 @@
     <string name="version_information_releasedate">Release Date:</string>
     <string name="version_information_models">Available Models: </string>
     <string name="about_information">©Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
-    <string name="about_important">Copyrights and Licenses</string>
-    <string name="about_opensource">Open Source Licenses</string>
+    <string name="about_important">Copyright and License</string>
+    <string name="about_opensource">Other Licenses</string>
     <string name="about_update">Release Notes</string>
-    <string name="about_questions">Frequently Asked Questions</string>
     <string name="about_feedback">Feedback</string>
     <string name="viewimage_rotate">For reference only\nRotate your device to change the orientation</string>
-    <string name="random_lucky_title">Lucky you</string>
-    <string name="ramdom_lucky_message">Just ramdomly entered a machine that is your favourite!</string>
+    <string name="random_lucky_title">Lucky!</string>
+    <string name="ramdom_lucky_message">Randomly entered one of your favourite machine.</string>
 </resources>

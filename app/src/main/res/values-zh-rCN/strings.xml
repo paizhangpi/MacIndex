@@ -50,7 +50,7 @@
     </string-array>
     <string-array name="search_Options">
         <item>名称模糊搜索</item>
-        <item>型号精确匹配</item>
+        <item>型号自动匹配</item>
     </string-array>
     <string-array name="search_Tips">
         <item>机型名称</item>
@@ -131,8 +131,8 @@
     <string name="link_opening">正在 EveryMac 中浏览：</string>
     <string name="link_message">该机型有多种不同的配置。请做出选择并确认。</string>
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
-    <string name="link_only_available">很抱歉，但这个页面只有英文版本。您仍想要继续吗？</string>
-    <string name="error">错误</string>
+    <string name="link_only_available">很抱歉，但这个页面只有英文版本。继续浏览吗？</string>
+    <string name="error">内部错误</string>
     <string name="error_information">请向开发者报告这个 Bug。建议您重新启动应用程序。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
@@ -174,12 +174,11 @@
     <string name="version_information_releasedate">发布日期: </string>
     <string name="version_information_models">机型数量: </string>
     <string name="about_information">©版权所有 2019–2021，paizhang，Victor Jiao，Mation Wang。基于 MIT 许可证开源。</string>
-    <string name="about_important">版权与许可</string>
-    <string name="about_opensource">开源许可证</string>
+    <string name="about_important">版权与许可证</string>
+    <string name="about_opensource">其他许可证</string>
     <string name="about_update">发行说明</string>
-    <string name="about_questions">常见问题</string>
-    <string name="about_feedback">问题反馈</string>
+    <string name="about_feedback">常见问题与反馈</string>
     <string name="viewimage_rotate">示意图仅供参考\n旋转设备来改变图片方向</string>
     <string name="random_lucky_title">运气不错</string>
-    <string name="ramdom_lucky_message">随机进入了在收藏夹中的机型！</string>
+    <string name="ramdom_lucky_message">随机进入了收藏夹中的机型。</string>
 </resources>

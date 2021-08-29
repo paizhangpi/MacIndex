@@ -86,13 +86,6 @@
                 android:text="@string/about_update" />
 
             <Button
-                android:id="@+id/questionsButton"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="120pt"
-                android:layout_height="wrap_content"
-                android:text="@string/about_questions" />
-
-            <Button
                 android:id="@+id/feedbackButton"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="120pt"
