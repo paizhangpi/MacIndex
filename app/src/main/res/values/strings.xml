@@ -41,7 +41,7 @@
     <string name="setting_category_main">Main Page</string>
     <string name="setting_category_specs">Specifications Page</string>
     <string name="search_category_page">Search Page</string>
-    <string name="search_searchBy">Search By</string>
+    <string name="search_searchBy">Search Options</string>
     <string-array name="search_Filters">
         <item>All Categories</item>
         <item>68K Macintosh</item>
@@ -55,15 +55,14 @@
     </string-array>
     <string-array name="search_Tips">
         <item>Machine Name</item>
-        <item>Model/Order No., ID, EMC, Gestalt</item>
+        <item>Model No./Order No./ID/EMC/Gestalt</item>
     </string-array>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
     <string name="search_prompt">Press return to start searching</string>
-    <string name="search_illegal">Invalid Input</string>
-    <string name="search_disable_identification">Old world Macintosh does not have a Model Identifier or EMC Numbers. Please use the Gestalt ID instead.</string>
-    <string name="search_disable_gestalt">New world Macintosh does not have a Gestalt ID. Please use the Model Identifier instead.</string>
+    <string name="search_illegal">Input contains illegal character(s)</string>
+    <string name="search_overlength">Input is too long</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>

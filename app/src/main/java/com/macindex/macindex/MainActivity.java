@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.mainDebugRunnerItem:
                 /* For function testing */
+                Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
@@ -765,6 +766,9 @@ public class MainActivity extends AppCompatActivity {
     // When there is an incomplete database query, reload the database.
     public static void reloadDatabase(final Context context) {
         Log.w("Database", "Reload requested.");
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(context, "Database reload requested", Toast.LENGTH_SHORT).show();
+        }
         closeDatabase();
         initDatabase(context);
     }

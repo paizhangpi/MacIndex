@@ -54,15 +54,14 @@
     </string-array>
     <string-array name="search_Tips">
         <item>机型名称</item>
-        <item>机型/部件号 ID EMC Gestalt</item>
+        <item>机型号/部件号/ID/EMC/Gestalt</item>
     </string-array>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>
     <string name="search_prompt">点按回车来开始搜索</string>
-    <string name="search_illegal">无效输入</string>
-    <string name="search_disable_identification">Old world Macintosh 没有机型标识符或 EMC 号。请以 Gestalt 标识符代替。也请参阅帮助内容。</string>
-    <string name="search_disable_gestalt">New world Macintosh 没有 Gestalt 标识符。请以机型标识符代替。也请参阅帮助内容。</string>
+    <string name="search_illegal">搜索词包含无效字符</string>
+    <string name="search_overlength">搜索词太长</string>
     <string name="menu_search">搜索</string>
     <string name="menu_random">试试手气</string>
     <string name="menu_random_limited">（限制范围）</string>

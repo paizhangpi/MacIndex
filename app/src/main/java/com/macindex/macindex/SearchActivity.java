@@ -92,9 +92,6 @@ public class SearchActivity extends AppCompatActivity {
         // Init Search Prompt at Here!!
         resetIllegal();
 
-        // Run a disable check here..
-        disableCheck();
-
         if (savedInstanceState != null) {
             // Patch; see above
             filterSpinnerCallingPatch++;
@@ -109,7 +106,7 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         Log.i("SearchActivity", "Current Query: " + searchText.getQuery()
-                + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
+                + ", Current Manufacturer: " + translateFiltersParam() + ", Current Option: " + (translateMatchParam()? "MODEL NO." : "NAME"));
     }
 
     @Override
@@ -219,7 +216,6 @@ public class SearchActivity extends AppCompatActivity {
                     if (filterSpinnerCallingPatch <= 0) {
                         Log.w("ReloadSpinnerCallDebug", "Filter Executed");
                         PrefsHelper.editPrefs("lastSearchFiltersSpinner", i, SearchActivity.this);
-                        disableCheck();
                     } else {
                         filterSpinnerCallingPatch--;
                     }
@@ -280,28 +276,18 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private String translateOptionsParam() {
+    private String[] translateOptionsParam() {
         int thisSelection = PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
-                return "special";
+                return new String[]{"sname"};
             case 1:
-                return "sname";
-            case 2:
-                return "smodel";
-            case 3:
-                return "sident";
-            case 4:
-                return "sgestalt";
-            case 5:
-                return "sorder";
-            case 6:
-                return "semc";
+                return new String[]{"smodel", "sident", "sgestalt", "sorder", "semc"};
             default:
                 ExceptionHelper.handleException(this, null,
                         "translateOptionsParam",
                         "Not a Valid Search Column Selection, This should NOT happen!!");
-                return "sname";
+                return new String[]{"sname"};
         }
     }
 
@@ -309,13 +295,8 @@ public class SearchActivity extends AppCompatActivity {
         int thisSelection = PrefsHelper.getIntPrefs("lastSearchOptionsSpinner", this);
         switch (thisSelection) {
             case 0:
-            case 1:
-            case 5:
                 return false;
-            case 2:
-            case 3:
-            case 4:
-            case 6:
+            case 1:
                 return true;
             default:
                 ExceptionHelper.handleException(this, null,
@@ -325,30 +306,7 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private void disableCheck() {
-        final int position = optionsSpinner.getSelectedItemPosition();
-        // Disable Identification and EMC if current selection is 68K
-        // Disable Gestalt if current selection is Intel or ARM
-        if ((position == 3 || position == 6) && translateFiltersParam().equals("apple68k")) {
-            final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
-            disableDialog.setMessage(R.string.search_disable_identification);
-            disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                // Confirmed
-            });
-            disableDialog.show();
-            optionsSpinner.setSelection(4);
-            PrefsHelper.editPrefs("lastSearchOptionsSpinner", 4, this);
-        } else if (position == 4 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
-            final AlertDialog.Builder disableDialog = new AlertDialog.Builder(SearchActivity.this);
-            disableDialog.setMessage(R.string.search_disable_gestalt);
-            disableDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                // Confirmed
-            });
-            disableDialog.show();
-            optionsSpinner.setSelection(3);
-            PrefsHelper.editPrefs("lastSearchOptionsSpinner", 3, this);
-        }
-    }
+    /* Logic was improved since 4.8.2. disableCheck, lengthCheck, and strictCheck were removed. 8/30/2021 */
 
     private void initSearch() {
         searchText = findViewById(R.id.searchInput);
@@ -369,10 +327,7 @@ public class SearchActivity extends AppCompatActivity {
                 // Initialize on-the-fly validation.
                 resetIllegal();
                 if (!searchInput.equals("")) {
-                    if (!characterCheck(searchInput, translateOptionsParam())
-                            || !lengthCheck(searchInput, translateOptionsParam(), false)) {
-                        setIllegal();
-                    }
+                    characterCheck(searchInput, translateMatchParam());
                 } else {
                     // No input
                     resetIllegal();
@@ -392,11 +347,6 @@ public class SearchActivity extends AppCompatActivity {
     private void clearSearch() {
         loadedResults = null;
         currentLayout.removeAllViews();
-    }
-
-    private void setIllegal() {
-        textResult.setText(R.string.search_illegal);
-        textResult.setTextColor(Color.RED);
     }
 
     private void resetIllegal() {
@@ -420,22 +370,15 @@ public class SearchActivity extends AppCompatActivity {
     private boolean startSearch(final String s) {
         String searchInput = s.trim();
         Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
-                + translateFiltersParam() + ", Current Option: " + translateOptionsParam());
+                + translateFiltersParam() + ", Current Option: " + (translateMatchParam()? "MODEL NO." : "NAME"));
         if (!searchInput.equals("")) {
-            if (strictCheck(searchInput, translateOptionsParam())) {
-                // For order number: clip country code.
-                if (translateOptionsParam().equals("sorder")) {
-                    searchInput = searchInput.substring(0, 5);
-                    searchInput = searchInput.concat("LL/");
-                }
+            if (characterCheck(searchInput, translateMatchParam())) {
                 // Remove Results only before actual search starts.
                 resetIllegal();
                 clearSearch();
                 performSearch(searchInput, true);
                 return true;
             } else {
-                // Illegal input
-                setIllegal();
                 return false;
             }
         } else {
@@ -445,87 +388,41 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    private boolean characterCheck(final String validateInput, final String method) {
-        // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus, dot.
-        final String legalCharactersName = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+.";
-        // Model Number: acceptable search input Aa, Mm, 0~9.
-        final String legalCharactersModel = "AMam1234567890";
-        // Identification: acceptable search input A~Z, a~z, 0~9, comma.
-        final String legalCharactersIdentification = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,";
-        // Gestalt: acceptable search input 0~9.
-        final String legalCharactersGestalt = "0123456789";
-        // Order Number: acceptable search input A~Z, a~z, 0~9, /.
-        final String legalCharactersOrder = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789/";
-        // EMC Number: acceptable search input Cc, 0~9, -.
-        final String legalCharactersEMC = "Cc0123456789-";
+    private boolean characterCheck(final String validateInput, final boolean method) {
+        // Check the length first
+        if ((method && validateInput.length() > 20) || (!method && validateInput.length() > 50)) {
+            Log.i("validate", "Overlength Detected!");
+            // Set the overlength prompt here..
+            textResult.setText(R.string.search_overlength);
+            textResult.setTextColor(Color.RED);
+            return false;
+        }
 
         String legalCharacters;
-        // update
-        switch (method) {
-            case "special":
-            case "sname":
-                legalCharacters = legalCharactersName;
-                break;
-            case "smodel":
-                legalCharacters = legalCharactersModel;
-                break;
-            case "sident":
-                legalCharacters = legalCharactersIdentification;
-                break;
-            case "sgestalt":
-                legalCharacters = legalCharactersGestalt;
-                break;
-            case "sorder":
-                legalCharacters = legalCharactersOrder;
-                break;
-            case "semc":
-                legalCharacters = legalCharactersEMC;
-                break;
-            default:
-                ExceptionHelper.handleException(this, null,
-                        "validate",
-                        "Not a Valid Search Method, This should NOT happen!!");
-                legalCharacters = "";
+        if (method) {
+            // Model Numbers: acceptable search input A~Z, a~z, 0~9, comma, -, /.
+            legalCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789,-/";
+        } else {
+            // Name: acceptable search input A~Z, a~z, 0~9, whitespace, /, (), dash, comma, plus, dot.
+            legalCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxzy0123456789 /()-,+.";
         }
 
         for (int i = 0; i < validateInput.length(); i++) {
             // If it contains illegal character, it is not valid.
             if (!legalCharacters.contains(String.valueOf(validateInput.charAt(i)))) {
                 Log.i("validate", "Illegal Char Detected!");
+                // Set the illegal prompt here..
+                textResult.setText(R.string.search_illegal);
+                textResult.setTextColor(Color.RED);
                 return false;
             }
         }
         return true;
     }
 
-    // isStrict: only check the upper limit. 2021/8/1
-    private boolean lengthCheck(final String validateInput, final String method, final boolean isStrict) {
-        switch (method) {
-            case "special":
-            case "sname":
-                return validateInput.length() <= 50;
-            case "smodel":
-                return (validateInput.length() <= 5) && (validateInput.length() == 5 || !isStrict);
-            case "sident":
-                return validateInput.length() <= 14 && (validateInput.length() >= 6 || !isStrict);
-            case "sgestalt":
-                return validateInput.length() <= 3;
-            case "sorder":
-                return validateInput.length() <= 9 && (validateInput.length() >= 5 || !isStrict);
-            case "semc":
-                return validateInput.length() <= 6 && (validateInput.length() >= 4 || !isStrict);
-            default:
-                ExceptionHelper.handleException(this, null,
-                        "lengthCheck",
-                        "Not a Valid Search Method, This should NOT happen!!");
-                return false;
-        }
-    }
-
     private void performSearch(final String searchInput, final boolean reloadPositions) {
         try {
-            Log.i("performSearch", "Current Input " + searchInput + ", Current Manufacturer: "
-                    + translateFiltersParam() + ", Current Option: " + translateOptionsParam() + ", Reload Flag: " + reloadPositions);
+            Log.i("performSearch", "Reload Flag: " + reloadPositions);
             if (reloadPositions) {
                 waitDialog.show();
             }
@@ -533,8 +430,48 @@ public class SearchActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (reloadPositions) {
-                        positions = MainActivity.getMachineHelper().searchHelper(translateOptionsParam(), searchInput, translateFiltersParam(),
-                                SearchActivity.this, translateMatchParam());
+                        final String[] searchColumns = translateOptionsParam();
+                        int[][] subPositions = new int[searchColumns.length][];
+                        String rawSearchInput;
+                        boolean rawMatchParam;
+                        int resultCount = 0;
+
+                        // Search by translated columns
+                        for (int i = 0; i < searchColumns.length; i++) {
+                            // For order number: clip country code.
+                            if (searchColumns[i].equals("sorder")) {
+                                if (searchInput.length() < 5) {
+                                    // omit this
+                                    subPositions[i] = new int[0];
+                                    continue;
+                                }
+                                // Overwrite input
+                                rawSearchInput = searchInput.substring(0, 5);
+                                rawSearchInput = rawSearchInput.concat("LL/");
+                                // Overwrite match param.
+                                rawMatchParam = false;
+                            } else {
+                                rawSearchInput = searchInput;
+                                rawMatchParam = translateMatchParam();
+                            }
+                            Log.i("rawSearchInput", "Raw Input " + rawSearchInput + ", Current Manufacturer: "
+                                    + translateFiltersParam() + ", Raw Option: " + searchColumns[i] + ", Match Parameter: " + rawMatchParam);
+                            subPositions[i] = MainActivity.getMachineHelper().searchHelper(searchColumns[i], rawSearchInput, translateFiltersParam(),
+                                    SearchActivity.this, rawMatchParam);
+                            resultCount += subPositions[i].length;
+                        }
+
+                        // Add raw results
+                        positions = new int[resultCount];
+                        int previousCount = 0;
+                        for (int i = 0; i < searchColumns.length; i++) {
+                            for (int j = 0; j < subPositions[i].length; j++) {
+                                positions[previousCount] = subPositions[i][j];
+                                previousCount++;
+                            }
+                        }
+                        // Check duplicate although IDK the necessarily
+                        positions = MainActivity.getMachineHelper().checkDuplicate(positions);
                     }
                     runOnUiThread(new Runnable() {
                         @Override

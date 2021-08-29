@@ -1211,7 +1211,7 @@ class MachineHelper {
         }
     }
 
-    public int[] checkDuplicate(final int[] input, final Context thisContext) {
+    public int[] checkDuplicate(final int[] input) {
         try {
             if (input.length == 0) {
                 Log.w("MHCheckDuplicate", "Input is empty.");
