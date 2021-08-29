@@ -239,13 +239,11 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     Log.w("Benchmark", "Terminated normally.");
                                     stopBenchmark();
                                     // Compose result message
-                                    final String benchmarkRev = "3.0";
                                     final String resultInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
                                             + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
                                             + "Android Version: " + Build.VERSION.RELEASE + "\n"
                                             + "Hardware Model: " + Build.BRAND + " " + Build.MODEL + "\n"
                                             + "Processor Type: " + Build.SUPPORTED_ABIS[0] + "\n"
-                                            + "Benchmark Revision: " + benchmarkRev + "\n"
                                             + "Database Reading: " + benchmarkTimer[0] + "\n"
                                             + "Enhanced Sorting: " + benchmarkTimer[1] + "\n"
                                             + "Overall Result: " + (benchmarkTimer[0] + benchmarkTimer[1]) + "\n";

@@ -271,7 +271,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static void closeDatabase() {
-        machineHelper.setStopQuery();
+        if (machineHelper != null) {
+            machineHelper.setStopQuery();
+        }
         if (database != null) {
             Log.w("Database", "Current database close.");
             database.close();

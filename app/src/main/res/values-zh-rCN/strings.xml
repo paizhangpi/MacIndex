@@ -49,36 +49,13 @@
         <item>ARM Macintosh</item>
     </string-array>
     <string-array name="search_Options">
-        <item>自动模糊匹配</item>
-        <item>按名称（模糊匹配）</item>
-        <item>按机型号（精确匹配）</item>
-        <item>按机型标识符（精确匹配）</item>
-        <item>按 Gestalt 标识符（精确匹配）</item>
-        <item>按部件号（精确匹配）</item>
-        <item>按 EMC 号（精确匹配）</item>
+        <item>名称模糊搜索</item>
+        <item>型号精确匹配</item>
     </string-array>
     <string-array name="search_Tips">
-        <item>自动模糊匹配</item>
-        <item>例：MacBook Pro</item>
-        <item>例：A1150</item>
-        <item>例：MacBookPro1,1</item>
-        <item>例：510</item>
-        <item>例：MA463</item>
-        <item>例：2101</item>
+        <item>机型名称</item>
+        <item>机型/部件号 ID EMC Gestalt</item>
     </string-array>
-    <string name="search_illegal_name">无效字符：名称的有效字符包括半角字母、数字、空格、斜杠、括号、连接号、逗号、加号、英文句号。</string>
-    <string name="search_illegal_model">无效字符：机型号的有效字符包括半角 A、M、数字。</string>
-    <string name="search_illegal_ident">无效字符：机型标识符的有效字符包括半角字母、数字、逗号。</string>
-    <string name="search_illegal_gestalt">无效字符：Gestalt 标识符的有效字符仅包括半角数字。</string>
-    <string name="search_illegal_order">无效字符：部件号的有效字符包括半角字母、数字、斜杠。</string>
-    <string name="search_illegal_emc">无效字符：EMC 号的有效字符包括半角 C、数字、连接号。</string>
-    <string name="search_checkInput">请检查输入或参阅帮助内容。</string>
-    <string name="search_length_name">长度不符：名称搜索的长度不能超过 50 个字符。</string>
-    <string name="search_length_model">长度不符：机型号应该是 5 个字符整。</string>
-    <string name="search_length_ident">长度不符：机型标识符的长度应该在 6 和 14 之间。</string>
-    <string name="search_length_gestalt">长度不符：Gestalt 标识符的长度应该在 1 和 3 之间。</string>
-    <string name="search_length_order">长度不符：部件号的长度应该在 5 和 9 之间。搜索时仅使用前 5 位。</string>
-    <string name="search_length_emc">长度不符：EMC 号的长度应该在 4 到 6 之间。</string>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
     <string name="search_results">&#160;个结果</string>

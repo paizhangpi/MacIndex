@@ -50,36 +50,13 @@
         <item>ARM Macintosh</item>
     </string-array>
     <string-array name="search_Options">
-        <item>Automatic General Searching</item>
-        <item>Name (General Match)</item>
-        <item>Model Numbers (Exact Match)</item>
-        <item>Model Identifier (Exact Match)</item>
-        <item>Gestalt ID (Exact Match)</item>
-        <item>Part Numbers (Exact Match)</item>
-        <item>EMC Numbers (Exact Match)</item>
+        <item>General Searching by Name</item>
+        <item>Precise Match by Model Numbers</item>
     </string-array>
     <string-array name="search_Tips">
-        <item>Automatic General Searching</item>
-        <item>Example: MacBook Pro</item>
-        <item>Example: A1150</item>
-        <item>Example: MacBookPro1,1</item>
-        <item>Example: 510</item>
-        <item>Example: MA463</item>
-        <item>Example: 2101</item>
+        <item>Machine Name</item>
+        <item>Model/Order No., ID, EMC, Gestalt</item>
     </string-array>
-    <string name="search_illegal_name">Illegal character(s): The characters allowed for name are alphabets, numbers, whitespace, slash, parentheses, dash, comma, plus, and period.</string>
-    <string name="search_illegal_model">Illegal character(s): The characters allowed for model number are A, M, and numbers.</string>
-    <string name="search_illegal_ident">Illegal character(s): The characters allowed for model identifier are alphabets, numbers, and comma.</string>
-    <string name="search_illegal_gestalt">Illegal character(s): The characters allowed for gestalt ID are only numbers.</string>
-    <string name="search_illegal_order">Illegal character(s): The characters allowed for part number are alphabets, numbers, and slash.</string>
-    <string name="search_illegal_emc">Illegal character(s): The characters allowed for EMC number are C, numbers, and dash.</string>
-    <string name="search_checkInput">Please check your input.</string>
-    <string name="search_length_name">Length mismatch: The length allowed for name searching is less or equal to 50 characters.</string>
-    <string name="search_length_model">Length mismatch: The length of model number should be exactly 5.</string>
-    <string name="search_length_ident">Length mismatch: The length of model identifier should range between 6 and 14, inclusively.</string>
-    <string name="search_length_gestalt">Length mismatch: The length of gestalt ID should range between 1 and 3, inclusively.</string>
-    <string name="search_length_order">Length mismatch: The length of part number should range between 5 and 9, inclusively. Only the first 5 characters will be used.</string>
-    <string name="search_length_emc">Length mismatch: The length of EMC number should range between 4 and 6, inclusively.</string>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
     <string name="search_results">&#160;result(s)</string>
