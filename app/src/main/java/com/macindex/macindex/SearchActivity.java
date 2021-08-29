@@ -51,8 +51,6 @@ public class SearchActivity extends AppCompatActivity {
      * They are called outside the onCreate, I don't know what happened
      * Below are patches for the weird system call
      */
-    private int filterSpinnerCallingPatch = 1;
-
     private int optionsSpinnerCallingPatch = 1;
 
     @Override
@@ -94,7 +92,6 @@ public class SearchActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             // Patch; see above
-            filterSpinnerCallingPatch++;
             optionsSpinnerCallingPatch++;
             searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
             if (savedInstanceState.getBoolean("loadComplete")) {
@@ -212,13 +209,7 @@ public class SearchActivity extends AppCompatActivity {
             filtersSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    Log.w("ReloadSpinnerCallDebug", "Filter Patch " + filterSpinnerCallingPatch);
-                    if (filterSpinnerCallingPatch <= 0) {
-                        Log.w("ReloadSpinnerCallDebug", "Filter Executed");
-                        PrefsHelper.editPrefs("lastSearchFiltersSpinner", i, SearchActivity.this);
-                    } else {
-                        filterSpinnerCallingPatch--;
-                    }
+                    PrefsHelper.editPrefs("lastSearchFiltersSpinner", i, SearchActivity.this);
                 }
 
                 @Override
@@ -471,7 +462,7 @@ public class SearchActivity extends AppCompatActivity {
                             }
                         }
                         // Check duplicate although IDK the necessarily
-                        positions = MainActivity.getMachineHelper().checkDuplicate(positions);
+                        // positions = MainActivity.getMachineHelper().checkDuplicate(positions);
                     }
                     runOnUiThread(new Runnable() {
                         @Override
