@@ -234,138 +234,214 @@ public class SpecsActivity extends AppCompatActivity {
             reloadName();
 
             type.setText(MainActivity.getMachineHelper().getType(machineID));
+            /* return true - do not attach another click event */
             type.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("typeInfo", type.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (type.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("typeInfo", type.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             processor.setText(MainActivity.getMachineHelper().getProcessor(machineID));
             processor.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("processorInfo", processor.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (processor.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("processorInfo", processor.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
             maxram.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("maxramInfo", maxram.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (maxram.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("maxramInfo", maxram.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             year.setText(MainActivity.getMachineHelper().getYear(machineID));
             year.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("yearInfo", year.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (year.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("yearInfo", year.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             model.setText(MainActivity.getMachineHelper().getModel(machineID));
             model.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("modelInfo", model.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (model.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("modelInfo", model.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             id.setText(MainActivity.getMachineHelper().getMid(machineID));
             id.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("idInfo", id.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (id.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("idInfo", id.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             graphics.setText(MainActivity.getMachineHelper().getGraphics(machineID));
             graphics.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("graphicsInfo", graphics.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (graphics.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("graphicsInfo", graphics.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             expansion.setText(MainActivity.getMachineHelper().getExpansion(machineID));
             expansion.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("expansionInfo", expansion.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (expansion.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("expansionInfo", expansion.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             storage.setText(MainActivity.getMachineHelper().getStorage(machineID));
             storage.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("storageInfo", storage.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (storage.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("storageInfo", storage.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             order.setText(MainActivity.getMachineHelper().getOrder(machineID));
             order.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("orderInfo", order.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (order.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("orderInfo", order.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             gestalt.setText(MainActivity.getMachineHelper().getGestalt(machineID));
             gestalt.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("gestaltInfo", gestalt.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (gestalt.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("gestaltInfo", gestalt.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             emc.setText(MainActivity.getMachineHelper().getEMC(machineID));
             emc.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("emcInfo", emc.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (emc.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("emcInfo", emc.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             software.setText(MainActivity.getMachineHelper().getSoftware(machineID));
             software.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("softwareInfo", software.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (software.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("softwareInfo", software.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             design.setText(MainActivity.getMachineHelper().getDesign(machineID));
             design.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("designInfo", design.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (design.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("designInfo", design.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
             support.setText(MainActivity.getMachineHelper().getSupport(machineID));
             support.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("supportInfo", support.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (support.getText().equals(getString(R.string.not_applicable))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("supportInfo", support.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
 
@@ -700,11 +776,16 @@ public class SpecsActivity extends AppCompatActivity {
                 comment.setText(R.string.comment_null);
             }
             comment.setOnLongClickListener(view -> {
-                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("userComment", comment.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SpecsActivity.this,
-                        MainActivity.getRes().getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                if (comment.getText().equals(getString(R.string.comment_null))) {
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
+                } else {
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("userComment", comment.getText());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(SpecsActivity.this,
+                            getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+                }
                 return true;
             });
         } catch (Exception e) {
