@@ -62,7 +62,9 @@
     <string name="search_results">&#160;result(s)</string>
     <string name="search_prompt">Press return to start searching</string>
     <string name="search_illegal">Input contains illegal character(s)</string>
+    <string name="search_illegal_message">Your input contains illegal character(s) for the current searching option. Please double check your input, then try again.</string>
     <string name="search_overlength">Input is too long</string>
+    <string name="search_overlength_message">Your input exceed the maximum allowed length for the current searching option. Please double check your input, then try again.</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>

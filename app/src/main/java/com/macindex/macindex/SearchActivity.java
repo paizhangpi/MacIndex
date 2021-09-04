@@ -1,7 +1,6 @@
 package com.macindex.macindex;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.TextViewCompat;
 
@@ -345,22 +344,47 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private boolean startSearch(final String s) {
-        String searchInput = s.trim();
-        Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
-                + translateFiltersParam() + ", Current Option: " + (translateMatchParam()? "MODEL NO." : "NAME"));
-        if (!searchInput.equals("")) {
-            if (characterCheck(searchInput, translateMatchParam())) {
-                // Remove Results only before actual search starts.
-                resetIllegal();
-                clearSearch();
-                performSearch(searchInput, true);
-                return true;
+        try {
+            String searchInput = s.trim();
+            Log.i("startSearch", "Current Input: " + searchInput + ", Current Manufacturer: "
+                    + translateFiltersParam() + ", Current Option: " + (translateMatchParam() ? "MODEL NO." : "NAME"));
+            if (!searchInput.equals("")) {
+                if (characterCheck(searchInput, translateMatchParam())) {
+                    // Remove Results only before actual search starts.
+                    resetIllegal();
+                    clearSearch();
+                    performSearch(searchInput, true);
+                    return true;
+                } else {
+                    // Error dialog
+                    if (textResult.getText().equals(getString(R.string.search_overlength))) {
+                        final AlertDialog.Builder illegalInputDialog = new AlertDialog.Builder(SearchActivity.this);
+                        illegalInputDialog.setTitle(R.string.search_overlength);
+                        illegalInputDialog.setMessage(R.string.search_overlength_message);
+                        illegalInputDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                            // do nothing here
+                        });
+                        illegalInputDialog.show();
+                    } else if (textResult.getText().equals(getString(R.string.search_illegal))) {
+                        final AlertDialog.Builder illegalInputDialog = new AlertDialog.Builder(SearchActivity.this);
+                        illegalInputDialog.setTitle(R.string.search_illegal);
+                        illegalInputDialog.setMessage(R.string.search_illegal_message);
+                        illegalInputDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                            // do nothing here
+                        });
+                        illegalInputDialog.show();
+                    } else {
+                        throw new IllegalStateException();
+                    }
+                    return false;
+                }
             } else {
+                // No input
+                resetIllegal();
                 return false;
             }
-        } else {
-            // No input
-            resetIllegal();
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, null, null);
             return false;
         }
     }
