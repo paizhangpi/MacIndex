@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     /**
      * setOnItemSelectedListener() was called by system weirdly
      * Once if no savedInstanceState was saved
-     * Twice if restored from a savedInstanceState
+     * ? if restored from a savedInstanceState
      * They are called outside the onCreate, I don't know what happened
      * Below are patches for the weird system call
      */
@@ -91,8 +91,7 @@ public class SearchActivity extends AppCompatActivity {
         resetIllegal();
 
         if (savedInstanceState != null) {
-            // Patch; see above
-            optionsSpinnerCallingPatch++;
+            /* Patch Increment Placeholder */
             searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
             if (savedInstanceState.getBoolean("loadComplete")) {
                 positions = savedInstanceState.getIntArray("positions");
@@ -120,7 +119,19 @@ public class SearchActivity extends AppCompatActivity {
                 resetIllegal();
                 clearSearch();
                 break;
-            case R.id.everymacItem:
+            case R.id.searchResetItem:
+                PrefsHelper.editPrefs("lastSearchFiltersSpinner", 0, SearchActivity.this);
+                PrefsHelper.editPrefs("lastSearchOptionsSpinner", 0, SearchActivity.this);
+                filtersSpinner.setSelection(0);
+                optionsSpinner.setSelection(0);
+                searchText.setQuery("", true);
+                searchText.clearFocus();
+                changeTips();
+                break;
+            case R.id.searchAppleSNItem:
+                LinkLoadingHelper.startBrowser("https://checkcoverage.apple.com/", "https://checkcoverage.apple.com/", this);
+                break;
+            case R.id.searchEveryMacItem:
                 LinkLoadingHelper.startBrowser("https://everymac.com/ultimate-mac-lookup/", "https://everymac.com/ultimate-mac-lookup/", this);
                 break;
             case R.id.searchHelpItem:
@@ -170,32 +181,7 @@ public class SearchActivity extends AppCompatActivity {
             ArrayAdapter<CharSequence> filtersAdapter = ArrayAdapter.createFromResource(this,
                     R.array.search_Filters, android.R.layout.simple_spinner_item);
             ArrayAdapter<String> optionsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                    Arrays.asList(getResources().getStringArray(R.array.search_Options))) {
-                @Override
-                public boolean isEnabled(int position) {
-                    // Disable Identification and EMC if current selection is 68K
-                    // Disable Gestalt if current selection is Intel or ARM
-                    if ((position == 3 || position == 6) && translateFiltersParam().equals("apple68k")) {
-                        return false;
-                    } else if (position == 4 && (translateFiltersParam().equals("appleintel") || translateFiltersParam().equals("applearm"))) {
-                        return false;
-                    } else {
-                        return true;
-                    }
-                }
-
-                @Override
-                public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                    View mView = super.getDropDownView(position, convertView, parent);
-                    TextView mText = (TextView) mView;
-                    if (isEnabled(position)) {
-                        mText.setTextColor(Color.BLACK);
-                    } else {
-                        mText.setTextColor(Color.GRAY);
-                    }
-                    return mView;
-                }
-            };
+                    Arrays.asList(getResources().getStringArray(R.array.search_Options)));
 
             filtersAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             optionsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

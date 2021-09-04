@@ -4,7 +4,13 @@
         android:id="@+id/searchClearItem"
         android:title="@string/submenu_search_clear" />
     <item
-        android:id="@+id/everymacItem"
+        android:id="@+id/searchResetItem"
+        android:title="@string/submenu_search_reset" />
+    <item
+        android:id="@+id/searchAppleSNItem"
+        android:title="@string/submenu_search_SN" />
+    <item
+        android:id="@+id/searchEveryMacItem"
         android:title="@string/submenu_search_everymac" />
     <item
         android:id="@+id/searchHelpItem"

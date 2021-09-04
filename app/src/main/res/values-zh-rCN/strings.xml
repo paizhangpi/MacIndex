@@ -77,6 +77,7 @@
     <string name="menu_group">分组筛选</string>
     <string name="menu_group0">所有分组</string>
     <string name="menu">主菜单</string>
+    <string name="submenu_main_reset">重置筛选器和浏览方式</string>
     <string name="submenu_main_help">主页面帮助</string>
     <string name="submenu_specs_share">分享这个机型</string>
     <string name="submenu_specs_favourite">添加或移除收藏</string>
@@ -84,7 +85,9 @@
     <string name="submenu_specs_comment">编辑自定义备注</string>
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_clear">清空搜索结果</string>
-    <string name="submenu_search_everymac">EveryMac 查找</string>
+    <string name="submenu_search_reset">重置筛选器与搜索方式</string>
+    <string name="submenu_search_SN">苹果序列号查询</string>
+    <string name="submenu_search_everymac">EveryMac 查询</string>
     <string name="submenu_search_help">搜索页帮助</string>
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">删除收藏夹</string>
@@ -136,6 +139,7 @@
     <string name="error_information">请向开发者报告这个 Bug。建议您重新启动应用程序。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
+    <string name="error_copy_not_available">没有能复制的信息</string>
     <string name="error_restart">重新启动</string>
     <string name="error_dismiss">关闭</string>
     <string name="first_one">已是第一台</string>

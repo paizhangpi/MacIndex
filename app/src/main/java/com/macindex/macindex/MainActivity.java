@@ -217,6 +217,13 @@ public class MainActivity extends AppCompatActivity {
                 /* For function testing */
                 Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.mainResetItem:
+                thisManufacturer = "all";
+                thisFilter = "names";
+                PrefsHelper.editPrefs("lastMainManufacturer", "all", this);
+                PrefsHelper.editPrefs("lastMainFilter", "names", this);
+                initInterface(true);
+                break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
                 break;

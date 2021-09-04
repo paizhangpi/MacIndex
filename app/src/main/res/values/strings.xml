@@ -82,6 +82,7 @@
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
     <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu">Main Menu</string>
+    <string name="submenu_main_reset">Reset Filter and View</string>
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add/Remove Favourite</string>
@@ -89,6 +90,8 @@
     <string name="submenu_specs_comment">Edit Custom Comment</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_clear">Clear Results</string>
+    <string name="submenu_search_reset">Reset Filter and Option</string>
+    <string name="submenu_search_SN">Apple SN Lookup</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
     <string name="submenu_favourite_add">Add New Folder</string>
@@ -156,6 +159,7 @@
     <string name="error_information">Please report the bug to the developer. It is recommended to restart the application.</string>
     <string name="error_copy_button">Copy Information</string>
     <string name="error_copy_information">Information copied</string>
+    <string name="error_copy_not_available">Nothing to copy</string>
     <string name="error_restart">Restart</string>
     <string name="error_dismiss">Dismiss</string>
     <string name="first_one">Already the first one</string>
