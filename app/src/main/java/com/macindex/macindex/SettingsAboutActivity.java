@@ -16,9 +16,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.Calendar;
 
@@ -116,17 +117,18 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
 
     private void initSettings() {
-        final Switch swSort = findViewById(R.id.switchSort);
-        final Switch swSortComment = findViewById(R.id.switchSortComment);
-        final Switch swEveryMac = findViewById(R.id.switchEveryMac);
-        final Switch swDeathSound = findViewById(R.id.switchDeathSound);
-        final Switch swNavButtons = findViewById(R.id.switchNavButtons);
-        final Switch swQuickNav = findViewById(R.id.switchQuickNav);
-        final Switch swRandomAll = findViewById(R.id.switchRandomAll);
-        final Switch swSaveMainUsage = findViewById(R.id.switchSaveMainUsage);
-        final Switch swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
-        final Switch swSaveCompareUsage = findViewById(R.id.switchSaveCompareUsage);
-        final Switch swVolWarning = findViewById(R.id.switchVolWarning);
+        final SwitchMaterial swSort = findViewById(R.id.switchSort);
+        final SwitchMaterial swSortComment = findViewById(R.id.switchSortComment);
+        final SwitchMaterial swEveryMac = findViewById(R.id.switchEveryMac);
+        final SwitchMaterial swDeathSound = findViewById(R.id.switchDeathSound);
+        final SwitchMaterial swNavButtons = findViewById(R.id.switchNavButtons);
+        final SwitchMaterial swQuickNav = findViewById(R.id.switchQuickNav);
+        final SwitchMaterial swRandomAll = findViewById(R.id.switchRandomAll);
+        final SwitchMaterial swSaveMainUsage = findViewById(R.id.switchSaveMainUsage);
+        final SwitchMaterial swSaveSearchUsage = findViewById(R.id.switchSaveSearchUsage);
+        final SwitchMaterial swSaveCompareUsage = findViewById(R.id.switchSaveCompareUsage);
+        final SwitchMaterial swVolWarning = findViewById(R.id.switchVolWarning);
+        final SwitchMaterial swOpenDirectly = findViewById(R.id.switchOpenDirectly);
 
         swSort.setChecked(PrefsHelper.getBooleanPrefs("isSortAgain", this));
         swSortComment.setChecked(PrefsHelper.getBooleanPrefs("isSortComment", this));
@@ -140,6 +142,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swSaveSearchUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveSearchUsage", this));
         swSaveCompareUsage.setChecked(PrefsHelper.getBooleanPrefs("isSaveCompareUsage", this));
         swVolWarning.setChecked(PrefsHelper.getBooleanPrefs("isEnableVolWarning", this));
+        swOpenDirectly.setChecked(PrefsHelper.getBooleanPrefs("isOpenDirectly", this));
 
         swSort.setOnCheckedChangeListener((buttonView, isChecked) -> {
                     PrefsHelper.editPrefs("isSortAgain", isChecked, this);
@@ -154,6 +157,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         swSaveSearchUsage.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSaveSearchUsage", isChecked, this));
         swSaveCompareUsage.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isSaveCompareUsage", isChecked, this));
         swVolWarning.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isEnableVolWarning", isChecked, this));
+        swOpenDirectly.setOnCheckedChangeListener((buttonView, isChecked) -> PrefsHelper.editPrefs("isOpenDirectly", isChecked, this));
 
         // If EveryMac is checked, disable following settings.
         if (everyMacSelection) {

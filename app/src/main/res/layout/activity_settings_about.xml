@@ -22,11 +22,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_sort"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -62,11 +63,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSortComment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_sort_comment"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -102,11 +104,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchEveryMac"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_everymac"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -142,11 +145,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchRandomAll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_randomall"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -183,11 +187,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchDeathSound"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_deathsound"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -224,11 +229,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchVolWarning"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_high_vol_warning"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -265,11 +271,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchNavButtons"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_navbuttons"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -306,11 +313,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchQuickNav"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_quicknav"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -347,11 +355,54 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/switchOpenDirectly"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/setting_search_open_directly"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setting_search_open_directly_description" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSaveMainUsage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_save_main"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -388,11 +439,12 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSaveSearchUsage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_save_search"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -430,7 +482,7 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <Switch
+                <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSaveCompareUsage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -465,6 +517,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />
             </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/setting_help_prompt" />
 
         </LinearLayout>
     </ScrollView>

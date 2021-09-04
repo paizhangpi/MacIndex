@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -45,10 +44,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /**
      * setOnItemSelectedListener() was called by system weirdly
-     * Once if no savedInstanceState was saved
-     * ? if restored from a savedInstanceState
-     * They are called outside the onCreate, I don't know what happened
-     * Below are patches for the weird system call
+     * Patch for the weird system call
      */
     private int optionsSpinnerCallingPatch = 1;
 
@@ -90,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
         resetIllegal();
 
         if (savedInstanceState != null) {
-            /* Patch Increment Placeholder */
+            optionsSpinnerCallingPatch++;
             searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
             if (savedInstanceState.getBoolean("loadComplete")) {
                 positions = savedInstanceState.getIntArray("positions");
@@ -496,6 +492,17 @@ public class SearchActivity extends AppCompatActivity {
                                     loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
                                             true, SearchActivity.this);
                                     SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
+
+                                    // Open directly?
+                                    if (reloadPositions && positions.length == 1
+                                            && PrefsHelper.getBooleanPrefs("isOpenDirectly", SearchActivity.this)) {
+                                        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", SearchActivity.this)) {
+                                            LinkLoadingHelper.loadLinks(MainActivity.getMachineHelper().getName(positions[0]),
+                                                    MainActivity.getMachineHelper().getConfig(positions[0]), SearchActivity.this);
+                                        } else {
+                                            SpecsIntentHelper.sendIntent(positions, positions[0], SearchActivity.this, false);
+                                        }
+                                    }
                                 }
                             } catch (final Exception e) {
                                 ExceptionHelper.handleException(SearchActivity.this, e, null, null);

@@ -33,6 +33,7 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isUseNavButtons", Boolean.TRUE);
         DEFAULT_VALUES.put("isFixedNav", Boolean.FALSE);
         DEFAULT_VALUES.put("isRandomAll", Boolean.FALSE);
+        DEFAULT_VALUES.put("isOpenDirectly", Boolean.TRUE);
         DEFAULT_VALUES.put("isSaveMainUsage", Boolean.TRUE);
         DEFAULT_VALUES.put("isSaveSearchUsage", Boolean.TRUE);
         DEFAULT_VALUES.put("isSaveCompareUsage", Boolean.TRUE);
