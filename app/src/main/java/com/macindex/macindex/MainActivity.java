@@ -524,7 +524,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     if (reloadPositions) {
-                        loadPositions = machineHelper.filterSearchHelper(thisFilterString, thisManufacturer, MainActivity.this);
+                        loadPositions = machineHelper.filterSearchHelper(thisFilterString, thisManufacturer,
+                                PrefsHelper.getBooleanPrefsSafe("isSortAgain", MainActivity.this));
                     }
 
                     runOnUiThread(new Runnable() {

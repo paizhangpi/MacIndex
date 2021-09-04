@@ -54,7 +54,7 @@
     </string-array>
     <string-array name="search_Tips">
         <item>机型名称</item>
-        <item>机型号/部件号/ID/EMC/Gestalt</item>
+        <item>机型号/部件号/标识符/EMC/Gestalt</item>
     </string-array>
     <string name="search_noResult">无结果</string>
     <string name="search_found">共找到&#160;</string>
@@ -94,7 +94,7 @@
     <string name="submenu_compare_manage">管理比较列表</string>
     <string name="submenu_compare_clear">清除比较列表</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
-    <string name="submenu_comments_delete">管理自定义备注</string>
+    <string name="submenu_comments_delete">删除自定义备注</string>
     <string name="submenu_comments_clear">清除所有自定义备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
     <string name="submenu_prefs_benchmark">基准测试</string>

@@ -153,8 +153,9 @@ class MachineHelper {
     }
 
     // Get category range for fixed navigation
-    public int[] getCategoryRangeIDs(final int thisMachine, final Context thisContext) {
-        return searchHelper("stype", getUndefined(thisMachine, "stype"), "all", thisContext, false);
+    public int[] getCategoryRangeIDs(final int thisMachine, final boolean isSortAgain) {
+        return searchHelper("stype", getUndefined(thisMachine, "stype"),
+                "all", false, isSortAgain);
     }
 
 
@@ -1024,7 +1025,8 @@ class MachineHelper {
     }
 
     // For search use. Return machine IDs. Adapted with category range.
-    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer, final Context thisContext, final boolean isExactMatch) {
+    public int[] searchHelper(final String columnName, final String searchInput, final String thisManufacturer,
+                              final boolean isExactMatch, final boolean isSortAgain) {
         try {
             Log.i("MHSearchHelper", "Get parameter: column " + columnName + ", input " + searchInput);
             // Raw results (categoryID/remainders)
@@ -1097,24 +1099,11 @@ class MachineHelper {
             Log.i("MHSearchHelper", "Exact Matched: " + finalPositions.length + " result(s).");
 
             // Sort if required.
-            if (PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext) && resultTotalCount > 1) {
+            if (isSortAgain && resultTotalCount > 1) {
                 // Insertion sort for best runtime
-                for (int i = 0; i < resultTotalCount; i++) {
-                    for (int j = i; j > 0; j--) {
-                        // Terminate immediately.
-                        if (stopQuery) {
-                            throw new IllegalAccessException();
-                        }
-                        if (getYearForSorting(columnName, searchInput, finalPositions[j], thisContext)
-                                < getYearForSorting(columnName, searchInput, finalPositions[j - 1], thisContext)) {
-                            int shiftTemp = finalPositions[j];
-                            finalPositions[j] = finalPositions[j - 1];
-                            finalPositions[j - 1] = shiftTemp;
-                        }
-                    }
-                }
+                finalPositions = directSortByYear(finalPositions);
             }
-            Log.i("MHSearchHelper", "Sorting is " + PrefsHelper.getBooleanPrefsSafe("isSortAgain", thisContext) + ".");
+            Log.i("MHSearchHelper", "Sorting is " + isSortAgain + ".");
             Log.i("MHSearchHelper", "Returning " + finalPositions.length + " result(s).");
             return finalPositions;
         } catch (Exception e) {
@@ -1126,7 +1115,7 @@ class MachineHelper {
     }
 
     // Get year parameter for sorting. Y = Y, M = M/10. Returns double float number.
-    private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine, final Context thisContext) {
+    private double getYearForSorting(final String columnName, final String searchInput, final int thisMachine) {
         try {
             String[] rawYear = getSYear(thisMachine).split(", ");
             // Terminate immediately.
@@ -1166,7 +1155,7 @@ class MachineHelper {
     }
 
     // For filter-based fixed search use. Return (filterIDs/machineIDs).
-    public int[][] filterSearchHelper(final String[][] filterString, final String thisManufacturer, final Context thisContext) {
+    public int[][] filterSearchHelper(final String[][] filterString, final String thisManufacturer, final boolean isSortAgain) {
         try {
             int[][] finalPositions = new int[filterString[1].length][];
             for (int i = 0; i < filterString[1].length; i++) {
@@ -1174,7 +1163,8 @@ class MachineHelper {
                 if (stopQuery) {
                     throw new IllegalAccessException();
                 }
-                finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer, thisContext, false);
+                finalPositions[i] = searchHelper(filterString[0][0], filterString[1][i], thisManufacturer,
+                        false, isSortAgain);
             }
             return finalPositions;
         } catch (Exception e) {
@@ -1186,7 +1176,7 @@ class MachineHelper {
     }
 
     // Sorting used by ver. 4.9
-    public int[] directSortByYear(final int[] input, final Context thisContext) {
+    public int[] directSortByYear(final int[] input) {
         try {
             Log.i("MHDirectSort", "Starting Direct Sorting.");
             for (int i = 0; i < input.length; i++) {
@@ -1195,8 +1185,8 @@ class MachineHelper {
                     if (stopQuery) {
                         throw new IllegalAccessException();
                     }
-                    if (getYearForSorting("", "", input[j], thisContext)
-                            < getYearForSorting("", "", input[j - 1], thisContext)) {
+                    if (getYearForSorting("", "", input[j])
+                            < getYearForSorting("", "", input[j - 1])) {
                         int shiftTemp = input[j];
                         input[j] = input[j - 1];
                         input[j - 1] = shiftTemp;

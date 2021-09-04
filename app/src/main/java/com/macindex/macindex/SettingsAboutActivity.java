@@ -30,8 +30,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
 
     private boolean benchmarkStopped = false;
 
-    private boolean sortBackup;
-
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +55,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         // Check if benchmark is interrupted
         if (benchmarkThread != null && !benchmarkStopped) {
             Log.e("Benchmark", "Terminated due to activity restart.");
-            stopBenchmark();
+            stopBenchmark(true);
             interruptBenchmarkDialog();
         }
     }
@@ -68,7 +66,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
         // Check if benchmark is interrupted
         if (benchmarkThread != null && !benchmarkStopped) {
             Log.e("Benchmark", "Terminated due to activity destruction.");
-            stopBenchmark();
+            stopBenchmark(true);
             outState.putBoolean("benchmarkComplete", false);
         } else {
             outState.putBoolean("benchmarkComplete", true);
@@ -203,8 +201,6 @@ public class SettingsAboutActivity extends AppCompatActivity {
         benchmarkWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
             Log.i("Benchmark", "Benchmark started at " + System.currentTimeMillis());
             final long[] benchmarkTimer = {System.currentTimeMillis(), 0};
-            sortBackup = PrefsHelper.getBooleanPrefs("isSortAgain", this);
-            PrefsHelper.editPrefs("isSortAgain", false, this);
             waitDialog = new ProgressDialog(this);
             waitDialog.setTitle(R.string.submenu_prefs_benchmark);
             waitDialog.setMessage(getString(R.string.loading_benchmark));
@@ -217,18 +213,18 @@ public class SettingsAboutActivity extends AppCompatActivity {
             // Rewrite negative button
             waitDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
                 Log.e("Benchmark", "Terminated due to the user.");
-                stopBenchmark();
+                stopBenchmark(true);
             });
             benchmarkStopped = false;
             benchmarkThread = new Thread() {
                 @Override
                 public void run() {
                     int[] benchTemp = MainActivity.getMachineHelper().searchHelper("sname", "a", "all",
-                            SettingsAboutActivity.this, false);
+                            false, false);
                     Log.i("Benchmark", "Benchmark Stage 1 ended at " + System.currentTimeMillis());
                     benchmarkTimer[0] = System.currentTimeMillis() - benchmarkTimer[0];
                     benchmarkTimer[1] = System.currentTimeMillis();
-                    MainActivity.getMachineHelper().directSortByYear(benchTemp, SettingsAboutActivity.this);
+                    MainActivity.getMachineHelper().directSortByYear(benchTemp);
                     Log.i("Benchmark", "Benchmark Stage 2 ended at " + System.currentTimeMillis());
                     benchmarkTimer[1] = System.currentTimeMillis() - benchmarkTimer[1];
                     runOnUiThread(new Runnable() {
@@ -237,7 +233,7 @@ public class SettingsAboutActivity extends AppCompatActivity {
                             try {
                                 if (!benchmarkStopped) {
                                     Log.w("Benchmark", "Terminated normally.");
-                                    stopBenchmark();
+                                    stopBenchmark(false);
                                     // Compose result message
                                     final String resultInfo = "Generated: " + Calendar.getInstance().getTime() + "\n"
                                             + "MacIndex Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")\n"
@@ -280,7 +276,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     });
 
                                     // Low performance warning dialog
-                                    if ((benchmarkTimer[0] + benchmarkTimer[1]) >= 100000 && sortBackup) {
+                                    if ((benchmarkTimer[0] + benchmarkTimer[1]) >= 100000
+                                            && PrefsHelper.getBooleanPrefs("isSortAgain", SettingsAboutActivity.this)) {
                                         final AlertDialog.Builder performanceWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                                         performanceWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
                                         performanceWarningDialog.setMessage(R.string.benchmark_advice);
@@ -295,7 +292,8 @@ public class SettingsAboutActivity extends AppCompatActivity {
                                     }
 
                                     // High performance warning dialog
-                                    if ((benchmarkTimer[0] + benchmarkTimer[1]) < 50000 && !sortBackup) {
+                                    if ((benchmarkTimer[0] + benchmarkTimer[1]) < 50000
+                                            && !PrefsHelper.getBooleanPrefs("isSortAgain", SettingsAboutActivity.this)) {
                                         final AlertDialog.Builder performanceWarningDialog = new AlertDialog.Builder(SettingsAboutActivity.this);
                                         performanceWarningDialog.setTitle(R.string.submenu_prefs_benchmark);
                                         performanceWarningDialog.setMessage(R.string.benchmark_high);
@@ -326,15 +324,16 @@ public class SettingsAboutActivity extends AppCompatActivity {
         benchmarkWarningDialog.show();
     }
 
-    private void stopBenchmark() {
+    private void stopBenchmark(final boolean isReloadRequired) {
         Log.w("Benchmark", "Stopping.");
         benchmarkStopped = true;
         waitDialog.dismiss();
         waitDialog = null;
         benchmarkThread = null;
-        PrefsHelper.editPrefs("isSortAgain", sortBackup, SettingsAboutActivity.this);
-        // Reload database
-        MainActivity.reloadDatabase(this);
+        if (isReloadRequired) {
+            // Reload database
+            MainActivity.reloadDatabase(this);
+        }
     }
 
     private void interruptBenchmarkDialog() {

@@ -194,15 +194,15 @@ public class FavouriteActivity extends AppCompatActivity {
                                 loadPositions[i] = new int[thisFolder.length - 1];
                                 for (int j = 0; j < thisFolder.length - 1; j++) {
                                     final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
-                                            "all", FavouriteActivity.this, true);
+                                            "all", true, false);
                                     if (thisID.length != 1) {
                                         Log.e("FavouritesSearchThread", "Error occurred on search string " + thisFolder[j + 1]);
                                     }
                                     loadPositions[i][j] = thisID[0];
                                 }
                                 // Is sorting needed?
-                                if (PrefsHelper.getBooleanPrefs("isSortComment", FavouriteActivity.this)) {
-                                    loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i], FavouriteActivity.this);
+                                if (PrefsHelper.getBooleanPrefsSafe("isSortComment", FavouriteActivity.this)) {
+                                    loadPositions[i] = MainActivity.getMachineHelper().directSortByYear(loadPositions[i]);
                                 }
                             }
                         }

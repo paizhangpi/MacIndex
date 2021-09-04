@@ -55,7 +55,7 @@
     </string-array>
     <string-array name="search_Tips">
         <item>Machine Name</item>
-        <item>Model No./Order No./ID/EMC/Gestalt</item>
+        <item>Model No./Order No./Ident./EMC/Gestalt</item>
     </string-array>
     <string name="search_noResult">No result</string>
     <string name="search_found">Found&#160;</string>
@@ -99,7 +99,7 @@
     <string name="submenu_compare_manage">Manage Comparison List</string>
     <string name="submenu_compare_clear">Clear Comparison List</string>
     <string name="submenu_compare_help">Comparison Page Help</string>
-    <string name="submenu_comments_delete">Manage Custom Comments</string>
+    <string name="submenu_comments_delete">Delete Custom Comments</string>
     <string name="submenu_comments_clear">Clear All Custom Comments</string>
     <string name="submenu_comments_help">Custom Comments Page Help</string>
     <string name="submenu_prefs_benchmark">Benchmark</string>

@@ -158,7 +158,7 @@ public class CommentActivity extends AppCompatActivity {
                                 for (int i = 0; i < thisCommentsStrings.length; i++) {
                                     String[] splitedThisString = thisCommentsStrings[i].split("│");
                                     int[] thisID = MainActivity.getMachineHelper().searchHelper("name", splitedThisString[0],
-                                            "all", CommentActivity.this, true);
+                                            "all", true, false);
                                     if (thisID.length != 1) {
                                         Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
                                     }
@@ -167,7 +167,7 @@ public class CommentActivity extends AppCompatActivity {
 
                                 // Is sorting needed?
                                 if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
-                                    machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs, CommentActivity.this);
+                                    machineIDs = MainActivity.getMachineHelper().directSortByYear(machineIDs);
                                 }
                             }
                         } catch (Exception e) {
@@ -188,7 +188,7 @@ public class CommentActivity extends AppCompatActivity {
                                         final LinearLayout commentChunk = commentsChunk.findViewById(R.id.comment_chunk);
 
                                         // Set Machine Info Accordingly
-                                        if (PrefsHelper.getBooleanPrefs("isSortComment", CommentActivity.this)) {
+                                        if (PrefsHelper.getBooleanPrefsSafe("isSortComment", CommentActivity.this)) {
                                             // Something complex here
                                             final String thisName = MainActivity.getMachineHelper().getName(machineIDs[i]);
                                             machineName.setText(thisName);

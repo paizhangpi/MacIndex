@@ -5,11 +5,11 @@
         android:id="@+id/addFolderItem"
         android:title="@string/submenu_favourite_add" />
     <item
-        android:id="@+id/deleteFolderItem"
-        android:title="@string/submenu_favourite_delete" />
-    <item
         android:id="@+id/renameFolderItem"
         android:title="@string/submenu_favourite_rename" />
+    <item
+        android:id="@+id/deleteFolderItem"
+        android:title="@string/submenu_favourite_delete" />
     <item
         android:id="@+id/clearFolderItem"
         android:title="@string/submenu_favourite_clear" />
