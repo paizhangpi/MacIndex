@@ -218,12 +218,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mainResetItem:
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                thisManufacturer = "all";
-                thisFilter = "names";
-                PrefsHelper.editPrefs("lastMainManufacturer", "all", this);
-                PrefsHelper.editPrefs("lastMainFilter", "names", this);
-                initInterface(true);
+                if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                }
+                if (!(thisManufacturer.equals("all") && thisFilter.equals("names"))) {
+                    thisManufacturer = "all";
+                    thisFilter = "names";
+                    PrefsHelper.editPrefs("lastMainManufacturer", "all", this);
+                    PrefsHelper.editPrefs("lastMainFilter", "names", this);
+                    initInterface(true);
+                }
                 break;
             case R.id.mainHelpItem:
                 LinkLoadingHelper.startBrowser(null, "https://macindex.paizhang.info/main-activity", this);
