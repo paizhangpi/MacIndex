@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.mainResetItem:
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 thisManufacturer = "all";
                 thisFilter = "names";
                 PrefsHelper.editPrefs("lastMainManufacturer", "all", this);

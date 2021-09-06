@@ -92,19 +92,19 @@
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_clear">Clear Results</string>
     <string name="submenu_search_reset">Reset Filter and Option</string>
-    <string name="submenu_search_SN">Apple SN Lookup</string>
+    <string name="submenu_search_SN">Apple S/N Lookup</string>
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
-    <string name="submenu_favourite_add">Add New Folder</string>
-    <string name="submenu_favourite_delete">Delete Folders</string>
+    <string name="submenu_favourite_add">Create New Folder</string>
+    <string name="submenu_favourite_delete">Delete Folder(s)</string>
     <string name="submenu_favourite_rename">Rename Folder</string>
-    <string name="submenu_favourite_clear">Clear All Folders</string>
+    <string name="submenu_favourite_clear">Delete All Folders</string>
     <string name="submenu_favourite_help">Favourites Page Help</string>
     <string name="submenu_compare_manage">Manage Comparison List</string>
     <string name="submenu_compare_clear">Clear Comparison List</string>
     <string name="submenu_compare_help">Comparison Page Help</string>
-    <string name="submenu_comments_delete">Delete Custom Comments</string>
-    <string name="submenu_comments_clear">Clear All Custom Comments</string>
+    <string name="submenu_comments_delete">Delete Custom Comment(s)</string>
+    <string name="submenu_comments_clear">Delete All Custom Comments</string>
     <string name="submenu_comments_help">Custom Comments Page Help</string>
     <string name="submenu_prefs_benchmark">Benchmark</string>
     <string name="submenu_prefs_clear">Application Reset</string>
@@ -145,7 +145,7 @@
     <string name="benchmark_high">Benchmark has completed. Based on the score, enabling enhanced sorting is recommended. Turning it on can ensure the correct order and will not impact your experience. You can disable it later at the preferences page.</string>
     <string name="benchmark_error">Benchmark was interrupted. Please do not use your phone or leave MacIndex during the process.</string>
     <string name="comment">Custom Comment</string>
-    <string name="comment_null">Not Available (Could be edited in the menu)</string>
+    <string name="comment_null">Not Specified</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
     <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters</string>
     <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
@@ -175,7 +175,7 @@
     <string name="comments_not_available">No comment has been saved yet. You can add a custom comment at any Specifications Page.</string>
     <string name="comments_not_available_tips">No comment has been saved yet</string>
     <string name="comments_delete">Please select the custom comment(s) to delete. This cannot be undone.</string>
-    <string name="comments_clear_warning">All existing custom comments will be cleared. This cannot be undone. Do you want to proceed?</string>
+    <string name="comments_clear_warning">All existing custom comments will be deleted. This cannot be undone. Do you want to proceed?</string>
     <string name="favourites_no_folder">No folder has been created yet. You can create a new folder right now, or you can create it later at the Favourites Page.</string>
     <string name="favourites_no_folder_tips">No folder has been created yet</string>
     <string name="favourites_tips">Please select the folder(s). Manage your favourites folders in the Favourites Page.</string>
@@ -192,15 +192,19 @@
     <string name="compare_limit">(Max)</string>
     <string name="compare_insufficient">You need at least 2 machines in the comparison list to use the comparison functions. You can add a machine at any Specifications Page.</string>
     <string name="compare_insufficient_tips">You need at least 2 machines in the comparison list</string>
-    <string name="compare_clear_warning">The comparison list will be cleared. This cannot be undone. Do you want to proceed?</string>
+    <string name="compare_clear_warning">The comparison list will be deleted. This cannot be undone. Do you want to proceed?</string>
     <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specifications Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
     <string name="version_information_general">Current Version: </string>
     <string name="version_information_releasedate">Release Date:</string>
     <string name="version_information_models">Available Models: </string>
     <string name="about_information">©Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
-    <string name="about_important">Copyright and License</string>
-    <string name="about_opensource">Other Licenses</string>
+    <string name="about_important">Important Information</string>
+    <string name="about_opensource">Open Source Licenses</string>
+    <string-array name="about_opensource_menu">
+        <item>MacIndex (MIT License)</item>
+        <item>Other Libraries\' Licenses</item>
+    </string-array>
     <string name="about_update">Release Notes</string>
     <string name="about_feedback">Feedback</string>
     <string name="viewimage_rotate">For reference only\nRotate your device to change the orientation</string>

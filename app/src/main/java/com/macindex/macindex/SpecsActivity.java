@@ -775,6 +775,9 @@ public class SpecsActivity extends AppCompatActivity {
             } else {
                 comment.setText(R.string.comment_null);
             }
+            comment.setOnClickListener(view -> {
+                initCommentDialog();
+            });
             comment.setOnLongClickListener(view -> {
                 if (comment.getText().equals(getString(R.string.comment_null))) {
                     Toast.makeText(SpecsActivity.this,

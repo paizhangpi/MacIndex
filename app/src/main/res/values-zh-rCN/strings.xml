@@ -93,13 +93,13 @@
     <string name="submenu_favourite_add">新建收藏夹</string>
     <string name="submenu_favourite_delete">删除收藏夹</string>
     <string name="submenu_favourite_rename">重命名收藏夹</string>
-    <string name="submenu_favourite_clear">清除所有收藏夹</string>
+    <string name="submenu_favourite_clear">删除所有收藏夹</string>
     <string name="submenu_favourite_help">机型收藏页帮助</string>
     <string name="submenu_compare_manage">管理比较列表</string>
     <string name="submenu_compare_clear">清除比较列表</string>
     <string name="submenu_compare_help">机型比较页帮助</string>
     <string name="submenu_comments_delete">删除自定义备注</string>
-    <string name="submenu_comments_clear">清除所有自定义备注</string>
+    <string name="submenu_comments_clear">删除所有自定义备注</string>
     <string name="submenu_comments_help">自定义备注页帮助</string>
     <string name="submenu_prefs_benchmark">基准测试</string>
     <string name="submenu_prefs_clear">重置应用</string>
@@ -125,7 +125,7 @@
     <string name="benchmark_high">基准测试已完毕。基于得分，推荐使用二次排序功能。将其打开可以保证分组排列正确，且不会影响使用体验。可以在设置页再次关闭该功能。也请参阅帮助内容。</string>
     <string name="benchmark_error">基准测试被中断。请勿在测试期间操作手机或离开 MacIndex。</string>
     <string name="comment">自定义备注</string>
-    <string name="comment_null">暂无备注（可在菜单中编辑）</string>
+    <string name="comment_null">暂无备注</string>
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
     <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
@@ -179,8 +179,12 @@
     <string name="version_information_releasedate">发布日期: </string>
     <string name="version_information_models">机型数量: </string>
     <string name="about_information">©版权所有 2019–2021，paizhang，Victor Jiao，Mation Wang。基于 MIT 许可证开源。</string>
-    <string name="about_important">版权与许可证</string>
-    <string name="about_opensource">其他许可证</string>
+    <string name="about_important">重要说明</string>
+    <string name="about_opensource">开源许可证</string>
+    <string-array name="about_opensource_menu">
+        <item>MacIndex（MIT 许可证）</item>
+        <item>其他开源库许可证</item>
+    </string-array>
     <string name="about_update">发行说明</string>
     <string name="about_feedback">常见问题与反馈</string>
     <string name="viewimage_rotate">示意图仅供参考\n旋转设备来改变图片方向</string>
