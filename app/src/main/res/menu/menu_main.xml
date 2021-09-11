@@ -8,6 +8,12 @@
         android:id="@+id/mainDebugTriggerErrorItem"
         android:title="Debug: Trigger Error" />
     <item
+        android:id="@+id/mainDebugClearCacheItem"
+        android:title="Debug: Clear Cache" />
+    <item
+        android:id="@+id/mainDebugVersionRegistration"
+        android:title="Debug: Register New Version" />
+    <item
         android:id="@+id/mainDebugRunnerItem"
         android:title="Debug: Run Code" />
     <item

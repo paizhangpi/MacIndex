@@ -103,8 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 initDatabase(this);
                 initInterface(true);
 
-                // Reserved for future use.
-                PrefsHelper.registerNewVersion(this);
+                // Cache clear if new version is registered
+                if (PrefsHelper.registerNewVersion(this)) {
+                    clearCache();
+                }
             } else {
                 // Creating activity due to system
                 Log.i("MacIndex", "Reloading the main activity.");
@@ -190,6 +192,8 @@ public class MainActivity extends AppCompatActivity {
             menu.findItem(R.id.mainDebugReloadItem).setVisible(false);
             menu.findItem(R.id.mainDebugTriggerErrorItem).setVisible(false);
             menu.findItem(R.id.mainDebugRunnerItem).setVisible(false);
+            menu.findItem(R.id.mainDebugClearCacheItem).setVisible(false);
+            menu.findItem(R.id.mainDebugVersionRegistration).setVisible(false);
         }
         return true;
     }
@@ -212,6 +216,13 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mainDebugTriggerErrorItem:
                 // Debug use only. Should not visible to users
                 ExceptionHelper.handleException(this, null, "Debug", "User triggered.");
+                break;
+            case R.id.mainDebugClearCacheItem:
+                clearCache();
+                break;
+            case R.id.mainDebugVersionRegistration:
+                PrefsHelper.editPrefs("lastKnownVersion", BuildConfig.VERSION_CODE - 1, this);
+                PrefsHelper.triggerRebirth(this);
                 break;
             case R.id.mainDebugRunnerItem:
                 /* For function testing */
@@ -518,6 +529,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initInterface(final boolean reloadPositions) {
         try {
+            boolean internalReloadFlag = reloadPositions;
             // Set Activity title.
             setTitle(getString(translateTitleRes()));
             // Parent layout of all categories.
@@ -529,22 +541,30 @@ public class MainActivity extends AppCompatActivity {
             // Get filter string and positions.
             final String[][] thisFilterString = machineHelper.getFilterString(thisFilter);
 
-            if (reloadPositions) {
+            // Query cache.
+            if (internalReloadFlag) {
+                internalReloadFlag = !(operateCache(false));
+            }
+
+            if (internalReloadFlag) {
                 waitDialog.show();
             }
+            final boolean finalInternalReloadFlag = internalReloadFlag;
             new Thread() {
                 @Override
                 public void run() {
-                    if (reloadPositions) {
+                    if (finalInternalReloadFlag) {
                         loadPositions = machineHelper.filterSearchHelper(thisFilterString, thisManufacturer,
                                 PrefsHelper.getBooleanPrefsSafe("isSortAgain", MainActivity.this));
+                        // Write cache.
+                        operateCache(true);
                     }
 
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                if (reloadPositions) {
+                                if (finalInternalReloadFlag) {
                                     waitDialog.dismiss();
                                 }
                                 // Set up each category.
@@ -757,6 +777,232 @@ public class MainActivity extends AppCompatActivity {
                         "Not a Valid Search Column Selection, This should NOT happen!!");
                 return R.id.view1MenuItem;
         }
+    }
+
+    private boolean operateCache(final boolean isWrite) {
+        try {
+            String toWrite = "";
+            if (isWrite) {
+                for (int i = 0; i < loadPositions.length; i++) {
+                    for (int j = 0; j < loadPositions[i].length; j++) {
+                        toWrite = toWrite.concat(String.valueOf(loadPositions[i][j]));
+                        if (!(j + 1 == loadPositions[i].length)) {
+                            toWrite = toWrite.concat(",");
+                        }
+                    }
+                    if (!(i + 1 == loadPositions.length)) {
+                        toWrite = toWrite.concat(";");
+                    }
+                }
+                Log.w("operateCache", "String to write: " + toWrite);
+            }
+            switch (thisManufacturer) {
+                case "all":
+                    switch (thisFilter) {
+                        case "names":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM0F0", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM0F0", this);
+                                break;
+                            }
+                        case "processors":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM0F1", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM0F1", this);
+                                break;
+                            }
+                        case "years":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM0F2", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM0F2", this);
+                                break;
+                            }
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                    break;
+                case "apple68k":
+                    switch (thisFilter) {
+                        case "names":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM1F0", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM1F0", this);
+                                break;
+                            }
+                        case "processors":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM1F1", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM1F1", this);
+                                break;
+                            }
+                        case "years":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM1F2", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM1F2", this);
+                                break;
+                            }
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                    break;
+                case "appleppc":
+                    switch (thisFilter) {
+                        case "names":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM2F0", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM2F0", this);
+                                break;
+                            }
+                        case "processors":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM2F1", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM2F1", this);
+                                break;
+                            }
+                        case "years":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM2F2", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM2F2", this);
+                                break;
+                            }
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                    break;
+                case "appleintel":
+                    switch (thisFilter) {
+                        case "names":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM3F0", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM3F0", this);
+                                break;
+                            }
+                        case "processors":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM3F1", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM3F1", this);
+                                break;
+                            }
+                        case "years":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM3F2", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM3F2", this);
+                                break;
+                            }
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                    break;
+                case "applearm":
+                    switch (thisFilter) {
+                        case "names":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM4F0", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM4F0", this);
+                                break;
+                            }
+                        case "processors":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM4F1", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM4F1", this);
+                                break;
+                            }
+                        case "years":
+                            if (isWrite) {
+                                PrefsHelper.editPrefs("lastCachedM4F2", toWrite, this);
+                                return true;
+                            } else {
+                                toWrite = PrefsHelper.getStringPrefs("lastCachedM4F2", this);
+                                break;
+                            }
+                        default:
+                            throw new IllegalArgumentException();
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+            if (!isWrite) {
+                if (toWrite.isEmpty()) {
+                    Log.i("MainCache", "Cache is empty.");
+                    return false;
+                } else {
+                    Log.i("MainCache", "Hit cache string: " + toWrite);
+                    String[] splitedCategories = toWrite.split(";");
+                    loadPositions = new int[splitedCategories.length][];
+                    for (int i = 0; i < splitedCategories.length; i++) {
+                        // Check if empty:
+                        if (splitedCategories[i].isEmpty()) {
+                            loadPositions[i] = new int[0];
+                            continue;
+                        }
+                        String[] splitedMachineIDs = splitedCategories[i].split(",");
+                        loadPositions[i] = new int[splitedMachineIDs.length];
+                        for (int j = 0; j < splitedMachineIDs.length; j++) {
+                            loadPositions[i][j] = Integer.parseInt(splitedMachineIDs[j]);
+                        }
+                    }
+                    return true;
+                }
+            } else {
+                throw new IllegalStateException();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e,
+                    "MainCache",
+                    "Unable to operate the cache.");
+            return false;
+        }
+    }
+
+    private void clearCache() {
+        Log.w("MainCache", "Clearing cache.");
+        if (BuildConfig.DEBUG) {
+            Toast.makeText(this, "Cache clear requested.", Toast.LENGTH_SHORT).show();
+        }
+        PrefsHelper.clearPrefs("lastCachedM0F0", this);
+        PrefsHelper.clearPrefs("lastCachedM0F1", this);
+        PrefsHelper.clearPrefs("lastCachedM0F2", this);
+        PrefsHelper.clearPrefs("lastCachedM1F0", this);
+        PrefsHelper.clearPrefs("lastCachedM1F1", this);
+        PrefsHelper.clearPrefs("lastCachedM1F2", this);
+        PrefsHelper.clearPrefs("lastCachedM2F0", this);
+        PrefsHelper.clearPrefs("lastCachedM2F1", this);
+        PrefsHelper.clearPrefs("lastCachedM2F2", this);
+        PrefsHelper.clearPrefs("lastCachedM3F0", this);
+        PrefsHelper.clearPrefs("lastCachedM3F1", this);
+        PrefsHelper.clearPrefs("lastCachedM3F2", this);
+        PrefsHelper.clearPrefs("lastCachedM4F0", this);
+        PrefsHelper.clearPrefs("lastCachedM4F1", this);
+        PrefsHelper.clearPrefs("lastCachedM4F2", this);
     }
 
     public static MachineHelper getMachineHelper() {
