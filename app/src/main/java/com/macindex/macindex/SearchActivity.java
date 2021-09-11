@@ -7,6 +7,7 @@ import androidx.core.widget.TextViewCompat;
 import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,6 +43,8 @@ public class SearchActivity extends AppCompatActivity {
 
     private ProgressDialog waitDialog = null;
 
+    private boolean userStopped = true;
+
     /**
      * setOnItemSelectedListener() was called by system weirdly
      * Patch for the weird system call
@@ -59,6 +62,10 @@ public class SearchActivity extends AppCompatActivity {
         waitDialog = new ProgressDialog(SearchActivity.this);
         waitDialog.setMessage(getString(R.string.loading_search));
         waitDialog.setCancelable(false);
+
+        waitDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.link_cancel), (dialog, which) -> {
+            // To be rewritten
+        });
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -88,10 +95,10 @@ public class SearchActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             optionsSpinnerCallingPatch++;
             searchText.setQuery(savedInstanceState.getCharSequence("searchInput"), false);
-            if (savedInstanceState.getBoolean("loadComplete")) {
-                positions = savedInstanceState.getIntArray("positions");
-                performSearch(null, false);
-            } else {
+            positions = savedInstanceState.getIntArray("positions");
+            // Restore previous results
+            performSearch(null, false);
+            if (!savedInstanceState.getBoolean("loadComplete")) {
                 performSearch(savedInstanceState.getCharSequence("searchInput").toString(), true);
             }
         }
@@ -146,13 +153,12 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putIntArray("positions", positions);
+        outState.putCharSequence("searchInput", searchText.getQuery());
         if (!waitDialog.isShowing()) {
             outState.putBoolean("loadComplete", true);
-            outState.putIntArray("positions", positions);
-            outState.putCharSequence("searchInput", searchText.getQuery());
         } else {
             outState.putBoolean("loadComplete", false);
-            outState.putCharSequence("searchInput", searchText.getQuery());
             MainActivity.reloadDatabase(this);
         }
     }
@@ -347,8 +353,6 @@ public class SearchActivity extends AppCompatActivity {
             if (!searchInput.equals("")) {
                 if (characterCheck(searchInput, translateMatchParam())) {
                     // Remove Results only before actual search starts.
-                    resetIllegal();
-                    clearSearch();
                     performSearch(searchInput, true);
                     return true;
                 } else {
@@ -420,8 +424,17 @@ public class SearchActivity extends AppCompatActivity {
     private void performSearch(final String searchInput, final boolean reloadPositions) {
         try {
             Log.i("performSearch", "Reload Flag: " + reloadPositions);
+            userStopped = false;
             if (reloadPositions) {
                 waitDialog.show();
+
+                // Rewrite negative button
+                waitDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setOnClickListener(view -> {
+                    Log.e("Search", "Terminated due to the user.");
+                    userStopped = true;
+                    waitDialog.dismiss();
+                    MainActivity.reloadDatabase(this);
+                });
             }
             new Thread() {
                 @Override
@@ -459,50 +472,64 @@ public class SearchActivity extends AppCompatActivity {
                         }
 
                         // Add raw results
-                        positions = new int[resultCount];
+                        int[] newPositions = new int[resultCount];
                         int previousCount = 0;
                         for (int i = 0; i < searchColumns.length; i++) {
                             for (int j = 0; j < subPositions[i].length; j++) {
-                                positions[previousCount] = subPositions[i][j];
+                                newPositions[previousCount] = subPositions[i][j];
                                 previousCount++;
                             }
                         }
                         // Check duplicate although IDK the necessarily
-                        // positions = MainActivity.getMachineHelper().checkDuplicate(positions);
+                        // newPositions = MainActivity.getMachineHelper().checkDuplicate(positions);
+
+                        // Assign new positions
+                        if (waitDialog.isShowing()) {
+                            Log.w("Search", "Assigning new positions");
+                            positions = newPositions;
+                            userStopped = false;
+                        }
                     }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             try {
                                 if (reloadPositions) {
-                                    waitDialog.dismiss();
+                                        waitDialog.dismiss();
                                 }
-                                // NullSafe
-                                if (positions != null) {
-                                    Log.i("performSearchLoad", "Position Length: "
-                                            + positions.length + ", Reload Flag: " + reloadPositions);
-                                    if (positions.length == 0) {
-                                        textResult.setText(R.string.search_noResult);
-                                        textResult.setTextColor(getColor(R.color.colorDefaultText));
-                                    } else {
-                                        textResult.setText(getString(R.string.search_found) + positions.length + getString(R.string.search_results));
-                                        textResult.setTextColor(getColor(R.color.colorDefaultText));
-                                    }
-                                    loadedResults = new TextView[1][positions.length];
-                                    loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
-                                            true, SearchActivity.this);
-                                    SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
-
-                                    // Open directly?
-                                    if (reloadPositions && positions.length == 1
-                                            && PrefsHelper.getBooleanPrefs("isOpenDirectly", SearchActivity.this)) {
-                                        if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", SearchActivity.this)) {
-                                            LinkLoadingHelper.loadLinks(MainActivity.getMachineHelper().getName(positions[0]),
-                                                    MainActivity.getMachineHelper().getConfig(positions[0]), SearchActivity.this);
+                                if (!userStopped) {
+                                    Log.i("Search", "Terminated normally.");
+                                    userStopped = true;
+                                    clearSearch();
+                                    // NullSafe
+                                    if (positions != null) {
+                                        Log.i("performSearchLoad", "Position Length: "
+                                                + positions.length + ", Reload Flag: " + reloadPositions);
+                                        if (positions.length == 0) {
+                                            textResult.setText(R.string.search_noResult);
+                                            textResult.setTextColor(getColor(R.color.colorDefaultText));
                                         } else {
-                                            SpecsIntentHelper.sendIntent(positions, positions[0], SearchActivity.this, false);
+                                            textResult.setText(getString(R.string.search_found) + positions.length + getString(R.string.search_results));
+                                            textResult.setTextColor(getColor(R.color.colorDefaultText));
+                                        }
+                                        loadedResults = new TextView[1][positions.length];
+                                        loadedResults[0] = SpecsIntentHelper.initCategory(currentLayout, positions,
+                                                true, SearchActivity.this);
+                                        SpecsIntentHelper.refreshFavourites(loadedResults, SearchActivity.this);
+
+                                        // Open directly?
+                                        if (reloadPositions && positions.length == 1
+                                                && PrefsHelper.getBooleanPrefs("isOpenDirectly", SearchActivity.this)) {
+                                            if (PrefsHelper.getBooleanPrefs("isOpenEveryMac", SearchActivity.this)) {
+                                                LinkLoadingHelper.loadLinks(MainActivity.getMachineHelper().getName(positions[0]),
+                                                        MainActivity.getMachineHelper().getConfig(positions[0]), SearchActivity.this);
+                                            } else {
+                                                SpecsIntentHelper.sendIntent(positions, positions[0], SearchActivity.this, false);
+                                            }
                                         }
                                     }
+                                } else {
+                                    Log.w("Search", "Terminated Abnormally.");
                                 }
                             } catch (final Exception e) {
                                 ExceptionHelper.handleException(SearchActivity.this, e, null, null);
