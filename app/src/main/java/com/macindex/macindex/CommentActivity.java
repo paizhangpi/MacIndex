@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -124,8 +125,22 @@ public class CommentActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        navigateUp();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigateUp();
+        super.onBackPressed();
+    }
+
+    private void navigateUp() {
+        if (MainActivity.getMainState()) {
+            finish();
+        } else {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private void initComments(final boolean reloadPositions) {

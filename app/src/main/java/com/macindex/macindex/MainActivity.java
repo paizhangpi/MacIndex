@@ -69,12 +69,16 @@ public class MainActivity extends AppCompatActivity {
 
     private ProgressDialog waitDialog = null;
 
+    private static boolean isMainRunning = false;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         try {
+            isMainRunning = true;
+
             thisManufacturer = PrefsHelper.getStringPrefs("lastMainManufacturer", this);
             thisFilter = PrefsHelper.getStringPrefs("lastMainFilter", this);
             initMenu();
@@ -100,7 +104,12 @@ public class MainActivity extends AppCompatActivity {
                 PrefsHelper.clearPrefs("isJustLunched", this);
 
                 resources = getResources();
-                initDatabase(this);
+                if (machineHelper == null || database == null || resources == null || !database.isOpen()) {
+                    Log.i("MacIndex", "Initializing database.");
+                    initDatabase(this);
+                } else {
+                    Log.w("MacIndex", "Database already initialized.");
+                }
                 initInterface(true);
 
                 // Cache clear if new version is registered
@@ -175,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        isMainRunning = false;
         closeDatabase();
         if (waitDialog.isShowing()) {
             waitDialog.dismiss();
@@ -326,61 +336,61 @@ public class MainActivity extends AppCompatActivity {
             // Manufacturer Menu
             // Manufacturer 0: all (Default)
             findViewById(R.id.group0MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisManufacturer = "all";
                 PrefsHelper.editPrefs("lastMainManufacturer", "all", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 1: apple68k
             findViewById(R.id.group1MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisManufacturer = "apple68k";
                 PrefsHelper.editPrefs("lastMainManufacturer", "apple68k", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 2: appleppc
             findViewById(R.id.group2MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisManufacturer = "appleppc";
                 PrefsHelper.editPrefs("lastMainManufacturer", "appleppc", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 3: appleintel
             findViewById(R.id.group3MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisManufacturer = "appleintel";
                 PrefsHelper.editPrefs("lastMainManufacturer", "appleintel", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Manufacturer 4: applearm
             findViewById(R.id.group4MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisManufacturer = "applearm";
                 PrefsHelper.editPrefs("lastMainManufacturer", "applearm", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
 
             // Filter Menu
             // Filter 1: names (Default)
             findViewById(R.id.view1MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisFilter = "names";
                 PrefsHelper.editPrefs("lastMainFilter", "names", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Filter 2: processors
             findViewById(R.id.view2MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisFilter = "processors";
                 PrefsHelper.editPrefs("lastMainFilter", "processors", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
             // Filter 3: years
             findViewById(R.id.view3MenuItem).setOnClickListener(view -> {
+                mDrawerLayout.closeDrawers();
                 thisFilter = "years";
                 PrefsHelper.editPrefs("lastMainFilter", "years", this);
                 initInterface(true);
-                mDrawerLayout.closeDrawers();
             });
 
             // Main Menu
@@ -1030,5 +1040,9 @@ public class MainActivity extends AppCompatActivity {
         }
         closeDatabase();
         initDatabase(context);
+    }
+
+    public static boolean getMainState() {
+        return isMainRunning;
     }
 }

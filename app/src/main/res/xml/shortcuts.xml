@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="search"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_search_24_bb"
+        android:shortcutShortLabel="@string/menu_search">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.macindex.macindex"
+            android:targetClass="com.macindex.macindex.SearchActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="favourite"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_star_border_24_bb"
+        android:shortcutShortLabel="@string/menu_favourite">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.macindex.macindex"
+            android:targetClass="com.macindex.macindex.FavouriteActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="comment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_sticky_note_2_24_bb"
+        android:shortcutShortLabel="@string/menu_comment">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.macindex.macindex"
+            android:targetClass="com.macindex.macindex.CommentActivity" />
+    </shortcut>
+</shortcuts>

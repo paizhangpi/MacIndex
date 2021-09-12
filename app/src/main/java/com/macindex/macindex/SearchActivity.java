@@ -8,6 +8,7 @@ import android.animation.LayoutTransition;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -173,8 +174,22 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        navigateUp();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        navigateUp();
+        super.onBackPressed();
+    }
+
+    private void navigateUp() {
+        if (MainActivity.getMainState()) {
+            finish();
+        } else {
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     private void initSpinners() {
