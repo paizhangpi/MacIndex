@@ -1055,6 +1055,7 @@ public class SpecsActivity extends AppCompatActivity {
                     PrefsHelper.editPrefs("userFavourites", "││{"
                             + inputtedName + "}" + PrefsHelper.getStringPrefs("userFavourites", this), this);
                     newFolderDialogCreated.dismiss();
+                    selectFolder();
                 }
             } catch (Exception e) {
                 ExceptionHelper.handleException(this, e, "newFolderDialog", "Illegal Favourites String. Please reset the application. String is: "
