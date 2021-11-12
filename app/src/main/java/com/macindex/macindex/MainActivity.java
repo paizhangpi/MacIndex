@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -237,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.mainDebugRunnerItem:
                 /* For function testing */
                 Toast.makeText(this, "Complete", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.mainReadCodeItem:
+                decodeSharedInfo();
                 break;
             case R.id.mainResetItem:
                 if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -1013,6 +1017,46 @@ public class MainActivity extends AppCompatActivity {
         PrefsHelper.clearPrefs("lastCachedM4F0", this);
         PrefsHelper.clearPrefs("lastCachedM4F1", this);
         PrefsHelper.clearPrefs("lastCachedM4F2", this);
+    }
+
+    private void decodeSharedInfo() {
+        final View decodeChunk = getLayoutInflater().inflate(R.layout.chunk_edit_comment, null);
+        final EditText inputtedInfo = decodeChunk.findViewById(R.id.editComment);
+        final AlertDialog.Builder infoDecodeDialog = new AlertDialog.Builder(this);
+        infoDecodeDialog.setTitle(R.string.submenu_main_share);
+        infoDecodeDialog.setMessage(R.string.share_main_decode);
+        infoDecodeDialog.setView(decodeChunk);
+        infoDecodeDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            // To be overwritten...
+        });
+        infoDecodeDialog.setNegativeButton(R.string.link_cancel, (dialogInterface, i) -> {
+            // Do nothing
+        });
+
+        final AlertDialog infoDecodeDialogCreated = infoDecodeDialog.create();
+        infoDecodeDialogCreated.show();
+        // Overwrite the positive button
+        infoDecodeDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            try {
+                final String inputtedString = inputtedInfo.getText().toString().trim();
+                if (!inputtedString.isEmpty()) {
+                    final String[] decodedString = inputtedString.split("\n");
+                    final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", decodedString[0],
+                            "all", true, false);
+                    if (thisID.length != 1) {
+                        Log.w("infoDecodeDialog", "Unable to decode the requested information.");
+                        Toast.makeText(this, R.string.share_main_decode_failed, Toast.LENGTH_LONG).show();
+                    } else {
+                        // Decoded successfully, call intent parser
+                        infoDecodeDialogCreated.dismiss();
+                        SpecsIntentHelper.sendIntent(thisID, thisID[0], this, false);
+                    }
+                }
+            } catch (Exception e) {
+                ExceptionHelper.handleException(this, e, "infoDecodeDialog", "Unable to set positive button. Likely illegal info string. Please reset the application. String is: "
+                        + inputtedInfo.getText().toString().trim());
+            }
+        });
     }
 
     public static MachineHelper getMachineHelper() {

@@ -84,7 +84,7 @@
     <string name="submenu_specs_favourite">添加或移除收藏</string>
     <string name="submenu_specs_compare">添加到比较列表</string>
     <string name="submenu_specs_comment">编辑自定义备注</string>
-    <string name="submenu_specs_share">分享这个机型</string>
+    <string name="submenu_specs_share">参数复制与分享</string>
     <string name="submenu_specs_help">参数页帮助</string>
     <string name="submenu_search_clear">清空搜索结果</string>
     <string name="submenu_search_reset">重置筛选器与搜索方式</string>
@@ -191,8 +191,13 @@
     <string name="ramdom_lucky_message">随机进入了收藏夹中的机型。</string>
     <string-array name="share_menu">
         <item>复制所有型号信息</item>
+        <item>批量复制信息</item>
     </string-array>
     <string-array name="share_description">
-        <item>所有可用的型号信息均已复制。要复制其他信息，长按任何栏目。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>所有可用的型号信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>已选择的信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
     </string-array>
+    <string name="share_menu_tips">要复制单独的信息，长按该项即可。</string>
+    <string name="share_main_decode">在此直接粘贴机型名称或由 MacIndex 分享功能复制的信息，可直接浏览该机型的详细参数。请参阅帮助内容。</string>
+    <string name="share_main_decode_failed">无法读取该信息，或该机型在这个版本中不存在</string>
 </resources>

@@ -149,6 +149,7 @@ public class SpecsActivity extends AppCompatActivity {
             case R.id.shareItem:
                 AlertDialog.Builder shareDialog = new AlertDialog.Builder(this);
                 shareDialog.setTitle(getString(R.string.submenu_specs_share));
+                //shareDialog.setMessage(getString(R.string.share_menu_tips));
                 final String[] shareEntries = getResources().getStringArray(R.array.share_menu);
                 final String[] shareDescription = getResources().getStringArray(R.array.share_description);
                 shareDialog.setItems(shareEntries, (dialog, which) -> {
@@ -571,6 +572,16 @@ public class SpecsActivity extends AppCompatActivity {
                 }
             }
             name.setVisibility(View.VISIBLE);
+        });
+
+        // Set copy
+        name.setOnLongClickListener(view -> {
+            ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("nameInfo", thisName);
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(SpecsActivity.this,
+                    getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
+            return true;
         });
     }
 
