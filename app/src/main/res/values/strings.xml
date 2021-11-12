@@ -5,6 +5,7 @@
     <string name="information_specs_no_death">Tap on the top image to play startup sound</string>
     <string name="information_specs_no_sound">This machine does not have startup or death sound</string>
     <string name="information_specs_view_image">Long press the top image to view the large image</string>
+    <string name="information_specs_copy_info">Long press any entry to copy information</string>
     <string name="information_specs_everymac">Tap below to access more specifications</string>
     <string name="information_specs_high_vol_warning">The current volume is too high. Do you want to proceed playing?\nSelect \"Confirm\" to turn this warning off temporarily.\nGo to preferences page to turn this function off.</string>
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
@@ -36,7 +37,7 @@
     <string name="setting_save_compare_description">Save the last selected machines and column.</string>
     <string name="setting_search_open_directly">Open the Individual Search Result</string>
     <string name="setting_search_open_directly_description">If only one search result was found, then open it directly.</string>
-    <string name="setting_defaults_warning_content">Your saved preference file will be completely cleared, including your preferences and all usage records. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
+    <string name="setting_defaults_warning_content">Saved preference file will be completely cleared, including your preferences and all usage records. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
     <string name="setting_help_prompt">For instructions on each item, please see help.</string>
     <string name="search_category_page">Search Page</string>
@@ -61,9 +62,9 @@
     <string name="search_results">&#160;result(s)</string>
     <string name="search_prompt">Press return to start searching</string>
     <string name="search_illegal">Input contains illegal character(s)</string>
-    <string name="search_illegal_message">Your input contains illegal character(s) for the current searching option. Please double check your input, then try again.</string>
+    <string name="search_illegal_message">Input contains illegal character(s) for the current searching option. Please double check your input, then try again.</string>
     <string name="search_overlength">Input is too long</string>
-    <string name="search_overlength_message">Your input exceed the maximum allowed length for the current searching option. Please double check your input, then try again.</string>
+    <string name="search_overlength_message">Input exceed the maximum allowed length for the current searching option. Please double check your input, then try again.</string>
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
@@ -148,7 +149,7 @@
     <string name="comment">Custom Comment</string>
     <string name="comment_null">Not Specified</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
-    <string name="comment_length">Your input is too long, the max limit for each machine is 500 characters</string>
+    <string name="comment_length">Input is too long, the max limit for each machine is 500 characters</string>
     <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
     <string name="not_applicable">Not Applicable/No Info</string>
     <string name="link_confirm">Confirm</string>
@@ -184,11 +185,11 @@
     <string name="favourites_rename">Please select the folder to rename.</string>
     <string name="favourites_new_folder">Enter the folder name.</string>
     <string name="favourites_new_folder_tips">(Empty)</string>
-    <string name="favourites_error_empty">Your input is empty</string>
+    <string name="favourites_error_empty">Input is empty</string>
     <string name="favourites_error_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the folder name</string>
-    <string name="favourites_error_length">Your input is too long, the max limit for each folder is 1 line and 30 characters</string>
+    <string name="favourites_error_length">Input is too long, the max limit for each folder is 1 line and 30 characters</string>
     <string name="favourites_error_conflict">This name was already specified and cannot be reused</string>
-    <string name="favourites_error_limit">You can only create no more than 10 folders.</string>
+    <string name="favourites_error_limit">You can only create no more than 15 folders.</string>
     <string name="favourites_clear_warning">All folders will be deleted. This cannot be undone. Do you want to proceed?</string>
     <string name="compare_limit">(Max)</string>
     <string name="compare_insufficient">You need at least 2 machines in the comparison list to use the comparison functions. You can add a machine at any Specifications Page.</string>
@@ -211,13 +212,16 @@
     <string name="ramdom_lucky_message">Randomly entered one of your favourite machine.</string>
     <string-array name="share_menu">
         <item>Copy Model Information</item>
-        <item>Select Information Entries and Copy</item>
+        <item>Copy All Information</item>
+        <item>Select Information Entries for Copy</item>
     </string-array>
     <string-array name="share_description">
         <item>Available model information copied.\nThis information is readable through Main Submenu ("Open Shared Model").</item>
+        <item>All available information copied.\nThis information is readable through Main Submenu ("Open Shared Model").</item>
         <item>Selected information entries copied.\nThis information is readable through Main Submenu ("Open Shared Model").</item>
     </string-array>
-    <string name="share_menu_tips">To copy a specific information, long press the corresponding entry.</string>
+    <string name="share_menu_tips">Select the information that you want to copy. Unavailable information were grayed out.</string>
+    <string name="share_menu_null">Select at least one entry to continue</string>
     <string name="share_main_decode">Paste machine name or sharing information copied from MacIndex to open the corresponding specification page directly.</string>
     <string name="share_main_decode_failed">Cannot read the information, or this model does not exist in current version</string>
 </resources>

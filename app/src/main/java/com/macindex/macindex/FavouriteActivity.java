@@ -408,7 +408,7 @@ public class FavouriteActivity extends AppCompatActivity {
     private void createFolder() {
         // Check for folder count
         final String[] currentStrings = getFolders(this, false);
-        if (currentStrings.length >= 10) {
+        if (currentStrings.length >= 15) {
             final AlertDialog.Builder folderLimitDialog = new AlertDialog.Builder(this);
             folderLimitDialog.setTitle(R.string.submenu_favourite_add);
             folderLimitDialog.setMessage(R.string.favourites_error_limit);

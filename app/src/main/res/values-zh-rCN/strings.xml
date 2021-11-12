@@ -4,6 +4,7 @@
     <string name="information_specs_no_death">点击顶部图片来试听开机音效</string>
     <string name="information_specs_no_sound">这个机型没有开机或宕机音效</string>
     <string name="information_specs_view_image">长按顶部图片来查看大图</string>
+    <string name="information_specs_copy_info">长按任一栏来复制信息</string>
     <string name="information_specs_everymac">点击下方来浏览更加详尽的数据</string>
     <string name="information_specs_high_vol_warning">目前的音量较高。是否要继续播放？\n选择“确认”来暂时关闭本警告。\n打开设置来关闭这个功能。</string>
     <string name="information_first_lunch_title">欢迎使用 MacIndex</string>
@@ -35,7 +36,7 @@
     <string name="setting_save_compare_description">保存上次选中的机型和比较栏位。</string>
     <string name="setting_search_open_directly">打开唯一的搜索结果</string>
     <string name="setting_search_open_directly_description">若搜索后只找到一个结果，则直接打开它。</string>
-    <string name="setting_defaults_warning_content">您的已保存的设置文件将会被完全清除，包括偏好设置和所有使用记录等。在您确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
+    <string name="setting_defaults_warning_content">已保存的设置文件将会被完全清除，包括偏好设置和所有使用记录等。在确认后 MacIndex 将会退出。此操作可能有助于解决问题，但不能撤销。</string>
     <string name="setting_defaults_cleared">操作已完成</string>
     <string name="setting_help_prompt">对于各个设置项目的说明，请参阅相关帮助内容。</string>
     <string name="search_category_page">搜索页</string>
@@ -128,7 +129,7 @@
     <string name="comment">自定义备注</string>
     <string name="comment_null">暂无备注</string>
     <string name="comment_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作备注</string>
-    <string name="comment_length">您的输入过长，每个机型的限度是 500 个字符</string>
+    <string name="comment_length">输入过长，每个机型的限度是 500 个字符</string>
     <string name="comment_tips">在自定义备注页中浏览所有备注。</string>
     <string name="not_applicable">不适用/无信息</string>
     <string name="link_confirm">确认</string>
@@ -138,7 +139,7 @@
     <string name="link_not_available">这个型号可能是定制或地域限制型号，在 EveryMac 中不存在</string>
     <string name="link_only_available">很抱歉，但这个页面只有英文版本。继续浏览吗？</string>
     <string name="error">内部错误</string>
-    <string name="error_information">请向开发者报告这个 Bug。建议您重新启动应用程序。也请参阅「常见问题」来获得更多信息。</string>
+    <string name="error_information">请向开发者报告这个 Bug。建议重新启动应用程序。也请参阅「常见问题」来获得更多信息。</string>
     <string name="error_copy_button">复制信息</string>
     <string name="error_copy_information">信息已复制</string>
     <string name="error_copy_not_available">没有能复制的信息</string>
@@ -156,24 +157,24 @@
     <string name="comments_not_available">还没有保存任何自定义备注。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="comments_not_available_tips">还没有保存任何自定义备注</string>
     <string name="comments_delete">请选择要删除的自定义备注。此操作不能撤销。</string>
-    <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。您仍想要继续吗？</string>
-    <string name="favourites_no_folder">还没有创建任何收藏夹。您可以立刻新建一个，或在机型收藏页中随后新建。</string>
+    <string name="comments_clear_warning">所有自定义备注将被清除，且不能撤销。仍想要继续吗？</string>
+    <string name="favourites_no_folder">还没有创建任何收藏夹。可以立刻新建一个，或在机型收藏页中随后新建。</string>
     <string name="favourites_no_folder_tips">还没有创建任何收藏夹</string>
     <string name="favourites_tips">请选择对应的收藏夹。在机型收藏页中管理所有收藏夹。</string>
     <string name="favourites_delete">请选择要删除的收藏夹。此操作不能撤销。</string>
     <string name="favourites_rename">请选择要重命名的收藏夹。</string>
     <string name="favourites_new_folder">输入收藏夹名。</string>
     <string name="favourites_new_folder_tips">（空）</string>
-    <string name="favourites_error_empty">您的输入为空</string>
+    <string name="favourites_error_empty">输入为空</string>
     <string name="favourites_error_illegal">很抱歉，特殊字符 \'│\' 被 MacIndex 内部使用且无法用作收藏夹名</string>
-    <string name="favourites_error_length">您的输入过长，每个收藏夹的限度是 1 行 30 个字符</string>
+    <string name="favourites_error_length">输入过长，每个收藏夹的限度是 1 行 30 个字符</string>
     <string name="favourites_error_conflict">该名称已被指定，且无法重用</string>
-    <string name="favourites_error_limit">您只能最多创建 10 个收藏夹。</string>
-    <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。您仍想要继续吗？</string>
+    <string name="favourites_error_limit">只能最多创建 15 个收藏夹。</string>
+    <string name="favourites_clear_warning">所有收藏夹将被删除，且不能撤销。仍想要继续吗？</string>
     <string name="compare_limit">(已满)</string>
     <string name="compare_insufficient">比较列表中至少需要两个机型才能使用比较功能。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="compare_insufficient_tips">比较列表中至少需要两个机型</string>
-    <string name="compare_clear_warning">整个比较列表将被清空，且不能撤销。您仍想要继续吗？</string>
+    <string name="compare_clear_warning">整个比较列表将被清空，且不能撤销。仍想要继续吗？</string>
     <string name="compare_empty">还没有添加任何机型到比较列表。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="compare_manage">请选择要从机型比较列表删除的机型。此操作不能撤销。</string>
     <string name="version_information_general">版本 </string>
@@ -190,14 +191,17 @@
     <string name="random_lucky_title">运气不错</string>
     <string name="ramdom_lucky_message">随机进入了收藏夹中的机型。</string>
     <string-array name="share_menu">
-        <item>复制所有型号信息</item>
-        <item>批量复制信息</item>
+        <item>复制型号信息</item>
+        <item>复制所有信息</item>
+        <item>选择要复制的信息</item>
     </string-array>
     <string-array name="share_description">
-        <item>所有可用的型号信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>可用的型号信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>所有信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
         <item>已选择的信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
     </string-array>
-    <string name="share_menu_tips">要复制单独的信息，长按该项即可。</string>
+    <string name="share_menu_tips">选择想要复制的信息。目前无信息的参数已停用。</string>
+    <string name="share_menu_null">请选择至少一项来继续</string>
     <string name="share_main_decode">在此直接粘贴机型名称或由 MacIndex 分享功能复制的信息，可直接浏览该机型的详细参数。请参阅帮助内容。</string>
     <string name="share_main_decode_failed">无法读取该信息，或该机型在这个版本中不存在</string>
 </resources>

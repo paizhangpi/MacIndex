@@ -10,7 +10,6 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,9 +34,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
-
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -63,17 +62,39 @@ public class SpecsActivity extends AppCompatActivity {
 
     private String thisName = null;
 
+    private String thisType = null;
+
+    private String thisProcessor = null;
+
+    private String thisMaxram = null;
+
+    private String thisYear = null;
+
+    private String thisModel = null;
+
+    private String thisId = null;
+
+    private String thisGraphics = null;
+
+    private String thisExpansion = null;
+
+    private String thisStorage = null;
+
+    private String thisOrder = null;
+
+    private String thisGestalt = null;
+
+    private String thisEmc = null;
+
+    private String thisSoftware = null;
+
+    private String thisDesign = null;
+
+    private String thisSupport = null;
+
+    private String thisComment = null;
+
     private MenuItem compareItem = null;
-
-    private TextView model = null;
-
-    private TextView id = null;
-
-    private TextView order = null;
-
-    private TextView gestalt = null;
-
-    private TextView emc = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -89,7 +110,6 @@ public class SpecsActivity extends AppCompatActivity {
             final Intent intent = getIntent();
             categoryStartEnd = intent.getIntArrayExtra("thisCategory");
             machineID = intent.getIntExtra("machineID", -1);
-            thisName = MainActivity.getMachineHelper().getName(machineID);
 
             if (categoryStartEnd == null || machineID == -1) {
                 throw new IllegalArgumentException();
@@ -106,18 +126,6 @@ public class SpecsActivity extends AppCompatActivity {
                         break;
                     }
                 }
-                // Is randomized into a favourite machine?
-                if (intent.getBooleanExtra("isRandom", false)
-                        && FavouriteActivity.isFavourite(thisName, this)) {
-                    Log.i("Random", "User wins.");
-                    final AlertDialog.Builder congratsDialog = new AlertDialog.Builder(SpecsActivity.this);
-                    congratsDialog.setTitle(R.string.random_lucky_title);
-                    congratsDialog.setMessage(R.string.ramdom_lucky_message);
-                    congratsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // Do nothing..
-                    });
-                    congratsDialog.show();
-                }
             }
 
             if (machineIDPosition == -1) {
@@ -129,6 +137,19 @@ public class SpecsActivity extends AppCompatActivity {
             LayoutTransition layoutTransition = mainView.getLayoutTransition();
             layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
             initialize();
+
+            // Is randomized into a favourite machine?
+            if (intent.getBooleanExtra("isRandom", false)
+                    && FavouriteActivity.isFavourite(thisName, this)) {
+                Log.i("Random", "User wins.");
+                final AlertDialog.Builder congratsDialog = new AlertDialog.Builder(SpecsActivity.this);
+                congratsDialog.setTitle(R.string.random_lucky_title);
+                congratsDialog.setMessage(R.string.ramdom_lucky_message);
+                congratsDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Do nothing..
+                });
+                congratsDialog.show();
+            }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, null, null);
         }
@@ -147,32 +168,7 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.shareItem:
-                AlertDialog.Builder shareDialog = new AlertDialog.Builder(this);
-                shareDialog.setTitle(getString(R.string.submenu_specs_share));
-                //shareDialog.setMessage(getString(R.string.share_menu_tips));
-                final String[] shareEntries = getResources().getStringArray(R.array.share_menu);
-                final String[] shareDescription = getResources().getStringArray(R.array.share_description);
-                shareDialog.setItems(shareEntries, (dialog, which) -> {
-                    if (which == 0) {
-                        final String modelInfo = thisName + "\n" +
-                                (model.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.model) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + model.getText().toString() + "\n") +
-                                (id.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.id) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + id.getText().toString() + "\n") +
-                                (gestalt.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.gestalt) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + gestalt.getText().toString() + "\n") +
-                                (order.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.order) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + order.getText().toString() + "\n") +
-                                (emc.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.emc) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + emc.getText().toString());
-                        ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
-                        clipboard.setPrimaryClip(clip);
-                    }
-                    AlertDialog.Builder finishShareDialog = new AlertDialog.Builder(SpecsActivity.this);
-                    finishShareDialog.setTitle(shareEntries[which]);
-                    finishShareDialog.setMessage(shareDescription[which]);
-                    finishShareDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                        // intentionally left blank
-                    });
-                    finishShareDialog.show();
-                });
-                shareDialog.show();
+                shareDialog();
                 break;
             case R.id.addFavouriteItem:
                 selectFolder();
@@ -222,6 +218,7 @@ public class SpecsActivity extends AppCompatActivity {
         if (PrefsHelper.getBooleanPrefs("isUseNavButtons", this) && categoryStartEnd.length > 1) {
             initButtons();
         }
+        getSpecs();
         initSpecs();
         initImage();
         initLinks();
@@ -252,20 +249,39 @@ public class SpecsActivity extends AppCompatActivity {
         }
     }
 
+    private void getSpecs() {
+        thisName = MainActivity.getMachineHelper().getName(machineID);
+        thisType = MainActivity.getMachineHelper().getType(machineID);
+        thisProcessor = MainActivity.getMachineHelper().getProcessor(machineID);
+        thisMaxram = MainActivity.getMachineHelper().getMaxRam(machineID);
+        thisYear = MainActivity.getMachineHelper().getYear(machineID);
+        thisModel = MainActivity.getMachineHelper().getModel(machineID);
+        thisId = MainActivity.getMachineHelper().getMid(machineID);
+        thisGraphics = MainActivity.getMachineHelper().getGraphics(machineID);
+        thisExpansion = MainActivity.getMachineHelper().getExpansion(machineID);
+        thisStorage = MainActivity.getMachineHelper().getStorage(machineID);
+        thisOrder = MainActivity.getMachineHelper().getOrder(machineID);
+        thisGestalt = MainActivity.getMachineHelper().getGestalt(machineID);
+        thisEmc = MainActivity.getMachineHelper().getEMC(machineID);
+        thisSoftware = MainActivity.getMachineHelper().getSoftware(machineID);
+        thisDesign = MainActivity.getMachineHelper().getDesign(machineID);
+        thisSupport = MainActivity.getMachineHelper().getSupport(machineID);
+    }
+
     private void initSpecs() {
         try {
             final TextView type = findViewById(R.id.typeText);
             final TextView processor = findViewById(R.id.processorText);
             final TextView maxram = findViewById(R.id.maxramText);
             final TextView year = findViewById(R.id.yearText);
-            model = findViewById(R.id.modelText);
-            id = findViewById(R.id.idText);
+            final TextView model = findViewById(R.id.modelText);
+            final TextView id = findViewById(R.id.idText);
             final TextView graphics = findViewById(R.id.graphicsText);
             final TextView expansion = findViewById(R.id.expansionText);
             final TextView storage = findViewById(R.id.storageText);
-            order = findViewById(R.id.orderText);
-            gestalt = findViewById(R.id.gestaltText);
-            emc = findViewById(R.id.emcText);
+            final TextView order = findViewById(R.id.orderText);
+            final TextView gestalt = findViewById(R.id.gestaltText);
+            final TextView emc = findViewById(R.id.emcText);
             final TextView software = findViewById(R.id.softwareText);
             final TextView design = findViewById(R.id.designText);
             final TextView support = findViewById(R.id.supportText);
@@ -273,211 +289,211 @@ public class SpecsActivity extends AppCompatActivity {
             this.setTitle(thisName);
             reloadName();
 
-            type.setText(MainActivity.getMachineHelper().getType(machineID));
+            type.setText(thisType);
             /* return true - do not attach another click event */
             type.setOnLongClickListener(view -> {
-                if (type.getText().equals(getString(R.string.not_applicable))) {
+                if (thisType.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("typeInfo", type.getText());
+                    ClipData clip = ClipData.newPlainText("typeInfo", thisType);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            processor.setText(MainActivity.getMachineHelper().getProcessor(machineID));
+            processor.setText(thisProcessor);
             processor.setOnLongClickListener(view -> {
-                if (processor.getText().equals(getString(R.string.not_applicable))) {
+                if (thisProcessor.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("processorInfo", processor.getText());
+                    ClipData clip = ClipData.newPlainText("processorInfo", thisProcessor);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            maxram.setText(MainActivity.getMachineHelper().getMaxRam(machineID));
+            maxram.setText(thisMaxram);
             maxram.setOnLongClickListener(view -> {
-                if (maxram.getText().equals(getString(R.string.not_applicable))) {
+                if (thisMaxram.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("maxramInfo", maxram.getText());
+                    ClipData clip = ClipData.newPlainText("maxramInfo", thisMaxram);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            year.setText(MainActivity.getMachineHelper().getYear(machineID));
+            year.setText(thisYear);
             year.setOnLongClickListener(view -> {
-                if (year.getText().equals(getString(R.string.not_applicable))) {
+                if (thisYear.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("yearInfo", year.getText());
+                    ClipData clip = ClipData.newPlainText("yearInfo", thisYear);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            model.setText(MainActivity.getMachineHelper().getModel(machineID));
+            model.setText(thisModel);
             model.setOnLongClickListener(view -> {
-                if (model.getText().equals(getString(R.string.not_applicable))) {
+                if (thisModel.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("modelInfo", model.getText());
+                    ClipData clip = ClipData.newPlainText("modelInfo", thisModel);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            id.setText(MainActivity.getMachineHelper().getMid(machineID));
+            id.setText(thisId);
             id.setOnLongClickListener(view -> {
-                if (id.getText().equals(getString(R.string.not_applicable))) {
+                if (thisId.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("idInfo", id.getText());
+                    ClipData clip = ClipData.newPlainText("idInfo", thisId);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            graphics.setText(MainActivity.getMachineHelper().getGraphics(machineID));
+            graphics.setText(thisGraphics);
             graphics.setOnLongClickListener(view -> {
-                if (graphics.getText().equals(getString(R.string.not_applicable))) {
+                if (thisGraphics.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("graphicsInfo", graphics.getText());
+                    ClipData clip = ClipData.newPlainText("graphicsInfo", thisGraphics);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            expansion.setText(MainActivity.getMachineHelper().getExpansion(machineID));
+            expansion.setText(thisExpansion);
             expansion.setOnLongClickListener(view -> {
-                if (expansion.getText().equals(getString(R.string.not_applicable))) {
+                if (thisExpansion.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("expansionInfo", expansion.getText());
+                    ClipData clip = ClipData.newPlainText("expansionInfo", thisExpansion);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            storage.setText(MainActivity.getMachineHelper().getStorage(machineID));
+            storage.setText(thisStorage);
             storage.setOnLongClickListener(view -> {
-                if (storage.getText().equals(getString(R.string.not_applicable))) {
+                if (thisStorage.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("storageInfo", storage.getText());
+                    ClipData clip = ClipData.newPlainText("storageInfo", thisStorage);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            order.setText(MainActivity.getMachineHelper().getOrder(machineID));
+            order.setText(thisOrder);
             order.setOnLongClickListener(view -> {
-                if (order.getText().equals(getString(R.string.not_applicable))) {
+                if (thisOrder.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("orderInfo", order.getText());
+                    ClipData clip = ClipData.newPlainText("orderInfo", thisOrder);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            gestalt.setText(MainActivity.getMachineHelper().getGestalt(machineID));
+            gestalt.setText(thisGestalt);
             gestalt.setOnLongClickListener(view -> {
-                if (gestalt.getText().equals(getString(R.string.not_applicable))) {
+                if (thisGestalt.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("gestaltInfo", gestalt.getText());
+                    ClipData clip = ClipData.newPlainText("gestaltInfo", thisGestalt);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            emc.setText(MainActivity.getMachineHelper().getEMC(machineID));
+            emc.setText(thisEmc);
             emc.setOnLongClickListener(view -> {
-                if (emc.getText().equals(getString(R.string.not_applicable))) {
+                if (thisEmc.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("emcInfo", emc.getText());
+                    ClipData clip = ClipData.newPlainText("emcInfo", thisEmc);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            software.setText(MainActivity.getMachineHelper().getSoftware(machineID));
+            software.setText(thisSoftware);
             software.setOnLongClickListener(view -> {
-                if (software.getText().equals(getString(R.string.not_applicable))) {
+                if (thisSoftware.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("softwareInfo", software.getText());
+                    ClipData clip = ClipData.newPlainText("softwareInfo", thisSoftware);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            design.setText(MainActivity.getMachineHelper().getDesign(machineID));
+            design.setText(thisDesign);
             design.setOnLongClickListener(view -> {
-                if (design.getText().equals(getString(R.string.not_applicable))) {
+                if (thisDesign.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("designInfo", design.getText());
+                    ClipData clip = ClipData.newPlainText("designInfo", thisDesign);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
                 }
                 return true;
             });
-            support.setText(MainActivity.getMachineHelper().getSupport(machineID));
+            support.setText(thisSupport);
             support.setOnLongClickListener(view -> {
-                if (support.getText().equals(getString(R.string.not_applicable))) {
+                if (thisSupport.equals(getString(R.string.not_applicable))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("supportInfo", support.getText());
+                    ClipData clip = ClipData.newPlainText("supportInfo", thisSupport);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
@@ -486,11 +502,11 @@ public class SpecsActivity extends AppCompatActivity {
             });
 
             // Set Support Box Text Color.
-            if (support.getText().equals("Obsolete")) {
+            if (thisSupport.equals("Obsolete")) {
                 support.setTextColor(Color.RED);
-            } else if (support.getText().equals("Vintage")) {
+            } else if (thisSupport.equals("Vintage")) {
                 support.setTextColor(Color.MAGENTA);
-            } else if (support.getText().equals("Supported")) {
+            } else if (thisSupport.equals("Supported")) {
                 support.setTextColor(Color.GREEN);
             }
 
@@ -821,20 +837,22 @@ public class SpecsActivity extends AppCompatActivity {
             }
             final TextView comment = findViewById(R.id.commentText);
             if (commentID != -1) {
-                comment.setText(allComments[commentID].split("│")[1]);
+                thisComment = allComments[commentID].split("│")[1];
+
             } else {
-                comment.setText(R.string.comment_null);
+                thisComment = getString(R.string.comment_null);
             }
+            comment.setText(thisComment);
             comment.setOnClickListener(view -> {
                 initCommentDialog();
             });
             comment.setOnLongClickListener(view -> {
-                if (comment.getText().equals(getString(R.string.comment_null))) {
+                if (thisComment.equals(getString(R.string.comment_null))) {
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_not_available), Toast.LENGTH_LONG).show();
                 } else {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("userComment", comment.getText());
+                    ClipData clip = ClipData.newPlainText("userComment", thisComment);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(SpecsActivity.this,
                             getString(R.string.error_copy_information), Toast.LENGTH_LONG).show();
@@ -1177,6 +1195,204 @@ public class SpecsActivity extends AppCompatActivity {
             ExceptionHelper.handleException(this, e, "initCompareCheckBox", "Illegal Compare String. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userCompares", this));
         }
+    }
+
+    private void shareDialog() {
+        // 2021.11.13 at Jinzhong, Shanxi, China
+        AlertDialog.Builder shareDialog = new AlertDialog.Builder(this);
+        shareDialog.setTitle(getString(R.string.submenu_specs_share));
+        final String[] shareEntries = getResources().getStringArray(R.array.share_menu);
+        final String[] shareDescription = getResources().getStringArray(R.array.share_description);
+        shareDialog.setItems(shareEntries, (dialog, which) -> {
+            try {
+                if (which == 0 || which == 1) {
+                    List<Integer> currentEntries = new ArrayList<>(5);
+                    for (int i = 1; i < (which == 0 ? 6 : 16); i++) {
+                        currentEntries.add(i);
+                    }
+                    final String modelInfo = generateShareInfo(currentEntries);
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
+                    clipboard.setPrimaryClip(clip);
+                    finishShareDialog(shareEntries, shareDescription, which);
+                } else if (which == 2) {
+                    // Construct the dialog view.
+                    final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
+                    final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
+                    final String[] selectableSpecs = new String[]{
+                            getString(R.string.year), getString(R.string.model), getString(R.string.id), getString(R.string.gestalt),
+                            getString(R.string.order), getString(R.string.emc), getString(R.string.processor), getString(R.string.graphics),
+                            getString(R.string.type), getString(R.string.maxram), getString(R.string.software), getString(R.string.storage),
+                            getString(R.string.bus_expansion), getString(R.string.design), getString(R.string.support), getString(R.string.comment)};
+                    final boolean[] currentSelections = new boolean[selectableSpecs.length];
+                    for (int i = 0; i < selectableSpecs.length; i++) {
+                        CheckBox thisCheckBox = new CheckBox(this);
+                        thisCheckBox.setText(selectableSpecs[i]);
+                        thisCheckBox.setChecked(false);
+                        int finalI = i;
+                        thisCheckBox.setOnCheckedChangeListener((compoundButton, b) -> {
+                            currentSelections[finalI] = thisCheckBox.isChecked();
+                        });
+                        // Use generateShareInfo to find if it is disabled
+                        List<Integer> currentEntries = new ArrayList<>(1);
+                        currentEntries.add(i);
+                        final String modelInfo = generateShareInfo(currentEntries);
+                        if (modelInfo.split("\n").length != 2) {
+                            // This is not supposed...
+                            thisCheckBox.setEnabled(false);
+                        }
+                        selectLayout.addView(thisCheckBox);
+                    }
+
+                    // Create the dialog.
+                    final AlertDialog.Builder selectDialog = new AlertDialog.Builder(this);
+                    selectDialog.setTitle(shareEntries[which]);
+                    selectDialog.setMessage(R.string.share_menu_tips);
+                    selectDialog.setView(selectChunk);
+                    selectDialog.setPositiveButton(R.string.link_confirm, (dialog2, which2) -> {
+                        // To be overwritten...
+                    });
+                    selectDialog.setNegativeButton(R.string.link_cancel, ((dialog2, which2) -> {
+                        // Cancelled, do nothing
+                    }));
+                    final AlertDialog selectDialogCreated = selectDialog.create();
+                    selectDialogCreated.show();
+
+                    selectDialogCreated.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                        // Overwrite the positive button
+                        try {
+                            // Convert currentSelections to Entries Array.
+                            List<Integer> currentEntries = new ArrayList<>(0);
+                            for (int i = 0; i < currentSelections.length; i++) {
+                                if (currentSelections[i]) {
+                                    currentEntries.add(i);
+                                }
+                            }
+                            if (currentEntries.size() > 0) {
+                                final String modelInfo = generateShareInfo(currentEntries);
+                                ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
+                                clipboard.setPrimaryClip(clip);
+                                finishShareDialog(shareEntries, shareDescription, which);
+                                selectDialogCreated.dismiss();
+                            } else {
+                                Toast.makeText(SpecsActivity.this, R.string.share_menu_null, Toast.LENGTH_LONG).show();
+                            }
+                        } catch (Exception e) {
+                            ExceptionHelper.handleException(this, e, "selectDialog", "Error when copying currentSelections.");
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                ExceptionHelper.handleException(this, e, "shareDialog", "Unable to create the share dialog.");
+            }
+        });
+        shareDialog.show();
+    }
+
+    private String generateShareInfo(final List<Integer> entries) {
+        String modelInfo = thisName + "\n";
+        try {
+            for (int i = 0; i < entries.size(); i++) {
+                switch (entries.get(i)) {
+                    case 0:
+                        // Introduction
+                        modelInfo = modelInfo.concat(thisYear.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.year) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisYear + "\n");
+                        break;
+                    case 1:
+                        // Model Number
+                        modelInfo = modelInfo.concat(thisModel.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.model) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisModel + "\n");
+                        break;
+                    case 2:
+                        // Identification
+                        modelInfo = modelInfo.concat(thisId.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.id) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisId + "\n");
+                        break;
+                    case 3:
+                        // Gestalt
+                        modelInfo = modelInfo.concat(thisGestalt.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.gestalt) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisGestalt + "\n");
+                        break;
+                    case 4:
+                        // Part Number
+                        modelInfo = modelInfo.concat(thisOrder.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.order) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisOrder + "\n");
+                        break;
+                    case 5:
+                        // EMC
+                        modelInfo = modelInfo.concat(thisEmc.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.emc) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisEmc + "\n");
+                        break;
+                    case 6:
+                        // Processor
+                        modelInfo = modelInfo.concat(thisProcessor.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.processor) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisProcessor + "\n");
+                        break;
+                    case 7:
+                        // Graphics and Display
+                        modelInfo = modelInfo.concat(thisGraphics.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.graphics) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisGraphics + "\n");
+                        break;
+                    case 8:
+                        // ROM Information
+                        modelInfo = modelInfo.concat(thisType.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.type) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisType + "\n");
+                        break;
+                    case 9:
+                        // RAM Information
+                        modelInfo = modelInfo.concat(thisMaxram.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.maxram) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisMaxram + "\n");
+                        break;
+                    case 10:
+                        // Software Support
+                        modelInfo = modelInfo.concat(thisSoftware.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.software) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisSoftware + "\n");
+                        break;
+                    case 11:
+                        // Storage
+                        modelInfo = modelInfo.concat(thisStorage.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.storage) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisStorage + "\n");
+                        break;
+                    case 12:
+                        // Features and Expansions
+                        modelInfo = modelInfo.concat(thisExpansion.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.bus_expansion) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisExpansion + "\n");
+                        break;
+                    case 13:
+                        // Design
+                        modelInfo = modelInfo.concat(thisDesign.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.design) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisDesign + "\n");
+                        break;
+                    case 14:
+                        // Support Status
+                        modelInfo = modelInfo.concat(thisSupport.equals(getString(R.string.not_applicable)) ? "" :
+                                getString(R.string.support) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisSupport + "\n");
+                        break;
+                    case 15:
+                        // Custom Comments
+                        modelInfo = modelInfo.concat(thisComment.equals(getString(R.string.comment_null)) ? "" :
+                                getString(R.string.comment) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + thisComment + "\n");
+                        break;
+                    default:
+                        throw new IllegalArgumentException();
+                }
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "generateShareInfo", "Illegal Argument. Received arguments:" + entries.toString());
+        }
+        return modelInfo.trim(); // Get rid of the last new line
+    }
+
+    private void finishShareDialog(final String[] shareEntries, final String[] shareDescription, final int which) {
+        AlertDialog.Builder finishShareDialog = new AlertDialog.Builder(SpecsActivity.this);
+        finishShareDialog.setTitle(shareEntries[which]);
+        finishShareDialog.setMessage(shareDescription[which]);
+        finishShareDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+            // intentionally left blank
+        });
+        finishShareDialog.show();
     }
 
     private void navPrev() {
