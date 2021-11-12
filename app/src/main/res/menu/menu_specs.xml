@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/shareItem"
-        android:title="Item"
-        android:visible="false"/>
-    <item
         android:id="@+id/addFavouriteItem"
         android:title="@string/submenu_specs_favourite" />
     <item
@@ -16,6 +12,9 @@
     <item
         android:id="@+id/commentItem"
         android:title="@string/submenu_specs_comment" />
+    <item
+        android:id="@+id/shareItem"
+        android:title="@string/submenu_specs_share" />
     <item
         android:id="@+id/specsHelpItem"
         android:title="@string/submenu_specs_help" />

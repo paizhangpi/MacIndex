@@ -17,6 +17,9 @@
         android:id="@+id/mainDebugRunnerItem"
         android:title="Debug: Run Code" />
     <item
+        android:id="@+id/mainReadCodeItem"
+        android:title="@string/submenu_main_share" />
+    <item
         android:id="@+id/mainResetItem"
         android:title="@string/submenu_main_reset" />
     <item

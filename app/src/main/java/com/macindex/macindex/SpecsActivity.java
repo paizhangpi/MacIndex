@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -34,7 +35,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
+
 import java.io.File;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class SpecsActivity extends AppCompatActivity {
@@ -60,6 +64,16 @@ public class SpecsActivity extends AppCompatActivity {
     private String thisName = null;
 
     private MenuItem compareItem = null;
+
+    private TextView model = null;
+
+    private TextView id = null;
+
+    private TextView order = null;
+
+    private TextView gestalt = null;
+
+    private TextView emc = null;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -133,6 +147,31 @@ public class SpecsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.shareItem:
+                AlertDialog.Builder shareDialog = new AlertDialog.Builder(this);
+                shareDialog.setTitle(getString(R.string.submenu_specs_share));
+                final String[] shareEntries = getResources().getStringArray(R.array.share_menu);
+                final String[] shareDescription = getResources().getStringArray(R.array.share_description);
+                shareDialog.setItems(shareEntries, (dialog, which) -> {
+                    if (which == 0) {
+                        final String modelInfo = thisName + "\n" +
+                                (model.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.model) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + model.getText().toString() + "\n") +
+                                (id.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.id) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + id.getText().toString() + "\n") +
+                                (gestalt.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.gestalt) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + gestalt.getText().toString() + "\n") +
+                                (order.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.order) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + order.getText().toString() + "\n") +
+                                (emc.getText().equals(getString(R.string.not_applicable)) ? "" : getString(R.string.emc) + (Locale.getDefault().getDisplayLanguage().equals("中文") ? "：" : ": ") + emc.getText().toString());
+                        ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
+                        clipboard.setPrimaryClip(clip);
+                    }
+                    AlertDialog.Builder finishShareDialog = new AlertDialog.Builder(SpecsActivity.this);
+                    finishShareDialog.setTitle(shareEntries[which]);
+                    finishShareDialog.setMessage(shareDescription[which]);
+                    finishShareDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                        // intentionally left blank
+                    });
+                    finishShareDialog.show();
+                });
+                shareDialog.show();
                 break;
             case R.id.addFavouriteItem:
                 selectFolder();
@@ -218,14 +257,14 @@ public class SpecsActivity extends AppCompatActivity {
             final TextView processor = findViewById(R.id.processorText);
             final TextView maxram = findViewById(R.id.maxramText);
             final TextView year = findViewById(R.id.yearText);
-            final TextView model = findViewById(R.id.modelText);
-            final TextView id = findViewById(R.id.idText);
+            model = findViewById(R.id.modelText);
+            id = findViewById(R.id.idText);
             final TextView graphics = findViewById(R.id.graphicsText);
             final TextView expansion = findViewById(R.id.expansionText);
             final TextView storage = findViewById(R.id.storageText);
-            final TextView order = findViewById(R.id.orderText);
-            final TextView gestalt = findViewById(R.id.gestaltText);
-            final TextView emc = findViewById(R.id.emcText);
+            order = findViewById(R.id.orderText);
+            gestalt = findViewById(R.id.gestaltText);
+            emc = findViewById(R.id.emcText);
             final TextView software = findViewById(R.id.softwareText);
             final TextView design = findViewById(R.id.designText);
             final TextView support = findViewById(R.id.supportText);

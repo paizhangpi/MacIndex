@@ -579,6 +579,7 @@ class MachineHelper {
                 return R.drawable.intel;
             case "A12Z":
             case "m1":
+            case "m1+":
                 return R.drawable.arm;
             default:
                 ExceptionHelper.handleException(thisContext, null,
@@ -938,6 +939,10 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.applem1;
                     break;
+                case "m1pro":
+                    // TBF
+                case "m1max":
+                    // TBF
                 default:
                     ExceptionHelper.handleException(thisContext, null,
                             "MHGetProcessorImage", "Illegal parameter " + thisProcessorImage);
@@ -992,14 +997,14 @@ class MachineHelper {
                 {"68000", "68020", "68030", "68040", "601", "603", "604", "g3", "g4", "g5",
                  "netburst", "p6", "core", "penryn", "nehalem", "westmere", "snb", "ivb", "haswell",
                  "broadwell", "skylake", "kabylake", "coffeelake", "amberlake", "cascadelake", "cometlake", "icelake",
-                 "tigerlake", "a12", "m1"},
+                 "tigerlake", "a12", "m1", "m1+"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                  "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
                  "PowerPC G5", "Intel NetBurst", "Intel P6 (Yonah)", "Intel Core", "Intel Penryn",
-                 "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge (2nd Gen)", "Intel Ivy Bridge (3rd Gen)",
-                 "Intel Haswell (4th Gen)", "Intel Broadwell (5th Gen)", "Intel Skylake (6th Gen)", "Intel Kaby Lake (7th Gen)",
-                 "Intel Coffee Lake (8th/9th Gen)", "Intel Amber Lake (8th Gen)", "Intel Cascade Lake", "Intel Comet Lake (10th Gen)",
-                 "Intel Ice Lake (10th Gen)", "Intel Tiger Lake (11th Gen)", "Apple A12", "Apple M1"}};
+                 "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge", "Intel Ivy Bridge",
+                 "Intel Haswell", "Intel Broadwell", "Intel Skylake", "Intel Kaby Lake",
+                 "Intel Coffee Lake", "Intel Amber Lake", "Intel Cascade Lake", "Intel Comet Lake",
+                 "Intel Ice Lake", "Intel Tiger Lake", "Apple A12Z", "Apple M1", "Apple M1 Pro/Max"}};
         final String[][] years = {{"syear"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",

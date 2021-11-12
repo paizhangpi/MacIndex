@@ -83,12 +83,13 @@
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
     <string name="menu_group4" translatable="false">ARM Macintosh</string>
     <string name="menu">Main Menu</string>
+    <string name="submenu_main_share">Open Shared Model</string>
     <string name="submenu_main_reset">Reset Filter and View</string>
     <string name="submenu_main_help">Main Page Help</string>
-    <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_favourite">Add/Remove Favourite</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
     <string name="submenu_specs_comment">Edit Custom Comment</string>
+    <string name="submenu_specs_share">Share This Model</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_clear">Clear Results</string>
     <string name="submenu_search_reset">Reset Filter and Option</string>
@@ -195,9 +196,7 @@
     <string name="compare_clear_warning">The comparison list will be deleted. This cannot be undone. Do you want to proceed?</string>
     <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specifications Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
-    <string name="version_information_general">Current Version: </string>
-    <string name="version_information_releasedate">Release Date:</string>
-    <string name="version_information_models">Available Models: </string>
+    <string name="version_information_general">Version </string>
     <string name="about_information">©Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
     <string name="about_important">Important Information</string>
     <string name="about_opensource">Open Source Licenses</string>
@@ -210,4 +209,10 @@
     <string name="viewimage_rotate">For reference only\nRotate your device to change the orientation</string>
     <string name="random_lucky_title">Lucky!</string>
     <string name="ramdom_lucky_message">Randomly entered one of your favourite machine.</string>
+    <string-array name="share_menu">
+        <item>Copy Model Information</item>
+    </string-array>
+    <string-array name="share_description">
+        <item>Available model information copied. To copy other specifications, long press each entry.\nThis information is also readable through Main Submenu ("Open Shared Model").</item>
+    </string-array>
 </resources>
