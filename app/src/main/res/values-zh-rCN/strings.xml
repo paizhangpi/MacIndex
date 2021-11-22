@@ -194,14 +194,16 @@
         <item>复制型号信息</item>
         <item>复制所有信息</item>
         <item>选择要复制的信息</item>
+        <item>生成 MacIndex 分享链接</item>
     </string-array>
     <string-array name="share_description">
-        <item>可用的型号信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
-        <item>所有信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
-        <item>已选择的信息均已复制。\n该信息可以在主页功能菜单处读取（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>可用的型号信息均已复制。\n该信息也可用于主页功能菜单处（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>所有可用的信息均已复制。\n该信息也可用于主页功能菜单处（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>已选择的信息均已复制。\n该信息也可用于主页功能菜单处（“打开分享的机型”）。请参阅帮助内容。</item>
+        <item>分享链接已复制，MacIndex 可以直接打开该链接。\n该链接也可用于主页功能菜单处（“打开分享的机型”）。请参阅帮助内容。</item>
     </string-array>
-    <string name="share_menu_tips">选择想要复制的信息。目前无信息的参数已停用。</string>
     <string name="share_menu_null">请选择至少一项来继续</string>
-    <string name="share_main_decode">在此直接粘贴机型名称或由 MacIndex 分享功能复制的信息，可直接浏览该机型的详细参数。请参阅帮助内容。</string>
+    <string name="share_menu_not_applicable">（无信息）</string>
+    <string name="share_main_decode">要直接浏览某机型的详细参数，在此粘贴下列受支持的信息（请参阅帮助内容）：\nMacIndex 中的正式机型名称\n由 MacIndex 分享功能复制的信息\n由 MacIndex 生成的分享链接</string>
     <string name="share_main_decode_failed">无法读取该信息，或该机型在这个版本中不存在</string>
 </resources>

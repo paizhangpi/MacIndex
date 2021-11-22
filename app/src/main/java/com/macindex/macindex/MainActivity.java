@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -117,6 +119,14 @@ public class MainActivity extends AppCompatActivity {
                 if (PrefsHelper.registerNewVersion(this)) {
                     clearCache();
                 }
+
+                // Deep Link Support, Activity Not Present
+                Uri deepLink = getIntent().getData();
+                if (deepLink != null) {
+                    decodeDeepLink(deepLink.toString(), null);
+                } else {
+                    Log.w("onCreateDeepLinkEntry", "Got null data");
+                }
             } else {
                 // Creating activity due to system
                 Log.i("MacIndex", "Reloading the main activity.");
@@ -142,6 +152,19 @@ public class MainActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "MainCreation", "Unable to create the main activity.");
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        // Deep Link Support, Activity Present
+        // Override this function due to the special lunch mode
+        Uri deepLink = intent.getData();
+        if (deepLink != null) {
+            decodeDeepLink(deepLink.toString(), null);
+        } else {
+            Log.w("onNewIntentDeepLinkEntry", "Got null data");
         }
     }
 
@@ -1040,16 +1063,19 @@ public class MainActivity extends AppCompatActivity {
             try {
                 final String inputtedString = inputtedInfo.getText().toString().trim();
                 if (!inputtedString.isEmpty()) {
-                    final String[] decodedString = inputtedString.split("\n");
-                    final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", decodedString[0],
-                            "all", true, false);
-                    if (thisID.length != 1) {
-                        Log.w("infoDecodeDialog", "Unable to decode the requested information.");
-                        Toast.makeText(this, R.string.share_main_decode_failed, Toast.LENGTH_LONG).show();
+                    if (inputtedString.contains("paizhang.info/macindex/share")) {
+                        // Call deeplink handling
+                        decodeDeepLink(inputtedString, infoDecodeDialogCreated);
                     } else {
-                        // Decoded successfully, call intent parser
-                        infoDecodeDialogCreated.dismiss();
-                        SpecsIntentHelper.sendIntent(thisID, thisID[0], this, false);
+                        final int[] thisID = decodeStartedParam(inputtedString.split("\n")[0].trim());
+                        if (thisID.length != 1) {
+                            Log.w("infoDecodeDialog", "Unable to decode the requested information.");
+                            Toast.makeText(this, R.string.share_main_decode_failed, Toast.LENGTH_LONG).show();
+                        } else {
+                            // Decoded successfully, call intent parser
+                            infoDecodeDialogCreated.dismiss();
+                            SpecsIntentHelper.sendIntent(thisID, thisID[0], this, false);
+                        }
                     }
                 }
             } catch (Exception e) {
@@ -1057,6 +1083,43 @@ public class MainActivity extends AppCompatActivity {
                         + inputtedInfo.getText().toString().trim());
             }
         });
+    }
+
+    private void decodeDeepLink(final String deepLink, final AlertDialog parentDialog) {
+        String[] machineParam = deepLink.split("\\?code=");
+        Log.i("DeepLinkDecode", "Got data " + Arrays.toString(machineParam));
+        if (machineParam.length == 2) {
+            int[] decodedID = decodeStartedParam(machineParam[1].replace("_", " ").trim());
+            if (decodedID.length != 1) {
+                Log.w("DeepLinkDecode", "Unable to decode the requested link.");
+                Toast.makeText(this, R.string.share_main_decode_failed, Toast.LENGTH_LONG).show();
+            } else {
+                // Decoded successfully, call intent parser
+                if (parentDialog != null) {
+                    // Dismiss parent dialog if present...
+                    parentDialog.dismiss();
+                }
+                SpecsIntentHelper.sendIntent(decodedID, decodedID[0], this, false);
+            }
+        } else {
+            Log.w("DeepLinkDecode", "Unable to process the link due to illegal parameter.");
+            Toast.makeText(this, R.string.share_main_decode_failed, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // Return an ID array with matched name. Input: suspected machine name.
+    private int[] decodeStartedParam(final String param) {
+        try {
+            // Param must not be an empty string.
+            if (param == null || param.isEmpty()) {
+                throw new IllegalArgumentException();
+            }
+            return MainActivity.getMachineHelper().searchHelper("name", param.trim(),
+                    "all", true, false);
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "MachineParamDecoder", "Unable to decode the parameter: " + param.trim());
+            return new int[0];
+        }
     }
 
     public static MachineHelper getMachineHelper() {

@@ -1206,6 +1206,7 @@ public class SpecsActivity extends AppCompatActivity {
         shareDialog.setItems(shareEntries, (dialog, which) -> {
             try {
                 if (which == 0 || which == 1) {
+                    // Model no. or all info
                     List<Integer> currentEntries = new ArrayList<>(5);
                     for (int i = 1; i < (which == 0 ? 6 : 16); i++) {
                         currentEntries.add(i);
@@ -1216,6 +1217,7 @@ public class SpecsActivity extends AppCompatActivity {
                     clipboard.setPrimaryClip(clip);
                     finishShareDialog(shareEntries, shareDescription, which);
                 } else if (which == 2) {
+                    // User choose info
                     // Construct the dialog view.
                     final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                     final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
@@ -1240,6 +1242,7 @@ public class SpecsActivity extends AppCompatActivity {
                         if (modelInfo.split("\n").length != 2) {
                             // This is not supposed...
                             thisCheckBox.setEnabled(false);
+                            thisCheckBox.setText(selectableSpecs[i] + " " + getString(R.string.share_menu_not_applicable));
                         }
                         selectLayout.addView(thisCheckBox);
                     }
@@ -1247,7 +1250,6 @@ public class SpecsActivity extends AppCompatActivity {
                     // Create the dialog.
                     final AlertDialog.Builder selectDialog = new AlertDialog.Builder(this);
                     selectDialog.setTitle(shareEntries[which]);
-                    selectDialog.setMessage(R.string.share_menu_tips);
                     selectDialog.setView(selectChunk);
                     selectDialog.setPositiveButton(R.string.link_confirm, (dialog2, which2) -> {
                         // To be overwritten...
@@ -1282,6 +1284,13 @@ public class SpecsActivity extends AppCompatActivity {
                             ExceptionHelper.handleException(this, e, "selectDialog", "Error when copying currentSelections.");
                         }
                     });
+                } else if (which == 3) {
+                    // Generate link
+                    final String shareLink = "https://paizhang.info/macindex/share?code=" + thisName.replace(" ", "_") + "_";
+                    ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("MacIndexShareLink", shareLink);
+                    clipboard.setPrimaryClip(clip);
+                    finishShareDialog(shareEntries, shareDescription, which);
                 }
             } catch (Exception e) {
                 ExceptionHelper.handleException(this, e, "shareDialog", "Unable to create the share dialog.");
