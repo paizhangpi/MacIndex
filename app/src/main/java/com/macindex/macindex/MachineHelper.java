@@ -940,9 +940,13 @@ class MachineHelper {
                     toReturn[i][0] = R.drawable.applem1;
                     break;
                 case "m1pro":
-                    // TBF
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applem1pro;
+                    break;
                 case "m1max":
-                    // TBF
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applem1max;
+                    break;
                 default:
                     ExceptionHelper.handleException(thisContext, null,
                             "MHGetProcessorImage", "Illegal parameter " + thisProcessorImage);
@@ -1009,11 +1013,11 @@ class MachineHelper {
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
                  "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"},
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
                  "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013",
-                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021"}};
+                 "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022"}};
         Log.i("MHGetFilter", "Get parameters " + thisFilter);
         switch (thisFilter) {
             case "names":
