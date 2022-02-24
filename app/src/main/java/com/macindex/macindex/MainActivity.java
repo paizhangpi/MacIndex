@@ -113,12 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Log.w("MacIndex", "Database already initialized.");
                 }
-                initInterface(true);
 
                 // Cache clear if new version is registered
                 if (PrefsHelper.registerNewVersion(this)) {
                     clearCache();
                 }
+
+                initInterface(true);
 
                 // Deep Link Support, Activity Not Present
                 Uri deepLink = getIntent().getData();

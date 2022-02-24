@@ -1215,7 +1215,7 @@ public class SpecsActivity extends AppCompatActivity {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
                     clipboard.setPrimaryClip(clip);
-                    finishShareDialog(shareEntries, shareDescription, which);
+                    Toast.makeText(SpecsActivity.this, shareDescription[which], Toast.LENGTH_LONG).show();
                 } else if (which == 2) {
                     // User choose info
                     // Construct the dialog view.
@@ -1275,7 +1275,7 @@ public class SpecsActivity extends AppCompatActivity {
                                 ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("MacIndexModelInfo", modelInfo);
                                 clipboard.setPrimaryClip(clip);
-                                finishShareDialog(shareEntries, shareDescription, which);
+                                Toast.makeText(SpecsActivity.this, shareDescription[which], Toast.LENGTH_LONG).show();
                                 selectDialogCreated.dismiss();
                             } else {
                                 Toast.makeText(SpecsActivity.this, R.string.share_menu_null, Toast.LENGTH_LONG).show();
@@ -1290,7 +1290,7 @@ public class SpecsActivity extends AppCompatActivity {
                     ClipboardManager clipboard = (ClipboardManager) SpecsActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText("MacIndexShareLink", shareLink);
                     clipboard.setPrimaryClip(clip);
-                    finishShareDialog(shareEntries, shareDescription, which);
+                    Toast.makeText(SpecsActivity.this, shareDescription[which], Toast.LENGTH_LONG).show();
                 }
             } catch (Exception e) {
                 ExceptionHelper.handleException(this, e, "shareDialog", "Unable to create the share dialog.");
@@ -1392,16 +1392,6 @@ public class SpecsActivity extends AppCompatActivity {
             ExceptionHelper.handleException(this, e, "generateShareInfo", "Illegal Argument. Received arguments:" + entries.toString());
         }
         return modelInfo.trim(); // Get rid of the last new line
-    }
-
-    private void finishShareDialog(final String[] shareEntries, final String[] shareDescription, final int which) {
-        AlertDialog.Builder finishShareDialog = new AlertDialog.Builder(SpecsActivity.this);
-        finishShareDialog.setTitle(shareEntries[which]);
-        finishShareDialog.setMessage(shareDescription[which]);
-        finishShareDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-            // intentionally left blank
-        });
-        finishShareDialog.show();
     }
 
     private void navPrev() {
