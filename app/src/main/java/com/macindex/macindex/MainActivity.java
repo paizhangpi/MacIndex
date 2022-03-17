@@ -324,7 +324,7 @@ public class MainActivity extends AppCompatActivity {
             database = dbHelper.getReadableDatabase();
 
             // Open MachineHelper
-            machineHelper = new MachineHelper(database, context);
+            machineHelper = new MachineHelper(database);
 
         } catch (Exception e) {
             ExceptionHelper.handleException(context, e,

@@ -103,7 +103,7 @@ class MachineHelper {
     // Stop flooding the Logcat!
     private boolean stopQuery = false;
 
-    MachineHelper(final SQLiteDatabase thisDatabase, final Context thisContext) {
+    MachineHelper(final SQLiteDatabase thisDatabase) {
         database = thisDatabase;
 
         categoryIndividualCount = new int[CATEGORIES_LIST.length];
@@ -679,10 +679,6 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.core2duo;
                     break;
-                case "core2quad":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.core2quad;
-                    break;
                 case "core2ex":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.core2ex;
@@ -719,10 +715,6 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_2;
                     break;
-                case "corei3_4":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_4;
-                    break;
                 case "corei5_4":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei5_4;
@@ -730,10 +722,6 @@ class MachineHelper {
                 case "corei7_4":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_4;
-                    break;
-                case "corei3_5":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_5;
                     break;
                 case "corei5_5":
                     toReturn[i] = new int[1];
@@ -743,10 +731,6 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_5;
                     break;
-                case "corei3_6":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_6;
-                    break;
                 case "corei5_6":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei5_6;
@@ -754,10 +738,6 @@ class MachineHelper {
                 case "corei7_6":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei7_6;
-                    break;
-                case "corei3_7":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_7;
                     break;
                 case "corei5_7":
                     toReturn[i] = new int[1];
@@ -782,10 +762,6 @@ class MachineHelper {
                 case "corei9_8":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei9_8;
-                    break;
-                case "corei3_9":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_9;
                     break;
                 case "corei5_9":
                     toReturn[i] = new int[1];
@@ -814,22 +790,6 @@ class MachineHelper {
                 case "corei9_10":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.corei9_10;
-                    break;
-                case "corei3_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei3_11;
-                    break;
-                case "corei5_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei5_11;
-                    break;
-                case "corei7_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei7_11;
-                    break;
-                case "corei9_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.corei9_11;
                     break;
                 case "corem":
                     toReturn[i] = new int[1];
@@ -867,53 +827,9 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.xeon_2;
                     break;
-                case "xeon_4":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeon_4;
-                    break;
-                case "xeon_5":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeon_5;
-                    break;
                 case "xeon_6":
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.xeon_6;
-                    break;
-                case "xeon_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeon_11;
-                    break;
-                case "xeonbronze_6":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonbronze_6;
-                    break;
-                case "xeonsilver_6":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonsilver_6;
-                    break;
-                case "xeongold_6":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeongold_6;
-                    break;
-                case "xeonplatinum_6":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonplatinum_6;
-                    break;
-                case "xeonbronze_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonbronze_11;
-                    break;
-                case "xeonsilver_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonsilver_11;
-                    break;
-                case "xeongold_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeongold_11;
-                    break;
-                case "xeonplatinum_11":
-                    toReturn[i] = new int[1];
-                    toReturn[i][0] = R.drawable.xeonplatinum_11;
                     break;
                 case "t1":
                     toReturn[i] = new int[1];
