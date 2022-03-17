@@ -2,6 +2,7 @@ package com.macindex.macindex;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,8 +63,7 @@ class MachineHelper {
             "powerbook_duo_ppc", "power_mac", "imac_ppc", "emac", "mac_mini_ppc", "mac_server_ppc",
             "xserve_ppc", "powerbook_ppc", "ibook", "mac_pro_intel", "imac_intel", "imac_pro_intel",
             "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel",
-            "mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm", "macbook_pro_arm", "macbook_air_arm"};
-    private static final int COLUMNS_COUNT = 30;
+            "mac_pro_arm", "imac_arm", "mac_mini_arm", "macbook_pro_arm", "macbook_air_arm", "mac_studio"};
 
     /*
      * getSound
@@ -108,23 +108,17 @@ class MachineHelper {
 
         categoryIndividualCount = new int[CATEGORIES_LIST.length];
         for (int i = 0; i < CATEGORIES_LIST.length; i++) {
-            Cursor tempCursor = database.query(CATEGORIES_LIST[i],
-                    null, null, null, null, null,
-                    null);
-            // SelfCheck
-            if (tempCursor.getColumnCount() != COLUMNS_COUNT) {
-                ExceptionHelper.handleException(thisContext, null,
-                        "MachineHelperInit", "Error found on category " + CATEGORIES_LIST[i]);
-            }
+            // Well, I am short enough!
+            // Let's do this efficiently
+            final int thisTableCount = (int) DatabaseUtils.queryNumEntries(database, CATEGORIES_LIST[i]);
 
-            final int thisCursorCount = tempCursor.getCount();
-            categoryIndividualCount[i] = thisCursorCount;
-            totalMachine += thisCursorCount;
+            // Self check was removed since ver. 4.9
+            categoryIndividualCount[i] = thisTableCount;
+            totalMachine += thisTableCount;
             Log.i("MachineHelperInit", "Category cursor " + CATEGORIES_LIST[i]
-                    + " loaded with row count " + thisCursorCount
+                    + " loaded with row count " + thisTableCount
                     + ", accumulated total row count " + totalMachine);
 
-            tempCursor.close();
         }
         Log.w("MachineHelper", "Initialized with " + totalMachine + " machines.");
 
@@ -199,7 +193,7 @@ class MachineHelper {
     public String getName(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "name"}, "id = " + position[1], null, null, null,
+                new String[]{"name"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("name"));
@@ -210,7 +204,7 @@ class MachineHelper {
     public String getProcessor(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "processor"}, "id = " + position[1], null, null, null,
+                new String[]{"processor"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("processor"));
@@ -221,7 +215,7 @@ class MachineHelper {
     public String getMaxRam(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "ram"}, "id = " + position[1], null, null, null,
+                new String[]{"ram"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ram"));
@@ -232,7 +226,7 @@ class MachineHelper {
     public String getYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "year"}, "id = " + position[1], null, null, null,
+                new String[]{"year"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("year"));
@@ -243,7 +237,7 @@ class MachineHelper {
     public String getModel(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "model"}, "id = " + position[1], null, null, null,
+                new String[]{"model"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("model"));
@@ -254,7 +248,7 @@ class MachineHelper {
     public String getType(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "rom"}, "id = " + position[1], null, null, null,
+                new String[]{"rom"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("rom"));
@@ -265,7 +259,7 @@ class MachineHelper {
     public String getMid(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "ident"}, "id = " + position[1], null, null, null,
+                new String[]{"ident"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("ident"));
@@ -276,7 +270,7 @@ class MachineHelper {
     public String getGraphics(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "graphics"}, "id = " + position[1], null, null, null,
+                new String[]{"graphics"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("graphics"));
@@ -287,7 +281,7 @@ class MachineHelper {
     public String getExpansion(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "expansion"}, "id = " + position[1], null, null, null,
+                new String[]{"expansion"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("expansion"));
@@ -298,7 +292,7 @@ class MachineHelper {
     public String getStorage(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "storage"}, "id = " + position[1], null, null, null,
+                new String[]{"storage"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("storage"));
@@ -309,7 +303,7 @@ class MachineHelper {
     public String getGestalt(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "gestalt"}, "id = " + position[1], null, null, null,
+                new String[]{"gestalt"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("gestalt"));
@@ -319,9 +313,8 @@ class MachineHelper {
 
     public String getOrder(final int thisMachine) {
         int[] position = getPosition(thisMachine);
-        // KEYWORD COLLISION! Temporary fix.
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                null, "id = " + position[1], null, null, null,
+                new String[]{"\"order\""}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("order"));
@@ -332,7 +325,7 @@ class MachineHelper {
     public String getEMC(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "emc"}, "id = " + position[1], null, null, null,
+                new String[]{"emc"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("emc"));
@@ -343,7 +336,7 @@ class MachineHelper {
     public String getSoftware(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "software"}, "id = " + position[1], null, null, null,
+                new String[]{"software"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("software"));
@@ -354,7 +347,7 @@ class MachineHelper {
     public String getDesign(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "design"}, "id = " + position[1], null, null, null,
+                new String[]{"design"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("design"));
@@ -365,7 +358,7 @@ class MachineHelper {
     public String getSupport(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "support"}, "id = " + position[1], null, null, null,
+                new String[]{"support"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("support"));
@@ -376,7 +369,7 @@ class MachineHelper {
     public String getSYear(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "syear"}, "id = " + position[1], null, null, null,
+                new String[]{"syear"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("syear"));
@@ -396,7 +389,7 @@ class MachineHelper {
     private String getUndefined(final int thisMachine, final String thisColumn) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", thisColumn}, "id = " + position[1], null, null, null,
+                new String[]{thisColumn}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex(thisColumn));
@@ -408,7 +401,7 @@ class MachineHelper {
     public int[] getSound(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "sound"}, "id = " + position[1], null, null, null,
+                new String[]{"sound"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String thisSound = tempCursor.getString(tempCursor.getColumnIndex("sound"));
@@ -489,7 +482,7 @@ class MachineHelper {
     public File getPicture(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "pic"}, "id = " + position[1], null, null, null,
+                new String[]{"pic"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         byte[] thisBlob = tempCursor.getBlob(tempCursor.getColumnIndex("pic"));
@@ -515,7 +508,7 @@ class MachineHelper {
     public String getConfig(final int thisMachine) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "links"}, "id = " + position[1], null, null, null,
+                new String[]{"links"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String tempResult = tempCursor.getString(tempCursor.getColumnIndex("links"));
@@ -532,7 +525,7 @@ class MachineHelper {
     public int getProcessorTypeImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "sprocessor"}, "id = " + position[1], null, null, null,
+                new String[]{"sprocessor"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String thisProcessorImage = tempCursor.getString(tempCursor.getColumnIndex("sprocessor"));
@@ -579,7 +572,6 @@ class MachineHelper {
                 return R.drawable.intel;
             case "A12Z":
             case "m1":
-            case "m1+":
                 return R.drawable.arm;
             default:
                 ExceptionHelper.handleException(thisContext, null,
@@ -591,7 +583,7 @@ class MachineHelper {
     public int[][] getProcessorImage(final int thisMachine, final Context thisContext) {
         int[] position = getPosition(thisMachine);
         Cursor tempCursor = database.query(CATEGORIES_LIST[position[0]],
-                new String[]{"id", "processorid"}, "id = " + position[1], null, null, null,
+                new String[]{"processorid"}, "id = " + position[1], null, null, null,
                 null);
         tempCursor.moveToFirst();
         String thisProcessorImage = tempCursor.getString(tempCursor.getColumnIndex("processorid"));
@@ -947,6 +939,8 @@ class MachineHelper {
                     toReturn[i] = new int[1];
                     toReturn[i][0] = R.drawable.applem1max;
                     break;
+                case "m1ultra":
+                    // to do...
                 default:
                     ExceptionHelper.handleException(thisContext, null,
                             "MHGetProcessorImage", "Illegal parameter " + thisProcessorImage);
@@ -959,6 +953,7 @@ class MachineHelper {
     }
 
     // Get category range by manufacturer. Should be updated accordingly.
+    // This provides table names for query, when adding new tables, should be updated accordingly.
     private String[] getCategoryRange(final String thisManufacturer) {
         Log.i("MHRange", "Get parameter " + thisManufacturer);
         final String[] apple68k = {"compact_mac", "mac_ii", "mac_lc", "mac_quadra",
@@ -968,8 +963,8 @@ class MachineHelper {
                 "mac_mini_ppc", "mac_server_ppc", "xserve_ppc", "powerbook_ppc", "ibook"};
         final String[] appleintel = {"mac_pro_intel", "imac_intel", "imac_pro_intel",
                 "mac_mini_intel", "xserve_intel", "macbook_pro_intel", "macbook_intel", "macbook_air_intel"};
-        final String[] applearm = {"mac_pro_arm", "imac_arm", "imac_pro_arm", "mac_mini_arm",
-                "macbook_pro_arm", "macbook_air_arm"};
+        final String[] applearm = {"mac_pro_arm", "imac_arm", "mac_mini_arm", "macbook_pro_arm",
+                "macbook_air_arm", "mac_studio"};
         switch (thisManufacturer) {
             case "all":
                 return CATEGORIES_LIST;
@@ -992,23 +987,23 @@ class MachineHelper {
         final String[][] names = {{"stype"},
                 {"compact_mac", "mac_ii", "mac_lc", "mac_quadra", "mac_performa", "mac_centris",
                  "mac_server", "power_mac", "imac_normal", "emac", "xserve", "mac_mini", "nmac_pro", "imac_pro",
-                 "powerbook_normal", "powerbook_duo", "ibook", "macbook_pro", "macbook_normal", "macbook_air"},
+                 "mac_studio", "powerbook_normal", "powerbook_duo", "ibook", "macbook_pro", "macbook_normal", "macbook_air"},
                 {"Compact Macintosh", "Macintosh II", "Macintosh LC", "Macintosh Quadra",
                  "Macintosh Performa", "Macintosh Centris", "Macintosh Server", "Power Macintosh",
-                 "iMac", "eMac", "Xserve", "Mac mini", "Mac Pro", "iMac Pro", "Macintosh PowerBook",
+                 "iMac", "eMac", "Xserve", "Mac mini", "Mac Pro", "iMac Pro", "Mac Studio", "Macintosh PowerBook",
                  "Macintosh PowerBook Duo", "iBook", "MacBook Pro", "MacBook", "MacBook Air"}};
         final String[][] processors = {{"sprocessor"},
                 {"68000", "68020", "68030", "68040", "601", "603", "604", "g3", "g4", "g5",
                  "netburst", "p6", "core", "penryn", "nehalem", "westmere", "snb", "ivb", "haswell",
                  "broadwell", "skylake", "kabylake", "coffeelake", "amberlake", "cascadelake", "cometlake", "icelake",
-                 "tigerlake", "a12", "m1", "m1+"},
+                 "tigerlake", "a12", "m1"},
                 {"Motorola 68000", "Motorola 68020", "Motorola 68030", "Motorola 68040",
                  "PowerPC 601", "PowerPC 603", "PowerPC 604", "PowerPC G3", "PowerPC G4",
                  "PowerPC G5", "Intel NetBurst", "Intel P6 (Yonah)", "Intel Core", "Intel Penryn",
                  "Intel Nehalem", "Intel Westmere", "Intel Sandy Bridge", "Intel Ivy Bridge",
                  "Intel Haswell", "Intel Broadwell", "Intel Skylake", "Intel Kaby Lake",
                  "Intel Coffee Lake", "Intel Amber Lake", "Intel Cascade Lake", "Intel Comet Lake",
-                 "Intel Ice Lake", "Intel Tiger Lake", "Apple A12Z", "Apple M1", "Apple M1 Pro/Max"}};
+                 "Intel Ice Lake", "Intel Tiger Lake", "Apple A12Z", "Apple M1"}};
         final String[][] years = {{"syear"},
                 {"1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993",
                  "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003",
@@ -1049,7 +1044,7 @@ class MachineHelper {
                 if (stopQuery) {
                     throw new IllegalAccessException();
                 }
-                Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i], new String[]{"id", columnName}, columnName + " LIKE ? ",
+                Cursor thisSearchIndividualCursor = database.query(thisCategoryRange[i], new String[]{"id"}, columnName + " LIKE ? ",
                         new String[]{"%" + searchInput + "%"}, null, null, null);;
                 rawResults[i] = new int[thisSearchIndividualCursor.getCount()];
                 Log.i("MHSearchHelper", "Category " + thisCategoryRange[i] + " got "
