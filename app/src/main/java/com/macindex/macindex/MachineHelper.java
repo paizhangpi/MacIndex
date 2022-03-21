@@ -856,7 +856,9 @@ class MachineHelper {
                     toReturn[i][0] = R.drawable.applem1max;
                     break;
                 case "m1ultra":
-                    // to do...
+                    toReturn[i] = new int[1];
+                    toReturn[i][0] = R.drawable.applem1u;
+                    break;
                 default:
                     ExceptionHelper.handleException(thisContext, null,
                             "MHGetProcessorImage", "Illegal parameter " + thisProcessorImage);
