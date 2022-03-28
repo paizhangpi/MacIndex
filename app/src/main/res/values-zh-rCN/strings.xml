@@ -92,9 +92,9 @@
     <string name="submenu_search_everymac">EveryMac 查询</string>
     <string name="submenu_search_help">搜索页帮助</string>
     <string name="submenu_favourite_add">新建收藏夹</string>
-    <string name="submenu_favourite_delete">删除收藏夹</string>
+    <string name="submenu_favourite_delete">管理收藏夹</string>
     <string name="submenu_favourite_rename">重命名收藏夹</string>
-    <string name="submenu_favourite_clear">删除所有收藏夹</string>
+    <string name="submenu_favourite_clear">清除收藏夹</string>
     <string name="submenu_favourite_help">收藏页帮助</string>
     <string name="submenu_compare_initialize">选择要比较的机型</string>
     <string name="submenu_compare_clear_columns">清除正在比较的机型</string>
@@ -102,8 +102,8 @@
     <string name="submenu_compare_manage">管理比较列表</string>
     <string name="submenu_compare_clear">清除比较列表</string>
     <string name="submenu_compare_help">比较页帮助</string>
-    <string name="submenu_comments_delete">删除备注</string>
-    <string name="submenu_comments_clear">删除所有备注</string>
+    <string name="submenu_comments_delete">管理备注</string>
+    <string name="submenu_comments_clear">清除备注</string>
     <string name="submenu_comments_help">备注页帮助</string>
     <string name="submenu_prefs_benchmark">基准测试</string>
     <string name="submenu_prefs_clear">重置应用</string>

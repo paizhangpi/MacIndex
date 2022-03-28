@@ -97,9 +97,9 @@
     <string name="submenu_search_everymac">EveryMac Lookup</string>
     <string name="submenu_search_help">Search Page Help</string>
     <string name="submenu_favourite_add">Create New Folder</string>
-    <string name="submenu_favourite_delete">Delete Folder(s)</string>
+    <string name="submenu_favourite_delete">Manage Folder(s)</string>
     <string name="submenu_favourite_rename">Rename Folder</string>
-    <string name="submenu_favourite_clear">Delete All Folders</string>
+    <string name="submenu_favourite_clear">Clear Folder(s)</string>
     <string name="submenu_favourite_help">Bookmark Page Help</string>
     <string name="submenu_compare_initialize">Select Comparing Machines</string>
     <string name="submenu_compare_clear_columns">Clear Comparing Machines</string>
@@ -107,8 +107,8 @@
     <string name="submenu_compare_manage">Manage Compare List</string>
     <string name="submenu_compare_clear">Clear Compare List</string>
     <string name="submenu_compare_help">Compare Page Help</string>
-    <string name="submenu_comments_delete">Delete Comment(s)</string>
-    <string name="submenu_comments_clear">Delete All Comments</string>
+    <string name="submenu_comments_delete">Manage Comment(s)</string>
+    <string name="submenu_comments_clear">Clear Comment(s)</string>
     <string name="submenu_comments_help">Comment Page Help</string>
     <string name="submenu_prefs_benchmark">Benchmark</string>
     <string name="submenu_prefs_clear">Application Reset</string>

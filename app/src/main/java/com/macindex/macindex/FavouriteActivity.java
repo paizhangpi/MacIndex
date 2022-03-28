@@ -35,6 +35,12 @@ public class FavouriteActivity extends AppCompatActivity {
 
     private ProgressDialog waitDialog = null;
 
+    private boolean isAbleToManage = false;
+
+    private MenuItem renameFolderItem = null;
+
+    private MenuItem manageFolderItem = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +65,19 @@ public class FavouriteActivity extends AppCompatActivity {
             }
             initFavourites(false);
         } else {
-            isEmptyString(R.string.menu_favourite);
+            if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
+                final AlertDialog.Builder emptyStringDialog = new AlertDialog.Builder(this);
+                emptyStringDialog.setTitle(R.string.menu_favourite);
+                emptyStringDialog.setMessage(R.string.favourites_no_folder);
+                emptyStringDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Create new folder
+                    createFolder();
+                });
+                emptyStringDialog.setNegativeButton(R.string.link_cancel, ((dialogInterface, i) -> {
+                    // Cancelled, do nothing
+                }));
+                emptyStringDialog.show();
+            }
             initFavourites(true);
         }
     }
@@ -105,6 +123,10 @@ public class FavouriteActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_favourite, menu);
+        renameFolderItem = menu.findItem(R.id.renameFolderItem);
+        manageFolderItem = menu.findItem(R.id.deleteFolderItem);
+        renameFolderItem.setEnabled(isAbleToManage);
+        manageFolderItem.setEnabled(isAbleToManage);
         return true;
     }
 
@@ -189,8 +211,11 @@ public class FavouriteActivity extends AppCompatActivity {
                 } else {
                     TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 }
+                // Adapt new behaviour
+                setAbleToManage(false);
                 emptyLayout.setVisibility(View.VISIBLE);
             } else {
+                setAbleToManage(true);
                 emptyLayout.setVisibility(View.GONE);
             }
 
@@ -329,25 +354,7 @@ public class FavouriteActivity extends AppCompatActivity {
         }
     }
 
-    // Called when to check the favourites is empty.
-    private boolean isEmptyString(final int titleRes) {
-        if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
-            final AlertDialog.Builder emptyStringDialog = new AlertDialog.Builder(this);
-            emptyStringDialog.setTitle(titleRes);
-            emptyStringDialog.setMessage(R.string.favourites_no_folder);
-            emptyStringDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                // Create new folder
-                createFolder();
-            });
-            emptyStringDialog.setNegativeButton(R.string.link_cancel, ((dialogInterface, i) -> {
-                // Cancelled, do nothing
-            }));
-            emptyStringDialog.show();
-            return true;
-        } else {
-            return false;
-        }
-    }
+    // Deleted previous empty detection since ver. 4.9
 
     public static String[] getFolders(final Context thisContext, final Boolean isTailing) {
         try {
@@ -458,7 +465,10 @@ public class FavouriteActivity extends AppCompatActivity {
     private void deleteFolder() {
         try {
             // Check if totally empty.
-            if (!isEmptyString(R.string.submenu_favourite_delete)) {
+            if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
+                // Under the new behaviour, this branch should not be taken.
+                throw new IllegalAccessException("Should not enter this MenuItem");
+            } else {
                 final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                 final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
                 final String[] currentStrings = getFolders(this, true);
@@ -510,7 +520,10 @@ public class FavouriteActivity extends AppCompatActivity {
     private void renameFolder() {
         try {
             // Check if totally empty.
-            if (!isEmptyString(R.string.submenu_favourite_rename)) {
+            if (PrefsHelper.getStringPrefs("userFavourites", this).isEmpty()) {
+                // Under the new behaviour, this branch should not be taken.
+                throw new IllegalAccessException("Should not enter this MenuItem");
+            } else {
                 final AlertDialog.Builder renameDialog = new AlertDialog.Builder(this);
                 renameDialog.setTitle(R.string.submenu_favourite_rename);
                 renameDialog.setMessage(R.string.favourites_rename);
@@ -581,6 +594,16 @@ public class FavouriteActivity extends AppCompatActivity {
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "renameFolder", "Illegal Favourites String. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userFavourites", this));
+        }
+    }
+
+    private void setAbleToManage(final boolean newStatus) {
+        Log.i("FavouriteActivity", "isAbleToManage set to " + newStatus);
+        isAbleToManage = newStatus;
+        // Avoid null pointers
+        if (renameFolderItem != null && manageFolderItem != null) {
+            renameFolderItem.setEnabled(newStatus);
+            manageFolderItem.setEnabled(newStatus);
         }
     }
 }

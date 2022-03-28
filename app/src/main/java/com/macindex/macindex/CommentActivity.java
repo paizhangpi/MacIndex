@@ -33,6 +33,10 @@ public class CommentActivity extends AppCompatActivity {
 
     private ProgressDialog waitDialog = null;
 
+    private boolean isAbleToManage = false;
+
+    private MenuItem manageCommentsItem = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +57,15 @@ public class CommentActivity extends AppCompatActivity {
             initComments(false);
         } else {
             // Check whether if the string is empty on creation.
-            checkEmpty(R.string.menu_comment);
+            if (PrefsHelper.getStringPrefs("userComments", this).isEmpty()) {
+                final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
+                nullWarningDialog.setTitle(R.string.menu_comment);
+                nullWarningDialog.setMessage(R.string.comments_not_available);
+                nullWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
+                    // Confirmed.
+                });
+                nullWarningDialog.show();
+            }
             initComments(true);
         }
     }
@@ -92,6 +104,8 @@ public class CommentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_comment, menu);
+        manageCommentsItem = menu.findItem(R.id.deleteCommentsItem);
+        manageCommentsItem.setEnabled(isAbleToManage);
         return true;
     }
 
@@ -158,6 +172,8 @@ public class CommentActivity extends AppCompatActivity {
             final TextView emptyText = findViewById(R.id.emptyText);
 
             if (PrefsHelper.getStringPrefs("userComments", this).length() != 0) {
+                // Adapt new behaviour
+                setAbleToManage(true);
                 emptyLayout.setVisibility(View.GONE);
                 String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
                 machineIDs = new int[thisCommentsStrings.length];
@@ -259,6 +275,7 @@ public class CommentActivity extends AppCompatActivity {
                 } else {
                     TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 }
+                setAbleToManage(false);
                 emptyLayout.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
@@ -266,24 +283,15 @@ public class CommentActivity extends AppCompatActivity {
         }
     }
 
-    private boolean checkEmpty(final int titleResource) {
-        if (PrefsHelper.getStringPrefs("userComments", this).isEmpty()) {
-            final AlertDialog.Builder nullWarningDialog = new AlertDialog.Builder(this);
-            nullWarningDialog.setTitle(titleResource);
-            nullWarningDialog.setMessage(R.string.comments_not_available);
-            nullWarningDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                // Confirmed.
-            });
-            nullWarningDialog.show();
-            return true;
-        }
-        return false;
-    }
+    // Deleted previous empty detection since ver. 4.9
 
     // Adapted from FavouriteActivity
     private void deleteComments() {
         try {
-            if (!checkEmpty(R.string.submenu_comments_delete)) {
+            if (PrefsHelper.getStringPrefs("userComments", this).isEmpty()) {
+                // Under the new behaviour, this branch should not be taken.
+                throw new IllegalAccessException("Should not enter this MenuItem");
+            } else {
                 final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                 final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
                 final String[] thisCommentsStrings = PrefsHelper.getStringPrefs("userComments", this).split("││");
@@ -331,6 +339,15 @@ public class CommentActivity extends AppCompatActivity {
         } catch (final Exception e) {
             ExceptionHelper.handleException(CommentActivity.this, e, "deleteComments", "Illegal comment prefs string. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userComments", CommentActivity.this));
+        }
+    }
+
+    private void setAbleToManage(final boolean newStatus) {
+        Log.i("CommentActivity", "isAbleToManage set to " + newStatus);
+        isAbleToManage = newStatus;
+        // Avoid null pointers
+        if (manageCommentsItem != null) {
+            manageCommentsItem.setEnabled(newStatus);
         }
     }
 }
