@@ -201,7 +201,6 @@
     </string-array>
     <string name="compare_not_initialized">Please select machines to compare in the submenu</string>
     <string name="compare_clear_warning">The compare list will be deleted. This cannot be undone. Do you want to proceed?</string>
-    <string name="compare_empty">No machine has been added in the compare list yet. You can add a machine at any Specification Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the compare list. This cannot be undone.</string>
     <string name="version_information_general">Version </string>
     <string name="version_information_machine_count">Machines)</string>

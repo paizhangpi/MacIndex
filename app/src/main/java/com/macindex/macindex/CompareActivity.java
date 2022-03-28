@@ -24,11 +24,19 @@ import android.widget.TextView;
  */
 public class CompareActivity extends AppCompatActivity {
 
+    private boolean isAbleToInitialize = false;
+
     private boolean isInitialized = false;
+
+    private boolean isAbleToManage = true;
+
+    private MenuItem initialMenuItem = null;
 
     private MenuItem clearColumnMenuItem = null;
 
     private MenuItem exchangeColumnMenuItem = null;
+
+    private MenuItem manageListMenuItem = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +82,14 @@ public class CompareActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_compare, menu);
-        clearColumnMenuItem = menu.getItem(1);
-        exchangeColumnMenuItem = menu.getItem(2);
+        initialMenuItem = menu.findItem(R.id.initCompareItem);
+        clearColumnMenuItem = menu.findItem(R.id.clearColumnCompareItem);
+        exchangeColumnMenuItem = menu.findItem(R.id.switchCompareItem);
+        manageListMenuItem = menu.findItem(R.id.manageCompareItem);
+        initialMenuItem.setEnabled(isAbleToInitialize);
+        clearColumnMenuItem.setEnabled(isInitialized);
+        exchangeColumnMenuItem.setEnabled(isInitialized);
+        manageListMenuItem.setEnabled(isAbleToManage);
         return true;
     }
 
@@ -134,40 +148,50 @@ public class CompareActivity extends AppCompatActivity {
             Log.i("initCompare", PrefsHelper.getStringPrefs("userCompares", CompareActivity.this));
 
             final LinearLayout emptyLayout = findViewById(R.id.emptyLayout);
+            final LinearLayout initialLayout = findViewById(R.id.initialLayout);
             final TextView emptyText = findViewById(R.id.emptyText);
+            final TextView initialText = findViewById(R.id.initialText);
 
             if (PrefsHelper.getStringPrefs("userCompares", this).split("│").length >= 2) {
                 if (!(PrefsHelper.getStringPrefs("userComparesLeft", this).isEmpty())
                         && !(PrefsHelper.getStringPrefs("userComparesRight", this).isEmpty())) {
+                    // Load the comparison.
+                    initialLayout.setVisibility(View.GONE);
                     emptyLayout.setVisibility(View.GONE);
                     // To be implemented
+                    setAbleToInitialize(true);
                     setInitialized(true);
+                    setAbleToManage(true);
                 } else {
                     // Sufficient compare list, but invalid compare parameters.
-                    emptyText.setMaxLines(1);
-                    emptyText.setText(R.string.compare_not_initialized);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        emptyText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                        initialText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                     } else {
-                        TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+                        TextViewCompat.setAutoSizeTextTypeWithDefaults(initialText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                     }
-                    emptyLayout.setVisibility(View.VISIBLE);
+                    initialLayout.setVisibility(View.VISIBLE);
+                    emptyLayout.setVisibility(View.GONE);
+                    setAbleToInitialize(true);
                     setInitialized(false);
+                    setAbleToManage(true);
                 }
             } else {
                 // Insufficient compare list.
-                emptyText.setMaxLines(2);
                 if (PrefsHelper.getStringPrefs("userCompares", this).isEmpty()) {
                     emptyText.setText(getResources().getStringArray(R.array.compare_insufficient_tips)[0]);
+                    setAbleToManage(false);
                 } else {
                     emptyText.setText(getResources().getStringArray(R.array.compare_insufficient_tips)[1]);
+                    setAbleToManage(true);
                 }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     emptyText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 } else {
                     TextViewCompat.setAutoSizeTextTypeWithDefaults(emptyText, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 }
+                initialLayout.setVisibility(View.GONE);
                 emptyLayout.setVisibility(View.VISIBLE);
+                setAbleToInitialize(false);
                 setInitialized(false);
             }
         } catch (Exception e) {
@@ -178,19 +202,27 @@ public class CompareActivity extends AppCompatActivity {
 
     private void initCompareItem() {
         // Only way to set the left/right parameters.
+        try {
+            if (PrefsHelper.getStringPrefs("userCompares", this).split("│").length < 2) {
+                // Under the new behaviour, this branch should not be taken.
+                throw new IllegalAccessException("Should not enter this MenuItem");
+            } else {
+                // Testing.
+                PrefsHelper.editPrefs("userComparesLeft", "Macintosh 128K", this);
+                PrefsHelper.editPrefs("userComparesRight", "Macintosh XL", this);
+                initCompare();
+            }
+        } catch (Exception e) {
+            ExceptionHelper.handleException(this, e, "initCompareItem", "Exception occurred. Please reset the application. String is: "
+                    + PrefsHelper.getStringPrefs("userCompares", this));
+        }
     }
 
     private void manageList() {
         try {
-            // Check for empty
             if (PrefsHelper.getStringPrefs("userCompares", this).isEmpty()) {
-                final AlertDialog.Builder insufficientDialog = new AlertDialog.Builder(this);
-                insufficientDialog.setTitle(R.string.submenu_compare_manage);
-                insufficientDialog.setMessage(R.string.compare_empty);
-                insufficientDialog.setPositiveButton(R.string.link_confirm, (dialogInterface, i) -> {
-                    // Confirmed.
-                });
-                insufficientDialog.show();
+                // Under the new behaviour, this branch should not be taken.
+                throw new IllegalAccessException("Should not enter this MenuItem");
             } else {
                 final View selectChunk = this.getLayoutInflater().inflate(R.layout.chunk_favourites_select, null);
                 final LinearLayout selectLayout = selectChunk.findViewById(R.id.selectLayout);
@@ -245,11 +277,32 @@ public class CompareActivity extends AppCompatActivity {
         }
     }
 
+    private void setAbleToInitialize(final boolean newStatus) {
+        Log.i("CompareActivity", "isAbleToInitialize set to " + newStatus);
+        isAbleToInitialize = newStatus;
+        // Avoid null pointers
+        if (initialMenuItem != null) {
+            initialMenuItem.setEnabled(newStatus);
+        }
+    }
+
     private void setInitialized(final boolean newStatus) {
-        Log.i("CompareActivity", "Menuitem availability set to " + newStatus);
+        Log.i("CompareActivity", "isInitialized set to " + newStatus);
         isInitialized = newStatus;
-        clearColumnMenuItem.setEnabled(newStatus);
-        exchangeColumnMenuItem.setEnabled(newStatus);
+        // Avoid null pointers
+        if (clearColumnMenuItem != null && exchangeColumnMenuItem != null) {
+            clearColumnMenuItem.setEnabled(newStatus);
+            exchangeColumnMenuItem.setEnabled(newStatus);
+        }
+    }
+
+    private void setAbleToManage(final boolean newStatus) {
+        Log.i("CompareActivity", "isAbleToManage set to " + newStatus);
+        isAbleToManage = newStatus;
+        // Avoid null pointers
+        if (manageListMenuItem != null) {
+            manageListMenuItem.setEnabled(newStatus);
+        }
     }
 
     public static void checkIsComparing(final String machineName, final Context thisContext) {
@@ -259,7 +312,8 @@ public class CompareActivity extends AppCompatActivity {
         */
         Log.i("CompareActivity", "Checking for deletion");
         if (machineName.equals(PrefsHelper.getStringPrefs("userComparesLeft", thisContext))
-                || machineName.equals(PrefsHelper.getStringPrefs("userComparesRight", thisContext))) {
+                || machineName.equals(PrefsHelper.getStringPrefs("userComparesRight", thisContext))
+                || PrefsHelper.getStringPrefs("userCompares", thisContext).split("│").length < 2) {
             clearComparing(thisContext);
         }
     }

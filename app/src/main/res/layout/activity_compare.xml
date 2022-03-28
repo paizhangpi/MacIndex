@@ -8,12 +8,31 @@
     tools:context=".CompareActivity">
 
     <LinearLayout
-        android:id="@+id/emptyLayout"
+        android:id="@+id/initialLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/initialText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:lineSpacingExtra="18sp"
+            android:maxLines="1"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/compare_not_initialized"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/emptyLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/emptyText"

@@ -181,7 +181,6 @@
     </string-array>
     <string name="compare_not_initialized">请从右上角菜单中选择要比较的机型</string>
     <string name="compare_clear_warning">整个比较列表将被清空，且不能撤销。仍想要继续吗？</string>
-    <string name="compare_empty">还没有添加任何机型到比较列表。可以在任意参数页面中添加。也请参阅帮助内容。</string>
     <string name="compare_manage">请选择要从比较列表删除的机型。此操作不能撤销。</string>
     <string name="version_information_general">版本 </string>
     <string name="version_information_machine_count">个机型)</string>
