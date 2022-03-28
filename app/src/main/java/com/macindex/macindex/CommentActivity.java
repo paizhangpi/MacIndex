@@ -176,6 +176,9 @@ public class CommentActivity extends AppCompatActivity {
                                             "all", true, false);
                                     if (thisID.length != 1) {
                                         Log.e("CommentSearchThread", "Error occurred on search string " + splitedThisString[0]);
+                                        // For safety reason
+                                        thisID = new int[1];
+                                        thisID[0] = 1;
                                     }
                                     machineIDs[i] = thisID[0];
                                 }

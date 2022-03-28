@@ -98,6 +98,11 @@ public class CompareActivity extends AppCompatActivity {
                 emptyLayout.setVisibility(View.GONE);
                 // To be implemented
             } else {
+                if (PrefsHelper.getStringPrefs("userCompares", this).isEmpty()) {
+                    emptyText.setText(getResources().getStringArray(R.array.compare_insufficient_tips)[0]);
+                } else {
+                    emptyText.setText(getResources().getStringArray(R.array.compare_insufficient_tips)[1]);
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     emptyText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
                 } else {

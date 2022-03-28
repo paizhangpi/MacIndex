@@ -37,7 +37,8 @@ public class NewAboutActivity extends AppCompatActivity {
 
             final String[] openSourceMenu = getResources().getStringArray(R.array.about_opensource_menu);
 
-            String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + (BuildConfig.DEBUG ? "-Debug\n" : "\n") + dateFormat.format(buildDate);
+            String versionString = getString(R.string.version_information_general) + " " + BuildConfig.VERSION_NAME + (BuildConfig.DEBUG ? "-Debug\n" : "\n")
+                    + dateFormat.format(buildDate) + " (" + MainActivity.getMachineHelper().getMachineCount() + " " + getString(R.string.version_information_machine_count);
             ((TextView) findViewById(R.id.versionText)).setText(versionString);
 
             findViewById(R.id.appNameText).setOnClickListener(v -> {

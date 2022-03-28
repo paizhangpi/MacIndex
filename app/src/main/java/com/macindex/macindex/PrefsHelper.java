@@ -39,8 +39,10 @@ class PrefsHelper {
         DEFAULT_VALUES.put("isSaveCompareUsage", Boolean.TRUE);
 
         /* User Record */
-        DEFAULT_VALUES.put("userFavourites", "");
         DEFAULT_VALUES.put("userCompares", "");
+        DEFAULT_VALUES.put("userComparesLeft", "");
+        DEFAULT_VALUES.put("userComparesRight", "");
+        DEFAULT_VALUES.put("userFavourites", "");
         DEFAULT_VALUES.put("userComments", "");
 
         /* Runtime Record */
@@ -130,7 +132,7 @@ class PrefsHelper {
     public static String getStringPrefs(final String thisPrefsName, final Context thisContext) {
         try {
             final SharedPreferences prefsFile = thisContext.getSharedPreferences(PrefsHelper.PREFERENCE_FILENAME, Activity.MODE_PRIVATE);
-            if (DEFAULT_VALUES.containsKey(thisPrefsName) || !(DEFAULT_VALUES.get(thisPrefsName) instanceof String)) {
+            if (DEFAULT_VALUES.containsKey(thisPrefsName) && DEFAULT_VALUES.get(thisPrefsName) instanceof String) {
                 String value = prefsFile.getString(thisPrefsName, (String) DEFAULT_VALUES.get(thisPrefsName));
                 Log.i("Preference Helper", "Got String preference: " + thisPrefsName
                         + " with value " + value);

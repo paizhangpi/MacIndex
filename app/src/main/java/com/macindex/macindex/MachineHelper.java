@@ -569,10 +569,10 @@ class MachineHelper {
             case "cometlake":
             case "icelake":
             case "tigerlake":
-                return R.drawable.intel;
+                return R.drawable.intelnew;
             case "A12Z":
             case "m1":
-                return R.drawable.applelogo;
+                return R.drawable.applenew;
             default:
                 ExceptionHelper.handleException(thisContext, null,
                         "MHGetProcessorImageType", "Illegal parameter " + thisProcessorImage);

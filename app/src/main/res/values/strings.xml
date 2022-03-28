@@ -11,20 +11,20 @@
     <string name="information_first_lunch_title">Welcome to MacIndex</string>
     <string name="information_first_lunch">Open the drawer to navigate inside the application. Open the menu to access more options and get help.</string>
     <string name="information_double_press">Press the back button again to exit MacIndex</string>
-    <string name="information_set_everymac">Open Directly in EveryMac is enabled. MacIndex will open the EveryMac Page of the machine directly instead of the Specifications Page. If you want to disable this function, please access the Preferences Page.</string>
+    <string name="information_set_everymac">Open Directly in EveryMac is enabled. MacIndex will open the EveryMac Page of the machine directly instead of the Specification Page. If you want to disable this function, please access the Preferences Page.</string>
     <string name="setting_sort">Enhanced Sorting (Main/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This affects the Main Page and Search Page.</string>
     <string name="setting_sort_comment">Enhanced Sorting (Bookmark/Comment)</string>
     <string name="setting_sort_comment_description">Sort by time or sort by the order of addition. Turn off can make the loading faster. This affects the Bookmark Page and Comment Page.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
-    <string name="setting_everymac_description">Open the EveryMac Page of the machine directly instead of the Specifications Page. Will ask for specific configuration if the machine has more than one configurations.</string>
+    <string name="setting_everymac_description">Open the EveryMac Page of the machine directly instead of the Specification Page. Will ask for specific configuration if the machine has more than one configurations.</string>
     <string name="setting_everymac_warning_content">This is effective for both Main Page and Search Page. Some functions will no longer be available as well.</string>
     <string name="setting_deathsound">Enable Death Sound</string>
-    <string name="setting_deathsound_deathsound_description">Play startup and death sound alternatively in the Specifications Page, or play the startup sound only.</string>
+    <string name="setting_deathsound_deathsound_description">Play startup and death sound alternatively in the Specification Page, or play the startup sound only.</string>
     <string name="setting_high_vol_warning">High Volume Warning</string>
-    <string name="setting_high_vol_warning_description">Enable high volume warning when using headphones in the Specifications Page.</string>
+    <string name="setting_high_vol_warning_description">Enable high volume warning when using headphones in the Specification Page.</string>
     <string name="setting_navbuttons">Enable Navigation Buttons</string>
-    <string name="setting_navbuttons_description">Enable buttons to navigate between machines in the Specifications Page.</string>
+    <string name="setting_navbuttons_description">Enable buttons to navigate between machines in the Specification Page.</string>
     <string name="setting_quicknav">Fixed Navigation Range</string>
     <string name="setting_quicknav_description">Always override the navigation range to the belonged category.</string>
     <string name="setting_randomall">Limit Random Range</string>
@@ -40,7 +40,6 @@
     <string name="setting_defaults_warning_content">Saved preference file will be completely cleared, including your preferences and all usage records. After you confirm, MacIndex will quit. This is helpful for troubleshooting, but cannot be undone.</string>
     <string name="setting_defaults_cleared">Operation completed.</string>
     <string name="setting_help_prompt">For instructions on each item, please see help.</string>
-    <string name="search_category_page">Search Page</string>
     <string name="search_searchBy">Search Options</string>
     <string-array name="search_Filters">
         <item>All Categories</item>
@@ -88,10 +87,10 @@
     <string name="submenu_main_reset">Reset Filter and View</string>
     <string name="submenu_main_help">Main Page Help</string>
     <string name="submenu_specs_favourite">Add/Remove Bookmark</string>
-    <string name="submenu_specs_compare">Add to Comparison List</string>
+    <string name="submenu_specs_compare">Add to Compare List</string>
     <string name="submenu_specs_comment">Edit Comment</string>
-    <string name="submenu_specs_share">Copy and Share Specifications</string>
-    <string name="submenu_specs_help">Specifications Page Help</string>
+    <string name="submenu_specs_share">Copy and Share Specification</string>
+    <string name="submenu_specs_help">Specification Page Help</string>
     <string name="submenu_search_clear">Clear Results</string>
     <string name="submenu_search_reset">Reset Filter and Option</string>
     <string name="submenu_search_SN">Apple S/N Lookup</string>
@@ -102,9 +101,12 @@
     <string name="submenu_favourite_rename">Rename Folder</string>
     <string name="submenu_favourite_clear">Delete All Folders</string>
     <string name="submenu_favourite_help">Bookmark Page Help</string>
-    <string name="submenu_compare_manage">Manage Comparison List</string>
-    <string name="submenu_compare_clear">Clear Comparison List</string>
-    <string name="submenu_compare_help">Comparison Page Help</string>
+    <string name="submenu_compare_initialize">Select Comparing Machines</string>
+    <string name="submenu_compare_clear_columns">Clear Comparing Machines</string>
+    <string name="submenu_compare_exchange_columns">Exchange Comparing Machines</string>
+    <string name="submenu_compare_manage">Manage Compare List</string>
+    <string name="submenu_compare_clear">Clear Compare List</string>
+    <string name="submenu_compare_help">Compare Page Help</string>
     <string name="submenu_comments_delete">Delete Comment(s)</string>
     <string name="submenu_comments_clear">Delete All Comments</string>
     <string name="submenu_comments_help">Comment Page Help</string>
@@ -174,7 +176,7 @@
     <string name="loading_search">Searching</string>
     <string name="loading_comments">Loading Comments</string>
     <string name="loading_favourites">Loading Bookmarks</string>
-    <string name="comments_not_available">No comment has been saved yet. You can add a comment at any Specifications Page.</string>
+    <string name="comments_not_available">No comment has been saved yet. You can add a comment at any Specification Page.</string>
     <string name="comments_not_available_tips">No comment has been saved yet</string>
     <string name="comments_delete">Please select the comment(s) to delete. This cannot be undone.</string>
     <string name="comments_clear_warning">All existing comments will be deleted. This cannot be undone. Do you want to proceed?</string>
@@ -192,12 +194,17 @@
     <string name="favourites_error_limit">You can only create no more than 15 folders.</string>
     <string name="favourites_clear_warning">All folders will be deleted. This cannot be undone. Do you want to proceed?</string>
     <string name="compare_limit">(Max)</string>
-    <string name="compare_insufficient">You need at least 2 machines in the comparison list to use the comparison functions. You can add a machine at any Specifications Page.</string>
-    <string name="compare_insufficient_tips">You need at least 2 machines in the comparison list</string>
-    <string name="compare_clear_warning">The comparison list will be deleted. This cannot be undone. Do you want to proceed?</string>
-    <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specifications Page.</string>
-    <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
+    <string name="compare_insufficient">You need at least 2 machines in the compare list to compare them. You can add a machine at any Specification Page.</string>
+    <string-array name="compare_insufficient_tips">
+        <item>You need at least 2 machines in the compare list\nCurrently the list is empty</item>
+        <item>You need at least 2 machines in the compare list\nCurrently there are only 1 in the list</item>
+    </string-array>
+    <string name="compare_not_initialized">Please select machines to compare in the submenu</string>
+    <string name="compare_clear_warning">The compare list will be deleted. This cannot be undone. Do you want to proceed?</string>
+    <string name="compare_empty">No machine has been added in the compare list yet. You can add a machine at any Specification Page.</string>
+    <string name="compare_manage">Please select the machine(s) to delete from the compare list. This cannot be undone.</string>
     <string name="version_information_general">Version </string>
+    <string name="version_information_machine_count">Machines)</string>
     <string name="about_information">©Copyright 2019–2022, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
     <string name="about_important">Important Information</string>
     <string name="about_opensource">Open Source Licenses</string>
@@ -225,5 +232,5 @@
     <string name="share_menu_null">Select at least one entry to continue</string>
     <string name="share_menu_not_applicable">(No Info)</string>
     <string name="share_main_decode">To open the corresponding specification page directly, paste one of the following supported information:\n• Machine name in MacIndex\n• Any sharing information copied from MacIndex\n• MacIndex share link generated by MacIndex</string>
-    <string name="share_main_decode_failed">Cannot read the information, or this model does not exist in current version</string>
+    <string name="share_main_decode_failed">Cannot read the information, or this machine does not exist in current version</string>
 </resources>

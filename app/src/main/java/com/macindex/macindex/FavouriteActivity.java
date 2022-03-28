@@ -208,10 +208,13 @@ public class FavouriteActivity extends AppCompatActivity {
                                 final String[] thisFolder = splitedString[i + 1].split("│");
                                 loadPositions[i] = new int[thisFolder.length - 1];
                                 for (int j = 0; j < thisFolder.length - 1; j++) {
-                                    final int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
+                                    int[] thisID = MainActivity.getMachineHelper().searchHelper("name", thisFolder[j + 1].substring(1, thisFolder[j + 1].length() - 1),
                                             "all", true, false);
                                     if (thisID.length != 1) {
                                         Log.e("FavouritesSearchThread", "Error occurred on search string " + thisFolder[j + 1]);
+                                        // For safety reason
+                                        thisID = new int[1];
+                                        thisID[0] = 1;
                                     }
                                     loadPositions[i][j] = thisID[0];
                                 }

@@ -480,13 +480,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/switchSaveCompareUsage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="start|center_vertical"
+                    android:minHeight="48dp"
                     android:text="@string/setting_save_compare"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp"
@@ -503,7 +504,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <Space
                     android:layout_width="match_parent"
@@ -513,6 +514,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="?android:attr/listDivider" />
+
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="10dp" />

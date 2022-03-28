@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/emptyText"
@@ -20,10 +21,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:lineSpacingExtra="18sp"
-            android:maxLines="1"
+            android:maxLines="2"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:text="@string/compare_insufficient_tips"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
