@@ -947,6 +947,7 @@ public class SpecsActivity extends AppCompatActivity {
                     if (!originalString.equals(realOriginalString)) {
                         // Changed string, reload needed
                         PrefsHelper.editPrefs("isCommentsReloadNeeded", true, this);
+                        PrefsHelper.editPrefs("isCompareReloadNeeded", true, this);
                     }
                     initComment();
                     commentDialogCreated.dismiss();
@@ -1137,17 +1138,20 @@ public class SpecsActivity extends AppCompatActivity {
         try {
             final String originalCompare = PrefsHelper.getStringPrefs("userCompares", this);
             final String[] splitedCompare = originalCompare.split("│");
-            Log.e("stringis", originalCompare);
             if (splitedCompare.length == 1 && splitedCompare[0].isEmpty()) {
+                // Original string is empty
                 PrefsHelper.editPrefs("userCompares", "[" + thisName + "]", this);
             } else if (splitedCompare.length >= 1 && splitedCompare.length <= 10) {
                 if (originalCompare.contains("[" + thisName + "]")) {
+                    // Deletion
                     if (splitedCompare.length == 1) {
                         PrefsHelper.clearPrefs("userCompares", this);
                     } else {
                         PrefsHelper.editPrefs("userCompares", originalCompare.replace("│[" + thisName + "]", ""), this);
                     }
+                    CompareActivity.checkIsComparing(thisName, this);
                 } else {
+                    // Addition
                     PrefsHelper.editPrefs("userCompares", originalCompare.concat("│[" + thisName + "]"), this);
                 }
             } else {
@@ -1155,6 +1159,7 @@ public class SpecsActivity extends AppCompatActivity {
                 throw new IllegalStateException();
             }
             initCompareCheckBox();
+            PrefsHelper.editPrefs("isCompareReloadNeeded", true, this);
         } catch (Exception e) {
             ExceptionHelper.handleException(this, e, "addToCompare", "Illegal Compare String. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userCompares", this));
