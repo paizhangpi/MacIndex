@@ -2,13 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/addFavouriteItem"
-        android:title="@string/submenu_specs_favourite" />
-    <item
         android:id="@+id/addCompareItem"
         android:checkable="true"
         android:title="@string/submenu_specs_compare"
-        android:visible="false" />
+        android:visible="true" />
+    <item
+        android:id="@+id/addFavouriteItem"
+        android:title="@string/submenu_specs_favourite" />
     <item
         android:id="@+id/commentItem"
         android:title="@string/submenu_specs_comment" />

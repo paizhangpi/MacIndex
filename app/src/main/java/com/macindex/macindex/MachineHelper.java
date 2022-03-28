@@ -572,7 +572,7 @@ class MachineHelper {
                 return R.drawable.intel;
             case "A12Z":
             case "m1":
-                return R.drawable.arm;
+                return R.drawable.applelogo;
             default:
                 ExceptionHelper.handleException(thisContext, null,
                         "MHGetProcessorImageType", "Illegal parameter " + thisProcessorImage);

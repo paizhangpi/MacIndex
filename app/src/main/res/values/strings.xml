@@ -14,8 +14,8 @@
     <string name="information_set_everymac">Open Directly in EveryMac is enabled. MacIndex will open the EveryMac Page of the machine directly instead of the Specifications Page. If you want to disable this function, please access the Preferences Page.</string>
     <string name="setting_sort">Enhanced Sorting (Main/Search)</string>
     <string name="setting_sort_description">Sort by time again to ensure correct positions for machines not in the same category. Turn off can make the loading faster. This affects the Main Page and Search Page.</string>
-    <string name="setting_sort_comment">Enhanced Sorting (Favourites/Comments)</string>
-    <string name="setting_sort_comment_description">Sort by time or sort by the order of addition. Turn off can make the loading faster. This affects the Favourites Page and Custom Comments Page.</string>
+    <string name="setting_sort_comment">Enhanced Sorting (Bookmark/Comment)</string>
+    <string name="setting_sort_comment_description">Sort by time or sort by the order of addition. Turn off can make the loading faster. This affects the Bookmark Page and Comment Page.</string>
     <string name="setting_everymac">Open Directly in EveryMac</string>
     <string name="setting_everymac_description">Open the EveryMac Page of the machine directly instead of the Specifications Page. Will ask for specific configuration if the machine has more than one configurations.</string>
     <string name="setting_everymac_warning_content">This is effective for both Main Page and Search Page. Some functions will no longer be available as well.</string>
@@ -51,7 +51,7 @@
     </string-array>
     <string-array name="search_Options">
         <item>General Searching by Name</item>
-        <item>Automatic Match by Model Numbers</item>
+        <item>Automatic Match by Model Number</item>
     </string-array>
     <string-array name="search_Tips">
         <item>Machine Name</item>
@@ -68,9 +68,9 @@
     <string name="menu_search">Search</string>
     <string name="menu_random">I\'m Feeling Lucky</string>
     <string name="menu_random_limited">&#160;(Limited)</string>
-    <string name="menu_favourite">Favourites</string>
-    <string name="menu_compare">Comparison</string>
-    <string name="menu_comment">Custom Comments</string>
+    <string name="menu_favourite">Bookmark</string>
+    <string name="menu_compare">Compare</string>
+    <string name="menu_comment">Comment</string>
     <string name="menu_about_settings">Preferences</string>
     <string name="menu_about">About MacIndex</string>
     <string name="menu_view">View By</string>
@@ -82,14 +82,14 @@
     <string name="menu_group1" translatable="false">68K Macintosh</string>
     <string name="menu_group2" translatable="false">PowerPC Macintosh</string>
     <string name="menu_group3" translatable="false">Intel Macintosh</string>
-    <string name="menu_group4" translatable="false">ARM Macintosh</string>
+    <string name="menu_group4" translatable="false">Apple Silicon Macintosh</string>
     <string name="menu">Main Menu</string>
     <string name="submenu_main_share">Open Shared Model</string>
     <string name="submenu_main_reset">Reset Filter and View</string>
     <string name="submenu_main_help">Main Page Help</string>
-    <string name="submenu_specs_favourite">Add/Remove Favourite</string>
+    <string name="submenu_specs_favourite">Add/Remove Bookmark</string>
     <string name="submenu_specs_compare">Add to Comparison List</string>
-    <string name="submenu_specs_comment">Edit Custom Comment</string>
+    <string name="submenu_specs_comment">Edit Comment</string>
     <string name="submenu_specs_share">Copy and Share Specifications</string>
     <string name="submenu_specs_help">Specifications Page Help</string>
     <string name="submenu_search_clear">Clear Results</string>
@@ -101,13 +101,13 @@
     <string name="submenu_favourite_delete">Delete Folder(s)</string>
     <string name="submenu_favourite_rename">Rename Folder</string>
     <string name="submenu_favourite_clear">Delete All Folders</string>
-    <string name="submenu_favourite_help">Favourites Page Help</string>
+    <string name="submenu_favourite_help">Bookmark Page Help</string>
     <string name="submenu_compare_manage">Manage Comparison List</string>
     <string name="submenu_compare_clear">Clear Comparison List</string>
     <string name="submenu_compare_help">Comparison Page Help</string>
-    <string name="submenu_comments_delete">Delete Custom Comment(s)</string>
-    <string name="submenu_comments_clear">Delete All Custom Comments</string>
-    <string name="submenu_comments_help">Custom Comments Page Help</string>
+    <string name="submenu_comments_delete">Delete Comment(s)</string>
+    <string name="submenu_comments_clear">Delete All Comments</string>
+    <string name="submenu_comments_help">Comment Page Help</string>
     <string name="submenu_prefs_benchmark">Benchmark</string>
     <string name="submenu_prefs_clear">Application Reset</string>
     <string name="submenu_prefs_help">Preferences Page Help</string>
@@ -127,18 +127,18 @@
     <string name="category13" translatable="false">PowerBook G3/G4</string>
     <string name="category14" translatable="false">iBook</string>
     <string name="year">Introduction</string>
-    <string name="model">Model Numbers</string>
+    <string name="model">Model Number</string>
     <string name="id">Model Identifier</string>
     <string name="gestalt">Gestalt ID</string>
-    <string name="order">Part Numbers</string>
-    <string name="emc">EMC Numbers</string>
+    <string name="order">Part Number</string>
+    <string name="emc">EMC Number</string>
     <string name="processor">Processor</string>
     <string name="graphics">Graphics &amp; Display</string>
     <string name="type">ROM Information</string>
     <string name="maxram">RAM Information</string>
     <string name="software">Software Support</string>
     <string name="storage">Storage</string>
-    <string name="bus_expansion">Features &amp; Expansions</string>
+    <string name="bus_expansion">Feature &amp; Expansion</string>
     <string name="design">Design</string>
     <string name="support">Support Status</string>
     <string name="benchmark_warning">This can evaluate the performance of the current version MacIndex.</string>
@@ -146,11 +146,11 @@
     <string name="benchmark_advice">Benchmark has completed. Based on the score, enabling enhanced sorting is not recommended. Turning it off will improve your experience. You can enable it later at the preferences page.</string>
     <string name="benchmark_high">Benchmark has completed. Based on the score, enabling enhanced sorting is recommended. Turning it on can ensure the correct order and will not impact your experience. You can disable it later at the preferences page.</string>
     <string name="benchmark_error">Benchmark was interrupted. Please do not use your phone or leave MacIndex during the process.</string>
-    <string name="comment">Custom Comment</string>
+    <string name="comment">Comment</string>
     <string name="comment_null">Not Specified</string>
     <string name="comment_illegal">The special character \'│\' is internally used by MacIndex and cannot be included in the comment</string>
     <string name="comment_length">Input is too long, the max limit for each machine is 500 characters</string>
-    <string name="comment_tips">Access all existing comments in the Custom Comments Page.</string>
+    <string name="comment_tips">Access all existing comments in the Comment Page.</string>
     <string name="not_applicable">Not Applicable/No Info</string>
     <string name="link_confirm">Confirm</string>
     <string name="link_cancel">Cancel</string>
@@ -173,14 +173,14 @@
     <string name="loading_benchmark">Benchmark in progress, please wait. Do not use your phone or leave MacIndex.</string>
     <string name="loading_search">Searching</string>
     <string name="loading_comments">Loading Comments</string>
-    <string name="loading_favourites">Loading Favourites</string>
-    <string name="comments_not_available">No comment has been saved yet. You can add a custom comment at any Specifications Page.</string>
+    <string name="loading_favourites">Loading Bookmarks</string>
+    <string name="comments_not_available">No comment has been saved yet. You can add a comment at any Specifications Page.</string>
     <string name="comments_not_available_tips">No comment has been saved yet</string>
-    <string name="comments_delete">Please select the custom comment(s) to delete. This cannot be undone.</string>
-    <string name="comments_clear_warning">All existing custom comments will be deleted. This cannot be undone. Do you want to proceed?</string>
-    <string name="favourites_no_folder">No folder has been created yet. You can create a new folder right now, or you can create it later at the Favourites Page.</string>
+    <string name="comments_delete">Please select the comment(s) to delete. This cannot be undone.</string>
+    <string name="comments_clear_warning">All existing comments will be deleted. This cannot be undone. Do you want to proceed?</string>
+    <string name="favourites_no_folder">No folder has been created yet. You can create a new folder right now, or you can create it later at the Bookmark Page.</string>
     <string name="favourites_no_folder_tips">No folder has been created yet</string>
-    <string name="favourites_tips">Please select the folder(s). Manage your favourites folders in the Favourites Page.</string>
+    <string name="favourites_tips">Please select the folder(s). Manage your bookmark folders in the Bookmark Page.</string>
     <string name="favourites_delete">Please select the folder(s) to delete. This cannot be undone.</string>
     <string name="favourites_rename">Please select the folder to rename.</string>
     <string name="favourites_new_folder">Enter the folder name.</string>
@@ -198,7 +198,7 @@
     <string name="compare_empty">No machine has been added in the comparison list yet. You can add a machine at any Specifications Page.</string>
     <string name="compare_manage">Please select the machine(s) to delete from the comparison list. This cannot be undone.</string>
     <string name="version_information_general">Version </string>
-    <string name="about_information">©Copyright 2019–2021, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
+    <string name="about_information">©Copyright 2019–2022, paizhang, Victor Jiao, Mation Wang. Licensed under the MIT License.</string>
     <string name="about_important">Important Information</string>
     <string name="about_opensource">Open Source Licenses</string>
     <string-array name="about_opensource_menu">
@@ -209,7 +209,7 @@
     <string name="about_feedback">Feedback</string>
     <string name="viewimage_rotate">For reference only\nRotate your device to change the orientation</string>
     <string name="random_lucky_title">You Are Lucky</string>
-    <string name="ramdom_lucky_message">Randomly entered one of your favourite machine.</string>
+    <string name="ramdom_lucky_message">Randomly entered one of your bookmarked machine.</string>
     <string-array name="share_menu">
         <item>Copy Model Information</item>
         <item>Copy All Information</item>

@@ -243,18 +243,6 @@
                                 android:textSize="16sp" />
 
                             <TextView
-                                android:id="@+id/randomMenuItem"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="?attr/selectableItemBackground"
-                                android:clickable="true"
-                                android:drawableEnd="@drawable/ic_baseline_all_inclusive_24"
-                                android:focusable="true"
-                                android:padding="10dp"
-                                android:text="@string/menu_random"
-                                android:textSize="16sp" />
-
-                            <TextView
                                 android:id="@+id/compareMenuItem"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -265,7 +253,7 @@
                                 android:padding="10dp"
                                 android:text="@string/menu_compare"
                                 android:textSize="16sp"
-                                android:visibility="gone" />
+                                android:visibility="visible" />
 
                             <TextView
                                 android:id="@+id/favouriteMenuItem"
@@ -289,6 +277,18 @@
                                 android:focusable="true"
                                 android:padding="10dp"
                                 android:text="@string/menu_comment"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/randomMenuItem"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="?attr/selectableItemBackground"
+                                android:clickable="true"
+                                android:drawableEnd="@drawable/ic_baseline_all_inclusive_24"
+                                android:focusable="true"
+                                android:padding="10dp"
+                                android:text="@string/menu_random"
                                 android:textSize="16sp" />
 
                             <TextView
