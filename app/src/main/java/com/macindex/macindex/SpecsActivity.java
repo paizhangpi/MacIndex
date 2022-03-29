@@ -1060,6 +1060,7 @@ public class SpecsActivity extends AppCompatActivity {
                         }
                         PrefsHelper.editPrefs("userFavourites", newString, this);
                         PrefsHelper.editPrefs("isFavouritesReloadNeeded", true, this);
+                        PrefsHelper.editPrefs("isCompareReloadNeeded", true, this);
                         reloadName();
                     } catch (Exception e) {
                         ExceptionHelper.handleException(this, e, "selectFolder", "Illegal Favourites String. Please reset the application. String is: "

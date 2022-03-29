@@ -153,15 +153,23 @@ public class CompareActivity extends AppCompatActivity {
             final TextView initialText = findViewById(R.id.initialText);
 
             if (PrefsHelper.getStringPrefs("userCompares", this).split("│").length >= 2) {
-                if (!(PrefsHelper.getStringPrefs("userComparesLeft", this).isEmpty())
-                        && !(PrefsHelper.getStringPrefs("userComparesRight", this).isEmpty())) {
+                final String compareLeft = PrefsHelper.getStringPrefs("userComparesLeft", this);
+                final String compareRight = PrefsHelper.getStringPrefs("userComparesRight", this);
+                if (!(compareLeft.isEmpty() || compareRight.isEmpty())) {
                     // Load the comparison.
                     initialLayout.setVisibility(View.GONE);
                     emptyLayout.setVisibility(View.GONE);
-                    // To be implemented
                     setAbleToInitialize(true);
                     setInitialized(true);
                     setAbleToManage(true);
+                    int[] leftID = MainActivity.getMachineHelper().searchHelper("name", compareLeft,
+                            "all", true, false);
+                    int[] rightID = MainActivity.getMachineHelper().searchHelper("name", compareRight,
+                            "all", true, false);
+                    if (leftID.length != 1 || rightID.length != 1) {
+                        throw new IllegalArgumentException("Invalid Machine Name");
+                    }
+                    loadSpecs(leftID[0], rightID[0]);
                 } else {
                     // Sufficient compare list, but invalid compare parameters.
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -216,6 +224,10 @@ public class CompareActivity extends AppCompatActivity {
             ExceptionHelper.handleException(this, e, "initCompareItem", "Exception occurred. Please reset the application. String is: "
                     + PrefsHelper.getStringPrefs("userCompares", this));
         }
+    }
+
+    private void loadSpecs(final int leftID, final int rightID) {
+
     }
 
     private void manageList() {
